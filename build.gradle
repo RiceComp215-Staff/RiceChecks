@@ -1,0 +1,153 @@
+buildscript {
+    ext.kotlin_version = '1.3.10' // used by the autograder
+
+    repositories {
+        jcenter()
+
+        mavenCentral()
+
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // used by the autograder
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'checkstyle'
+    id 'jacoco'
+    id 'grader'
+    id "net.ltgt.errorprone" version "0.6" // JDK9+
+    id "org.jetbrains.kotlin.jvm" version '1.3.0'
+}
+
+group 'edu.rice'
+version '1.0'
+
+allprojects {
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = '11'
+        targetCompatibility = '11'
+    }
+}
+
+idea {
+    project {
+        jdkName = '11'
+        languageLevel = '11'
+    }
+}
+
+checkstyle {
+    toolVersion = '8.13'
+    maxWarnings = 0
+    maxErrors = 0
+}
+
+compileJava {
+    options.fork = true
+    options.incremental = true
+    options.encoding = "UTF-8"
+}
+
+tasks.withType(JavaCompile) {
+    // the compilePolicy thing is necessary for ErrorProne
+    options.compilerArgs << "-Xlint:all" << "-Xlint:-serial" << "-Xlint:-processing" << "-XDcompilePolicy=byfile"
+}
+
+// Makes the "javadoc" action run without a ton of errors and warnings.
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// we want to print the date and other useful stuff every time we compile; helpful when looking at logs
+import java.time.format.DateTimeFormatter
+import java.time.ZoneId
+import java.time.ZonedDateTime
+
+task printStuff () {
+    println "Compilation time: " +
+            ZonedDateTime.now(ZoneId.of("America/Chicago")).format(DateTimeFormatter.RFC_1123_DATE_TIME)
+
+    // And, while we're here, we might as well print out the Java version
+    println "Gradle JDK: " + System.getProperty("java.version")
+
+    // Print everything Gradle knows about itself
+    println "Gradle version: " + GradleVersion.current()
+}
+tasks.compileJava.dependsOn printStuff
+
+////////////////////////////////////////////////////////////////////////////////
+// This section configures JaCoCo (Java Code Coverage). For some assignments, we'll have minimum code
+// coverage requirements. JaCoCo can enforce this as part of 'gradle check'.
+
+jacoco {
+    toolVersion = "0.8.2"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.destination file("${buildDir}/reports/jacoco/")
+    }
+}
+
+test {
+    useJUnitPlatform() // necessary to activate Gradle's JUnit5 support
+    outputs.upToDateWhen { false }
+
+    jacoco {
+        append = false
+    }
+
+    minHeapSize = "512m"
+    maxHeapSize = "2048m"
+    jvmArgs = ["-Xss128m"] // bigger stack as well
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// This section specifies all the external libraries being used by your Java
+// program and where to find them.
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // If we don't specify an errorprone version, we get the newest version, immediately as it's released. This
+    // means a new inspection can show up mid-semester and suddenly every student is seeing errors. No bueno!
+    errorprone 'com.google.errorprone:error_prone_core:2.3.2'
+
+    // annotations to help ErrorProne and IntelliJ find bugs
+    compile 'org.jetbrains:annotations:15.0'
+    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    compile 'com.google.code.findbugs:annotations:3.0.1'
+    compile 'com.google.errorprone:error_prone_annotations:2.3.2'
+
+    // testing libraries: these are only visible from our "test" code, not the "main" code
+    testCompile 'org.quicktheories:quicktheories:0.25' // high-tech pattern-based testing library
+
+    // JUnit5 support
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8" // Kotlin standard libraries
+
+    // Support specifically for AnnoAutoGrader
+    compile 'io.github.classgraph:classgraph:4.4.12' // for reading class annotations
+    compile 'com.beust:jcommander:1.72' // command-line parsing
+}
