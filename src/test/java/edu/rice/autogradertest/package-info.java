@@ -1,3 +1,9 @@
+//
+// This code is part of AnnoAutoGrader
+// Copyright 2018, Dan S. Wallach, Rice University
+// Made available subject to the Apache 2.0 License
+//
+
 @GradeProject(name = "TP2",
     description = "Another fairly basic project",
     maxPoints = 10.0,

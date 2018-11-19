@@ -1,3 +1,9 @@
+//
+// This code is part of AnnoAutoGrader
+// Copyright 2018, Dan S. Wallach, Rice University
+// Made available subject to the Apache 2.0 License
+//
+
 package edu.rice.autograder
 
 import org.junit.jupiter.api.Assertions.assertEquals
