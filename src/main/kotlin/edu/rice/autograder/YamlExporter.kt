@@ -109,6 +109,9 @@ fun yamlExporter(projectName: String, codePackage: String): String {
 
         // TODO: what do we want to do if multiple topics share tests in a given class?
         // We want to have a better way of dealing with the file-didn't-compile-or-is-missing case
+
+        // TODO: maybe ignore everything and just use Jackson to output some default thing
+        // Make sense if we're planning to do our own code to crunch the XML left behind by Gradle
     }
 
     return stringBuffer.toString()

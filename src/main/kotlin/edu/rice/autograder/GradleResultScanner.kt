@@ -21,6 +21,7 @@ package edu.rice.autograder
 
 // TODO: we need an XML parsing library
 // - https://dom4j.github.io/ -- seems simple and usable
+// - https://medium.com/@foxjstephen/how-to-actually-parse-xml-in-java-kotlin-221a9309e6e8 -- shows how to use Jackson
 
 // TODO: read build/reports/checkstyle/*.xml
 //   Any lines that start with <error imply a checkstyle failure
