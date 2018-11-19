@@ -25,7 +25,6 @@ plugins {
     id 'idea'
     id 'checkstyle'
     id 'jacoco'
-    id 'grader'
     id "net.ltgt.errorprone" version "0.6" // JDK9+
     id "org.jetbrains.kotlin.jvm" version '1.3.0'
 }
