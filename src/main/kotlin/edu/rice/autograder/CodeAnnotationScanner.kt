@@ -112,16 +112,16 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
         name == null ->
             failScanner("Malformed GradeProject: no name specified: {$pv}")
 
-        maxPoints < 0.0 ->
-            failScanner("Malformed GradeProject: no negative maxPoints values allowed {${maxPoints}}")
+        maxPoints < 0.0 || !maxPoints.isFinite() ->
+            failScanner("Malformed GradeProject: maxPoints must be zero or positive {${maxPoints}}")
 
-        warningPoints < 0.0 ->
-            failScanner("Malformed GradeProject: no negative warningPoints values allowed {${warningPoints}}")
+        warningPoints < 0.0 || !warningPoints.isFinite() ->
+            failScanner("Malformed GradeProject: warningPoints must be zero or positive {${warningPoints}}")
 
-        coveragePoints < 0.0 ->
-            failScanner("Malformed GradeProject: no negative coveragePoints values allowed {${coveragePoints}}")
+        coveragePoints < 0.0 || !coveragePoints.isFinite() ->
+            failScanner("Malformed GradeProject: coveragePoints must be zero or positive {${coveragePoints}}")
 
-        coverageRatio < 0.0 || coverageRatio > 1.0 ->
+        coverageRatio < 0.0 || coverageRatio > 1.0 || !coverageRatio.isFinite() ->
             failScanner("Malformed GradeProject: coverageRatio must be between 0 and 1 {${coverageRatio}}")
 
         else -> IGradeProject(name, description, maxPoints, warningPoints, coveragePoints, coverageMethod, coverageRatio)
@@ -140,8 +140,6 @@ private fun AnnotationTuple.toIGradeTopic(pmap: ProjectMap): IGradeTopic {
             failScanner("Malformed GradeTopic: ${pv}: unknown project (${projectStr} not in ${pmap.keys})")
         topic == "" ->
             failScanner("Malformed GradeTopic: no topic specified: ${this}")
-//        maxPoints <= 0.0 ->
-//            failScanner("Malformed GradeTopic: no positive maxPoints field: ${this}")
         else ->
             IGradeTopic(project, topic, maxPoints)
     }
@@ -174,7 +172,7 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
         topic == "" ->
             failScanner("Malformed GradeTest, no topic: ${this}")
 
-        points <= 0.0 ->
+        points <= 0.0 || !points.isFinite() ->
             failScanner("Malformed GradeTest, points must be positive: ${this}")
 
         methodName == null ->
@@ -189,7 +187,7 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
         testAnnotations.contains(methodName) ->
             IGradeTest(project, topic, points, maxPoints, className, methodName, false)
 
-        maxPoints <= 0.0 -> failScanner("Method ${methodName} has @TestFactory, but needs to have maxPoints specified")
+        maxPoints <= 0.0 || !maxPoints.isFinite() -> failScanner("Method ${methodName} has @TestFactory, but needs to have positive maxPoints specified")
 
         else -> IGradeTest(project, topic, points, maxPoints, className, methodName, true)
     }

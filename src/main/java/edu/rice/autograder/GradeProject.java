@@ -68,5 +68,5 @@ public @interface GradeProject {
   /**
    * Specifies a JaCoCo coverage ratio (e.g., 0.7).
    */
-  double coverageRatio() default 0.7;
+  double coverageRatio() default 0.3;
 }

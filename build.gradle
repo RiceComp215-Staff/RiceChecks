@@ -150,7 +150,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8" // Kotlin standard libraries
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}" // Kotlin standard libraries
+    compile "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}" // Kotlin standard libraries
 
     // Support specifically for AnnoAutoGrader
     compile 'io.github.classgraph:classgraph:4.4.12' // for reading class annotations
@@ -159,4 +160,5 @@ dependencies {
     // Jackson (for XML, YAML, and other such things)
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson_version}"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}"
 }

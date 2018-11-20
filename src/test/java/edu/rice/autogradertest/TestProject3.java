@@ -19,8 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     description = "Factorial and Choose",
     warningPoints = 1.0,
     coveragePoints = 1.0,
-    coverageMethod = "INSTRUCTIONS",
-    coverageRatio = 0.9)
+    coverageRatio =   0.64885,
+//    coverageRatio = 0.6489, -- or larger -- leads to a NaN when reading this, but why?
+    coverageMethod = "INSTRUCTIONS"
+)
 @GradeTopic(
     project = "TP3",
     topic = "Correctness")
