@@ -413,6 +413,8 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
 // DONE: add up the number of points, use as maxPoints for topics with none (in progress)
 // DONE: GradeTest's topic, convert from string to GradeTopic ptr
 // HALF-DONE: print YAML file
+// TODO: switch over to kotlinx.serializetion, because it's portable across platforms, has the stuff that plants need
+//       https://github.com/Kotlin/kotlinx.serialization
 
 // Engineering note: You'll see lots of filterNotNull() in here. Even though we're pretty sure no nulls are
 // coming back from the ClassGraph library, we're doing this anyway because it ensures the resulting lists
