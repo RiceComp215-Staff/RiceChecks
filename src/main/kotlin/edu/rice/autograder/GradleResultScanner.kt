@@ -5,6 +5,9 @@
 //
 package edu.rice.autograder
 
+// TODO: how to manage annotations on outer classes and inner classes
+// The inner annotations should override the outer annnotations!?
+
 // TODO: make a separate project to factor all of this out of the comp215-code codebase
 
 // TODO: figure out how to make a "fat Jar" file, so it can go online and be distributed in "compiled" form
