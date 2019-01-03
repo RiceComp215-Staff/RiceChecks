@@ -106,7 +106,8 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val warningPoints = pv["warningPoints"] as Double? ?: 0.0
     val coveragePoints = pv["coveragePoints"] as Double? ?: 0.0
     val coverageMethod = pv["coverageMethod"] as String? ?: "LINES"
-    val coverageRatio = pv["coverageRatio"] as Double? ?: 0.7
+    val coveragePercentage = pv["coveragePercentage"] as Int? ?: 70
+    val coverageRatio = coveragePercentage.toDouble() / 100.0
 
     return when {
         name == null ->
@@ -411,7 +412,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
 // DONE: add up the number of points, use as maxPoints for topics with none (in progress)
 // DONE: GradeTest's topic, convert from string to GradeTopic ptr
 // HALF-DONE: print YAML file
-// TODO: switch over to kotlinx.serializetion, because it's portable across platforms, has the stuff that plants need
+// TODO: switch over to kotlinx.serialization, because it's portable across platforms, has the stuff that plants need
 //       https://github.com/Kotlin/kotlinx.serialization
 
 // Engineering note: You'll see lots of filterNotNull() in here. Even though we're pretty sure no nulls are
