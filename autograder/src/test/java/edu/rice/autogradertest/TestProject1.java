@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @GradeProject(name = "TP1",
     description = "A fairly basic project",
     maxPoints = 10.0,
-    coverageRatio = 0.5,
+    coveragePercentage = 70,
     coveragePoints = 1.0,
     coverageMethod = "INSTRUCTIONS",
     warningPoints = 1.0)

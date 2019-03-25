@@ -16,7 +16,8 @@ import java.lang.RuntimeException
  * (YAML) version of the policy.
  *
  * This YAML isn't particularly meant to be read back in again, such
- * as for use in the Illinois autograder.
+ * as for use in the Illinois autograder, but it's handy when trying
+ * to have a human-readable version of our data.
  */
 fun yamlExporter(projectName: String, codePackage: String): String {
     val scan = scanEverything(codePackage)

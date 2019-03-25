@@ -16,13 +16,16 @@ import io.github.classgraph.ScanResult
  * classes to test for coverage (might be empty), as well as a list of [GGradeTopic]
  * which breaks the individual grade tests down.
  */
+
+enum class GCoverageMethod { LINES, INSTRUCTIONS }
+
 data class GGradeProject(
         val name: String,
         val description: String,
         val maxPoints: Double,
         val warningPoints: Double,
         val coveragePoints: Double,
-        val coverageMethod: String,
+        val coverageMethod: GCoverageMethod,
         val coverageRatio: Double,
         val coverageClasses: List<String>,
         val topics: List<GGradeTopic>)
@@ -98,6 +101,31 @@ private fun failScanner(s: String): Nothing {
 //    exitProcess(1)
 }
 
+private fun internalScannerErrorX(s: String): Nothing {
+    System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
+    throw RuntimeException(s)
+}
+
+
+/**
+ * Call whenever the scanner discovers an error. Prints the string, crashes the program.
+ */
+private fun AnnotationParameterValueList.internalScannerError(s: String): Nothing {
+    System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.\nParameter context: $this")
+    throw RuntimeException(s)
+}
+
+private fun failScannerX(s: String): Nothing {
+    System.err.println("Terminating Grade Annotation Scanner:\n  $s")
+    throw RuntimeException(s)
+}
+
+/**
+ * Call whenever the scanner discovers an error. Prints the string, crashes the program.
+ */
+private fun AnnotationParameterValueList.failScanner(s: String): Nothing = failScannerX("$s\nParameter context: $this")
+
+private val coverageMethodNames = enumValues<GCoverageMethod>().map { it.name }
 /**
  * Fetching a value from an [AnnotationParameterValueList] with a default value for
  * its absence is awful enough that it's worth having a helper method.
@@ -129,25 +157,43 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val warningPoints = pv.lookupNoNull("warningPoints", 0.0)
     val coveragePoints = pv.lookupNoNull("coveragePoints", 0.0)
     val coverageMethod = pv.lookupNoNull("coverageMethod", "LINES")
-    val coverageRatio = pv.lookupNoNull("coverageRatio", 0.7)
+    val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70)
+    val coverageRatio = coveragePercentage.toDouble() / 100.0
 
-    return when {
-        name == null ->
-            failScanner("Malformed GradeProject: no name specified: {$pv}")
+    return with(pv) {
+        when {
+            name == null ->
+                failScanner("Malformed GradeProject: no name specified: {$pv}")
 
-        maxPoints < 0.0 || !maxPoints.isFinite() ->
-            failScanner("Malformed GradeProject: maxPoints must be zero or positive {${maxPoints}}")
+            !maxPoints.isFinite() ->
+                internalScannerError("maxPoints $maxPoints isn't finite!");
 
-        warningPoints < 0.0 || !warningPoints.isFinite() ->
-            failScanner("Malformed GradeProject: warningPoints must be zero or positive {${warningPoints}}")
+            maxPoints < 0.0 ->
+                failScanner("Malformed GradeProject: maxPoints must be zero or positive {${maxPoints}}")
 
-        coveragePoints < 0.0 || !coveragePoints.isFinite() ->
-            failScanner("Malformed GradeProject: coveragePoints must be zero or positive {${coveragePoints}}")
+            !warningPoints.isFinite() ->
+                internalScannerError("warningPoints $warningPoints isn't finite!");
 
-        coverageRatio < 0.0 || coverageRatio > 1.0 || !coverageRatio.isFinite() ->
-            failScanner("Malformed GradeProject: coverageRatio must be between 0 and 1 {${coverageRatio}}")
+            warningPoints < 0.0 ->
+                failScanner("Malformed GradeProject: warningPoints must be zero or positive {${warningPoints}}")
 
-        else -> IGradeProject(name, description, maxPoints, warningPoints, coveragePoints, coverageMethod, coverageRatio)
+            !coveragePoints.isFinite() ->
+                internalScannerError("coveragePoints $coveragePoints isn't finite!");
+
+            coveragePoints < 0.0 ->
+                failScanner("Malformed GradeProject: coveragePoints must be zero or positive {${coveragePoints}}")
+
+            !coverageRatio.isFinite() ->
+                internalScannerError("coverageRatio $coverageRatio isn't finite!");
+
+            coverageRatio < 0.0 || coverageRatio > 1.0 ->
+                failScanner("Malformed GradeProject: coveragePercentage must be between 0 and 100 {${coveragePercentage}}")
+
+            !(coverageMethod in coverageMethodNames) ->
+                failScanner("Malformed GradeProject: coverageMethod {${coverageMethod}} must be in ${coverageMethodNames.joinToString(", ")}")
+
+            else -> IGradeProject(name, description, maxPoints, warningPoints, coveragePoints, coverageMethod, coverageRatio)
+        }
     }
 }
 
@@ -158,24 +204,28 @@ private fun AnnotationTuple.toIGradeTopic(pmap: ProjectMap): IGradeTopic {
     val topic = pv.lookupNoNull("topic", "")
     val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
 
-    return when {
-        project == null ->
-            failScanner("Malformed GradeTopic: ${pv}: unknown project (${projectStr} not in ${pmap.keys})")
-        topic == "" ->
-            failScanner("Malformed GradeTopic: no topic specified: ${this}")
-        else ->
-            IGradeTopic(project, topic, maxPoints)
+    return with(pv) {
+        when {
+            project == null ->
+                failScanner("Malformed GradeTopic: unknown project (${projectStr} not in ${pmap.keys})")
+            topic == "" ->
+                failScanner("Malformed GradeTopic: no topic specified: ${this}")
+            else ->
+                IGradeTopic(project, topic, maxPoints)
+        }
     }
 }
 
 private fun AnnotationTuple.toIGradeCoverage(pmap: ProjectMap): IGradeCoverage {
     val pv = ai.parameterValues
-    val project = pmap[pv["project"].value as String?]
+    val projectName = pv.lookup("project", "")
+    val project = pmap[projectName]
+    val pvExclude = pv.lookupNoNull("exclude", false)
 
     if (project == null) {
-        failScanner("Malformed GradeCoverage: unknown project name (${pv["project"]})")
+        pv.failScanner("Malformed GradeCoverage: unknown project name ($projectName)")
     } else {
-        return IGradeCoverage(project, pv["exclude"].value as Boolean? ?: false, className)
+        return IGradeCoverage(project, pvExclude, className)
     }
 }
 
@@ -188,31 +238,33 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
     val points = pv.lookupNoNull("points", 0.0)
     val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
 
-    return when {
-        project == null ->
-            failScanner("Malformed GradeTest: unknown project name (${pv["project"]})")
+    return with(pv) {
+        when {
+            project == null -> failScanner("Malformed GradeTest: unknown project name (${pv["project"]})")
 
-        topic == "" ->
-            failScanner("Malformed GradeTest, no topic: ${this}")
+            topic == "" -> failScanner("Malformed GradeTest, no topic: ${this@toIGradeTest}")
 
-        points <= 0.0 || !points.isFinite() ->
-            failScanner("Malformed GradeTest, points must be positive: ${this}")
+            !points.isFinite() -> internalScannerError("points isn't finite!");
 
-        methodName == null ->
-            failScanner("Internal error: no method name associated with annotation?! (${this})")
+            points <= 0.0 -> failScanner("Malformed GradeTest, points must be positive: ${this@toIGradeTest}")
 
-        testAnnotations.contains(methodName) && testFactoryAnnotations.contains(methodName) ->
-            failScanner("Method ${methodName} has both @Test and @TestFactory! Pick one or the other.")
+            methodName == null -> internalScannerError("No method name associated with annotation?! (${this@toIGradeTest})")
 
-        !testAnnotations.contains(methodName) && !testFactoryAnnotations.contains(methodName) ->
-            failScanner("Method ${methodName} has neither @Test nor @TestFactory! One is necessary.")
+            testAnnotations.contains(methodName) && testFactoryAnnotations.contains(methodName) ->
+                failScanner("Method ${methodName} has both @Test and @TestFactory! Pick one or the other.")
 
-        testAnnotations.contains(methodName) ->
-            IGradeTest(project, topic, points, maxPoints, className, methodName, false)
+            !testAnnotations.contains(methodName) && !testFactoryAnnotations.contains(methodName) ->
+                failScanner("Method ${methodName} has neither @Test nor @TestFactory! One is necessary.")
 
-        maxPoints <= 0.0 || !maxPoints.isFinite() -> failScanner("Method ${methodName} has @TestFactory, but needs to have positive maxPoints specified")
+            // Regular @Test, not a @TestFactory
+            testAnnotations.contains(methodName) -> IGradeTest(project, topic, points, maxPoints, className, methodName, false)
 
-        else -> IGradeTest(project, topic, points, maxPoints, className, methodName, true)
+            !maxPoints.isFinite() -> internalScannerError("maxPoints isn't finite!");
+
+            maxPoints <= 0.0 -> failScanner("Method ${methodName} has @TestFactory, but needs to have positive maxPoints specified")
+
+            else -> IGradeTest(project, topic, points, maxPoints, className, methodName, true)
+        }
     }
 }
 
@@ -262,13 +314,13 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
                 .filterNotNull()
                 .flatMap { classInfo ->
                     val className = classInfo.name
-                            ?: failScanner("Class with no name?! (${classInfo}")
+                            ?: internalScannerErrorX("Class with no name?! (${classInfo}")
 
                     (classInfo.declaredMethodAndConstructorInfo
-                            ?: failScanner("Class with no methods?! (${classInfo}"))
+                            ?: internalScannerErrorX("Class with no methods?! (${classInfo}"))
                             .filterNotNull()
                             .flatMap { mi ->
-                                val mname = mi.name ?: failScanner("Method with no name?! (${mi})")
+                                val mname = mi.name ?: internalScannerErrorX("Method with no name?! (${mi})")
                                 mi.annotationInfo.mapNotNull { AnnotationTuple(className, mname, it) }
                             }
                             .filter {
@@ -293,7 +345,7 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: 
                         if (cinfo.name != null)
                             AnnotationTuple(cinfo.name, ai)
                         else
-                            failScanner("class without a name?! (${cinfo})")
+                            internalScannerErrorX("class without a name?! (${cinfo})")
                     }
                 }
                 .filter {
@@ -328,7 +380,7 @@ private fun <T> List<T>.failRepeating(failMessage: String, stringExtractor: (T) 
             .filter { it.value.size > 1 }
 
     return if (repeatGroups.isNotEmpty()) {
-        failScanner("${failMessage}: ${repeatGroups.keys.joinToString(",")}")
+        failScannerX("${failMessage}: ${repeatGroups.keys.joinToString(",")}")
     } else {
         this
     }
@@ -411,7 +463,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                             val actualMaxPoints = if (topic.maxPoints == 0.0) maxPointsFromTests else topic.maxPoints
 
                             if (actualMaxPoints == 0.0) {
-                                failScanner("Project ${project.name}, Topic ${topic.topic}: no maxPoints specified and none on the tests either")
+                                failScannerX("Project ${project.name}, Topic ${topic.topic}: no maxPoints specified and none on the tests either")
                             }
 
                             GGradeTopic(topic.topic, actualMaxPoints, gtests.map {
@@ -422,8 +474,10 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                         val maxPointsFromTopics = gtopics.map { it.maxPoints }.fold(0.0) { a, b -> a + b }
                         val actualMaxPoints = if (project.maxPoints == 0.0) maxPointsFromTopics else project.maxPoints
 
+                        val coverageMethod = enumValueOf<GCoverageMethod>(project.coverageMethod)
+
                         GGradeProject(project.name, project.description, actualMaxPoints, project.warningPoints,
-                                project.coveragePoints, project.coverageMethod, project.coverageRatio,
+                                project.coveragePoints, coverageMethod, project.coverageRatio,
                                 coverages.toClassNames(scanResult),
                                 gtopics)
                     }
@@ -434,7 +488,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
 // DONE: add up the number of points, use as maxPoints for topics with none (in progress)
 // DONE: GradeTest's topic, convert from string to GradeTopic ptr
 // HALF-DONE: print YAML file
-// TODO: switch over to kotlinx.serializetion, because it's portable across platforms, has the stuff that plants need
+// TODO: switch over to kotlinx.serialization, because it's portable across platforms, has the stuff that plants need
 //       https://github.com/Kotlin/kotlinx.serialization
 
 // Engineering note: You'll see lots of filterNotNull() in here. Even though we're pretty sure no nulls are

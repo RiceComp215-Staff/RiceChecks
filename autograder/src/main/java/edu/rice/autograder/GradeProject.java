@@ -61,12 +61,13 @@ public @interface GradeProject {
   double coveragePoints() default 0.0;
 
   /**
+   * Specifies a JaCoCo coverage ratio as a percentage (e.g., 70)
+   */
+  int coveragePercentage() default 0;
+
+  /**
    * Specifies a JaCoCo coverage testing method (currently supports "LINES" or "INSTRUCTIONS").
    */
   String coverageMethod() default "LINES";
 
-  /**
-   * Specifies a JaCoCo coverage ratio (e.g., 0.7).
-   */
-  double coverageRatio() default 0.3;
 }
