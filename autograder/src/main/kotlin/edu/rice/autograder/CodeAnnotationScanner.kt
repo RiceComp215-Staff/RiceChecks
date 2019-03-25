@@ -91,16 +91,6 @@ private const val A_JUNIT4_TEST = "org.junit.Test"
 private const val A_JUNIT5_TEST = "org.junit.jupiter.api.Test"
 private const val A_JUNIT5_TESTFACTORY = "org.junit.jupiter.api.TestFactory"
 
-/**
- * Call whenever the scanner discovers an error. Prints the string, crashes the program.
- */
-private fun failScanner(s: String): Nothing {
-    System.err.println("Terminating Grade Annotation Scanner:\n  $s")
-    throw RuntimeException(s)
-
-//    exitProcess(1)
-}
-
 private fun internalScannerErrorX(s: String): Nothing {
     System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
     throw RuntimeException(s)
@@ -115,15 +105,20 @@ private fun AnnotationParameterValueList.internalScannerError(s: String): Nothin
     throw RuntimeException(s)
 }
 
+/**
+ * Call whenever the scanner discovers an error. Prints the string, crashes the program.
+ */
 private fun failScannerX(s: String): Nothing {
     System.err.println("Terminating Grade Annotation Scanner:\n  $s")
     throw RuntimeException(s)
+
+//    exitProcess(1)
 }
 
 /**
  * Call whenever the scanner discovers an error. Prints the string, crashes the program.
  */
-private fun AnnotationParameterValueList.failScanner(s: String): Nothing = failScannerX("$s\nParameter context: $this")
+private fun AnnotationParameterValueList.failScanner(s: String): Nothing = failScanner("$s\nParameter context: $this")
 
 private val coverageMethodNames = enumValues<GCoverageMethod>().map { it.name }
 /**
