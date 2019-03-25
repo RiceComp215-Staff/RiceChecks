@@ -46,7 +46,7 @@ data class GGradeTest(
 // when sending output.
 
 private data class AnnotationTuple(val className: String, val methodName: String?, val ai: AnnotationInfo) {
-    constructor(className: String, ai: AnnotationInfo) : this(className, null, ai)
+    constructor(className: String, ai: AnnotationInfo): this(className, null, ai)
 }
 
 private typealias ProjectMap = Map<String, IGradeProject>
@@ -100,10 +100,7 @@ private fun internalScannerErrorX(s: String): Nothing {
 /**
  * Call whenever the scanner discovers an error. Prints the string, crashes the program.
  */
-private fun AnnotationParameterValueList.internalScannerError(s: String): Nothing {
-    System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.\nParameter context: $this")
-    throw RuntimeException(s)
-}
+private fun AnnotationParameterValueList.internalScannerError(s: String): Nothing = internalScannerErrorX("$s\nParameter context: $this")
 
 /**
  * Call whenever the scanner discovers an error. Prints the string, crashes the program.
@@ -118,7 +115,7 @@ private fun failScannerX(s: String): Nothing {
 /**
  * Call whenever the scanner discovers an error. Prints the string, crashes the program.
  */
-private fun AnnotationParameterValueList.failScanner(s: String): Nothing = failScanner("$s\nParameter context: $this")
+private fun AnnotationParameterValueList.failScanner(s: String): Nothing = failScannerX("$s\nParameter context: $this")
 
 private val coverageMethodNames = enumValues<GCoverageMethod>().map { it.name }
 /**
