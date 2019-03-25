@@ -281,18 +281,14 @@ private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): Lis
         flatMap {
             if (verbose) System.err.println("  Found: ${it}")
             val (className, methodName, ai) = it
-            val vlist = ai.parameterValues.get("value")
-            if (vlist != null && vlist is Array<*>) {
-                vlist.mapNotNull { v ->
-                    if (verbose) System.err.println("    Found: ${v}")
-                    if (v == null) null else
-                        AnnotationTuple(className, methodName, v as AnnotationInfo)
-                }
-            } else {
-                listOf(it)
+            val emptyArray = Array(0) { 0 }
+            val vlist = ai.parameterValues.lookupNoNull<Array<*>>("value", emptyArray)
+            vlist.mapNotNull { v ->
+                if (verbose) System.err.println("    Found: ${v}")
+                if (v == null) null else
+                    AnnotationTuple(className, methodName, v as AnnotationInfo)
             }
         }
-
 
 private fun ScanResult.packageAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> {
     if (verbose) System.err.println("Looking for packages with annotations: ${annotationNames}")
