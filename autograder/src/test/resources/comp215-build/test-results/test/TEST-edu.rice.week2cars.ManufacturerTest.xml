@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.week2cars.ManufacturerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.014">
+  <properties/>
+  <testcase name="countManufacturersWithHttpUrls()" classname="edu.rice.week2cars.ManufacturerTest" time="0.003"/>
+  <testcase name="differentManufacturersShouldNotBeEquals()" classname="edu.rice.week2cars.ManufacturerTest" time="0.001"/>
+  <testcase name="allNamesAndAllManufacturersAreCorrectSize()" classname="edu.rice.week2cars.ManufacturerTest" time="0.0"/>
+  <testcase name="countManufacturersShortNames()" classname="edu.rice.week2cars.ManufacturerTest" time="0.0"/>
+  <testcase name="registryBasics()" classname="edu.rice.week2cars.ManufacturerTest" time="0.009"/>
+  <system-out><![CDATA[2019-03-25 10:11:14,688 [Test worker] ?[34mINFO ?[0;39m ?[36mManufacturerTest?[0;39m - BMW exists! 
+2019-03-25 10:11:14,694 [Test worker] ?[34mINFO ?[0;39m ?[36mManufacturerTest?[0;39m - BMW (https://www.bmwusa.com) 
+2019-03-25 10:11:14,695 [Test worker] ?[1;31mERROR?[0;39m ?[36mManufacturerTest?[0;39m - DanCorp is missing! 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.util.OptionTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.011">
+  <properties/>
+  <testcase name="orElseThrowTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="filterTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="testToString()" classname="edu.rice.util.OptionTest" time="0.0"/>
+  <testcase name="fromOptionalTest()" classname="edu.rice.util.OptionTest" time="0.0"/>
+  <testcase name="getOrElseTest()" classname="edu.rice.util.OptionTest" time="0.0"/>
+  <testcase name="orElseTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="matchTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="mapTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="testHashCode()" classname="edu.rice.util.OptionTest" time="0.0"/>
+  <testcase name="flatMapTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="testEquals()" classname="edu.rice.util.OptionTest" time="0.0"/>
+  <testcase name="toListTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="ofNullableTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <testcase name="noneTest()" classname="edu.rice.util.OptionTest" time="0.0"/>
+  <testcase name="someTest()" classname="edu.rice.util.OptionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

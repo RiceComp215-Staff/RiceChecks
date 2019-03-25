@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.tree.TreePerformance" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:09" hostname="bunsen-honeydew.cs.rice.edu" time="4.403">
+  <properties/>
+  <testcase name="testRedBlackTree()" classname="edu.rice.tree.TreePerformance" time="1.404"/>
+  <testcase name="testTreap()" classname="edu.rice.tree.TreePerformance" time="1.445"/>
+  <testcase name="testHamt()" classname="edu.rice.tree.TreePerformance" time="0.815"/>
+  <testcase name="testJavaTree()" classname="edu.rice.tree.TreePerformance" time="0.37"/>
+  <testcase name="testJavaHashSet()" classname="edu.rice.tree.TreePerformance" time="0.368"/>
+  <system-out><![CDATA[2019-03-25 10:11:06,528 [Test worker] ?[34mINFO ?[0;39m ?[36mTreePerformance?[0;39m - Computing seq test sequence, size = 100000 
+2019-03-25 10:11:08,978 [Test worker] ?[34mINFO ?[0;39m ?[36mTreePerformance?[0;39m - Computing fail test sequence, size = 100000 
+================== testing VAVR TreeSet with 100000 elements ==================
+Insertion time    :        3.687 µs / element
+Success query time:        0.677 µs / element
+Failure query time:        0.822 µs / element
+Range time        :    52988.764 µs / query
+Removal time      :        1.942 µs / element
+================== testing Comp215 Treap with 100000 elements ==================
+Insertion time    :        2.166 µs / element
+Success query time:        1.267 µs / element
+Failure query time:        0.983 µs / element
+Range time        :       15.653 µs / query
+Removal time      :        1.242 µs / element
+================== testing VAVR HAMT    with 100000 elements ==================
+Insertion time    :        0.510 µs / element
+Success query time:        0.362 µs / element
+Failure query time:        0.440 µs / element
+Range time        :    33344.740 µs / query
+Removal time      :        1.107 µs / element
+================== testing Java TreeSet with 100000 elements ==================
+Insertion time    :        0.746 µs / element
+Success query time:        0.905 µs / element
+Failure query time:        0.556 µs / element
+Range time        :       71.892 µs / query
+Removal time      :        0.463 µs / element
+================== testing Java HashSet with 100000 elements ==================
+Insertion time    :        0.146 µs / element
+Success query time:        0.109 µs / element
+Failure query time:        0.125 µs / element
+Range time        :    11589.273 µs / query
+Removal time      :        0.113 µs / element
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

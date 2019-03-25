@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.stream.StreamHelpersTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.401">
+  <properties/>
+  <testcase name="testMapToIterator()" classname="edu.rice.stream.StreamHelpersTest" time="0.001"/>
+  <testcase name="testSetToIterator()" classname="edu.rice.stream.StreamHelpersTest" time="0.0"/>
+  <testcase name="testSetToStream()" classname="edu.rice.stream.StreamHelpersTest" time="0.001"/>
+  <testcase name="testListToStream()" classname="edu.rice.stream.StreamHelpersTest" time="0.001"/>
+  <testcase name="testParallelSpeedup()" classname="edu.rice.stream.StreamHelpersTest" time="0.395"/>
+  <testcase name="testListLaziness()" classname="edu.rice.stream.StreamHelpersTest" time="0.001"/>
+  <testcase name="testMapToStream()" classname="edu.rice.stream.StreamHelpersTest" time="0.001"/>
+  <testcase name="testListToIterator()" classname="edu.rice.stream.StreamHelpersTest" time="0.0"/>
+  <system-out><![CDATA[Parallel speedup tests! Number of available CPUs: 12
+=========== List vs. Stream performance (listLength = 1000, hashRepeats = 1) =========== 
+ regular List      :   6.141 μs per hash
+ sequential stream :   7.726 μs per hash
+ parallel stream   :  11.183 μs per hash
+ par-array stream  :  11.691 μs per hash
+PARALLEL  STREAM SPEEDUP: 0.691x
+PAR-ARRAY STREAM SPEEDUP: 0.661x
+=========== List vs. Stream performance (listLength = 1000, hashRepeats = 10) =========== 
+ regular List      :  27.617 μs per hash
+ sequential stream :  12.162 μs per hash
+ parallel stream   :   3.753 μs per hash
+ par-array stream  :   3.035 μs per hash
+PARALLEL  STREAM SPEEDUP: 3.241x
+PAR-ARRAY STREAM SPEEDUP: 4.007x
+=========== List vs. Stream performance (listLength = 1000, hashRepeats = 100) =========== 
+ regular List      :  53.143 μs per hash
+ sequential stream :  54.810 μs per hash
+ parallel stream   :   9.793 μs per hash
+ par-array stream  :  10.658 μs per hash
+PARALLEL  STREAM SPEEDUP: 5.597x
+PAR-ARRAY STREAM SPEEDUP: 5.143x
+=========== List vs. Stream performance (listLength = 100, hashRepeats = 1000) =========== 
+ regular List      : 438.748 μs per hash
+ sequential stream : 436.381 μs per hash
+ parallel stream   :  84.572 μs per hash
+ par-array stream  :  81.898 μs per hash
+PARALLEL  STREAM SPEEDUP: 5.160x
+PAR-ARRAY STREAM SPEEDUP: 5.328x
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

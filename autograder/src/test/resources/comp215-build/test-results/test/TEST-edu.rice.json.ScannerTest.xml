@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.json.ScannerTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.019">
+  <properties/>
+  <testcase name="veryLongStringsShouldStillWork()" classname="edu.rice.json.ScannerTest" time="0.001"/>
+  <testcase name="testJsonBadExamples()" classname="edu.rice.json.ScannerTest" time="0.013"/>
+  <testcase name="malformedNulls()" classname="edu.rice.json.ScannerTest" time="0.0"/>
+  <testcase name="malformedNumbers()" classname="edu.rice.json.ScannerTest" time="0.0"/>
+  <testcase name="testJsonExamples()" classname="edu.rice.json.ScannerTest" time="0.001"/>
+  <testcase name="zeroDotZeroDotZero()" classname="edu.rice.json.ScannerTest" time="0.0"/>
+  <system-out><![CDATA[2019-03-25 10:11:16,309 [Test worker] ?[34mINFO ?[0;39m ?[36mScannerTest?[0;39m - Testing scanning of non-compliant JSON tokens: expect logs of failures! 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

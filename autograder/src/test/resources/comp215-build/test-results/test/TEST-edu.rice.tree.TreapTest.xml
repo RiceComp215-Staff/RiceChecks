@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.tree.TreapTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:06" hostname="bunsen-honeydew.cs.rice.edu" time="0.394">
+  <properties/>
+  <testcase name="testSuite()[1]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[2]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[3]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[4]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[5]" classname="edu.rice.tree.TreapTest" time="0.001"/>
+  <testcase name="testSuite()[6]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[7]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[8]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[9]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[10]" classname="edu.rice.tree.TreapTest" time="0.001"/>
+  <testcase name="testSuite()[11]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[12]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[13]" classname="edu.rice.tree.TreapTest" time="0.004"/>
+  <testcase name="testSuite()[14]" classname="edu.rice.tree.TreapTest" time="0.0"/>
+  <testcase name="testSuite()[15]" classname="edu.rice.tree.TreapTest" time="0.019"/>
+  <testcase name="testSuite()[16]" classname="edu.rice.tree.TreapTest" time="0.017"/>
+  <testcase name="testSuite()[17]" classname="edu.rice.tree.TreapTest" time="0.158"/>
+  <testcase name="testSuite()[18]" classname="edu.rice.tree.TreapTest" time="0.024"/>
+  <testcase name="testSuite()[19]" classname="edu.rice.tree.TreapTest" time="0.032"/>
+  <testcase name="testSuite()[20]" classname="edu.rice.tree.TreapTest" time="0.026"/>
+  <testcase name="testSuite()[21]" classname="edu.rice.tree.TreapTest" time="0.03"/>
+  <testcase name="testSuite()[22]" classname="edu.rice.tree.TreapTest" time="0.018"/>
+  <testcase name="testSuite()[23]" classname="edu.rice.tree.TreapTest" time="0.014"/>
+  <testcase name="testSuite()[24]" classname="edu.rice.tree.TreapTest" time="0.016"/>
+  <testcase name="testSuite()[25]" classname="edu.rice.tree.TreapTest" time="0.03"/>
+  <system-out><![CDATA[=========== treap depth test =========== 
+With 1000 sequential integer inserts, max depth = 19
+With 1000 sequential string inserts, max depth = 21
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

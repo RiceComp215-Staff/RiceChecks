@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.cparser.SexprTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:17" hostname="bunsen-honeydew.cs.rice.edu" time="0.687">
+  <properties/>
+  <testcase name="testToSexprValue()[1]" classname="edu.rice.cparser.SexprTest" time="0.004"/>
+  <testcase name="testToSexprValue()[2]" classname="edu.rice.cparser.SexprTest" time="0.001"/>
+  <testcase name="testToSexprValue()[3]" classname="edu.rice.cparser.SexprTest" time="0.001"/>
+  <testcase name="testToSexprValue()[4]" classname="edu.rice.cparser.SexprTest" time="0.001"/>
+  <testcase name="testToSexprValue()[5]" classname="edu.rice.cparser.SexprTest" time="0.0"/>
+  <testcase name="testToSexprValue()[6]" classname="edu.rice.cparser.SexprTest" time="0.0"/>
+  <testcase name="testToSexprValue()[7]" classname="edu.rice.cparser.SexprTest" time="0.0"/>
+  <testcase name="testToSexprValue()[8]" classname="edu.rice.cparser.SexprTest" time="0.0"/>
+  <testcase name="testRandomSexpressionsParseCorrectly()" classname="edu.rice.cparser.SexprTest" time="0.677"/>
+  <testcase name="testBasics()" classname="edu.rice.cparser.SexprTest" time="0.001"/>
+  <testcase name="testDeeper()" classname="edu.rice.cparser.SexprTest" time="0.0"/>
+  <system-out><![CDATA[2019-03-25 10:11:17,655 [Test worker] ?[1;31mERROR?[0;39m ?[36mSexprParser?[0;39m - tokens remaining in the stream after end of the s-expression; parser failure 
+2019-03-25 10:11:17,656 [Test worker] ?[1;31mERROR?[0;39m ?[36mSexprParser?[0;39m - tokens remaining in the stream after end of the s-expression; parser failure 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

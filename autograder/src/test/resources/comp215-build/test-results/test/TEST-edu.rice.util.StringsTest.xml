@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.util.StringsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.024">
+  <properties/>
+  <testcase name="testDate()" classname="edu.rice.util.StringsTest" time="0.021"/>
+  <testcase name="testStringToNumber()" classname="edu.rice.util.StringsTest" time="0.001"/>
+  <testcase name="testStringToUnixLinebreaks()" classname="edu.rice.util.StringsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

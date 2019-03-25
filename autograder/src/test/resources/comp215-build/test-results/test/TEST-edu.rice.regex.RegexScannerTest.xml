@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.regex.RegexScannerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.003">
+  <properties/>
+  <testcase name="testGetNamedGroupMatches()" classname="edu.rice.regex.RegexScannerTest" time="0.001"/>
+  <testcase name="testGetNamedGroupMatchesWithFail()" classname="edu.rice.regex.RegexScannerTest" time="0.002"/>
+  <system-out><![CDATA[2019-03-25 10:11:16,105 [Test worker] ?[34mINFO ?[0;39m ?[36mRegexScannerTest?[0;39m - Testing scanning of tokens that don't match the patterns: expect logs of failures! 
+2019-03-25 10:11:16,106 [Test worker] ?[1;31mERROR?[0;39m ?[36mRegexScanner?[0;39m - matcher skipped 3 character(s), scanner failed (context: !!! world=aw3some; }) (match start:  world=aw3some; }) 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

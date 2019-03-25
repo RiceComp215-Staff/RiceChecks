@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.tree.TreeToListLaziness" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.168">
+  <properties/>
+  <testcase name="equivalentMethods()" classname="edu.rice.tree.TreeToListLaziness" time="0.136"/>
+  <testcase name="testLazinessViaRunCount()" classname="edu.rice.tree.TreeToListLaziness" time="0.03"/>
+  <testcase name="testLazinessViaToString()" classname="edu.rice.tree.TreeToListLaziness" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

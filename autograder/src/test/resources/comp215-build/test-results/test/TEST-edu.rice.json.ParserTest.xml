@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.json.ParserTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.016">
+  <properties/>
+  <testcase name="buildersEquivalentToParser()" classname="edu.rice.json.ParserTest" time="0.0"/>
+  <testcase name="expectedIndentation()" classname="edu.rice.json.ParserTest" time="0.0"/>
+  <testcase name="jsonObjectsParseCorrectly()" classname="edu.rice.json.ParserTest" time="0.001"/>
+  <testcase name="successfulParseOfBasicObject()" classname="edu.rice.json.ParserTest" time="0.001"/>
+  <testcase name="simpleParserNullProductionTest()" classname="edu.rice.json.ParserTest" time="0.001"/>
+  <testcase name="failedParseOfCorruptBasicObject()" classname="edu.rice.json.ParserTest" time="0.001"/>
+  <testcase name="successfulParseOfBigObject()" classname="edu.rice.json.ParserTest" time="0.005"/>
+  <testcase name="arraysParseCorrectly()" classname="edu.rice.json.ParserTest" time="0.001"/>
+  <testcase name="escapedSlashesHandledCorrectly()" classname="edu.rice.json.ParserTest" time="0.0"/>
+  <testcase name="deleteCharacterShouldBeEscaped()" classname="edu.rice.json.ParserTest" time="0.0"/>
+  <testcase name="valueMatchCanFilterNumbers()" classname="edu.rice.json.ParserTest" time="0.004"/>
+  <system-out><![CDATA[2019-03-25 10:11:16,956 [Test worker] ?[34mINFO ?[0;39m ?[36mParserTest?[0;39m - Testing parsing of non-compliant JSON values: expect logs of failures! 
+2019-03-25 10:11:16,958 [Test worker] ?[34mINFO ?[0;39m ?[36mParserTest?[0;39m - Testing parsing of non-compliant JSON arrays: expect logs of failures! 
+2019-03-25 10:11:16,959 [Test worker] ?[1;31mERROR?[0;39m ?[36mJsonParsers?[0;39m - tokens remaining after parsing was complete; parser failure 
+2019-03-25 10:11:16,965 [Test worker] ?[34mINFO ?[0;39m ?[36mParserTest?[0;39m - Testing parsing of non-compliant JSON arrays: expect logs of failures! 
+2019-03-25 10:11:16,965 [Test worker] ?[1;31mERROR?[0;39m ?[36mJsonParsers?[0;39m - tokens remaining after parsing was complete; parser failure 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

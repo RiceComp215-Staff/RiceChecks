@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.17">
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/cparser/ParserFunctionTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/cparser/SexprTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/dynamic/MemoizedBiFunctionTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/dynamic/MemoizedFunctionTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/github/EventsApiTests.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/image/ImagesTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/io/FilesTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/io/JsonResourceIOTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/BuildersTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/JsonGenerators.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/LensTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/OperationsTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/ParserTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/ParserTestPrivate.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/ScannerTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/ScannerTestPrivate.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/json/ValueTheories.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/lens/ListLens.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/lens/MonkeyExample.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/lens/TimeExample.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/AlleleTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/ExternalImageAllelesTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/GeneTreeLensTests.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/GeneTreeTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/GeneTreeTheories.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/GenerationsDBTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/RandomGeneTreeTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/RgbColorTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/TestGenesWeek1Test.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/TestGenesWeek2Test.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/prettypictures/TestGenesWeek3Test.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/primes/PrimalityTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/ListTheories.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/QtHelpers.java">
+<error line="37" severity="warning" message="Line is longer than 140 characters (found 341)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/SequenceGenerators.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/regex/MatcherTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/regex/RegexScannerTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/rpn/InfixCalculatorTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/rpn/RpnCalculatorTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/rpn/RpnCalculatorTestPrivate.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/rpn/RpnGenerators.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/sexpr/SexprGenerators.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/sexpr/SimpleParserTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/sexpr/SimpleScannerTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/stream/StreamHelpersTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/BinaryHeapTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/DTreapTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/ETreapTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/TreapTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/TreePerformance.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/TreeSuite.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/TreeTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/tree/TreeToListLaziness.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/DoubleTheories.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/DoubleTrouble.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/HelpersTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/LogTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/NotNullTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/OptionLiftTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/OptionTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/util/StringsTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/vavr/VavrHelperTests.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week10covariance/CarExamplesTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week10covariance/CarsAndLensesTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week10covariance/Week10LabTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week12mockito/Week12LabTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week13newspaper/DBTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week1hangman/HangmanTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week1intro/StringThingTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week2cars/DreamGarageTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week2cars/ManufacturerTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week2cars/ModelTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week2lists/MListTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week2lists/ObjectListTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week2primes/PrimesTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week2subsets/SubsetsTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week3lists/GListTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week3lists/Week3Filters.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week3lists/Week3Project.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week3subsets/SubsetsTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week4queue/ListQueueTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week4subsets/SubsetsTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week5knapsack/KnapsackTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week5sorting/HeapSorterTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week5sorting/SortPerformance.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week6counting/FreqCountTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week8turtle/TurtleTest.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/week9lenses/Week9Lab.java">
+</file>
+</checkstyle>

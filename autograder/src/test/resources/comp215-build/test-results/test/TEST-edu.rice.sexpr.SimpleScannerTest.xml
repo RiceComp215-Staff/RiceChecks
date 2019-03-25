@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.sexpr.SimpleScannerTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:17" hostname="bunsen-honeydew.cs.rice.edu" time="0.004">
+  <properties/>
+  <testcase name="testRegexes()[1]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[2]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[3]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[4]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[5]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[6]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[7]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.001"/>
+  <testcase name="testRegexes()[8]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[9]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[10]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[11]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[12]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[13]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[14]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[15]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[16]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.001"/>
+  <testcase name="testRegexes()[17]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[18]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[19]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[20]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[21]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[22]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[23]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[24]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testRegexes()[25]" classname="edu.rice.sexpr.SimpleScannerTest" time="0.0"/>
+  <testcase name="testSimpleScannerExamples()" classname="edu.rice.sexpr.SimpleScannerTest" time="0.001"/>
+  <system-out><![CDATA[2019-03-25 10:11:17,626 [Test worker] ?[1;31mERROR?[0;39m ?[36mSimpleScannerTest?[0;39m - about to run many malformed Sexpr tests; expect many logged errors 
+2019-03-25 10:11:17,632 [Test worker] ?[1;31mERROR?[0;39m ?[36mRegexScanner?[0;39m - no matching token found, scanner failed (context: ]) 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

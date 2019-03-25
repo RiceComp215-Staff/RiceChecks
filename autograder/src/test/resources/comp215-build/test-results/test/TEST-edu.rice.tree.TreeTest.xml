@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.tree.TreeTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.313">
+  <properties/>
+  <testcase name="testSuite()[1]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[2]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[3]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[4]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[5]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[6]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[7]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[8]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[9]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[10]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[11]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[12]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[13]" classname="edu.rice.tree.TreeTest" time="0.026"/>
+  <testcase name="testSuite()[14]" classname="edu.rice.tree.TreeTest" time="0.0"/>
+  <testcase name="testSuite()[15]" classname="edu.rice.tree.TreeTest" time="0.012"/>
+  <testcase name="testSuite()[16]" classname="edu.rice.tree.TreeTest" time="0.013"/>
+  <testcase name="testSuite()[17]" classname="edu.rice.tree.TreeTest" time="0.121"/>
+  <testcase name="testSuite()[18]" classname="edu.rice.tree.TreeTest" time="0.013"/>
+  <testcase name="testSuite()[19]" classname="edu.rice.tree.TreeTest" time="0.018"/>
+  <testcase name="testSuite()[20]" classname="edu.rice.tree.TreeTest" time="0.018"/>
+  <testcase name="testSuite()[21]" classname="edu.rice.tree.TreeTest" time="0.019"/>
+  <testcase name="testSuite()[22]" classname="edu.rice.tree.TreeTest" time="0.015"/>
+  <testcase name="testSuite()[23]" classname="edu.rice.tree.TreeTest" time="0.011"/>
+  <testcase name="testSuite()[24]" classname="edu.rice.tree.TreeTest" time="0.016"/>
+  <testcase name="testSuite()[25]" classname="edu.rice.tree.TreeTest" time="0.023"/>
+  <testcase name="testRotate()" classname="edu.rice.tree.TreeTest" time="0.002"/>
+  <system-out><![CDATA[=========== tree depth test =========== 
+With 1000 sequential integer inserts, max depth = 1000
+With 1000 sequential string inserts, max depth = 29
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

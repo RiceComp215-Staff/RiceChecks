@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.week6counting.FreqCountTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.04">
+  <properties/>
+  <testcase name="testFrequencyCount()" classname="edu.rice.week6counting.FreqCountTest" time="0.04"/>
+  <system-out><![CDATA[Top ten bacon words: List((pork, 18), (ribs, 12), (beef, 11), (short, 9), (loin, 8), (tip, 8), (alcatra, 7), (corned, 7), (bacon, 6), (belly, 6))
+Top ten Constitution words: List((the, 423), (of, 289), (and, 192), (shall, 191), (be, 125), (to, 110), (in, 89), (states, 80), (or, 79), (united, 54))
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

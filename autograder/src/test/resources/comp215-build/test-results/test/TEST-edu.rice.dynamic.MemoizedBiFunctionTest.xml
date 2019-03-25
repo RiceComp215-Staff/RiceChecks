@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.dynamic.MemoizedBiFunctionTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.068">
+  <properties/>
+  <testcase name="makeOnlyOnce()" classname="edu.rice.dynamic.MemoizedBiFunctionTest" time="0.027"/>
+  <testcase name="memoizedLambdaOnlyCalledOnce()" classname="edu.rice.dynamic.MemoizedBiFunctionTest" time="0.039"/>
+  <testcase name="memoizedAdderWorks()" classname="edu.rice.dynamic.MemoizedBiFunctionTest" time="0.001"/>
+  <testcase name="pascalTriangleSameAsNChooseR()" classname="edu.rice.dynamic.MemoizedBiFunctionTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

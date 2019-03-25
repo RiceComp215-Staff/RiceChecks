@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.primes.PrimalityTest" tests="32" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:02" hostname="bunsen-honeydew.cs.rice.edu" time="1.945">
+  <properties/>
+  <testcase name="basicTestsForAll()[1]" classname="edu.rice.primes.PrimalityTest" time="0.388"/>
+  <testcase name="basicTestsForAll()[2]" classname="edu.rice.primes.PrimalityTest" time="0.008"/>
+  <testcase name="basicTestsForAll()[3]" classname="edu.rice.primes.PrimalityTest" time="0.006"/>
+  <testcase name="basicTestsForAll()[4]" classname="edu.rice.primes.PrimalityTest" time="0.014"/>
+  <testcase name="basicTestsForAll()[5]" classname="edu.rice.primes.PrimalityTest" time="0.004"/>
+  <testcase name="basicTestsForAll()[6]" classname="edu.rice.primes.PrimalityTest" time="0.001"/>
+  <testcase name="basicTestsForAll()[7]" classname="edu.rice.primes.PrimalityTest" time="0.005"/>
+  <testcase name="basicTestsForAll()[8]" classname="edu.rice.primes.PrimalityTest" time="0.003"/>
+  <testcase name="basicTestsForAll()[9]" classname="edu.rice.primes.PrimalityTest" time="0.011"/>
+  <testcase name="basicTestsForAll()[10]" classname="edu.rice.primes.PrimalityTest" time="0.008"/>
+  <testcase name="basicTestsForAll()[11]" classname="edu.rice.primes.PrimalityTest" time="0.005"/>
+  <testcase name="basicTestsForAll()[12]" classname="edu.rice.primes.PrimalityTest" time="0.003"/>
+  <testcase name="basicTestsForAll()[13]" classname="edu.rice.primes.PrimalityTest" time="0.005"/>
+  <testcase name="basicTestsForAll()[14]" classname="edu.rice.primes.PrimalityTest" time="0.002"/>
+  <testcase name="basicTestsForAll()[15]" classname="edu.rice.primes.PrimalityTest" time="0.004"/>
+  <testcase name="testBoolArrayToIntSeq()" classname="edu.rice.primes.PrimalityTest" time="0.003"/>
+  <testcase name="testLaziness()" classname="edu.rice.primes.PrimalityTest" time="0.149"/>
+  <testcase name="testBiggerPrimes()[1]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[2]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[3]" classname="edu.rice.primes.PrimalityTest" time="0.001"/>
+  <testcase name="testBiggerPrimes()[4]" classname="edu.rice.primes.PrimalityTest" time="0.001"/>
+  <testcase name="testBiggerPrimes()[5]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[6]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[7]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[8]" classname="edu.rice.primes.PrimalityTest" time="0.001"/>
+  <testcase name="testBiggerPrimes()[9]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[10]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[11]" classname="edu.rice.primes.PrimalityTest" time="0.001"/>
+  <testcase name="testBiggerPrimes()[12]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[13]" classname="edu.rice.primes.PrimalityTest" time="0.001"/>
+  <testcase name="testBiggerPrimes()[14]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <testcase name="testBiggerPrimes()[15]" classname="edu.rice.primes.PrimalityTest" time="0.0"/>
+  <system-out><![CDATA[10:11:02,569 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+10:11:02,569 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+10:11:02,570 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/Users/dwallach/IdeaProjects/comp215-code/build/resources/main/logback.xml]
+10:11:02,774 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+10:11:02,780 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [TextOut]
+10:11:02,788 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+10:11:02,821 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to INFO
+10:11:02,821 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [TextOut] to Logger[ROOT]
+10:11:02,822 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+10:11:02,824 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@24038e85 - Registering current configuration as safe fallback point
+2019-03-25 10:11:02,830 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - Comp215 log support ready! 
+2019-03-25 10:11:02,834 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - System property: java.version      -> 11.0.2 
+2019-03-25 10:11:02,834 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - System property: java.vm.version   -> 11.0.2+9-LTS 
+2019-03-25 10:11:02,834 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - System property: java.runtime.name -> Java(TM) SE Runtime Environment 
+2019-03-25 10:11:02,835 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - System property: java.home         -> /Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home 
+2019-03-25 10:11:02,835 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - System property: java.vendor       -> Oracle Corporation 
+2019-03-25 10:11:02,835 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - System property: java.vm.name      -> Java HotSpot(TM) 64-Bit Server VM 
+2019-03-25 10:11:02,835 [Test worker] ?[34mINFO ?[0;39m ?[36mLog?[0;39m - System property: user.dir          -> /Users/dwallach/IdeaProjects/comp215-code 
+2019-03-25 10:11:02,839 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log n) 
+2019-03-25 10:11:02,900 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log n) PARALLEL 
+2019-03-25 10:11:02,909 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log n) PARA NOLST 
+2019-03-25 10:11:02,915 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log^2 n) 
+2019-03-25 10:11:02,929 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n^2 log n) 
+2019-03-25 10:11:02,934 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n sqrt n) 
+2019-03-25 10:11:02,936 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log log n) OPT 
+2019-03-25 10:11:02,941 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log n) NO LISTS 
+2019-03-25 10:11:02,944 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log log n) SORENSON 
+2019-03-25 10:11:02,955 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n sqrt n) PARALLEL 
+2019-03-25 10:11:02,964 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n sqrt n / log n) PARALLEL 
+2019-03-25 10:11:02,969 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n sqrt n) PARALLEL2 
+2019-03-25 10:11:02,973 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log n) HAMT 
+2019-03-25 10:11:02,978 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n log log n) 
+2019-03-25 10:11:02,981 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - checking O(n^2 / (log n)^2) 
+2019-03-25 10:11:03,142 [Test worker] ?[34mINFO ?[0;39m ?[36mPrimalityTest?[0;39m - Testing bigger primes, max(5000) 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

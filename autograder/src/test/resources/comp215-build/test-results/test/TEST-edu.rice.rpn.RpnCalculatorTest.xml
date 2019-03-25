@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.rpn.RpnCalculatorTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:15" hostname="bunsen-honeydew.cs.rice.edu" time="0.051">
+  <properties/>
+  <testcase name="swapUndoesSwapTest()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.009"/>
+  <testcase name="addTest()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.013"/>
+  <testcase name="testCalc()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.008"/>
+  <testcase name="testScan()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.001"/>
+  <testcase name="binaryOperatorsFailWithoutTwoEntriesTest()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.003"/>
+  <testcase name="dropUndoesDupTest()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.004"/>
+  <testcase name="binaryOperatorsConsumeTwoEntriesReturnOneTest()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.007"/>
+  <testcase name="testOperatorComposition()" classname="edu.rice.rpn.RpnCalculatorTest" time="0.002"/>
+  <system-out><![CDATA[2019-03-25 10:11:15,645 [Test worker] ?[1;31mERROR?[0;39m ?[36mRegexScanner?[0;39m - no matching token found, scanner failed (context: oops) 
+2019-03-25 10:11:15,648 [Test worker] ?[1;31mERROR?[0;39m ?[36mRegexScanner?[0;39m - no matching token found, scanner failed (context: yuck) 
+2019-03-25 10:11:15,666 [Test worker] ?[34mINFO ?[0;39m ?[36mRpnCalculatorTest?[0;39m - Some(List(3.0)) -> Some(List(10.0, 3.0)) 
+2019-03-25 10:11:15,666 [Test worker] ?[34mINFO ?[0;39m ?[36mRpnCalculatorTest?[0;39m - Some(List(10.0, 3.0)) -> Some(List(13.0)) 
+2019-03-25 10:11:15,666 [Test worker] ?[34mINFO ?[0;39m ?[36mRpnCalculatorTest?[0;39m - Some(List(13.0)) -> Some(List(27.0, 13.0)) 
+2019-03-25 10:11:15,666 [Test worker] ?[34mINFO ?[0;39m ?[36mRpnCalculatorTest?[0;39m - Some(List(27.0, 13.0)) -> Some(List(351.0)) 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

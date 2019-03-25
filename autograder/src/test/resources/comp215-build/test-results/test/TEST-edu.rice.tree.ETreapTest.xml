@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.tree.ETreapTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:13" hostname="bunsen-honeydew.cs.rice.edu" time="0.423">
+  <properties/>
+  <testcase name="testSuite()[1]" classname="edu.rice.tree.ETreapTest" time="0.002"/>
+  <testcase name="testSuite()[2]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[3]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[4]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[5]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[6]" classname="edu.rice.tree.ETreapTest" time="0.001"/>
+  <testcase name="testSuite()[7]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[8]" classname="edu.rice.tree.ETreapTest" time="0.001"/>
+  <testcase name="testSuite()[9]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[10]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[11]" classname="edu.rice.tree.ETreapTest" time="0.001"/>
+  <testcase name="testSuite()[12]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[13]" classname="edu.rice.tree.ETreapTest" time="0.007"/>
+  <testcase name="testSuite()[14]" classname="edu.rice.tree.ETreapTest" time="0.0"/>
+  <testcase name="testSuite()[15]" classname="edu.rice.tree.ETreapTest" time="0.015"/>
+  <testcase name="testSuite()[16]" classname="edu.rice.tree.ETreapTest" time="0.015"/>
+  <testcase name="testSuite()[17]" classname="edu.rice.tree.ETreapTest" time="0.218"/>
+  <testcase name="testSuite()[18]" classname="edu.rice.tree.ETreapTest" time="0.015"/>
+  <testcase name="testSuite()[19]" classname="edu.rice.tree.ETreapTest" time="0.021"/>
+  <testcase name="testSuite()[20]" classname="edu.rice.tree.ETreapTest" time="0.021"/>
+  <testcase name="testSuite()[21]" classname="edu.rice.tree.ETreapTest" time="0.021"/>
+  <testcase name="testSuite()[22]" classname="edu.rice.tree.ETreapTest" time="0.019"/>
+  <testcase name="testSuite()[23]" classname="edu.rice.tree.ETreapTest" time="0.015"/>
+  <testcase name="testSuite()[24]" classname="edu.rice.tree.ETreapTest" time="0.018"/>
+  <testcase name="testSuite()[25]" classname="edu.rice.tree.ETreapTest" time="0.027"/>
+  <system-out><![CDATA[=========== etreap depth test =========== 
+With 1000 sequential integer inserts, max depth = 22
+With 1000 sequential string inserts, max depth = 22
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

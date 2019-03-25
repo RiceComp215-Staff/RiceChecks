@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.qt.ListTheories" tests="15" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:15" hostname="bunsen-honeydew.cs.rice.edu" time="0.312">
+  <properties/>
+  <testcase name="takeWhileInclusiveGetsPositives()" classname="edu.rice.qt.ListTheories" time="0.054"/>
+  <testcase name="stringConcatenationIsNotCommutative()" classname="edu.rice.qt.ListTheories" time="0.023"/>
+  <testcase name="reverseTwiceSameResult()" classname="edu.rice.qt.ListTheories" time="0.014"/>
+  <testcase name="cascadingSortsSameResult()" classname="edu.rice.qt.ListTheories" time="0.019"/>
+  <testcase name="sortAndReverseSameAsBackwardSort()" classname="edu.rice.qt.ListTheories" time="0.036"/>
+  <testcase name="sortingNaturalOrder()" classname="edu.rice.qt.ListTheories" time="0.029"/>
+  <testcase name="stringConcatenationIsAssociative()" classname="edu.rice.qt.ListTheories" time="0.014"/>
+  <testcase name="cascadingIdenticalFiltersSameResult()" classname="edu.rice.qt.ListTheories" time="0.009"/>
+  <testcase name="reverseConcatVsConcatReverse()" classname="edu.rice.qt.ListTheories" time="0.021"/>
+  <testcase name="objectEqualityImpliesHashEquality()" classname="edu.rice.qt.ListTheories" time="0.019"/>
+  <testcase name="listToStringAndBack()" classname="edu.rice.qt.ListTheories" time="0.027"/>
+  <testcase name="reverseOneElementConstant()" classname="edu.rice.qt.ListTheories" time="0.003"/>
+  <testcase name="stringJoinTest()" classname="edu.rice.qt.ListTheories" time="0.014"/>
+  <testcase name="fromIterableAndFromArrayBehaveTheSame()" classname="edu.rice.qt.ListTheories" time="0.015"/>
+  <testcase name="foldAddTest()" classname="edu.rice.qt.ListTheories" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

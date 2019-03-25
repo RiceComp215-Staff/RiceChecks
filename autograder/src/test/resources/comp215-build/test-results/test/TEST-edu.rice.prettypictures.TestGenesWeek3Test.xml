@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.prettypictures.TestGenesWeek3Test" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:21" hostname="bunsen-honeydew.cs.rice.edu" time="0.017">
+  <properties/>
+  <testcase name="testMutants()" classname="edu.rice.prettypictures.TestGenesWeek3Test" time="0.014"/>
+  <testcase name="testCrossBreeds()" classname="edu.rice.prettypictures.TestGenesWeek3Test" time="0.003"/>
+  <system-out><![CDATA[2019-03-25 10:11:21,590 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek2?[0;39m - Found 47 test genes 
+2019-03-25 10:11:21,604 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek2?[0;39m - Found 47 test genes 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

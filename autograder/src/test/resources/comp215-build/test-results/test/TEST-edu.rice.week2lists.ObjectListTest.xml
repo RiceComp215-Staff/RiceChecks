@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.week2lists.ObjectListTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:17" hostname="bunsen-honeydew.cs.rice.edu" time="0.001">
+  <properties/>
+  <testcase name="testToString()" classname="edu.rice.week2lists.ObjectListTest" time="0.0"/>
+  <testcase name="testEmptyHead()" classname="edu.rice.week2lists.ObjectListTest" time="0.001"/>
+  <testcase name="testContains()" classname="edu.rice.week2lists.ObjectListTest" time="0.0"/>
+  <testcase name="testBasics()" classname="edu.rice.week2lists.ObjectListTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

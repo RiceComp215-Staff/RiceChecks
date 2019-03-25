@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.17">
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/cparser/Expression.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/cparser/ParserFunction.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/cparser/Result.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/cparser/SExpression.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/cparser/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/dynamic/MemoizedBiFunction.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/dynamic/MemoizedFunction.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/dynamic/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/github/EventsApi.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/github/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/image/Images.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/image/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/io/Files.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/io/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/json/Builders.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/json/FlexScanner.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/json/Operations.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/json/Parser.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/json/Scanner.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/json/Value.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/json/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/lens/Lens.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/lens/MonoLens.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/lens/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/Allele.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/ExternalImageAlleles.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/GeneTree.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/GenerationsDB.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/ImageFunction.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/ImprovedNoise.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/OpenSimplexNoise.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/PrettyPicturesServerWeek1.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/PrettyPicturesServerWeek2.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/PrettyPicturesServerWeek3.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/RandomGeneTree.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/RgbColor.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/TestGenesWeek1.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/TestGenesWeek2.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/TestGenesWeek3.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/prettypictures/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/primes/MultiRun.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/primes/PrimeBenchmarking.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/primes/Primes.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/primes/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/regex/Matcher.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/regex/RegexScanner.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/regex/Token.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/regex/TokenPatterns.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/regex/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/rpn/InfixCalcServer.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/rpn/InfixCalculator.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/rpn/RpnCalcServer.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/rpn/RpnCalculator.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/rpn/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/sexpr/Parser.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/sexpr/Scanner.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/sexpr/Value.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/sexpr/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/stream/StreamHelpers.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/stream/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/tree/BinaryHeap.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/tree/DTreap.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/tree/ETreap.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/tree/ITree.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/tree/Treap.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/tree/Tree.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/tree/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/util/Helpers.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/util/Log.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/util/Performance.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/util/Strings.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/util/TriConsumer.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/util/TriFunction.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/util/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/vavr/Maps.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/vavr/Options.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/vavr/Sequences.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/vavr/Tries.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/vavr/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/web/JavaScriptRepl.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/web/Requests.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/web/SimpleServer.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/web/Utils.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/web/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week10covariance/CarExamples.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week10covariance/CarsAndLenses.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week10covariance/GList.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week10covariance/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week11weblab/ImageServer.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week11weblab/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week13newspaper/DB.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week13newspaper/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week1hangman/Hangman.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week1hangman/HangmanIO.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week1intro/StringThing.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2cars/DreamGarage.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2cars/Manufacturer.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2cars/Model.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2cars/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2lists/MList.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2lists/ObjectList.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2primes/Primes.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2primes/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week2subsets/Subsets.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week3lists/GList.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week3lists/Pair.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week3lists/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week3subsets/Subsets.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week3subsets/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week4queue/ListQueue.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week4queue/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week4subsets/Subsets.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week4subsets/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week5knapsack/Knapsack.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week5knapsack/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week5sorting/HeapSorter.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week5sorting/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week6counting/FreqCount.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week6counting/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week8turtle/Turtle.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week8turtle/package-info.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week9lenses/Address.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week9lenses/Company.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week9lenses/Employee.java">
+</file>
+<file name="/Users/dwallach/IdeaProjects/comp215-code/src/main/java/edu/rice/week9lenses/Street.java">
+</file>
+</checkstyle>

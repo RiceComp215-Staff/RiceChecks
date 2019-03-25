@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.rice.rpn.InfixCalculatorTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:15" hostname="bunsen-honeydew.cs.rice.edu" time="0.118">
+  <properties/>
+  <testcase name="leftAssociativity()" classname="edu.rice.rpn.InfixCalculatorTest" time="0.048"/>
+  <testcase name="equivalentExpressionsAreEqual()" classname="edu.rice.rpn.InfixCalculatorTest" time="0.019"/>
+  <testcase name="noWhitespaceHandledProperly()" classname="edu.rice.rpn.InfixCalculatorTest" time="0.004"/>
+  <testcase name="variableAssignment()" classname="edu.rice.rpn.InfixCalculatorTest" time="0.014"/>
+  <testcase name="badExpressionsFail()[1]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[2]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.0"/>
+  <testcase name="badExpressionsFail()[3]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[4]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[5]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.0"/>
+  <testcase name="badExpressionsFail()[6]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[7]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[8]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[9]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[10]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[11]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[12]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.0"/>
+  <testcase name="badExpressionsFail()[13]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.0"/>
+  <testcase name="badExpressionsFail()[14]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.0"/>
+  <testcase name="badExpressionsFail()[15]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.0"/>
+  <testcase name="badExpressionsFail()[16]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[17]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[18]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[19]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="badExpressionsFail()[20]" classname="edu.rice.rpn.InfixCalculatorTest" time="0.001"/>
+  <testcase name="operatorPrecedence()" classname="edu.rice.rpn.InfixCalculatorTest" time="0.004"/>
+  <testcase name="handlingNaN()" classname="edu.rice.rpn.InfixCalculatorTest" time="0.004"/>
+  <system-out><![CDATA[2019-03-25 10:11:15,394 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["-", ["-", 2, 3], 4] --> -5.0 
+2019-03-25 10:11:15,396 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["-", ["-", 2, 3], 4] --> -5.0 
+2019-03-25 10:11:15,398 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["/", ["/", 2, 4], 2] --> 0.25 
+2019-03-25 10:11:15,400 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["/", ["/", 2, 4], 2] --> 0.25 
+2019-03-25 10:11:15,422 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", ["+", 2, -3], -4] --> -5.0 
+2019-03-25 10:11:15,423 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", ["+", 2, 3], 4] --> 9.0 
+2019-03-25 10:11:15,424 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", ["+", 2, -3], -4] --> -5.0 
+2019-03-25 10:11:15,426 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", 3, 4] --> 7.0 
+2019-03-25 10:11:15,428 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["assign", "x", 3] --> 3.0 
+2019-03-25 10:11:15,429 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "x" --> 3.0 
+2019-03-25 10:11:15,430 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", 3, "x"] --> 6.0 
+2019-03-25 10:11:15,431 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["assign", "x", ["+", 3, "x"]] --> 6.0 
+2019-03-25 10:11:15,432 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "x" --> 6.0 
+2019-03-25 10:11:15,433 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "y" --> Undefined 
+2019-03-25 10:11:15,434 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", 3, "y"] --> Undefined 
+2019-03-25 10:11:15,435 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["assign", "z", ["+", 3, "y"]] --> Undefined 
+2019-03-25 10:11:15,436 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "z" --> Undefined 
+2019-03-25 10:11:15,436 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "x" --> 6.0 
+2019-03-25 10:11:15,437 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "y" --> Undefined 
+2019-03-25 10:11:15,438 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["assign", "x", "y"] --> Undefined 
+2019-03-25 10:11:15,439 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "x" --> Undefined 
+2019-03-25 10:11:15,440 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculatorTest?[0;39m - Testing bad inputs, expect logs of parse failures! 
+2019-03-25 10:11:15,442 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,443 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,444 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,445 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,446 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,447 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,448 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,449 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,450 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,451 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,452 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,453 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,454 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,455 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,456 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,457 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,458 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,458 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,459 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,460 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - Parse failure! 
+2019-03-25 10:11:15,462 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", 3, ["*", 4, 5]] --> 23.0 
+2019-03-25 10:11:15,463 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["+", ["*", 3, 4], 5] --> 17.0 
+2019-03-25 10:11:15,464 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["*", 3, ["+", 4, 5]] --> 27.0 
+2019-03-25 10:11:15,465 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["*", ["+", 3, 4], 5] --> 35.0 
+2019-03-25 10:11:15,467 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["assign", "x", 3] --> 3.0 
+2019-03-25 10:11:15,467 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "x" --> 3.0 
+2019-03-25 10:11:15,469 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - ["assign", "x", ["/", 3, 0]] --> Undefined 
+2019-03-25 10:11:15,469 [Test worker] ?[34mINFO ?[0;39m ?[36mInfixCalculator?[0;39m - "x" --> Undefined 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
