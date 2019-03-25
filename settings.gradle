@@ -1,2 +1,4 @@
-rootProject.name = 'comp215-code'
+rootProject.name = 'AnnoAutoGrader'
+
+include 'autograder'
 

@@ -4,7 +4,7 @@
 // Made available subject to the Apache 2.0 License
 //
 buildscript {
-    ext.kotlin_version = '1.3.10'
+    ext.kotlin_version = '1.3.21'
     ext.jackson_version = '2.9.7'
 
     repositories {
@@ -101,7 +101,7 @@ tasks.compileJava.dependsOn printStuff
 // coverage requirements. JaCoCo can enforce this as part of 'gradle check'.
 
 jacoco {
-    toolVersion = "0.8.2"
+    toolVersion = "0.8.3"
 }
 
 jacocoTestReport {
@@ -147,14 +147,14 @@ dependencies {
     testCompile 'org.quicktheories:quicktheories:0.25' // high-tech pattern-based testing library
 
     // JUnit5 support
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}" // Kotlin standard libraries
     compile "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}" // Kotlin standard libraries
 
     // Support specifically for AnnoAutoGrader
-    compile 'io.github.classgraph:classgraph:4.4.12' // for reading class annotations
+    compile 'io.github.classgraph:classgraph:4.8.21' // for reading class annotations
     compile 'com.beust:jcommander:1.72' // command-line parsing
 
     // Jackson (for XML, YAML, and other such things)
