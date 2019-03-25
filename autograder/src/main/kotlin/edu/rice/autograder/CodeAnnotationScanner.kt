@@ -118,9 +118,12 @@ private fun failScannerX(s: String): Nothing {
 private fun AnnotationParameterValueList.failScanner(s: String): Nothing = failScannerX("$s\nParameter context: $this")
 
 private val coverageMethodNames = enumValues<GCoverageMethod>().map { it.name }
+
 /**
  * Fetching a value from an [AnnotationParameterValueList] with a default value for
- * its absence is awful enough that it's worth having a helper method.
+ * its absence is awful enough that it's worth having a helper method. This version
+ * returns _null_ if there's no parameter of the requested _key_. However, if the
+ * parameter is there but has no value, then _default_ is returned.
  */
 private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, default: T): T? {
     val o = this[key]
@@ -133,8 +136,8 @@ private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, 
 }
 
 /**
- * Fetching a value from an [AnnotationParameterValueList] with a default value for
- * its absence is awful enough that it's worth having a helper method.
+ * Similar to [AnnotationParameterValueList.lookup], except if the requested key
+ * is absent altogether, then the _default_ value is returned. Nulls are never returned.
  */
 private inline fun <reified T> AnnotationParameterValueList.lookupNoNull(key: String, default: T): T =
     lookup(key, default) ?: default
