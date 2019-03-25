@@ -132,7 +132,15 @@ private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, 
     }
 
     val v = o.value
-    return if (v == null) default else v as T
+    return when {
+        v == null -> default
+        v is T -> v
+        else -> {
+            val desiredClassName = T::class.java.simpleName
+            val actualClassName = v::class.java.simpleName
+            failScanner("Expected parameter $key to be of type $desiredClassName, actually $actualClassName")
+        }
+    }
 }
 
 /**
