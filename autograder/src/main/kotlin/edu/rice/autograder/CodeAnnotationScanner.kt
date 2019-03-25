@@ -143,6 +143,11 @@ private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, 
     }
 }
 
+private fun AnnotationParameterValueList.contains(key: String): Boolean {
+    val o = this[key]
+    return o != null && o.value != null
+}
+
 /**
  * Similar to [AnnotationParameterValueList.lookup], except if the requested key
  * is absent altogether, then the _default_ value is returned. Nulls are never returned.
@@ -281,12 +286,21 @@ private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): Lis
         flatMap {
             if (verbose) System.err.println("  Found: ${it}")
             val (className, methodName, ai) = it
-            val emptyArray = Array(0) { 0 }
-            val vlist = ai.parameterValues.lookupNoNull<Array<*>>("value", emptyArray)
-            vlist.mapNotNull { v ->
-                if (verbose) System.err.println("    Found: ${v}")
-                if (v == null) null else
-                    AnnotationTuple(className, methodName, v as AnnotationInfo)
+            val emptyArray = Array<Any?>(0) { null }
+            val pv = ai.parameterValues
+            val vlist = pv.lookup<Array<*>>("value", emptyArray)
+
+            if (vlist != null) {
+                vlist.mapNotNull { v ->
+                    if (verbose) System.err.println("    Found: ${v}")
+                    when {
+                        v == null -> null
+                        v is AnnotationInfo -> AnnotationTuple(className, methodName, v)
+                        else -> failScannerX("    Unexpected class type found: $${v::class.java.simpleName}")
+                    }
+                }
+            } else {
+                listOf(it)
             }
         }
 
@@ -325,7 +339,17 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
                             .filter {
                                 it.ai.name == aname
                             }
+                            .also {
+                                if (verbose) {
+                                    System.err.println("Pre-expansion annotations:\n${it.joinToString(transform = { "===> $it" }, separator = "\n", postfix = "\n")}");
+                                }
+                            }
                             .expandValueList(verbose)
+                            .also {
+                                if (verbose) {
+                                    System.err.println("Post-expansion annotations:\n${it.joinToString(transform = { "===> $it" }, separator = "\n", postfix = "\n")}");
+                                }
+                            }
                 }
     }
     .also {
@@ -360,14 +384,14 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: 
 
 private fun List<AnnotationTuple>.checkNoValueGroups() {
     forEach {
-        if (it.ai.parameterValues["value"] != null) {
+        if (it.ai.parameterValues.lookup("value", "") != null) {
             System.err.println("=== Warning: found `value' in result tuple <${it}>")
         }
     }
 }
 
-private fun ScanResult.packageOrClassAnnotations(annotationNames: List<String>): List<AnnotationTuple> =
-        packageAnnotations(annotationNames) + classAnnotations(annotationNames)
+private fun ScanResult.packageOrClassAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> =
+        packageAnnotations(annotationNames, verbose) + classAnnotations(annotationNames, verbose)
 
 /**
  * We have lists of things that we don't want to have repeats. No repeated project names.
@@ -411,7 +435,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                     emptyMap()
                 } else {
                     val gradeProjectAnnotations =
-                            scanResult.packageOrClassAnnotations(listOf(A_GRADEPROJECT, A_GRADEPROJECTS))
+                            scanResult.packageOrClassAnnotations(listOf(A_GRADEPROJECT, A_GRADEPROJECTS), verbose=true)
                                     .map { it.toIGradeProject() }
                                     .failRepeating("More than one project definition for") { it.name }
 
@@ -421,17 +445,17 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                     val projectMap = gradeProjectAnnotations.associateBy { it.name }
 
                     val gradeCoverageAnnotations =
-                            scanResult.packageOrClassAnnotations(listOf(A_GRADECOVERAGE, A_GRADECOVERAGES))
+                            scanResult.packageOrClassAnnotations(listOf(A_GRADECOVERAGE, A_GRADECOVERAGES), verbose=true)
                                     .map { it.toIGradeCoverage(projectMap) }
 
-                    val testAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST))
+                    val testAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST), verbose=true)
                             .map { it.methodName }.filterNotNull().toSet()
 
-                    val testFactoryAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY))
+                    val testFactoryAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY), verbose=true)
                             .map { it.methodName }.filterNotNull().toSet()
 
                     val gradeTestAnnotations =
-                            scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES))
+                            scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES), verbose=true)
                                     .map { it.toIGradeTest(projectMap, testAnnotations, testFactoryAnnotations) }
                                     // sort only to make it easier to read when printed for debugging
                                     .sortedWith(compareBy({ it.project.name }, { it.topic }, { it.className }, { it.methodName }))
