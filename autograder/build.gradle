@@ -7,7 +7,16 @@ buildscript {
     ext.kotlin_version = '1.3.21'
     ext.jackson_version = '2.9.7'
 
-    repositories {
+    ext.repos = {
+        maven {
+            // Google's mirror will be our primary destination
+            url "https://maven-central.storage.googleapis.com"
+        }
+
+        maven {
+            url 'https://jitpack.io'
+        }
+
         jcenter()
 
         mavenCentral()
@@ -19,10 +28,14 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+
+        maven {
+            url "http://xbib.org/repository"
+        }
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // used by the autograder
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -33,7 +46,12 @@ plugins {
     id 'jacoco'
     id "net.ltgt.errorprone" version "0.7.1" // JDK9+
     id 'com.github.sherter.google-java-format' version '0.8'
+    
+    id "org.jetbrains.kotlin.kapt" version "1.3.21"
+    id "org.jetbrains.kotlin.jvm" version "1.3.21"
 }
+
+apply plugin: 'kotlin'
 
 group 'edu.rice'
 version '1.0'
@@ -69,6 +87,13 @@ if (JavaVersion.current().isJava8Compatible()) {
             options.addStringOption('Xdoclint:none', '-quiet')
         }
     }
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    main.java.srcDirs += 'src/main/java'
+    test.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/main/java'
 }
 
 ////////////////////////////////////////////////////////////////////////////////

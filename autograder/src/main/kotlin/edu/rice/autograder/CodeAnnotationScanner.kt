@@ -6,6 +6,7 @@
 package edu.rice.autograder
 
 import io.github.classgraph.AnnotationInfo
+import io.github.classgraph.AnnotationParameterValueList
 import io.github.classgraph.ClassGraph
 import io.github.classgraph.ScanResult
 
@@ -97,16 +98,38 @@ private fun failScanner(s: String): Nothing {
 //    exitProcess(1)
 }
 
+/**
+ * Fetching a value from an [AnnotationParameterValueList] with a default value for
+ * its absence is awful enough that it's worth having a helper method.
+ */
+private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, default: T): T? {
+    val o = this[key]
+    if (o == null) {
+        return default
+    }
+
+    val v = o.value
+    return if (v == null) default else v as T
+}
+
+/**
+ * Fetching a value from an [AnnotationParameterValueList] with a default value for
+ * its absence is awful enough that it's worth having a helper method.
+ */
+private inline fun <reified T> AnnotationParameterValueList.lookupNoNull(key: String, default: T): T =
+    lookup(key, default) ?: default
+
 private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     // the name parameter is *required* by the annotation, so this *shouldn't* fail, but we're being paranoid
     val pv = ai.parameterValues
-    val name = pv["name"] as String? // null if absent
-    val description = pv["description"] as String? ?: ""
-    val maxPoints = pv["maxPoints"] as Double? ?: 0.0
-    val warningPoints = pv["warningPoints"] as Double? ?: 0.0
-    val coveragePoints = pv["coveragePoints"] as Double? ?: 0.0
-    val coverageMethod = pv["coverageMethod"] as String? ?: "LINES"
-    val coverageRatio = pv["coverageRatio"] as Double? ?: 0.7
+
+    val name = pv.lookup("name", "")
+    val description = pv.lookupNoNull("description", "")
+    val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
+    val warningPoints = pv.lookupNoNull("warningPoints", 0.0)
+    val coveragePoints = pv.lookupNoNull("coveragePoints", 0.0)
+    val coverageMethod = pv.lookupNoNull("coverageMethod", "LINES")
+    val coverageRatio = pv.lookupNoNull("coverageRatio", 0.7)
 
     return when {
         name == null ->
@@ -130,10 +153,10 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
 
 private fun AnnotationTuple.toIGradeTopic(pmap: ProjectMap): IGradeTopic {
     val pv = ai.parameterValues
-    val projectStr = pv["project"] as String?
+    val projectStr = pv.lookup("project", "")
     val project = pmap[projectStr]
-    val topic = pv["topic"] as String? ?: ""
-    val maxPoints = pv["maxPoints"] as Double? ?: 0.0
+    val topic = pv.lookupNoNull("topic", "")
+    val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
 
     return when {
         project == null ->
@@ -147,12 +170,12 @@ private fun AnnotationTuple.toIGradeTopic(pmap: ProjectMap): IGradeTopic {
 
 private fun AnnotationTuple.toIGradeCoverage(pmap: ProjectMap): IGradeCoverage {
     val pv = ai.parameterValues
-    val project = pmap[pv["project"] as String?]
+    val project = pmap[pv["project"].value as String?]
 
     if (project == null) {
         failScanner("Malformed GradeCoverage: unknown project name (${pv["project"]})")
     } else {
-        return IGradeCoverage(project, pv["exclude"] as Boolean? ?: false, className)
+        return IGradeCoverage(project, pv["exclude"].value as Boolean? ?: false, className)
     }
 }
 
@@ -160,10 +183,10 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
                                  testAnnotations: Set<String>,
                                  testFactoryAnnotations: Set<String>): IGradeTest {
     val pv = ai.parameterValues
-    val project = pmap[pv["project"] as String?]
-    val topic = pv["topic"] as String? ?: ""
-    val points = pv["points"] as Double? ?: 0.0
-    val maxPoints = pv["maxPoints"] as Double? ?: 0.0
+    val project = pmap[pv.lookup("project", "")]
+    val topic = pv.lookupNoNull("topic", "")
+    val points = pv.lookupNoNull("points", 0.0)
+    val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
 
     return when {
         project == null ->
