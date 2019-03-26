@@ -89,20 +89,17 @@ private const val A_JUNIT4_TEST = "org.junit.Test"
 private const val A_JUNIT5_TEST = "org.junit.jupiter.api.Test"
 private const val A_JUNIT5_TESTFACTORY = "org.junit.jupiter.api.TestFactory"
 
+/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun internalScannerErrorX(s: String): Nothing {
     System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
     throw RuntimeException(s)
 }
 
+/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
+private fun AnnotationParameterValueList?.internalScannerError(s: String): Nothing =
+    internalScannerErrorX(s + if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
 
-/**
- * Call whenever the scanner discovers an error. Prints the string, crashes the program.
- */
-private fun AnnotationParameterValueList.internalScannerError(s: String): Nothing = internalScannerErrorX("$s\nParameter context: $this")
-
-/**
- * Call whenever the scanner discovers an error. Prints the string, crashes the program.
- */
+/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun failScannerX(s: String): Nothing {
     System.err.println("Terminating Grade Annotation Scanner:\n  $s")
     throw RuntimeException(s)
@@ -110,10 +107,9 @@ private fun failScannerX(s: String): Nothing {
 //    exitProcess(1)
 }
 
-/**
- * Call whenever the scanner discovers an error. Prints the string, crashes the program.
- */
-private fun AnnotationParameterValueList.failScanner(s: String): Nothing = failScannerX("$s\nParameter context: $this")
+/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
+private fun AnnotationParameterValueList?.failScanner(s: String): Nothing =
+        failScannerX(s + if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
 
 private val coverageMethodNames = enumValues<GCoverageMethod>().map { it.name }
 
@@ -124,6 +120,11 @@ private val coverageMethodNames = enumValues<GCoverageMethod>().map { it.name }
  * parameter is there but has no value, then _default_ is returned.
  */
 private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, default: T): T? {
+    // Kotlin FTW: the reified type parameter allows us to have the "is T" query below, which
+    // we could never do as easily in Java. Also winning, the type parameter can almost always
+    // get inferred from the default parameter, so you hardly ever have to have an explicit
+    // type parameter to this method.
+
     val o = this[key] ?: return null
     val v = o.value
     return when (v) {
@@ -164,6 +165,8 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
 
     return with(pv) {
         when {
+            this == null -> internalScannerErrorX("Unexpected null parameter values: ${this}")
+
             name == null ->
                 failScanner("Malformed GradeProject: no name specified: {$pv}")
 
@@ -208,10 +211,14 @@ private fun AnnotationTuple.toIGradeTopic(pmap: ProjectMap): IGradeTopic {
 
     return with(pv) {
         when {
+            this == null -> internalScannerErrorX("Unexpected null parameter values: ${this}")
+
             project == null ->
                 failScanner("Malformed GradeTopic: unknown project ($projectStr not in ${pmap.keys})")
+
             topic == "" ->
                 failScanner("Malformed GradeTopic: no topic specified: ${this}")
+
             else ->
                 IGradeTopic(project, topic, maxPoints)
         }
@@ -242,6 +249,8 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
 
     return with(pv) {
         when {
+            this == null -> internalScannerErrorX("Unexpected null parameter values: ${this@toIGradeTest}")
+
             project == null -> failScanner("Malformed GradeTest: unknown project name (${pv["project"]})")
 
             topic == "" -> failScanner("Malformed GradeTest, no topic: ${this@toIGradeTest}")
@@ -270,13 +279,14 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
     }
 }
 
+/**
+ * When there are multiple annotations of the same kind (e.g., "Grade"), they appear as a
+ * different annotation (e.g., "Grades") which has a single parameter within called "value"
+ * that has an array of the actual annotations we really want. This helper method takes
+ * a list of annotation-tuples, some of which might have this weird array property, and
+ * then expands them to the regular annotations within.
+ */
 private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): List<AnnotationTuple> =
-        // When there are multiple annotations of the same kind (e.g., "Grade"), they appear as a
-        // different annotation (e.g., "Grades") which has a single parameter within called "value"
-        // that has an array of the actual annotations we really want. This helper method takes
-        // a list of annotation-tuples, some of which might have this weird array property, and
-        // then expands them to the regular annotations within.
-
         flatMap {
             val (ai, className, methodName) = it
             val pv = ai.parameterValues
@@ -297,6 +307,23 @@ private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): Lis
             }
         }
 
+/**
+ * After [expandValueList] has been called, there should be no more "value" items. This check
+ * is an assertion that will print warnings if they're still there.
+ */
+private fun List<AnnotationTuple>.checkNoValueGroups() {
+    forEach {
+        val valueEntry = it.ai.parameterValues.lookupNoNull<Any?>("value", "")
+        if (valueEntry != "") {
+            System.err.println("=== Warning: found `value' in result tuple <$it>")
+        }
+    }
+}
+
+/**
+ * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
+ * describing every matching annotation found on a Java package (i.e., inside a package-info.java file).
+ */
 private fun ScanResult.packageAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> {
     if (verbose) System.err.println("Looking for packages with annotations: $annotationNames")
     return packageInfo
@@ -312,6 +339,10 @@ private fun ScanResult.packageAnnotations(annotationNames: List<String>, verbose
             }
 }
 
+/**
+ * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
+ * describing every matching annotation found on a Java method.
+ */
 private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> {
     if (verbose) System.err.println("================= Looking for methods with annotations: $annotationNames =================")
     return annotationNames.flatMap { aname ->
@@ -334,13 +365,13 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
                             }
                             .also { mi ->
                                 if (verbose) {
-                                    System.err.println("Pre-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
+                                    System.err.println("Pre-expansion annotations:\n${mi.joinToString(transform={ "===> $it" }, separator="\n")}")
                                 }
                             }
                             .expandValueList(verbose)
                             .also { mi ->
                                 if (verbose) {
-                                    System.err.println("Post-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
+                                    System.err.println("Post-expansion annotations:\n${mi.joinToString(transform={ "===> $it" }, separator="\n")}")
                                 }
                             }
                 }
@@ -351,6 +382,10 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
     }
 }
 
+/**
+ * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
+ * describing every matching annotation found on a Java class (inner or outer) or interface.
+ */
 private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> {
     if (verbose) System.err.println("Looking for classes with annotations: $annotationNames")
     return annotationNames.flatMap { aname ->
@@ -375,21 +410,16 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: 
     }
 }
 
-private fun List<AnnotationTuple>.checkNoValueGroups() {
-    forEach {
-        val valueEntry = it.ai.parameterValues.lookupNoNull<Any?>("value", "")
-        if (valueEntry != "") {
-            System.err.println("=== Warning: found `value' in result tuple <$it>")
-        }
-    }
-}
-
+/**
+ * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
+ * describing every matching annotation found on a Java package or class.
+ */
 private fun ScanResult.packageOrClassAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> =
         packageAnnotations(annotationNames, verbose) + classAnnotations(annotationNames, verbose)
 
 /**
  * We have lists of things that we don't want to have repeats. No repeated project names.
- * No repeated topics within a project. Etc. This method does all the work.
+ * No repeated topics within a project. Etc. This method crashes the scanner if it finds repeats.
  */
 private fun <T> List<T>.failRepeating(failMessage: String, stringExtractor: (T) -> String): List<T> {
     val repeatGroups =
@@ -424,9 +454,9 @@ private const val VERBOSITY = false
  */
 fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject> =
     ClassGraph()
-//            .verbose()                   // Log to stderr
-            .enableAllInfo()             // Scan classes, methods, fields, annotations
-            .whitelistPackages(codePackage)      // Scan codePackage and subpackages
+//            .verbose() // Log to stderr
+            .enableAllInfo() // Scan classes, methods, fields, annotations
+            .whitelistPackages(codePackage) // Scan codePackage and subpackages
             .scan().use { scanResult: ScanResult? ->
                 if (scanResult == null) {
                     emptyMap()
@@ -513,5 +543,8 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
 
 // Engineering note: You'll see lots of filterNotNull() in here. Even though we're pretty sure no nulls are
 // coming back from the ClassGraph library, we're doing this anyway because it ensures the resulting lists
-// are guaranteed to be null-free. ClassGraph has no annotations for nullity, and we would rather not have
-// NullPointerExceptions in our Kotlin code.
+// are guaranteed to be null-free. ClassGraph has no annotations for nullity, and this defensive coding practice
+// is unlikely to change the outcome of our code, but it does ensure that, if ClassGraph does randomly include
+// a null in one of the lists it hands us, we'll just quietly ignore it and move in rather than exploding
+// with a NullPointerException. Alternate viewpoint: we're using filterNonNull() as a way of converting
+// from types like List<T?> or List<T!> to List<T>.
