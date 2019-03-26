@@ -285,13 +285,13 @@ private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): Lis
             if (pv.containsNonEmpty("value")) {
                 val emptyArray = Array<Any?>(0) { null }
                 val vlist = pv.lookup<Array<*>>("value", emptyArray)
-                    ?: failScannerX("    Unexpected empty array when `value' found")
+                    ?: pv.failScanner("    Unexpected empty array when `value' found")
                 vlist.mapNotNull { v ->
                     if (verbose) System.err.println("    Found: ${v}")
                     when {
                         v == null -> null
                         v is AnnotationInfo -> AnnotationTuple(className, methodName, v)
-                        else -> failScannerX("    Unexpected class type found: $${v::class.java.simpleName}")
+                        else -> pv.failScanner("    Unexpected class type found: $${v::class.java.simpleName}")
                     }
                 }
             } else {
