@@ -5,7 +5,7 @@
 //
 buildscript {
     ext.kotlin_version = '1.3.21'
-    ext.jackson_version = '2.9.7'
+    ext.jackson_version = '2.9.8'
 
     ext.repos = {
         maven {
@@ -73,6 +73,10 @@ compileJava {
     options.fork = true
     options.incremental = true
     options.encoding = "UTF-8"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 tasks.withType(JavaCompile) {
@@ -155,6 +159,10 @@ dependencies {
     // means a new inspection can show up mid-semester and suddenly every student is seeing errors. No bueno!
     errorprone 'com.google.errorprone:error_prone_core:2.3.2'
 
+    // Useful functional libraries
+    compile 'io.vavr:vavr:0.10.0'
+    compile 'io.vavr:vavr-kotlin:0.10.0'
+
     // annotations to help ErrorProne and IntelliJ find bugs
     compile 'org.jetbrains:annotations:15.0'
     compile 'com.google.code.findbugs:jsr305:3.0.2'
@@ -163,10 +171,6 @@ dependencies {
 
     // testing libraries: these are only visible from our "test" code, not the "main" code
     testCompile 'org.quicktheories:quicktheories:0.25' // high-tech pattern-based testing library
-
-    // JUnit5 support
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}" // Kotlin standard libraries
     compile "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}" // Kotlin standard libraries
@@ -179,4 +183,11 @@ dependencies {
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson_version}"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${jackson_version}"
+
+    compile 'ch.qos.logback:logback-classic:1.2.3' // logging
+
+    // JUnit5 support
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
 }
