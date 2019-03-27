@@ -1,3 +1,8 @@
+//
+// This code is part of AnnoAutoGrader
+// Copyright 2018, Dan S. Wallach, Rice University
+// Made available subject to the Apache 2.0 License
+//
 package edu.rice.autograder
 
 import io.vavr.collection.LinearSeq
@@ -5,7 +10,10 @@ import io.vavr.collection.List
 import io.vavr.collection.Stream
 import io.vavr.control.Try
 import io.vavr.kotlin.*
+import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.io.InputStream
+import java.lang.NullPointerException
 import java.net.URL
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
@@ -16,10 +24,6 @@ import java.util.jar.JarFile
 import java.util.zip.ZipEntry
 
 private const val TAG = "IO"
-
-fun <T> Enumeration<T>.toVavrStream(): Stream<T> =
-    Stream.iterate { if (hasMoreElements()) some<T>(nextElement()) else none() }
-            .filter { it != null }
 
 private fun readdirPath(filePath: String): Try<LinearSeq<Path>> =
     try {
@@ -77,17 +81,14 @@ fun readResourceDir(dirPath: String): Try<LinearSeq<String>> {
                                     Try {
                                         URLDecoder.decode(urlPath, StandardCharsets.UTF_8)
                                                 ?: urlPath
-                                    }
-                                            .getOrElse(urlPath))
+                                    }.getOrElse(urlPath))
                                     ?: Log.ethrow(TAG, "got null Path?")
 
-                            val result = readdirPath(decodedPath.toString())
+                            readdirPath(decodedPath.toString())
                                     .getOrElse(Stream.empty<Path>())
                                     .map(decodedPath::relativize)
                                     .map(Path::toString)
                                     .map { "$dirPath/$it" }
-
-                            result
                         }
 
                         "jar" -> {
@@ -127,3 +128,57 @@ fun readResourceDir(dirPath: String): Try<LinearSeq<String>> {
                 }
             }
 }
+
+private fun resourceToStream(resourceName: String): Try<InputStream> {
+    // If ClassLoader.getSystemResourceAsStream finds nothing, it
+    // returns null, which we have to deal with.
+    return Try {
+        ClassLoader.getSystemResourceAsStream(resourceName)
+            ?: throw NullPointerException("null result from ClassLoader?")
+    } .onFailure {
+        Log.e(TAG, "getSystemResources failed for resource($resourceName)", it)
+    }
+}
+
+/**
+ * Given a resource name, which typically maps to a file in the "resources" directory, read it in
+ * and return a String. This method assumes that the resource file is encoded as a UTF-8 string.
+ * If you want to get raw bytes rather than a string, use [.readResourceBytes]
+ * instead.
+ *
+ * @return a Try.success of the file contents as a String, or a Try.failure indicating what went
+ * wrong
+ */
+fun readResource(resourceName: String): Try<String> =
+    readResourceBytes(resourceName).map { String(it, StandardCharsets.UTF_8) }
+
+/**
+ * Get the contents of an `InputStream` as an array of bytes. The stream is closed
+ * after being read.
+ */
+private fun InputStream.toByteArray(): Try<ByteArray> =
+    use {
+        try {
+            val os = ByteArrayOutputStream()
+            val buf = ByteArray(1024)
+            var n = it.read(buf)
+            while (n != -1) {
+                os.write(buf, 0, n)
+                n = it.read(buf)
+            }
+            return success(os.toByteArray())
+        } catch (e: IOException) {
+            return failure(e)
+        }
+    }
+
+/**
+ * Given a resource name, which typically maps to a file in the "resources" directory, read it in
+ * and return an array of bytes. If you want the result as a String rather than an array of raw
+ * bytes, use [.readResource] instead.
+ *
+ * @return a Try.success of the file contents as a byte array, or a Try.failure indicating what
+ * went wrong
+ */
+fun readResourceBytes(resourceName: String): Try<ByteArray> =
+    resourceToStream(resourceName).flatMap { it.toByteArray() }

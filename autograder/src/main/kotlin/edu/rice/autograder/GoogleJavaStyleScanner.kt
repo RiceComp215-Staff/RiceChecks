@@ -9,6 +9,8 @@ package edu.rice.autograder
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import io.vavr.collection.List
+import java.util.*
 
 /**
  * the data is formatted something like this:
@@ -24,6 +26,17 @@ data class GoogleJavaStyleResult(
         val fileModTime: Long,
         val fileNumBytes: Long,
         val formattedStatus: String)
+
+
+/**
+ * Searches through the resources for the given directory path, looking for files named
+ * "fileStates.txt" and then evaluates them with [googleJavaStyleScanner]
+ */
+fun googleJavaStyleScannerResourceDir(dirPath: String, deduction: Double = 1.0): Map<String, ScannerResult> {
+    val files = readResourceDir(dirPath).getOrElse { List.empty() }
+    return files.toMap({ it }) {
+    }
+}
 
 /**
  * Given the contents of the output of running the _verifyGoogleJavaFormat_ gradle action (a text file,
