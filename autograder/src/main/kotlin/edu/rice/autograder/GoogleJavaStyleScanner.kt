@@ -6,9 +6,6 @@
 
 package edu.rice.autograder
 
-import arrow.core.getOrElse
-import java.util.*
-
 /**
  * the data is formatted something like this:
  * - src/test/java/edu/rice/week12mockito/Week12LabTest.java,1546873388046247000,4759,FORMATTED
@@ -31,7 +28,8 @@ data class GoogleJavaStyleResult(
  * for details.
  */
 fun googleJavaStyleScanner(data: String, deduction: Double = 1.0): ScannerResult {
-    // Using hand-build lame parser because couldn't get Jackson CSV to work
+    // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
+    // Unlikely we'll have escaped commas or other such landmines that would break this.
     val results = data
         .split(Regex("[\n\r]+"))
         .filter { it != "" }
