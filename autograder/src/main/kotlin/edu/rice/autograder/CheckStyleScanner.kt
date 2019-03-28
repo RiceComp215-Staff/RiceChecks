@@ -6,6 +6,9 @@
 
 package edu.rice.autograder
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
+
 //CheckStyle's XML looks like this:
 //<?xml version="1.0" encoding="UTF-8"?>
 //<checkstyle version="8.17">
@@ -22,6 +25,15 @@ package edu.rice.autograder
 // So, what we're looking for are any files that have <error> entities inside. If we see
 // any of them, then we indicate a failure.
 
-data class CheckStyle(val files: List<File>)
-data class File(val errors: List<Error>)
-data class Error(val line: String, val severity: String, val message: String, val source: String)
+@JacksonXmlRootElement(localName = "checkstyle")
+data class CheckStyle(val files: List<CFile>)
+
+@JacksonXmlRootElement(localName = "file")
+data class CFile(
+        @JacksonXmlElementWrapper(localName = "error", useWrapping = false) val errors: List<CError>)
+
+@JacksonXmlRootElement(localName = "error")
+data class CError(@JacksonXmlElementWrapper(localName = "line") val line: String,
+                  @JacksonXmlElementWrapper(localName = "severity") val severity: String,
+                  @JacksonXmlElementWrapper(localName = "message") val message: String,
+                  @JacksonXmlElementWrapper(localName = "source") val source: String)
