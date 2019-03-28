@@ -7,9 +7,6 @@
 package edu.rice.autograder
 
 import arrow.core.getOrElse
-import com.fasterxml.jackson.dataformat.csv.CsvMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.util.*
 
 /**
@@ -28,24 +25,19 @@ data class GoogleJavaStyleResult(
         val formattedStatus: String)
 
 /**
- * Searches through the resources for the given directory path, looking for files named
- * "fileStates.txt" and then evaluates them with [googleJavaStyleScanner]
- */
-fun googleJavaStyleScannerResourceDir(dirPath: String, deduction: Double = 1.0): Map<String, ScannerResult> {
-    val files = readResourceDir(dirPath).getOrElse { emptySequence() }
-    return files.associateWith { googleJavaStyleScanner(it, deduction) }
-}
-
-/**
  * Given the contents of the output of running the _verifyGoogleJavaFormat_ gradle action (a text file,
  * typically named _fileStates.txt_), returns a [ScannerResult] describing whether every file
  * is properly formatted. See the [plugin sourcecode](https://github.com/sherter/google-java-format-gradle-plugin)
  * for details.
  */
 fun googleJavaStyleScanner(data: String, deduction: Double = 1.0): ScannerResult {
-    val lines = data.split(Regex("[\n\r]+")).filter { it.length > 0 }.sorted()
-    val mapper = CsvMapper().registerKotlinModule()
-    val results = lines.map { mapper.readValue<GoogleJavaStyleResult>(it) }
+    // Using hand-build lame parser because couldn't get Jackson CSV to work
+    val results = data
+        .split(Regex("[\n\r]+"))
+        .filter { it != "" }
+        .map { it.split(",") }
+        .map { (a, b, c, d) -> GoogleJavaStyleResult(a, b.toLong(), c.toLong(), d) }
+        .sortedBy { it.fileName }
 
     val numResults = results.size
     val numFormatted = results.filter { it.formattedStatus == "FORMATTED" }.size

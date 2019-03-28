@@ -196,7 +196,6 @@ dependencies {
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson_version}"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}"
-    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${jackson_version}"
 
     compile 'ch.qos.logback:logback-classic:1.2.3' // logging
 
