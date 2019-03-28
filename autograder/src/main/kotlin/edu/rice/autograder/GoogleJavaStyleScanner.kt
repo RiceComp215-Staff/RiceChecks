@@ -6,10 +6,10 @@
 
 package edu.rice.autograder
 
+import arrow.core.getOrElse
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import io.vavr.collection.List
 import java.util.*
 
 /**
@@ -27,15 +27,13 @@ data class GoogleJavaStyleResult(
         val fileNumBytes: Long,
         val formattedStatus: String)
 
-
 /**
  * Searches through the resources for the given directory path, looking for files named
  * "fileStates.txt" and then evaluates them with [googleJavaStyleScanner]
  */
 fun googleJavaStyleScannerResourceDir(dirPath: String, deduction: Double = 1.0): Map<String, ScannerResult> {
-    val files = readResourceDir(dirPath).getOrElse { List.empty() }
-    return files.toMap({ it }) {
-    }
+    val files = readResourceDir(dirPath).getOrElse { emptySequence() }
+    return files.associateWith { googleJavaStyleScanner(it, deduction) }
 }
 
 /**
@@ -45,7 +43,7 @@ fun googleJavaStyleScannerResourceDir(dirPath: String, deduction: Double = 1.0):
  * for details.
  */
 fun googleJavaStyleScanner(data: String, deduction: Double = 1.0): ScannerResult {
-    val lines = data.split("[\n\r]+").filter { it.length > 0 }.sorted()
+    val lines = data.split(Regex("[\n\r]+")).filter { it.length > 0 }.sorted()
     val mapper = CsvMapper().registerKotlinModule()
     val results = lines.map { mapper.readValue<GoogleJavaStyleResult>(it) }
 
