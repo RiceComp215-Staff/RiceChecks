@@ -19,3 +19,6 @@ fun <T> Try<T>.asList() = fold({ emptyList<T>() }, { listOf(it) })
 
 /** Converts a [Try] to a [Sequence] of one or zero elements */
 fun <T> Try<T>.asSequence() = fold({ emptySequence<T>() }, { sequenceOf(it) })
+
+/** Extracts a [Try] success value or throws an exception. */
+fun <T> Try<T>.getOrFail(): T = fold( { throw RuntimeException(it.message) }, { it } )

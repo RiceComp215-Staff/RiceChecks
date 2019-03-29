@@ -101,7 +101,7 @@ data class JFailure(
 }
 
 /**
- * Given a string -- the result of reading a JUnit XML results file
- * returns all the [JTestCase] instances found. This is used later to assess deductions.
+ * Given a string -- the result of reading a JUnit XML results file --
+ * returns a [JUnitSuite] data class, suitable for subsequent queries.
  */
 fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
