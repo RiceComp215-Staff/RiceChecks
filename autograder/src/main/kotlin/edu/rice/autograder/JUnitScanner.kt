@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText
 import com.fasterxml.jackson.module.kotlin.readValue
-import java.util.*
+import java.util.Date
 
 // A successful unit test file, with a name like TEST-edu.rice.json.ParserText.xml, looks like this:
 //
@@ -66,7 +66,7 @@ import java.util.*
 //    </failure>
 // </testcase>
 
-// So, the factory tests have funny names with an index number afterward, but otherwise look just like regular tests.
+// So, the factory tests have method names with an index number afterward, but otherwise look just like regular tests.
 
 @JsonRootName("testsuite")
 data class JUnitSuite(
@@ -104,7 +104,4 @@ data class JFailure(
  * Given a string -- the result of reading a JUnit XML results file
  * returns all the [JTestCase] instances found. This is used later to assess deductions.
  */
-fun junitSuiteTestCases(fileData: String): List<JTestCase> {
-    val results = kotlinXmlMapper.readValue<JUnitSuite>(fileData)
-    return results.tests ?: emptyList()
-}
+fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
