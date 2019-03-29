@@ -27,11 +27,8 @@ class GoogleJavaStyleScannerTest {
 
     @Test
     fun testFileStatesExample() {
-        val input = Option.fromNullable(
-            ClassLoader.getSystemResourceAsStream("comp215-build/google-java-format/0.8/fileStates.txt"))
-            .fold({ "" }) {
-                String(it.readBytes())
-            }
+        val input = readResource("comp215-build/google-java-format/0.8/fileStates.txt")
+            .fold({ "" }, { it })
 
         val testResult = googleJavaStyleScanner(input, 1.0)
 
