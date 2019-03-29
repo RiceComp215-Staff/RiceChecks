@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.regex.MatcherTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.003">
+<testsuite name="edu.rice.regex.MatcherTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.004">
   <properties/>
-  <testcase name="testGetMatches()" classname="edu.rice.regex.MatcherTest" time="0.002"/>
+  <testcase name="testGetMatches()" classname="edu.rice.regex.MatcherTest" time="0.003"/>
   <testcase name="testGetGroupMatches()" classname="edu.rice.regex.MatcherTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

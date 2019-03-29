@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week13newspaper.DBTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.013">
+<testsuite name="edu.rice.week13newspaper.DBTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.014">
   <properties/>
-  <testcase name="testBuildAuthorDB()" classname="edu.rice.week13newspaper.DBTest" time="0.006"/>
-  <testcase name="testLoad()" classname="edu.rice.week13newspaper.DBTest" time="0.007"/>
-  <system-out><![CDATA[2019-03-25 10:11:16,252 [Test worker] ?[34mINFO ?[0;39m ?[36mDB.makeAuthorDB?[0;39m - Author database: HashMap((alice@alice, {"email": "alice@alice", "name": "Alice"}), (bob@bob, {"email": "bob@bob", "name": "Bob"})) 
-2019-03-25 10:11:16,257 [Test worker] ?[34mINFO ?[0;39m ?[36mDB.makeAuthorDB?[0;39m - Author database: HashMap((alice@rice.edu, {"email": "alice@rice.edu", "name": "Alice Action"}), (dorothy@rice.edu, {"email": "dorothy@rice.edu", "name": "Dorothy Danger"}), (bob@rice.edu, {"email": "bob@rice.edu", "name": "Bob Bigbooté"}), (eve@rice.edu, {"email": "eve@rice.edu", "name": "Eve Ebullience"}), (charlie@rice.edu, {"email": "charlie@rice.edu", "name": "Charlie Chancery"})) 
+  <testcase name="testBuildAuthorDB()" classname="edu.rice.week13newspaper.DBTest" time="0.005"/>
+  <testcase name="testLoad()" classname="edu.rice.week13newspaper.DBTest" time="0.008"/>
+  <system-out><![CDATA[2019-03-29 09:20:37,457 [Test worker] ?[34mINFO ?[0;39m ?[36mDB.makeAuthorDB?[0;39m - Author database: HashMap((alice@alice, {"email": "alice@alice", "name": "Alice"}), (bob@bob, {"email": "bob@bob", "name": "Bob"})) 
+2019-03-29 09:20:37,463 [Test worker] ?[34mINFO ?[0;39m ?[36mDB.makeAuthorDB?[0;39m - Author database: HashMap((alice@rice.edu, {"email": "alice@rice.edu", "name": "Alice Action"}), (dorothy@rice.edu, {"email": "dorothy@rice.edu", "name": "Dorothy Danger"}), (bob@rice.edu, {"email": "bob@rice.edu", "name": "Bob Bigbooté"}), (eve@rice.edu, {"email": "eve@rice.edu", "name": "Eve Ebullience"}), (charlie@rice.edu, {"email": "charlie@rice.edu", "name": "Charlie Chancery"})) 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

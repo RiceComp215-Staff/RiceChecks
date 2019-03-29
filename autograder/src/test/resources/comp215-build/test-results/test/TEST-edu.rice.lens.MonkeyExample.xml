@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.lens.MonkeyExample" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.0">
+<testsuite name="edu.rice.lens.MonkeyExample" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.001">
   <properties/>
-  <testcase name="testLenses()" classname="edu.rice.lens.MonkeyExample" time="0.0"/>
+  <testcase name="testLenses()" classname="edu.rice.lens.MonkeyExample" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

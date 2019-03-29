@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week3lists.GListTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.005">
+<testsuite name="edu.rice.week3lists.GListTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.006">
   <properties/>
-  <testcase name="nestedFilterExpressionsUsingLexicalScope()" classname="edu.rice.week3lists.GListTest" time="0.001"/>
-  <testcase name="headOfEmptyListFails()" classname="edu.rice.week3lists.GListTest" time="0.001"/>
+  <testcase name="nestedFilterExpressionsUsingLexicalScope()" classname="edu.rice.week3lists.GListTest" time="0.0"/>
+  <testcase name="headOfEmptyListFails()" classname="edu.rice.week3lists.GListTest" time="0.0"/>
   <testcase name="stackOrderingForAddAndTail()" classname="edu.rice.week3lists.GListTest" time="0.0"/>
-  <testcase name="listContainsForPresentAndAbsentValues()" classname="edu.rice.week3lists.GListTest" time="0.0"/>
-  <testcase name="filteringEvenNumbersFromAListOfNumbers()" classname="edu.rice.week3lists.GListTest" time="0.0"/>
+  <testcase name="listContainsForPresentAndAbsentValues()" classname="edu.rice.week3lists.GListTest" time="0.001"/>
+  <testcase name="filteringEvenNumbersFromAListOfNumbers()" classname="edu.rice.week3lists.GListTest" time="0.001"/>
   <testcase name="testFoldlRollingAccAvg()" classname="edu.rice.week3lists.GListTest" time="0.001"/>
   <testcase name="emptyListBehavesNormally()" classname="edu.rice.week3lists.GListTest" time="0.0"/>
   <testcase name="listOfEquivalentToPrepending()" classname="edu.rice.week3lists.GListTest" time="0.0"/>

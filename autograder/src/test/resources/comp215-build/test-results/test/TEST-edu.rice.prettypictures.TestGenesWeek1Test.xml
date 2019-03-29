@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.prettypictures.TestGenesWeek1Test" tests="27" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:21" hostname="bunsen-honeydew.cs.rice.edu" time="0.097">
+<testsuite name="edu.rice.prettypictures.TestGenesWeek1Test" tests="27" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:43" hostname="bunsen-honeydew.cs.rice.edu" time="0.092">
   <properties/>
-  <testcase name="testRendering()[1]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
+  <testcase name="testRendering()[1]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.002"/>
   <testcase name="testRendering()[2]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
   <testcase name="testRendering()[3]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
   <testcase name="testRendering()[4]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
   <testcase name="testRendering()[5]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
-  <testcase name="testRendering()[6]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.002"/>
+  <testcase name="testRendering()[6]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
   <testcase name="testRendering()[7]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
-  <testcase name="testRendering()[8]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.002"/>
-  <testcase name="testRendering()[9]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
+  <testcase name="testRendering()[8]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.003"/>
+  <testcase name="testRendering()[9]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.002"/>
   <testcase name="testRendering()[10]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.002"/>
   <testcase name="testRendering()[11]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.002"/>
-  <testcase name="testRendering()[12]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.001"/>
+  <testcase name="testRendering()[12]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.003"/>
   <testcase name="testRendering()[13]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.002"/>
-  <testcase name="testRendering()[14]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.004"/>
-  <testcase name="testRendering()[15]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.004"/>
-  <testcase name="testRendering()[16]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.005"/>
-  <testcase name="testRendering()[17]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.004"/>
-  <testcase name="testRendering()[18]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.005"/>
-  <testcase name="testRendering()[19]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.005"/>
+  <testcase name="testRendering()[14]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.003"/>
+  <testcase name="testRendering()[15]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.003"/>
+  <testcase name="testRendering()[16]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.003"/>
+  <testcase name="testRendering()[17]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.006"/>
+  <testcase name="testRendering()[18]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.004"/>
+  <testcase name="testRendering()[19]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.003"/>
   <testcase name="testRendering()[20]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.005"/>
   <testcase name="testRendering()[21]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.005"/>
-  <testcase name="testRendering()[22]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.006"/>
+  <testcase name="testRendering()[22]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.004"/>
   <testcase name="testRendering()[23]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.005"/>
-  <testcase name="testRendering()[24]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.01"/>
+  <testcase name="testRendering()[24]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.009"/>
   <testcase name="testRendering()[25]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.004"/>
-  <testcase name="testRendering()[26]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.01"/>
+  <testcase name="testRendering()[26]" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.008"/>
   <testcase name="testGeneLoading()" classname="edu.rice.prettypictures.TestGenesWeek1Test" time="0.0"/>
-  <system-out><![CDATA[2019-03-25 10:11:21,847 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek1?[0;39m - Found 26 test genes 
-2019-03-25 10:11:21,945 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek1?[0;39m - Found 26 test genes 
+  <system-out><![CDATA[2019-03-29 09:20:43,514 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek1?[0;39m - Found 26 test genes 
+2019-03-29 09:20:43,607 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek1?[0;39m - Found 26 test genes 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.json.BuildersTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.001">
+<testsuite name="edu.rice.json.BuildersTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.001">
   <properties/>
   <testcase name="listBuilderAndVarargsBuilderSameResult()" classname="edu.rice.json.BuildersTest" time="0.001"/>
   <testcase name="jsonVsJavaStringSameResults()" classname="edu.rice.json.BuildersTest" time="0.0"/>

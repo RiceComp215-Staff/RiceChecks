@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.prettypictures.RandomGeneTreeTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:21" hostname="bunsen-honeydew.cs.rice.edu" time="0.027">
+<testsuite name="edu.rice.prettypictures.RandomGeneTreeTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:43" hostname="bunsen-honeydew.cs.rice.edu" time="0.033">
   <properties/>
-  <testcase name="randomGene()" classname="edu.rice.prettypictures.RandomGeneTreeTest" time="0.006"/>
-  <testcase name="randomTree()" classname="edu.rice.prettypictures.RandomGeneTreeTest" time="0.021"/>
-  <system-out><![CDATA[2019-03-25 10:11:21,950 [Test worker] ?[34mINFO ?[0;39m ?[36mRandomGeneTreeTest?[0;39m - expect a failure to be logged: trying to fine a gene that doesn't exist 
-2019-03-25 10:11:21,951 [Test worker] ?[1;31mERROR?[0;39m ?[36mRandomGeneTree?[0;39m - we don't have any genes that accept 4 children! 
+  <testcase name="randomGene()" classname="edu.rice.prettypictures.RandomGeneTreeTest" time="0.009"/>
+  <testcase name="randomTree()" classname="edu.rice.prettypictures.RandomGeneTreeTest" time="0.024"/>
+  <system-out><![CDATA[2019-03-29 09:20:43,615 [Test worker] ?[34mINFO ?[0;39m ?[36mRandomGeneTreeTest?[0;39m - expect a failure to be logged: trying to fine a gene that doesn't exist 
+2019-03-29 09:20:43,616 [Test worker] ?[1;31mERROR?[0;39m ?[36mRandomGeneTree?[0;39m - we don't have any genes that accept 4 children! 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

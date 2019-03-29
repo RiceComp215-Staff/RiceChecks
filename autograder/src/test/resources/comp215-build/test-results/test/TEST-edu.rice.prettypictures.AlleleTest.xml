@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.prettypictures.AlleleTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:21" hostname="bunsen-honeydew.cs.rice.edu" time="0.026">
+<testsuite name="edu.rice.prettypictures.AlleleTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:43" hostname="bunsen-honeydew.cs.rice.edu" time="0.033">
   <properties/>
   <testcase name="numArgs()" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
   <testcase name="yCrCbIdentityFactory()[1]" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
   <testcase name="yCrCbIdentityFactory()[2]" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
   <testcase name="yCrCbIdentityFactory()[3]" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
   <testcase name="yCrCbIdentityFactory()[4]" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
-  <testcase name="yCrCbIdentityFactory()[5]" classname="edu.rice.prettypictures.AlleleTest" time="0.001"/>
+  <testcase name="yCrCbIdentityFactory()[5]" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
   <testcase name="yCrCbIdentityFactory()[6]" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
-  <testcase name="yCrCbIdentityTheory()" classname="edu.rice.prettypictures.AlleleTest" time="0.022"/>
+  <testcase name="yCrCbIdentityTheory()" classname="edu.rice.prettypictures.AlleleTest" time="0.027"/>
   <testcase name="getName()" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>
   <testcase name="testAssemble()" classname="edu.rice.prettypictures.AlleleTest" time="0.001"/>
   <testcase name="getParams()" classname="edu.rice.prettypictures.AlleleTest" time="0.0"/>

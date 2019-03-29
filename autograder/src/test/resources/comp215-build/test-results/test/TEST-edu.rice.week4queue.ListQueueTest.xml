@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week4queue.ListQueueTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.011">
+<testsuite name="edu.rice.week4queue.ListQueueTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.014">
   <properties/>
   <testcase name="testHeadOfThreeInserts()" classname="edu.rice.week4queue.ListQueueTest" time="0.003"/>
   <testcase name="testEmpty()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
-  <testcase name="testToStream()" classname="edu.rice.week4queue.ListQueueTest" time="0.001"/>
+  <testcase name="testToStream()" classname="edu.rice.week4queue.ListQueueTest" time="0.002"/>
   <testcase name="testEmptySize()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
   <testcase name="testQueueOfEmpty()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
-  <testcase name="testToStringEight()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
+  <testcase name="testToStringEight()" classname="edu.rice.week4queue.ListQueueTest" time="0.001"/>
   <testcase name="testEverything()" classname="edu.rice.week4queue.ListQueueTest" time="0.001"/>
   <testcase name="testHeadAndTailOfThreeInserts()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
-  <testcase name="testSizeEight()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
+  <testcase name="testSizeEight()" classname="edu.rice.week4queue.ListQueueTest" time="0.001"/>
   <testcase name="testEqualsAndHashcode()" classname="edu.rice.week4queue.ListQueueTest" time="0.001"/>
   <testcase name="testSingularEmptyQueue()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
-  <testcase name="testSizeInsertOne()" classname="edu.rice.week4queue.ListQueueTest" time="0.0"/>
+  <testcase name="testSizeInsertOne()" classname="edu.rice.week4queue.ListQueueTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

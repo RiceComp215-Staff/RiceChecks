@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week5knapsack.KnapsackTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.007">
+<testsuite name="edu.rice.week5knapsack.KnapsackTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:35" hostname="bunsen-honeydew.cs.rice.edu" time="0.008">
   <properties/>
-  <testcase name="simpleQueries()" classname="edu.rice.week5knapsack.KnapsackTest" time="0.005"/>
+  <testcase name="simpleQueries()" classname="edu.rice.week5knapsack.KnapsackTest" time="0.006"/>
   <testcase name="multipleCopies()" classname="edu.rice.week5knapsack.KnapsackTest" time="0.001"/>
-  <system-out><![CDATA[2019-03-25 10:11:14,613 [Test worker] ?[34mINFO ?[0;39m ?[36mKnapsack?[0;39m - initializing Knapsack with 4 items 
-2019-03-25 10:11:14,617 [Test worker] ?[34mINFO ?[0;39m ?[36mKnapsack?[0;39m - initializing Knapsack with 4 items 
-2019-03-25 10:11:14,618 [Test worker] ?[34mINFO ?[0;39m ?[36mKnapsack?[0;39m - initializing Knapsack with 6 items 
+  <system-out><![CDATA[2019-03-29 09:20:35,585 [Test worker] ?[34mINFO ?[0;39m ?[36mKnapsack?[0;39m - initializing Knapsack with 4 items 
+2019-03-29 09:20:35,589 [Test worker] ?[34mINFO ?[0;39m ?[36mKnapsack?[0;39m - initializing Knapsack with 4 items 
+2019-03-29 09:20:35,591 [Test worker] ?[34mINFO ?[0;39m ?[36mKnapsack?[0;39m - initializing Knapsack with 6 items 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

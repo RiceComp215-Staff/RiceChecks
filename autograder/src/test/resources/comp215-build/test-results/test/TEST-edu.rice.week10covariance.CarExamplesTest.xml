@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week10covariance.CarExamplesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.005">
+<testsuite name="edu.rice.week10covariance.CarExamplesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.007">
   <properties/>
-  <testcase name="testConvertToPorsche911MechA()" classname="edu.rice.week10covariance.CarExamplesTest" time="0.003"/>
-  <testcase name="testConvertToPorsche911MechB()" classname="edu.rice.week10covariance.CarExamplesTest" time="0.002"/>
+  <testcase name="testConvertToPorsche911MechA()" classname="edu.rice.week10covariance.CarExamplesTest" time="0.004"/>
+  <testcase name="testConvertToPorsche911MechB()" classname="edu.rice.week10covariance.CarExamplesTest" time="0.001"/>
   <testcase name="testCountChevys()" classname="edu.rice.week10covariance.CarExamplesTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

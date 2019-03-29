@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week2primes.PrimesTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:17" hostname="bunsen-honeydew.cs.rice.edu" time="0.001">
+<testsuite name="edu.rice.week2primes.PrimesTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:38" hostname="bunsen-honeydew.cs.rice.edu" time="0.002">
   <properties/>
   <testcase name="validatePrimesLessThanN()" classname="edu.rice.week2primes.PrimesTest" time="0.001"/>
   <testcase name="basicPrimeNumberTests()" classname="edu.rice.week2primes.PrimesTest" time="0.0"/>

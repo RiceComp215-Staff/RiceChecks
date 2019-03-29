@@ -1,85 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.prettypictures.TestGenesWeek2Test" tests="58" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:20" hostname="bunsen-honeydew.cs.rice.edu" time="0.571">
+<testsuite name="edu.rice.prettypictures.TestGenesWeek2Test" tests="58" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:42" hostname="bunsen-honeydew.cs.rice.edu" time="0.612">
   <properties/>
-  <testcase name="testRendering()[1]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.01"/>
+  <testcase name="testRendering()[1]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.011"/>
   <testcase name="testRendering()[2]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[3]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
+  <testcase name="testRendering()[3]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
   <testcase name="testRendering()[4]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[5]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
-  <testcase name="testRendering()[6]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
+  <testcase name="testRendering()[5]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
+  <testcase name="testRendering()[6]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
   <testcase name="testRendering()[7]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[8]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.006"/>
+  <testcase name="testRendering()[8]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.007"/>
   <testcase name="testRendering()[9]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
   <testcase name="testRendering()[10]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
   <testcase name="testRendering()[11]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
-  <testcase name="testRendering()[12]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
-  <testcase name="testRendering()[13]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[14]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.007"/>
-  <testcase name="testRendering()[15]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
-  <testcase name="testRendering()[16]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
-  <testcase name="testRendering()[17]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
-  <testcase name="testRendering()[18]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.006"/>
-  <testcase name="testRendering()[19]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
-  <testcase name="testRendering()[20]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
-  <testcase name="testRendering()[21]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.007"/>
-  <testcase name="testRendering()[22]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.008"/>
-  <testcase name="testRendering()[23]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.007"/>
-  <testcase name="testRendering()[24]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.008"/>
-  <testcase name="testRendering()[25]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[26]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
-  <testcase name="testRendering()[27]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[28]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
+  <testcase name="testRendering()[12]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
+  <testcase name="testRendering()[13]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
+  <testcase name="testRendering()[14]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.008"/>
+  <testcase name="testRendering()[15]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.008"/>
+  <testcase name="testRendering()[16]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.007"/>
+  <testcase name="testRendering()[17]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.008"/>
+  <testcase name="testRendering()[18]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.009"/>
+  <testcase name="testRendering()[19]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.007"/>
+  <testcase name="testRendering()[20]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.012"/>
+  <testcase name="testRendering()[21]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.016"/>
+  <testcase name="testRendering()[22]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.009"/>
+  <testcase name="testRendering()[23]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.01"/>
+  <testcase name="testRendering()[24]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.025"/>
+  <testcase name="testRendering()[25]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
+  <testcase name="testRendering()[26]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.002"/>
+  <testcase name="testRendering()[27]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.002"/>
+  <testcase name="testRendering()[28]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.002"/>
   <testcase name="testRendering()[29]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.005"/>
-  <testcase name="testRendering()[30]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.006"/>
+  <testcase name="testRendering()[30]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
   <testcase name="testRendering()[31]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[32]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.017"/>
+  <testcase name="testRendering()[32]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.012"/>
   <testcase name="testRendering()[33]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.016"/>
-  <testcase name="testRendering()[34]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.04"/>
-  <testcase name="testRendering()[35]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.004"/>
-  <testcase name="testRendering()[36]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.01"/>
+  <testcase name="testRendering()[34]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.029"/>
+  <testcase name="testRendering()[35]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.011"/>
+  <testcase name="testRendering()[36]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.025"/>
   <testcase name="testRendering()[37]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.028"/>
-  <testcase name="testRendering()[38]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.023"/>
+  <testcase name="testRendering()[38]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.022"/>
   <testcase name="testRendering()[39]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.022"/>
-  <testcase name="testRendering()[40]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.021"/>
-  <testcase name="testRendering()[41]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.02"/>
-  <testcase name="testRendering()[42]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.023"/>
-  <testcase name="testRendering()[43]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.022"/>
-  <testcase name="testRendering()[44]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.021"/>
-  <testcase name="testRendering()[45]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.021"/>
-  <testcase name="testRendering()[46]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.068"/>
-  <testcase name="testRendering()[47]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.034"/>
-  <testcase name="testRandomTrees()[1]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
+  <testcase name="testRendering()[40]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.017"/>
+  <testcase name="testRendering()[41]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.018"/>
+  <testcase name="testRendering()[42]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.02"/>
+  <testcase name="testRendering()[43]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.018"/>
+  <testcase name="testRendering()[44]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.017"/>
+  <testcase name="testRendering()[45]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.017"/>
+  <testcase name="testRendering()[46]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.06"/>
+  <testcase name="testRendering()[47]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.037"/>
+  <testcase name="testRandomTrees()[1]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.001"/>
   <testcase name="testRandomTrees()[2]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
   <testcase name="testRandomTrees()[3]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
   <testcase name="testRandomTrees()[4]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
-  <testcase name="testRandomTrees()[5]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
+  <testcase name="testRandomTrees()[5]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.001"/>
   <testcase name="testRandomTrees()[6]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
   <testcase name="testRandomTrees()[7]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
   <testcase name="testRandomTrees()[8]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
   <testcase name="testRandomTrees()[9]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
   <testcase name="testRandomTrees()[10]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.0"/>
   <testcase name="testGeneLoading()" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.003"/>
-  <system-out><![CDATA[2019-03-25 10:11:20,977 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/as17-148-22717.jpg valid(true) 
-2019-03-25 10:11:20,977 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/starman-tesla-spacex2.jpg valid(true) 
-2019-03-25 10:11:20,977 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04144v.jpg valid(true) 
-2019-03-25 10:11:20,977 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/starman-tesla-spacex.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/3b49068v.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04460v.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/PIA02879.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04314v.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/02741u.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/05509v.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/as11-40-5874.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04070v.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/NNwgBk6.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/23_IMG002314.jpg valid(true) 
-2019-03-25 10:11:20,978 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/mexican-coat-of-arms.png valid(true) 
-2019-03-25 10:11:20,979 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/03179v.jpg valid(true) 
-2019-03-25 10:11:20,979 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/PIA04866.jpg valid(true) 
-2019-03-25 10:11:20,979 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/KSC-as11-44-6549.jpg valid(true) 
-2019-03-25 10:11:20,979 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/ksc-69pc-420.jpg valid(true) 
-2019-03-25 10:11:20,981 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek2?[0;39m - Found 47 test genes 
-2019-03-25 10:11:21,554 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek2?[0;39m - Found 47 test genes 
+  <system-out><![CDATA[2019-03-29 09:20:42,563 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/as17-148-22717.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/starman-tesla-spacex2.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04144v.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/starman-tesla-spacex.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/3b49068v.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04460v.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/PIA02879.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04314v.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/02741u.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/05509v.jpg valid(true) 
+2019-03-29 09:20:42,564 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/as11-40-5874.jpg valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/04070v.jpg valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/NNwgBk6.jpg valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/23_IMG002314.jpg valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/mexican-coat-of-arms.png valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/03179v.jpg valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/PIA04866.jpg valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/KSC-as11-44-6549.jpg valid(true) 
+2019-03-29 09:20:42,565 [Test worker] ?[34mINFO ?[0;39m ?[36mExternalImageAlleles?[0;39m - found image: cool-images/ksc-69pc-420.jpg valid(true) 
+2019-03-29 09:20:42,568 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek2?[0;39m - Found 47 test genes 
+2019-03-29 09:20:43,181 [Test worker] ?[34mINFO ?[0;39m ?[36mTestGenesWeek2?[0;39m - Found 47 test genes 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.dynamic.MemoizedFunctionTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.042">
+<testsuite name="edu.rice.dynamic.MemoizedFunctionTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:35" hostname="bunsen-honeydew.cs.rice.edu" time="0.043">
   <properties/>
-  <testcase name="memoizedLambdaCalledAtMostOnce()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.02"/>
+  <testcase name="memoizedLambdaCalledAtMostOnce()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.021"/>
   <testcase name="internalFibonacciOnlyCalledOnce()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.009"/>
   <testcase name="memoFibonacciReturnsExpectedResults()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.0"/>
-  <testcase name="memoizedIncrementerWorks()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.001"/>
+  <testcase name="memoizedIncrementerWorks()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.0"/>
   <testcase name="yCombinatorFibonacciUncached()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.001"/>
   <testcase name="yCombinatorFibonacciCaching()" classname="edu.rice.dynamic.MemoizedFunctionTest" time="0.01"/>
   <system-out><![CDATA[]]></system-out>

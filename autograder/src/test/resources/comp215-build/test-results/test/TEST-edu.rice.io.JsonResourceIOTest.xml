@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.io.JsonResourceIOTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:15" hostname="bunsen-honeydew.cs.rice.edu" time="0.046">
+<testsuite name="edu.rice.io.JsonResourceIOTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:36" hostname="bunsen-honeydew.cs.rice.edu" time="0.054">
   <properties/>
-  <testcase name="jsonTestDataFileHasExpectedContents()" classname="edu.rice.io.JsonResourceIOTest" time="0.046"/>
+  <testcase name="jsonTestDataFileHasExpectedContents()" classname="edu.rice.io.JsonResourceIOTest" time="0.054"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

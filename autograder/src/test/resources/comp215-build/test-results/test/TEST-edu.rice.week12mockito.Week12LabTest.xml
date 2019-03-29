@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week12mockito.Week12LabTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:04" hostname="bunsen-honeydew.cs.rice.edu" time="0.86">
+<testsuite name="edu.rice.week12mockito.Week12LabTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:25" hostname="bunsen-honeydew.cs.rice.edu" time="1.087">
   <properties/>
-  <testcase name="testSpyObject()" classname="edu.rice.week12mockito.Week12LabTest" time="0.781"/>
-  <testcase name="testMockObject()" classname="edu.rice.week12mockito.Week12LabTest" time="0.078"/>
+  <testcase name="testSpyObject()" classname="edu.rice.week12mockito.Week12LabTest" time="0.998"/>
+  <testcase name="testMockObject()" classname="edu.rice.week12mockito.Week12LabTest" time="0.088"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

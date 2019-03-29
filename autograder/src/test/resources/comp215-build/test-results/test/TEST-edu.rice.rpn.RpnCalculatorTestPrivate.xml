@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.rpn.RpnCalculatorTestPrivate" tests="14" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:15" hostname="bunsen-honeydew.cs.rice.edu" time="0.143">
+<testsuite name="edu.rice.rpn.RpnCalculatorTestPrivate" tests="14" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:36" hostname="bunsen-honeydew.cs.rice.edu" time="0.179">
   <properties/>
-  <testcase name="swapFailsWithZeroOrOne()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.013"/>
-  <testcase name="dupFailsWithZero()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.007"/>
+  <testcase name="swapFailsWithZeroOrOne()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.015"/>
+  <testcase name="dupFailsWithZero()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.008"/>
   <testcase name="anythingButClearOnErrorYieldsError()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.007"/>
-  <testcase name="binaryOperatorsConsumeTwoEntriesReturnOne()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.019"/>
-  <testcase name="binaryOperatorsFailWithoutTwoEntries()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.006"/>
-  <testcase name="dupOnlyTouchesTopEntry()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.008"/>
-  <testcase name="noOpDoesNothing()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.004"/>
-  <testcase name="divisionByZeroYieldsError()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.007"/>
-  <testcase name="clearOnAnyStackReturnsEmptyValid()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.004"/>
-  <testcase name="dropUndoesDup()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.01"/>
-  <testcase name="simpleOperationsShouldResultInGoodStack()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.01"/>
-  <testcase name="swapOnlyTouchesTopTwoEntries()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.015"/>
-  <testcase name="swapUndoesSwap()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.016"/>
-  <testcase name="divisionByNonZeroYieldsSuccess()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.01"/>
+  <testcase name="binaryOperatorsConsumeTwoEntriesReturnOne()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.024"/>
+  <testcase name="binaryOperatorsFailWithoutTwoEntries()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.007"/>
+  <testcase name="dupOnlyTouchesTopEntry()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.012"/>
+  <testcase name="noOpDoesNothing()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.009"/>
+  <testcase name="divisionByZeroYieldsError()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.012"/>
+  <testcase name="clearOnAnyStackReturnsEmptyValid()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.005"/>
+  <testcase name="dropUndoesDup()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.011"/>
+  <testcase name="simpleOperationsShouldResultInGoodStack()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.012"/>
+  <testcase name="swapOnlyTouchesTopTwoEntries()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.018"/>
+  <testcase name="swapUndoesSwap()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.018"/>
+  <testcase name="divisionByNonZeroYieldsSuccess()" classname="edu.rice.rpn.RpnCalculatorTestPrivate" time="0.014"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

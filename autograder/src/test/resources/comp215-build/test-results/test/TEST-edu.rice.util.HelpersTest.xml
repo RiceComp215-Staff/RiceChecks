@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.util.HelpersTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.02">
+<testsuite name="edu.rice.util.HelpersTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:35" hostname="bunsen-honeydew.cs.rice.edu" time="0.025">
   <properties/>
-  <testcase name="withTest()" classname="edu.rice.util.HelpersTest" time="0.01"/>
+  <testcase name="withTest()" classname="edu.rice.util.HelpersTest" time="0.012"/>
   <testcase name="curryBasics()" classname="edu.rice.util.HelpersTest" time="0.001"/>
-  <testcase name="uncurryInvertsCurry()" classname="edu.rice.util.HelpersTest" time="0.006"/>
+  <testcase name="uncurryInvertsCurry()" classname="edu.rice.util.HelpersTest" time="0.007"/>
   <testcase name="withBasics()" classname="edu.rice.util.HelpersTest" time="0.001"/>
-  <testcase name="alsoTest()" classname="edu.rice.util.HelpersTest" time="0.001"/>
+  <testcase name="alsoTest()" classname="edu.rice.util.HelpersTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

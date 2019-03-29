@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week5sorting.SortPerformance" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:19" hostname="bunsen-honeydew.cs.rice.edu" time="0.842">
+<testsuite name="edu.rice.week5sorting.SortPerformance" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:40" hostname="bunsen-honeydew.cs.rice.edu" time="0.924">
   <properties/>
-  <testcase name="testVavrSort()" classname="edu.rice.week5sorting.SortPerformance" time="0.155"/>
-  <testcase name="testHeapSortLazy()" classname="edu.rice.week5sorting.SortPerformance" time="0.404"/>
-  <testcase name="testHeapSortEager()" classname="edu.rice.week5sorting.SortPerformance" time="0.282"/>
-  <system-out><![CDATA[2019-03-25 10:11:18,594 [Test worker] ?[34mINFO ?[0;39m ?[36mSortPerformance?[0;39m - Computing seq test sequence, size =    10000 
-2019-03-25 10:11:18,618 [Test worker] ?[34mINFO ?[0;39m ?[36mSortPerformance?[0;39m - Computing seq test sequence, size =    40000 
-2019-03-25 10:11:18,738 [Test worker] ?[34mINFO ?[0;39m ?[36mSortPerformance?[0;39m - Computing seq test sequence, size =   160000 
+  <testcase name="testVavrSort()" classname="edu.rice.week5sorting.SortPerformance" time="0.173"/>
+  <testcase name="testHeapSortLazy()" classname="edu.rice.week5sorting.SortPerformance" time="0.376"/>
+  <testcase name="testHeapSortEager()" classname="edu.rice.week5sorting.SortPerformance" time="0.374"/>
+  <system-out><![CDATA[2019-03-29 09:20:40,097 [Test worker] ?[34mINFO ?[0;39m ?[36mSortPerformance?[0;39m - Computing seq test sequence, size =    10000 
+2019-03-29 09:20:40,124 [Test worker] ?[34mINFO ?[0;39m ?[36mSortPerformance?[0;39m - Computing seq test sequence, size =    40000 
+2019-03-29 09:20:40,221 [Test worker] ?[34mINFO ?[0;39m ?[36mSortPerformance?[0;39m - Computing seq test sequence, size =   160000 
 ================== testing Timsort          ==================
-Sort time:        0.398 µs / element with    10000 elements
-Sort time:        0.445 µs / element with    40000 elements
-Sort time:        0.501 µs / element with   160000 elements
+Sort time:        0.378 µs / element with    10000 elements
+Sort time:        0.409 µs / element with    40000 elements
+Sort time:        0.622 µs / element with   160000 elements
 ================== testing Heapsort (lazy)  ==================
-Sort time:        0.112 µs / element with    10000 elements
-Sort time:        0.102 µs / element with    40000 elements
-Sort time:        0.166 µs / element with   160000 elements
+Sort time:        0.124 µs / element with    10000 elements
+Sort time:        0.115 µs / element with    40000 elements
+Sort time:        0.140 µs / element with   160000 elements
 ================== testing Heapsort (eager) ==================
-Sort time:        0.721 µs / element with    10000 elements
-Sort time:        0.876 µs / element with    40000 elements
-Sort time:        1.211 µs / element with   160000 elements
+Sort time:        0.760 µs / element with    10000 elements
+Sort time:        0.920 µs / element with    40000 elements
+Sort time:        1.678 µs / element with   160000 elements
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

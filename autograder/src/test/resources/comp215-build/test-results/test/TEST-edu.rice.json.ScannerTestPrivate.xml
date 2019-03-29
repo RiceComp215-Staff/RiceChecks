@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.json.ScannerTestPrivate" tests="159" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.034">
+<testsuite name="edu.rice.json.ScannerTestPrivate" tests="159" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.045">
   <properties/>
-  <testcase name="testStringOfOtherTokens()" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="testStringOfOtherTokens()" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[1]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[2]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[3]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[4]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[4]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[5]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[6]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[7]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
@@ -25,7 +25,7 @@
   <testcase name="wholeLotOfTests()[21]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[22]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[23]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[24]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[24]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[25]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[26]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[27]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
@@ -34,28 +34,28 @@
   <testcase name="wholeLotOfTests()[30]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[31]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[32]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[33]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[33]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[34]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[35]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[36]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[37]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[37]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[38]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[39]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[40]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[40]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[41]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[42]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[42]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[43]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[44]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[45]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[45]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[46]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[47]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[48]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[49]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[50]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[50]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[51]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[52]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[53]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[54]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[54]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[55]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[56]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[57]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
@@ -68,7 +68,7 @@
   <testcase name="wholeLotOfTests()[64]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[65]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[66]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[67]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[67]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[68]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[69]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[70]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
@@ -81,24 +81,24 @@
   <testcase name="wholeLotOfTests()[77]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[78]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[79]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[80]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[80]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[81]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[82]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[83]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[84]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[85]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[86]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[87]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[87]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[88]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[89]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[90]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[90]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[91]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[92]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[93]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[94]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[94]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[95]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[96]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[97]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[97]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[98]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[99]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[100]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
@@ -116,9 +116,9 @@
   <testcase name="wholeLotOfTests()[112]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[113]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[114]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[115]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="wholeLotOfTests()[115]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="wholeLotOfTests()[116]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[117]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[117]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[118]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[119]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[120]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
@@ -135,7 +135,7 @@
   <testcase name="wholeLotOfTests()[131]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[132]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[133]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="wholeLotOfTests()[134]" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="wholeLotOfTests()[134]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[135]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[136]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[137]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
@@ -156,11 +156,11 @@
   <testcase name="wholeLotOfTests()[152]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[153]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
   <testcase name="wholeLotOfTests()[154]" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="testIllegalEscapeStrings()" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <testcase name="testIllegalEscapeStrings()" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
   <testcase name="testLegalEscapeStrings()" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
-  <testcase name="testSimpleNumbers()" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
-  <testcase name="testSimpleStrings()" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
-  <system-out><![CDATA[2019-03-25 10:11:16,328 [Test worker] ?[1;31mERROR?[0;39m ?[36mScannerTestPrivate?[0;39m - about to run many malformed JSON tests; expect many logged errors 
+  <testcase name="testSimpleNumbers()" classname="edu.rice.json.ScannerTestPrivate" time="0.001"/>
+  <testcase name="testSimpleStrings()" classname="edu.rice.json.ScannerTestPrivate" time="0.0"/>
+  <system-out><![CDATA[2019-03-29 09:20:37,558 [Test worker] ?[1;31mERROR?[0;39m ?[36mScannerTestPrivate?[0;39m - about to run many malformed JSON tests; expect many logged errors 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

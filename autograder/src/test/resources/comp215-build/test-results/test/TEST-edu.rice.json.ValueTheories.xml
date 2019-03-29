@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.json.ValueTheories" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.453">
+<testsuite name="edu.rice.json.ValueTheories" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.514">
   <properties/>
-  <testcase name="numbersParseCorrectly()" classname="edu.rice.json.ValueTheories" time="0.069"/>
-  <testcase name="jsonStringEqualityAndEscapingWork()" classname="edu.rice.json.ValueTheories" time="0.016"/>
-  <testcase name="scanJsonTokenizesWithoutFail()" classname="edu.rice.json.ValueTheories" time="0.136"/>
-  <testcase name="jsonToStringAndBackAgain()" classname="edu.rice.json.ValueTheories" time="0.21"/>
+  <testcase name="numbersParseCorrectly()" classname="edu.rice.json.ValueTheories" time="0.102"/>
+  <testcase name="jsonStringEqualityAndEscapingWork()" classname="edu.rice.json.ValueTheories" time="0.025"/>
+  <testcase name="scanJsonTokenizesWithoutFail()" classname="edu.rice.json.ValueTheories" time="0.149"/>
+  <testcase name="jsonToStringAndBackAgain()" classname="edu.rice.json.ValueTheories" time="0.217"/>
   <testcase name="stringsParseCorrectly()" classname="edu.rice.json.ValueTheories" time="0.021"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

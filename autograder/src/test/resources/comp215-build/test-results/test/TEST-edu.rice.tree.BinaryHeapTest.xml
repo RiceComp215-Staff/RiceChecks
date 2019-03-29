@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.tree.BinaryHeapTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.009">
+<testsuite name="edu.rice.tree.BinaryHeapTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:35" hostname="bunsen-honeydew.cs.rice.edu" time="0.012">
   <properties/>
-  <testcase name="testFancy()" classname="edu.rice.tree.BinaryHeapTest" time="0.007"/>
-  <testcase name="testBasics()" classname="edu.rice.tree.BinaryHeapTest" time="0.0"/>
-  <testcase name="testEqualsAndHashcode()" classname="edu.rice.tree.BinaryHeapTest" time="0.0"/>
+  <testcase name="testFancy()" classname="edu.rice.tree.BinaryHeapTest" time="0.009"/>
+  <testcase name="testBasics()" classname="edu.rice.tree.BinaryHeapTest" time="0.001"/>
+  <testcase name="testEqualsAndHashcode()" classname="edu.rice.tree.BinaryHeapTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

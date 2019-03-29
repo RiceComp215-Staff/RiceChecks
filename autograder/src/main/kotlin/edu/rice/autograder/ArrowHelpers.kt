@@ -5,6 +5,7 @@
 //
 package edu.rice.autograder
 
+import arrow.core.Option
 import arrow.core.Try
 import arrow.core.failure
 
@@ -12,3 +13,9 @@ import arrow.core.failure
 
 /** Runs the given lambda on the exception contained inside a [Try]'s failure. Returns the original Try. */
 fun <T> Try<T>.onFailure(consumer: (Throwable) -> Unit): Try<T> = fold({ consumer(it); this}) { this }
+
+/** Converts a [Try] to a [List] of one or zero elements */
+fun <T> Try<T>.asList() = fold({ emptyList<T>() }, { listOf(it) })
+
+/** Converts a [Try] to a [Sequence] of one or zero elements */
+fun <T> Try<T>.asSequence() = fold({ emptySequence<T>() }, { sequenceOf(it) })

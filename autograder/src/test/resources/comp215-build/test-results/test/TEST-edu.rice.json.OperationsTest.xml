@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.json.OperationsTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.021">
+<testsuite name="edu.rice.json.OperationsTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:38" hostname="bunsen-honeydew.cs.rice.edu" time="0.023">
   <properties/>
-  <testcase name="jObjectGetMatching()" classname="edu.rice.json.OperationsTest" time="0.002"/>
-  <testcase name="testPathSearchesNoArrays()" classname="edu.rice.json.OperationsTest" time="0.003"/>
+  <testcase name="jObjectGetMatching()" classname="edu.rice.json.OperationsTest" time="0.003"/>
+  <testcase name="testPathSearchesNoArrays()" classname="edu.rice.json.OperationsTest" time="0.002"/>
   <testcase name="testUpdatePathMatchesRegex()" classname="edu.rice.json.OperationsTest" time="0.007"/>
   <testcase name="getPathTest()" classname="edu.rice.json.OperationsTest" time="0.002"/>
   <testcase name="testBogusArrayIndices()" classname="edu.rice.json.OperationsTest" time="0.001"/>
-  <testcase name="testMissing()" classname="edu.rice.json.OperationsTest" time="0.0"/>
-  <testcase name="regexSearchTest()" classname="edu.rice.json.OperationsTest" time="0.001"/>
-  <testcase name="testUpdateNewDepth()" classname="edu.rice.json.OperationsTest" time="0.001"/>
+  <testcase name="testMissing()" classname="edu.rice.json.OperationsTest" time="0.001"/>
+  <testcase name="regexSearchTest()" classname="edu.rice.json.OperationsTest" time="0.002"/>
+  <testcase name="testUpdateNewDepth()" classname="edu.rice.json.OperationsTest" time="0.002"/>
   <testcase name="testUpdate()" classname="edu.rice.json.OperationsTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

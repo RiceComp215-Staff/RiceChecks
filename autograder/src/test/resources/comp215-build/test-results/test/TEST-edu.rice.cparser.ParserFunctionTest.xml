@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.cparser.ParserFunctionTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:17" hostname="bunsen-honeydew.cs.rice.edu" time="0.012">
+<testsuite name="edu.rice.cparser.ParserFunctionTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:39" hostname="bunsen-honeydew.cs.rice.edu" time="0.019">
   <properties/>
   <testcase name="composingWithSequences()" classname="edu.rice.cparser.ParserFunctionTest" time="0.003"/>
   <testcase name="testParensAndList()" classname="edu.rice.cparser.ParserFunctionTest" time="0.002"/>
-  <testcase name="compositingWithListsAndSeparators()" classname="edu.rice.cparser.ParserFunctionTest" time="0.0"/>
-  <testcase name="composingWithOrElse()" classname="edu.rice.cparser.ParserFunctionTest" time="0.001"/>
+  <testcase name="compositingWithListsAndSeparators()" classname="edu.rice.cparser.ParserFunctionTest" time="0.001"/>
+  <testcase name="composingWithOrElse()" classname="edu.rice.cparser.ParserFunctionTest" time="0.002"/>
   <testcase name="composingWithOr()" classname="edu.rice.cparser.ParserFunctionTest" time="0.0"/>
   <testcase name="terminalsAreHandledCorrectly()" classname="edu.rice.cparser.ParserFunctionTest" time="0.0"/>
-  <testcase name="composingWithList()" classname="edu.rice.cparser.ParserFunctionTest" time="0.0"/>
+  <testcase name="composingWithList()" classname="edu.rice.cparser.ParserFunctionTest" time="0.002"/>
   <testcase name="composingWithThen()" classname="edu.rice.cparser.ParserFunctionTest" time="0.0"/>
   <testcase name="detectingTheEndOfInput()" classname="edu.rice.cparser.ParserFunctionTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

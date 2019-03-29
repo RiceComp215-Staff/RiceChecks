@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.sexpr.SimpleParserTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:17" hostname="bunsen-honeydew.cs.rice.edu" time="0.509">
+<testsuite name="edu.rice.sexpr.SimpleParserTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:38" hostname="bunsen-honeydew.cs.rice.edu" time="0.499">
   <properties/>
-  <testcase name="parseRandomSexpressionsWorks()" classname="edu.rice.sexpr.SimpleParserTest" time="0.506"/>
+  <testcase name="parseRandomSexpressionsWorks()" classname="edu.rice.sexpr.SimpleParserTest" time="0.496"/>
   <testcase name="basicTest()" classname="edu.rice.sexpr.SimpleParserTest" time="0.003"/>
-  <system-out><![CDATA[2019-03-25 10:11:17,624 [Test worker] ?[1;31mERROR?[0;39m ?[36mSimpleParserTest?[0;39m - testing the parser with erroneous inputs; expect errors in the log! 
-2019-03-25 10:11:17,625 [Test worker] ?[1;31mERROR?[0;39m ?[36mSexprParser?[0;39m - tokens remaining in the stream after end of the s-expression; parser failure 
-2019-03-25 10:11:17,625 [Test worker] ?[1;31mERROR?[0;39m ?[36mSexprParser?[0;39m - tokens remaining in the stream after end of the s-expression; parser failure 
+  <system-out><![CDATA[2019-03-29 09:20:39,022 [Test worker] ?[1;31mERROR?[0;39m ?[36mSimpleParserTest?[0;39m - testing the parser with erroneous inputs; expect errors in the log! 
+2019-03-29 09:20:39,023 [Test worker] ?[1;31mERROR?[0;39m ?[36mSexprParser?[0;39m - tokens remaining in the stream after end of the s-expression; parser failure 
+2019-03-29 09:20:39,023 [Test worker] ?[1;31mERROR?[0;39m ?[36mSexprParser?[0;39m - tokens remaining in the stream after end of the s-expression; parser failure 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

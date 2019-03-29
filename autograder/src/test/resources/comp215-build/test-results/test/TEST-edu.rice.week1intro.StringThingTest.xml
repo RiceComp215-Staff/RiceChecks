@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week1intro.StringThingTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.032">
+<testsuite name="edu.rice.week1intro.StringThingTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:35" hostname="bunsen-honeydew.cs.rice.edu" time="0.043">
   <properties/>
-  <testcase name="simpleTests()" classname="edu.rice.week1intro.StringThingTest" time="0.032"/>
-  <system-out><![CDATA[2019-03-25 10:11:14,918 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - Student: Dan Wallach 
-2019-03-25 10:11:14,918 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - Class Year: 2019 
-2019-03-25 10:11:14,919 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - NetID: dwallach 
-2019-03-25 10:11:14,919 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - Preferred Email: dwallach@rice.edu 
-2019-03-25 10:11:14,920 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - If this is your username, then you've got Java set up right: Dan Wallach <dwallach@rice.edu> 
+  <testcase name="simpleTests()" classname="edu.rice.week1intro.StringThingTest" time="0.043"/>
+  <system-out><![CDATA[2019-03-29 09:20:35,931 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - Student: Dan Wallach 
+2019-03-29 09:20:35,932 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - Class Year: 2019 
+2019-03-29 09:20:35,933 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - NetID: dwallach 
+2019-03-29 09:20:35,933 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - Preferred Email: dwallach@rice.edu 
+2019-03-29 09:20:35,934 [Test worker] ?[34mINFO ?[0;39m ?[36mStringThing?[0;39m - If this is your username, then you've got Java set up right: Dan Wallach <dwallach@rice.edu> 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

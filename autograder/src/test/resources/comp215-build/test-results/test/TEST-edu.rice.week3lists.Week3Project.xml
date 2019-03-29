@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.week3lists.Week3Project" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:16" hostname="bunsen-honeydew.cs.rice.edu" time="0.006">
+<testsuite name="edu.rice.week3lists.Week3Project" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:37" hostname="bunsen-honeydew.cs.rice.edu" time="0.007">
   <properties/>
-  <testcase name="testAppendAll()" classname="edu.rice.week3lists.Week3Project" time="0.001"/>
-  <testcase name="testSum()" classname="edu.rice.week3lists.Week3Project" time="0.001"/>
+  <testcase name="testAppendAll()" classname="edu.rice.week3lists.Week3Project" time="0.0"/>
+  <testcase name="testSum()" classname="edu.rice.week3lists.Week3Project" time="0.002"/>
   <testcase name="testTake()" classname="edu.rice.week3lists.Week3Project" time="0.0"/>
   <testcase name="testAverage()" classname="edu.rice.week3lists.Week3Project" time="0.0"/>
-  <testcase name="testAverageOnCrazyNumbers()" classname="edu.rice.week3lists.Week3Project" time="0.001"/>
+  <testcase name="testAverageOnCrazyNumbers()" classname="edu.rice.week3lists.Week3Project" time="0.0"/>
   <testcase name="testSumOnCrazyNumbers()" classname="edu.rice.week3lists.Week3Project" time="0.0"/>
-  <testcase name="testMaximum()" classname="edu.rice.week3lists.Week3Project" time="0.001"/>
+  <testcase name="testMaximum()" classname="edu.rice.week3lists.Week3Project" time="0.0"/>
   <testcase name="testMinimum()" classname="edu.rice.week3lists.Week3Project" time="0.0"/>
   <testcase name="testRanges()" classname="edu.rice.week3lists.Week3Project" time="0.001"/>
   <system-out><![CDATA[]]></system-out>

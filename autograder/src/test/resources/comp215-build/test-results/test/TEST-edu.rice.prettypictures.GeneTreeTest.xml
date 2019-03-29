@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.prettypictures.GeneTreeTest" tests="127" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:21" hostname="bunsen-honeydew.cs.rice.edu" time="0.036">
+<testsuite name="edu.rice.prettypictures.GeneTreeTest" tests="127" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:43" hostname="bunsen-honeydew.cs.rice.edu" time="0.043">
   <properties/>
   <testcase name="testExpectedTreeConstructors()[1]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testExpectedTreeConstructors()[2]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -11,9 +11,9 @@
   <testcase name="testJson()[2]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJson()[3]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJson()[4]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJson()[5]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileFailures()[1]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileFailures()[2]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testJson()[5]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testJsonFileFailures()[1]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testJsonFileFailures()[2]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[3]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[4]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[5]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -24,14 +24,14 @@
   <testcase name="testJsonFileFailures()[10]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[11]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[12]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileFailures()[13]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testJsonFileFailures()[13]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[14]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileFailures()[15]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testJsonFileFailures()[15]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testJsonFileFailures()[16]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[17]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[18]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileFailures()[19]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileFailures()[20]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testJsonFileFailures()[20]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testEqualsAndHash()[1]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testEqualsAndHash()[2]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[3]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -41,7 +41,7 @@
   <testcase name="testEqualsAndHash()[7]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[8]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[9]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testEqualsAndHash()[10]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testEqualsAndHash()[10]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testEqualsAndHash()[11]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[12]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[13]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -54,8 +54,8 @@
   <testcase name="testEqualsAndHash()[20]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[21]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[22]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testEqualsAndHash()[23]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
-  <testcase name="testEqualsAndHash()[24]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testEqualsAndHash()[23]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testEqualsAndHash()[24]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testEqualsAndHash()[25]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[26]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[27]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -65,20 +65,20 @@
   <testcase name="testEqualsAndHash()[31]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[32]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[33]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testEqualsAndHash()[34]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testEqualsAndHash()[35]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testEqualsAndHash()[34]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testEqualsAndHash()[35]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[36]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[37]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testEqualsAndHash()[38]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testEqualsAndHash()[38]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testEqualsAndHash()[39]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[40]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testEqualsAndHash()[41]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testEqualsAndHash()[41]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testEqualsAndHash()[42]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[43]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[44]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[45]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testEqualsAndHash()[46]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testEqualsAndHash()[47]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testEqualsAndHash()[47]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testMaxDepth()" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testBasics()" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testJsonFileSuccesses()[1]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -93,7 +93,7 @@
   <testcase name="testJsonFileSuccesses()[10]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[11]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[12]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileSuccesses()[13]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testJsonFileSuccesses()[13]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testJsonFileSuccesses()[14]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[15]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[16]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -101,7 +101,7 @@
   <testcase name="testJsonFileSuccesses()[18]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[19]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[20]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileSuccesses()[21]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testJsonFileSuccesses()[21]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[22]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[23]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[24]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
@@ -109,27 +109,27 @@
   <testcase name="testJsonFileSuccesses()[26]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[27]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[28]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileSuccesses()[29]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testJsonFileSuccesses()[29]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[30]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[31]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[32]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[33]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileSuccesses()[34]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
-  <testcase name="testJsonFileSuccesses()[35]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testJsonFileSuccesses()[34]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testJsonFileSuccesses()[35]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testJsonFileSuccesses()[36]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[37]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[38]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[39]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileSuccesses()[40]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
+  <testcase name="testJsonFileSuccesses()[40]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
   <testcase name="testJsonFileSuccesses()[41]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[42]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[43]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[44]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[45]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <testcase name="testJsonFileSuccesses()[46]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.001"/>
+  <testcase name="testJsonFileSuccesses()[46]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
   <testcase name="testJsonFileSuccesses()[47]" classname="edu.rice.prettypictures.GeneTreeTest" time="0.0"/>
-  <system-out><![CDATA[2019-03-25 10:11:21,981 [Test worker] ?[34mINFO ?[0;39m ?[36mGeneTreeTest?[0;39m - testJsonFileFailures: examining 20 bad genes 
-2019-03-25 10:11:22,002 [Test worker] ?[34mINFO ?[0;39m ?[36mGeneTreeTest?[0;39m - testJsonFileSuccesses: examining 47 good genes 
+  <system-out><![CDATA[2019-03-29 09:20:43,651 [Test worker] ?[34mINFO ?[0;39m ?[36mGeneTreeTest?[0;39m - testJsonFileFailures: examining 20 bad genes 
+2019-03-29 09:20:43,677 [Test worker] ?[34mINFO ?[0;39m ?[36mGeneTreeTest?[0;39m - testJsonFileSuccesses: examining 47 good genes 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

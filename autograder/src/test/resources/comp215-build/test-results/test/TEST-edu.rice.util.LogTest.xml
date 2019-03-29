@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.util.LogTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:14" hostname="bunsen-honeydew.cs.rice.edu" time="0.009">
+<testsuite name="edu.rice.util.LogTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:35" hostname="bunsen-honeydew.cs.rice.edu" time="0.011">
   <properties/>
   <testcase name="wrapTest()" classname="edu.rice.util.LogTest" time="0.005"/>
-  <testcase name="basicTest()" classname="edu.rice.util.LogTest" time="0.002"/>
+  <testcase name="basicTest()" classname="edu.rice.util.LogTest" time="0.003"/>
   <testcase name="logbackTest()" classname="edu.rice.util.LogTest" time="0.001"/>
-  <testcase name="otherObjectsTest()" classname="edu.rice.util.LogTest" time="0.001"/>
-  <system-out><![CDATA[2019-03-25 10:11:14,889 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "A" -> 1 
-2019-03-25 10:11:14,889 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "New" -> 3 
-2019-03-25 10:11:14,890 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "World" -> 5 
-2019-03-25 10:11:14,890 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "To" -> 2 
-2019-03-25 10:11:14,890 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "Play" -> 4 
-2019-03-25 10:11:14,890 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "With" -> 4 
-2019-03-25 10:11:14,890 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "Lambda" -> 6 
-2019-03-25 10:11:14,891 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (0, "A") -> 1 
-2019-03-25 10:11:14,892 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (1, "New") -> 4 
-2019-03-25 10:11:14,892 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (4, "World") -> 9 
-2019-03-25 10:11:14,892 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (9, "To") -> 11 
-2019-03-25 10:11:14,892 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (11, "Play") -> 15 
-2019-03-25 10:11:14,892 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (15, "With") -> 19 
-2019-03-25 10:11:14,892 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (19, "Lambda") -> 25 
-2019-03-25 10:11:14,893 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - starting basicTest 
-2019-03-25 10:11:14,893 [Test worker] ?[1;31mERROR?[0;39m ?[36mLogTest?[0;39m - some error 
-2019-03-25 10:11:14,893 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - trying out lambdas 
-2019-03-25 10:11:14,894 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Lambda 100 1000 
-2019-03-25 10:11:14,894 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Formatted 100 1000 
-2019-03-25 10:11:14,894 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - messing with log levels 
-2019-03-25 10:11:14,894 [Test worker] ?[1;31mERROR?[0;39m ?[36mLogTest?[0;39m - should see this (1/1) 
-2019-03-25 10:11:14,894 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - finishing basicTest 
-2019-03-25 10:11:14,895 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Logback: file:/Users/dwallach/IdeaProjects/comp215-code/build/resources/main/logback.xml 
-2019-03-25 10:11:14,896 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - And now, we log some other things besides strings 
-2019-03-25 10:11:14,896 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Some(Hello Rice Owls!) 
-2019-03-25 10:11:14,896 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - None 
-2019-03-25 10:11:14,896 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - List(Hello, Rice, Owls) 
+  <testcase name="otherObjectsTest()" classname="edu.rice.util.LogTest" time="0.002"/>
+  <system-out><![CDATA[2019-03-29 09:20:35,894 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "A" -> 1 
+2019-03-29 09:20:35,894 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "New" -> 3 
+2019-03-29 09:20:35,894 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "World" -> 5 
+2019-03-29 09:20:35,895 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "To" -> 2 
+2019-03-29 09:20:35,895 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "Play" -> 4 
+2019-03-29 09:20:35,895 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "With" -> 4 
+2019-03-29 09:20:35,895 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - "Lambda" -> 6 
+2019-03-29 09:20:35,896 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (0, "A") -> 1 
+2019-03-29 09:20:35,897 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (1, "New") -> 4 
+2019-03-29 09:20:35,897 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (4, "World") -> 9 
+2019-03-29 09:20:35,897 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (9, "To") -> 11 
+2019-03-29 09:20:35,897 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (11, "Play") -> 15 
+2019-03-29 09:20:35,897 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (15, "With") -> 19 
+2019-03-29 09:20:35,897 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - (19, "Lambda") -> 25 
+2019-03-29 09:20:35,898 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - starting basicTest 
+2019-03-29 09:20:35,899 [Test worker] ?[1;31mERROR?[0;39m ?[36mLogTest?[0;39m - some error 
+2019-03-29 09:20:35,899 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - trying out lambdas 
+2019-03-29 09:20:35,899 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Lambda 100 1000 
+2019-03-29 09:20:35,899 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Formatted 100 1000 
+2019-03-29 09:20:35,900 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - messing with log levels 
+2019-03-29 09:20:35,900 [Test worker] ?[1;31mERROR?[0;39m ?[36mLogTest?[0;39m - should see this (1/1) 
+2019-03-29 09:20:35,900 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - finishing basicTest 
+2019-03-29 09:20:35,901 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Logback: file:/Users/dwallach/IdeaProjects/comp215-code/build/resources/main/logback.xml 
+2019-03-29 09:20:35,902 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - And now, we log some other things besides strings 
+2019-03-29 09:20:35,903 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - Some(Hello Rice Owls!) 
+2019-03-29 09:20:35,903 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - None 
+2019-03-29 09:20:35,903 [Test worker] ?[34mINFO ?[0;39m ?[36mLogTest?[0;39m - List(Hello, Rice, Owls) 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

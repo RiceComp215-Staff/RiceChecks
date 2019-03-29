@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.rice.prettypictures.GeneTreeLensTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-25T15:11:21" hostname="bunsen-honeydew.cs.rice.edu" time="0.005">
+<testsuite name="edu.rice.prettypictures.GeneTreeLensTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:43" hostname="bunsen-honeydew.cs.rice.edu" time="0.008">
   <properties/>
-  <testcase name="testLens()" classname="edu.rice.prettypictures.GeneTreeLensTests" time="0.002"/>
-  <testcase name="testRandomLens()" classname="edu.rice.prettypictures.GeneTreeLensTests" time="0.003"/>
-  <system-out><![CDATA[2019-03-25 10:11:21,582 [Test worker] ?[34mINFO ?[0;39m ?[36mGeneTreeLensTests?[0;39m - expect a failure to be logged: trying to get a child that isn't there 
-2019-03-25 10:11:21,583 [Test worker] ?[1;31mERROR?[0;39m ?[36mGeneTree?[0;39m - getChild: request for child #2 of a gene(div) that only has 2 children 
+  <testcase name="testLens()" classname="edu.rice.prettypictures.GeneTreeLensTests" time="0.004"/>
+  <testcase name="testRandomLens()" classname="edu.rice.prettypictures.GeneTreeLensTests" time="0.004"/>
+  <system-out><![CDATA[2019-03-29 09:20:43,219 [Test worker] ?[34mINFO ?[0;39m ?[36mGeneTreeLensTests?[0;39m - expect a failure to be logged: trying to get a child that isn't there 
+2019-03-29 09:20:43,220 [Test worker] ?[1;31mERROR?[0;39m ?[36mGeneTree?[0;39m - getChild: request for child #2 of a gene(div) that only has 2 children 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
