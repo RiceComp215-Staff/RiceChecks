@@ -13,7 +13,7 @@ class GoogleJavaStyleScannerTest {
     @Test
     fun testReadDir() {
         val comp215BuildDir = readResourceDir("comp215-build").getOrFail().toList()
-        assertEquals(3, comp215BuildDir.size)
+        assertEquals(4, comp215BuildDir.size)
         assertTrue(comp215BuildDir.contains("comp215-build/google-java-format"))
     }
 
