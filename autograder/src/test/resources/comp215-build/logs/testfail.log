@@ -1,0 +1,8 @@
+:compileTestJava
+/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/QtHelpers.java:35: error: incompatible types: int cannot be converted to T
+    store.add(3);
+              ^
+  where T is a type-variable:
+    T extends Object declared in method <T>qtGenOnce(Gen<T>)
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+1 error
