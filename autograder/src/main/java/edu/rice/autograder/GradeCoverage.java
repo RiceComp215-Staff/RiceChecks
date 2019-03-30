@@ -15,7 +15,7 @@ import java.lang.annotation.*;
  * inner), you'll get nothing at all.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.PACKAGE})
+@Target(ElementType.TYPE)
 @Repeatable(GradeCoverages.class)
 @Documented
 public @interface GradeCoverage {

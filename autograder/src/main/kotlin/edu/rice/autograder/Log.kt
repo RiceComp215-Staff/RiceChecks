@@ -247,7 +247,7 @@ object Log {
      * @param args Optional formatting arguments
      * @throws RuntimeException with the given message
      */
-    fun ethrow(tag: String, msg: String, vararg args: Any?): Nothing {
+    fun ethrow(tag: String, msg: String, vararg args: Any?) : Nothing {
         val s = msg.format(*args)
         e(tag, s)
         throw RuntimeException(s)

@@ -8,6 +8,7 @@ package edu.rice.autograder
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import java.lang.RuntimeException
 
+private const val TAG = "YamlExporter"
 /**
  * Given a project name, as specified with a [GradeProject] annotation,
  * and a Java code package name, specifying which Java (or Kotlin) code
@@ -21,8 +22,8 @@ import java.lang.RuntimeException
  */
 fun yamlExporter(projectName: String, codePackage: String): String {
     val scan = scanEverything(codePackage)
-    val project = scan[projectName] ?: throw RuntimeException("Unknown project: $projectName")
+    val project = scan[projectName] ?: Log.ethrow(TAG, "Unknown project: $projectName")
 
-    return YAMLMapper().writeValueAsString(project) ?: throw RuntimeException("Jackson YAML failure?!")
+    return YAMLMapper().writeValueAsString(project) ?: Log.ethrow(TAG, "Jackson YAML failure?!")
 }
 

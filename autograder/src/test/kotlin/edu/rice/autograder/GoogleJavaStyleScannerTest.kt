@@ -6,31 +6,21 @@
 
 package edu.rice.autograder
 
-import arrow.core.Option
-import arrow.core.getOrElse
-import arrow.data.extensions.sequence.foldable.size
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-
-import edu.rice.autograder.*
 
 class GoogleJavaStyleScannerTest {
     @Test
     fun testReadDir() {
-        val comp215BuildDir = readResourceDir("comp215-build")
-        assertTrue(comp215BuildDir.isSuccess())
-
-        val seq = comp215BuildDir.fold({ emptyList<String>() }) { it.toList() }
-        assertEquals(3, seq.size)
-        assertTrue(seq.contains("comp215-build/google-java-format"))
+        val comp215BuildDir = readResourceDir("comp215-build").getOrFail().toList()
+        assertEquals(3, comp215BuildDir.size)
+        assertTrue(comp215BuildDir.contains("comp215-build/google-java-format"))
     }
 
     @Test
     fun testFileStatesExample() {
-        val input = readResource("comp215-build/google-java-format/0.8/fileStates.txt")
-            .fold({ "" }, { it })
-
-        val testResult = googleJavaStyleScanner(input, 1.0)
+        val input = readResource("comp215-build/google-java-format/0.8/fileStates.txt").getOrFail()
+        val testResult = googleJavaStyleEvaluator(googleJavaStyleParser(input), 1.0)
 
         assertFalse(testResult.passes)
         assertEquals(2, testResult.deductions.size)

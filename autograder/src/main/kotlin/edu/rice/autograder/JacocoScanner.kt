@@ -55,7 +55,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 //    </class>
 
 @JsonRootName("report")
-
 data class JacocoReport (
         @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
         @set:JsonProperty("sessioninfo") var session: JacocoSession? = null,
@@ -63,11 +62,17 @@ data class JacocoReport (
         @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
 
     val counterMap by lazy {
-        counters?.associateBy { it.type } ?: emptyMap()
+        counters.associateNotNullBy { it.type }
     }
 
     val packageMap by lazy {
-        packages?.associateBy { it.name } ?: emptyMap()
+        packages.associateNotNullBy { it.name }
+    }
+
+    val classesMap by lazy {
+        packageMap.values
+            .map { it.classMap }
+            .fold(emptyMap<String, JacocoClass>()) { a, b -> a + b }
     }
 }
 
@@ -85,11 +90,11 @@ data class JacocoPackage(
         @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
 
     val counterMap by lazy {
-        counters?.associateBy { it.type } ?: emptyMap()
+        counters.associateNotNullBy { it.type }
     }
 
-    val classMap by lazy {
-        classes?.associateBy { it.name } ?: emptyMap()
+    val classMap: Map<String, JacocoClass> by lazy {
+        classes.associateNotNullBy { it.name }
     }
 }
 
@@ -101,11 +106,11 @@ data class JacocoClass(
         @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
 
     val counterMap by lazy {
-        counters?.associateBy { it.type } ?: emptyMap()
+        counters.associateNotNullBy { it.type }
     }
 
     val methodMap by lazy {
-        methods?.associateBy { it.name } ?: emptyMap()
+        methods.associateNotNullBy { it.name }
     }
 }
 
@@ -117,7 +122,7 @@ data class JacocoMethod(
         @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
 
     val counterMap by lazy {
-        counters?.associateBy { it.type } ?: emptyMap()
+        counters.associateNotNullBy { it.type }
     }
 }
 
@@ -127,11 +132,11 @@ data class JacocoSourceFile(
     @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
 
     val counterMap by lazy {
-        counters?.associateBy { it.type } ?: emptyMap()
+        counters.associateNotNullBy { it.type }
     }
 
     val lineMap by lazy {
-        lines?.associateBy { it.nr } ?: emptyMap()
+        lines.associateNotNullBy { it.nr }
     }
 }
 
@@ -158,3 +163,69 @@ data class JacocoLine(
  * returns a [JacocoReport] data class, suitable for subsequent queries.
  */
 fun jacocoParser(fileData: String): JacocoReport = kotlinXmlMapper.readValue(fileData)
+
+fun GCoverageMethod.toJacocoCounterType() = when(this) {
+    GCoverageMethod.INSTRUCTIONS -> JacocoCounterType.INSTRUCTION
+    GCoverageMethod.LINES -> JacocoCounterType.LINE
+}
+
+private const val TAG = "JacocoScanner"
+private val classSplitRegex = Regex("\$")
+private fun matchingClassSpecs(desiredClasses: List<String>, report: JacocoReport): List<String> {
+    // In our GGradeProject structure, the names of classes are going to be in normal human
+    // form (e.g., edu.rice.autograder.test.Project3) while they'll be in slashy form in
+    // the JacocoReport.
+
+    val splitNamesToJacocoNames = report.classesMap.keys
+        .associate { it.replace('/', '.' ).split(classSplitRegex) to it }
+    val allSplitJacocoNames = splitNamesToJacocoNames.keys
+    val allDesiredNames = desiredClasses.map { it.split(classSplitRegex) }
+
+    // TODO: optimize this O(n^2) comparison, after we're sure that it actually works
+
+    val mapping: List<List<String>> = allDesiredNames.flatMap { desired ->
+        val matches = allSplitJacocoNames.filter { sjn ->
+            desired.zip(sjn).all { (a, b) -> a == b }
+        }
+        matches
+    }
+
+    // We return from the split-list-string names back to the original slashy names
+    val result = mapping.map {
+        splitNamesToJacocoNames[it] ?: Log.ethrow(TAG, "internal failure, can't find $it")
+    }
+
+    return result
+}
+
+fun jacocoEvaluator(report: JacocoReport, project: GGradeProject): EvaluatorResult {
+    if (project.coveragePoints == 0.0) return passingEvaluatorResult("No test coverage requirement")
+
+    val counterType = project.coverageMethod.toJacocoCounterType()
+
+    val matchingClassNames = matchingClassSpecs(project.coverageClasses, report)
+    val matchingClasses = matchingClassNames.map {
+        report.classesMap[it] ?: Log.ethrow(TAG, "internal failure: can't find $it")
+    }
+
+    val coverageReport = matchingClasses.flatMap {
+        val covered = it.counterMap[counterType]?.covered ?: Log.ethrow(TAG, "no coverage number found for $it")
+        val missed = it.counterMap[counterType]?.missed ?: Log.ethrow(TAG, "no missed number found for $it")
+        val name = it.name ?: Log.ethrow(TAG, "no name found for $it")
+
+        if (covered + missed == 0) emptyList()
+        else {
+            val percentage = 100.0 * covered / (covered + missed).toDouble()
+            listOf("Coverage of %s: %.1f%%".format(name.replace('/', '.'), percentage) to percentage)
+        }
+    }
+
+    val fails = coverageReport.filter { it.second < project.coveragePercentage }.map { it.first }
+    val passing = fails.isEmpty()
+
+    return if (passing) {
+        passingEvaluatorResult("Test coverage meets %.0f%% requirement".format(project.coveragePercentage))
+    } else {
+        EvaluatorResult(false, listOf("TEST COVERAGE" to project.coveragePoints) + fails.map { it to 0.0 })
+    }
+}

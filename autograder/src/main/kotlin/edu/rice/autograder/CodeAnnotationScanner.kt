@@ -16,9 +16,6 @@ import io.github.classgraph.ScanResult
  * classes to test for coverage (might be empty), as well as a list of [GGradeTopic]
  * which breaks the individual grade tests down.
  */
-
-enum class GCoverageMethod { LINES, INSTRUCTIONS }
-
 data class GGradeProject(
         val name: String,
         val description: String,
@@ -26,7 +23,7 @@ data class GGradeProject(
         val warningPoints: Double,
         val coveragePoints: Double,
         val coverageMethod: GCoverageMethod,
-        val coverageRatio: Double,
+        val coveragePercentage: Double,
         val coverageClasses: List<String>,
         val topics: List<GGradeTopic>)
 
@@ -42,6 +39,8 @@ data class GGradeTest(
         val methodName: String,
         val testFactory: Boolean = false)
 
+enum class GCoverageMethod { LINES, INSTRUCTIONS }
+
 // Below are internal classes we use while parsing, we'll transform these to the G-classes above
 // when sending output.
 
@@ -55,7 +54,7 @@ private data class IGradeProject(
         val warningPoints: Double,
         val coveragePoints: Double,
         val coverageMethod: String,
-        val coverageRatio: Double)
+        val coveragePercentage: Double)
 
 private data class IGradeTopic(
         val project: IGradeProject,
@@ -91,6 +90,7 @@ private const val A_JUNIT5_TESTFACTORY = "org.junit.jupiter.api.TestFactory"
 
 /** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun internalScannerErrorX(s: String): Nothing {
+    // TODO: rework these to use our logging infrastructure?
     System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
     throw RuntimeException(s)
 }
@@ -160,8 +160,9 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val warningPoints = pv.lookupNoNull("warningPoints", 0.0)
     val coveragePoints = pv.lookupNoNull("coveragePoints", 0.0)
     val coverageMethod = pv.lookupNoNull("coverageMethod", "LINES")
-    val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70)
-    val coverageRatio = coveragePercentage.toDouble() / 100.0
+
+    // it's an integer annotation but we'll treat it afterward as a double
+    val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70).toDouble()
 
     return with(pv) {
         when {
@@ -188,16 +189,16 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
             coveragePoints < 0.0 ->
                 failScanner("Malformed GradeProject: coveragePoints must be zero or positive {$coveragePoints}")
 
-            !coverageRatio.isFinite() ->
-                internalScannerError("coverageRatio $coverageRatio isn't finite!")
+            !coveragePercentage.isFinite() ->
+                internalScannerError("coveragePercentage $coveragePercentage isn't finite!")
 
-            coverageRatio < 0.0 || coverageRatio > 1.0 ->
+            coveragePercentage < 0.0 || coveragePercentage > 100.0 ->
                 failScanner("Malformed GradeProject: coveragePercentage must be between 0 and 100 {$coveragePercentage}")
 
             coverageMethod !in coverageMethodNames ->
                 failScanner("Malformed GradeProject: coverageMethod {$coverageMethod} must be in ${coverageMethodNames.joinToString(", ")}")
 
-            else -> IGradeProject(name, description, maxPoints, warningPoints, coveragePoints, coverageMethod, coverageRatio)
+            else -> IGradeProject(name, description, maxPoints, warningPoints, coveragePoints, coverageMethod, coveragePercentage)
         }
     }
 }
@@ -445,6 +446,7 @@ private fun List<IGradeCoverage>.toClassNames(scanResult: ScanResult): List<Stri
 }
 
 
+// TODO: rework this, and all the print statements, to use our log library
 private const val VERBOSITY = false
 
 /**
@@ -527,17 +529,14 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                         val coverageMethod = enumValueOf<GCoverageMethod>(project.coverageMethod)
 
                         GGradeProject(project.name, project.description, actualMaxPoints, project.warningPoints,
-                                project.coveragePoints, coverageMethod, project.coverageRatio,
+                                project.coveragePoints, coverageMethod, project.coveragePercentage,
                                 coverages.toClassNames(scanResult),
                                 gtopics)
                     }
                 }
             }
 
-// DONE: Scream if a topic or a project is defined more than once
-// DONE: add up the number of points, use as maxPoints for topics with none (in progress)
-// DONE: GradeTest's topic, convert from string to GradeTopic ptr
-// HALF-DONE: print YAML file
+// TODO: print YAML file, make sure we can read it back in again
 // TODO: switch over to kotlinx.serialization, because it's portable across platforms, has the stuff that plants need
 //       https://github.com/Kotlin/kotlinx.serialization
 

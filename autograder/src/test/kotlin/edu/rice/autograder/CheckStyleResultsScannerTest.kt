@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class CheckStyleScannerTest {
+class CheckStyleResultsScannerTest {
     @Test
     fun testCheckStyleInputs() {
-        val mainData = readResource("comp215-build/reports/checkstyle/main.xml").fold({ "" }, { it })
-        val mainResults = checkStyleScanner("main", mainData, 1.0)
-        val testData = readResource("comp215-build/reports/checkstyle/test.xml").fold({ "" }, { it })
-        val testResults = checkStyleScanner("test", testData, 1.0)
+        val mainData = readResource("comp215-build/reports/checkstyle/main.xml").getOrFail()
+        val mainResults = checkStyleEvaluator("main", checkStyleParser(mainData), 1.0)
+        val testData = readResource("comp215-build/reports/checkstyle/test.xml").getOrFail()
+        val testResults = checkStyleEvaluator("test", checkStyleParser(testData), 1.0)
 
         assertTrue(mainResults.passes)
         assertEquals(0.0, mainResults.deductions[0].second)

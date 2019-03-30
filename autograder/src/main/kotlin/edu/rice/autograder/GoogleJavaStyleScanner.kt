@@ -21,33 +21,28 @@ data class GoogleJavaStyleResult(
         val fileNumBytes: Long,
         val formattedStatus: String)
 
-/**
- * Given the contents of the output of running the _verifyGoogleJavaFormat_ gradle action (a text file,
- * typically named _fileStates.txt_), returns a [ScannerResult] describing whether every file
- * is properly formatted. See the [plugin sourcecode](https://github.com/sherter/google-java-format-gradle-plugin)
- * for details.
- */
-fun googleJavaStyleScanner(data: String, deduction: Double = 1.0): ScannerResult {
-    // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
-    // Unlikely we'll have escaped commas or other such landmines that would break this.
-    val results = data
-        .split(Regex("[\n\r]+"))
-        .filter { it != "" }
-        .map { it.split(",") }
-        .map { (a, b, c, d) -> GoogleJavaStyleResult(a, b.toLong(), c.toLong(), d) }
-        .sortedBy { it.fileName }
-
+fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, deduction: Double = 1.0): EvaluatorResult {
     val numResults = results.size
     val numFormatted = results.filter { it.formattedStatus == "FORMATTED" }.size
     val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults)
 
     return if (numFormatted == numResults) {
-        passingScannerResult(feedback);
+        passingEvaluatorResult(feedback);
     } else {
         val badFiles = results
-                .filter { it.formattedStatus != "FORMATTED" }
-                .map { "-- Incorrect formatting: ${it.fileName}" }
-        ScannerResult(false,
-                listOf(feedback to deduction) + badFiles.map { it to 0.0 })
+            .filter { it.formattedStatus != "FORMATTED" }
+            .map { "-- Incorrect formatting: ${it.fileName}" }
+        EvaluatorResult(false,
+            listOf(feedback to deduction) + badFiles.map { it to 0.0 })
     }
 }
+
+fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> =
+    // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
+    // Unlikely we'll have escaped commas or other such landmines that would break this.
+    fileData
+        .split(Regex("[\n\r]+"))
+        .filter { it != "" }
+        .map { it.split(",") }
+        .map { (a, b, c, d) -> GoogleJavaStyleResult(a, b.toLong(), c.toLong(), d) }
+        .sortedBy { it.fileName }

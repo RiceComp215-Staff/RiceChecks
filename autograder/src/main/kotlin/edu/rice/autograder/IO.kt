@@ -24,7 +24,7 @@ private fun readdirPath(filePath: String): Try<Sequence<Path>> =
     Try {
         java.nio.file.Files.newDirectoryStream(Paths.get(filePath)).use {
             if (it == null) {
-                throw NullPointerException("failed to get anything from $filePath")
+                Log.ethrow(TAG, "failed to get anything from $filePath")
             } else {
                 // we need to iterate the full list before closing the directory stream
                 // so thus toList() then back to a sequence.

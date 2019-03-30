@@ -21,7 +21,7 @@ import java.lang.annotation.*;
  * zeroWarnings is true, then the number of points to be deducted is specified by <b>warningPoints</b>.
  *
  * <p>To specify a coverage requirement, specify a non-zero <b>coveragePoints</b>, and optionally
- * specify the <b>coverageMethod</b> and <b>coverageRatio</b>. Then, annotate source classes on which
+ * specify the <b>coverageMethod</b> and <b>coveragePercentage</b>. Then, annotate source classes on which
  * you want coverage to be measured using {@link GradeCoverage}.
  */
 @Retention(RetentionPolicy.RUNTIME)
