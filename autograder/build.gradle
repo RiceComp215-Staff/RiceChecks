@@ -112,7 +112,18 @@ import java.time.format.DateTimeFormatter
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-task printStuff () {
+gradle.taskGraph.whenReady {
+    printWelcome()
+}
+
+def printWelcome () {
+    // Engineering note: We have no idea what timezone any given student's computer or any given
+    // Travis-CI server might be running in, and we want to print these things in a standard way.
+    // By asking for the time in the US-Central timezone, we'll get the uniform response that
+    // we want. Also, note that these are just calls to the "java.time" classes that are part of Java.
+    // Groovy can call into Java libraries and IntelliJ even does the same sort of auto-complete when editing
+    // code here as it does when editing Java code.
+
     println "Compilation time: " +
             ZonedDateTime.now(ZoneId.of("America/Chicago")).format(DateTimeFormatter.RFC_1123_DATE_TIME)
 
@@ -120,9 +131,8 @@ task printStuff () {
     println "Gradle JDK: " + System.getProperty("java.version")
 
     // Print everything Gradle knows about itself
-    println "Gradle version: " + GradleVersion.current()
+    println "Gradle version: $gradle.gradleVersion"
 }
-tasks.compileJava.dependsOn printStuff
 
 ////////////////////////////////////////////////////////////////////////////////
 // This section configures JaCoCo (Java Code Coverage). For some assignments, we'll have minimum code
