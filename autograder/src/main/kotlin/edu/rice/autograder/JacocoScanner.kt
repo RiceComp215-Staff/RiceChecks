@@ -27,32 +27,12 @@ import com.fasterxml.jackson.module.kotlin.readValue
 //   - each package also has a list of counters
 //  - the report also has a list of counters
 
-//
-// <report name="comp215-code">
-//  <sessioninfo id="bunsen-honeydew.cs.rice.edu-465c9d49" start="1553527264146"
-//    dump="1553527285337"/>
-//  <package name="edu/rice/web">
-//    <class name="edu/rice/web/JavaScriptRepl" sourcefilename="JavaScriptRepl.java">
-//      <method name="&lt;init&gt;" desc="()V" line="41">
-//        <counter type="INSTRUCTION" missed="3" covered="0"/>
-//        <counter type="LINE" missed="1" covered="0"/>
-//        <counter type="COMPLEXITY" missed="1" covered="0"/>
-//        <counter type="METHOD" missed="1" covered="0"/>
-//      </method>
-//      <method name="logAndJsonError" desc="(Ljava/lang/String;)Ljava/lang/String;" line="68">
-//        <counter type="INSTRUCTION" missed="14" covered="0"/>
-//        <counter type="LINE" missed="2" covered="0"/>
-//        <counter type="COMPLEXITY" missed="1" covered="0"/>
-//        <counter type="METHOD" missed="1" covered="0"/>
-//      </method>
-//      ...
-//      <counter type="INSTRUCTION" missed="208" covered="0"/>
-//      <counter type="BRANCH" missed="8" covered="0"/>
-//      <counter type="LINE" missed="52" covered="0"/>
-//      <counter type="COMPLEXITY" missed="20" covered="0"/>
-//      <counter type="METHOD" missed="16" covered="0"/>
-//      <counter type="CLASS" missed="1" covered="0"/>
-//    </class>
+// We also have to deal with the most complicated policies. We have GradeCoverage annotations
+// on packages and classes, and they've got an "exclude" flag as well. This means that we'll
+// have some fairly complex logic to resolve for a given {package, class} whether we're supposed
+// to pay attention to its coverage numbers. We're going to need to do this recursively, so
+// we may have a "positive" annotation on edu.rice.foo and a "negative" annotation.edu.rice.foo.bar
+// which means that edu.rice.foo.baz should be included.
 
 @JsonRootName("report")
 data class JacocoReport (
@@ -93,8 +73,10 @@ data class JacocoPackage(
         counters.associateNotNullBy { it.type }
     }
 
+    // Note: we're standardizing class names in classMap to use dots rather than slashes,
+    // making them consistent with everything else in AnnoAutoGrader.
     val classMap: Map<String, JacocoClass> by lazy {
-        classes.associateNotNullBy { it.name }
+        classes.associateNotNullBy { it.name?.replace('/', '.') }
     }
 }
 
@@ -164,46 +146,41 @@ data class JacocoLine(
  */
 fun jacocoParser(fileData: String): JacocoReport = kotlinXmlMapper.readValue(fileData)
 
-fun GCoverageMethod.toJacocoCounterType() = when(this) {
-    GCoverageMethod.INSTRUCTIONS -> JacocoCounterType.INSTRUCTION
-    GCoverageMethod.LINES -> JacocoCounterType.LINE
+fun GCoverageStyle.toJacocoCounterType() = when(this) {
+    GCoverageStyle.INSTRUCTIONS -> JacocoCounterType.INSTRUCTION
+    GCoverageStyle.LINES -> JacocoCounterType.LINE
 }
 
 private const val TAG = "JacocoScanner"
-private val classSplitRegex = Regex("\$")
-private fun matchingClassSpecs(desiredClasses: List<String>, report: JacocoReport): List<String> {
+
+private fun matchingClassSpecs(coverages: List<GGradeCoverage>, report: JacocoReport): List<String> {
     // In our GGradeProject structure, the names of classes are going to be in normal human
     // form (e.g., edu.rice.autograder.test.Project3) while they'll be in slashy form in
     // the JacocoReport.
 
-    val splitNamesToJacocoNames = report.classesMap.keys
-        .associate { it.replace('/', '.' ).split(classSplitRegex) to it }
-    val allSplitJacocoNames = splitNamesToJacocoNames.keys
-    val allDesiredNames = desiredClasses.map { it.split(classSplitRegex) }
+    val packageSpecs = coverages.filter { it.scope == GCoverageScope.PACKAGE }.sortedBy { it.name }
+    val classSpecs = coverages.filter { it.scope == GCoverageScope.CLASS }.sortedBy { it.name }
 
-    // TODO: optimize this O(n^2) comparison, after we're sure that it actually works
-
-    val mapping: List<List<String>> = allDesiredNames.flatMap { desired ->
-        val matches = allSplitJacocoNames.filter { sjn ->
-            desired.zip(sjn).all { (a, b) -> a == b }
-        }
-        matches
+    val namesToTestCoverage = report.classesMap.keys.filter { className ->
+        // we're working our way down from the most general to the most specific package annotation
+        // then the most general to teh most specific class annotation (the sorting above is essential
+        // to make this happen). The logic here is that the last relevant annotation wins, so an inner
+        // "including" annotation overrides an external "excluding" annotation.
+        val relevantSpecs = packageSpecs.filter { className.startsWith(it.name + ".") } +
+                classSpecs.filter { className.startsWith(it.name + ".") }
+        val result = relevantSpecs.fold(false) { prior, next -> !next.excluded }
+        result
     }
 
-    // We return from the split-list-string names back to the original slashy names
-    val result = mapping.map {
-        splitNamesToJacocoNames[it] ?: Log.ethrow(TAG, "internal failure, can't find $it")
-    }
-
-    return result
+    return namesToTestCoverage
 }
 
 fun jacocoEvaluator(report: JacocoReport, project: GGradeProject): EvaluatorResult {
     if (project.coveragePoints == 0.0) return passingEvaluatorResult("No test coverage requirement")
 
-    val counterType = project.coverageMethod.toJacocoCounterType()
+    val counterType = project.coverageStyle.toJacocoCounterType()
 
-    val matchingClassNames = matchingClassSpecs(project.coverageClasses, report)
+    val matchingClassNames = matchingClassSpecs(project.coverageAnnotations, report)
     val matchingClasses = matchingClassNames.map {
         report.classesMap[it] ?: Log.ethrow(TAG, "internal failure: can't find $it")
     }

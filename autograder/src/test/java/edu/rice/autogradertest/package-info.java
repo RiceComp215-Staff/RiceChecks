@@ -14,7 +14,9 @@
 @GradeTopic(project = "TP2",
     topic = "Group2",
     maxPoints = 4.0)
+@GradeCoverage(project = "TP2")
 package edu.rice.autogradertest;
 
+import edu.rice.autograder.GradeCoverage;
 import edu.rice.autograder.GradeProject;
 import edu.rice.autograder.GradeTopic;

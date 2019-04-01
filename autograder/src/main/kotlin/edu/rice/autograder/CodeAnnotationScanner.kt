@@ -22,10 +22,12 @@ data class GGradeProject(
         val maxPoints: Double,
         val warningPoints: Double,
         val coveragePoints: Double,
-        val coverageMethod: GCoverageMethod,
+        val coverageStyle: GCoverageStyle,
         val coveragePercentage: Double,
-        val coverageClasses: List<String>,
+        val coverageAnnotations: List<GGradeCoverage>,
         val topics: List<GGradeTopic>)
+
+enum class GCoverageStyle { LINES, INSTRUCTIONS }
 
 data class GGradeTopic(
         val name: String,
@@ -39,12 +41,17 @@ data class GGradeTest(
         val methodName: String,
         val testFactory: Boolean = false)
 
-enum class GCoverageMethod { LINES, INSTRUCTIONS }
+data class GGradeCoverage(
+        val scope: GCoverageScope,
+        val excluded: Boolean,
+        val name: String)
+
+enum class GCoverageScope { PACKAGE, CLASS }
 
 // Below are internal classes we use while parsing, we'll transform these to the G-classes above
 // when sending output.
 
-private data class AnnotationTuple(val ai: AnnotationInfo, val className: String, val methodName: String? = null)
+private data class AnnotationTuple(val ai: AnnotationInfo, val isPackage: Boolean, val classOrPackageName: String, val methodName: String? = null)
 
 private typealias ProjectMap = Map<String, IGradeProject>
 private data class IGradeProject(
@@ -53,7 +60,7 @@ private data class IGradeProject(
         val maxPoints: Double,
         val warningPoints: Double,
         val coveragePoints: Double,
-        val coverageMethod: String,
+        val coverageStyle: String,
         val coveragePercentage: Double)
 
 private data class IGradeTopic(
@@ -64,7 +71,8 @@ private data class IGradeTopic(
 private data class IGradeCoverage(
         val project: IGradeProject,
         val exclude: Boolean,
-        val className: String)
+        val scope: GCoverageScope,
+        val name: String)
 
 private data class IGradeTest(
         val project: IGradeProject,
@@ -111,7 +119,7 @@ private fun failScannerX(s: String): Nothing {
 private fun AnnotationParameterValueList?.failScanner(s: String): Nothing =
         failScannerX(s + if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
 
-private val coverageMethodNames = enumValues<GCoverageMethod>().map { it.name }
+private val coverageMethodNames = enumValues<GCoverageStyle>().map { it.name }
 
 /**
  * Fetching a value from an [AnnotationParameterValueList] with a default value for
@@ -159,7 +167,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
     val warningPoints = pv.lookupNoNull("warningPoints", 0.0)
     val coveragePoints = pv.lookupNoNull("coveragePoints", 0.0)
-    val coverageMethod = pv.lookupNoNull("coverageMethod", "LINES")
+    val coverageMethod = pv.lookupNoNull("coverageStyle", "LINES")
 
     // it's an integer annotation but we'll treat it afterward as a double
     val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70).toDouble()
@@ -196,7 +204,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
                 failScanner("Malformed GradeProject: coveragePercentage must be between 0 and 100 {$coveragePercentage}")
 
             coverageMethod !in coverageMethodNames ->
-                failScanner("Malformed GradeProject: coverageMethod {$coverageMethod} must be in ${coverageMethodNames.joinToString(", ")}")
+                failScanner("Malformed GradeProject: coverageStyle {$coverageMethod} must be in ${coverageMethodNames.joinToString(", ")}")
 
             else -> IGradeProject(name, description, maxPoints, warningPoints, coveragePoints, coverageMethod, coveragePercentage)
         }
@@ -235,7 +243,10 @@ private fun AnnotationTuple.toIGradeCoverage(pmap: ProjectMap): IGradeCoverage {
     if (project == null) {
         pv.failScanner("Malformed GradeCoverage: unknown project name ($projectName)")
     } else {
-        return IGradeCoverage(project, pvExclude, className)
+        return IGradeCoverage(project,
+                pvExclude,
+                if(isPackage) GCoverageScope.PACKAGE else GCoverageScope.CLASS,
+                classOrPackageName)
     }
 }
 
@@ -269,13 +280,13 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
                 failScanner("Method $methodName has neither @Test nor @TestFactory! One is necessary.")
 
             // Regular @Test, not a @TestFactory
-            testAnnotations.contains(methodName) -> IGradeTest(project, topic, points, maxPoints, className, methodName, false)
+            testAnnotations.contains(methodName) -> IGradeTest(project, topic, points, maxPoints, classOrPackageName, methodName, false)
 
             !maxPoints.isFinite() -> internalScannerError("maxPoints isn't finite!")
 
             maxPoints <= 0.0 -> failScanner("Method $methodName has @TestFactory, but needs to have positive maxPoints specified")
 
-            else -> IGradeTest(project, topic, points, maxPoints, className, methodName, true)
+            else -> IGradeTest(project, topic, points, maxPoints, classOrPackageName, methodName, true)
         }
     }
 }
@@ -289,7 +300,7 @@ private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
  */
 private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): List<AnnotationTuple> =
         flatMap {
-            val (ai, className, methodName) = it
+            val (ai, isPackage, classOrPackageName, methodName) = it
             val pv = ai.parameterValues
             if (pv.containsNonEmpty("value")) {
                 val emptyArray = Array<Any?>(0) { null }
@@ -299,7 +310,7 @@ private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): Lis
                     if (verbose) System.err.println("    Found: $v")
                     when (v) {
                         null -> null
-                        is AnnotationInfo -> AnnotationTuple(v, className, methodName)
+                        is AnnotationInfo -> AnnotationTuple(v, isPackage, classOrPackageName, methodName)
                         else -> pv.failScanner("    Unexpected class type found: $${v::class.java.simpleName}")
                     }
                 }
@@ -329,7 +340,7 @@ private fun ScanResult.packageAnnotations(annotationNames: List<String>, verbose
     if (verbose) System.err.println("Looking for packages with annotations: $annotationNames")
     return packageInfo
             .filterNotNull()
-            .flatMap { it.annotationInfo.map { ai -> AnnotationTuple(ai, it.name) } }
+            .flatMap { it.annotationInfo.map { ai -> AnnotationTuple(ai, true, it.name) } }
             .filter {
                 it.ai.name in annotationNames
             }
@@ -359,7 +370,7 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
                             .filterNotNull()
                             .flatMap { mi ->
                                 val mname = mi.name ?: internalScannerErrorX("Method with no name?! ($mi)")
-                                mi.annotationInfo.mapNotNull { AnnotationTuple(it, className, mname) }
+                                mi.annotationInfo.mapNotNull { AnnotationTuple(it, false, className, mname) }
                             }
                             .filter {
                                 it.ai.name == aname
@@ -395,7 +406,7 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: 
                 .flatMap { cinfo ->
                     cinfo.annotationInfo.filterNotNull().map { ai ->
                         if (cinfo.name != null)
-                            AnnotationTuple(ai, cinfo.name)
+                            AnnotationTuple(ai, false, cinfo.name)
                         else
                             internalScannerErrorX("class without a name?! ($cinfo)")
                     }
@@ -434,16 +445,7 @@ private fun <T> List<T>.failRepeating(failMessage: String, stringExtractor: (T) 
     }
 }
 
-private fun List<IGradeCoverage>.toClassNames(scanResult: ScanResult): List<String> {
-    val positives = filter { !it.exclude }.map { it.className }
-    val negatives = filter { it.exclude }.map { it.className }
-
-    return scanResult.allClasses
-            .filter { !it.isAnnotation } // we only want classes and interfaces
-            .mapNotNull { it.name } // we don't expect any nulls in here, but we're being paranoid
-            .filter { c -> positives.any { c.startsWith(it) } } // it's something we want
-            .filter { c -> negatives.none { c.startsWith(it) } } // but not something we exclude
-}
+private fun List<IGradeCoverage>.toGCoverages(): List<GGradeCoverage> = map { GGradeCoverage(it.scope, it.exclude, it.name) }
 
 
 // TODO: rework this, and all the print statements, to use our log library
@@ -500,7 +502,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                                 .filter { it.project === project }
                                 .failRepeating("More than one topic definition in project ${project.name} for") { it.topic }
 
-                        val coverages = gradeCoverageAnnotations .filter { it.project === project }
+                        val coverages = gradeCoverageAnnotations.filter { it.project === project }
 
                         val gtopics = topics.map { topic ->
                             val gtests = gradeTestAnnotations
@@ -526,12 +528,11 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                         val maxPointsFromTopics = gtopics.map { it.maxPoints }.fold(0.0) { a, b -> a + b }
                         val actualMaxPoints = if (project.maxPoints == 0.0) maxPointsFromTopics else project.maxPoints
 
-                        val coverageMethod = enumValueOf<GCoverageMethod>(project.coverageMethod)
+                        val coverageMethod = enumValueOf<GCoverageStyle>(project.coverageStyle)
 
                         GGradeProject(project.name, project.description, actualMaxPoints, project.warningPoints,
                                 project.coveragePoints, coverageMethod, project.coveragePercentage,
-                                coverages.toClassNames(scanResult),
-                                gtopics)
+                                coverages.toGCoverages(), gtopics)
                     }
                 }
             }
