@@ -5,10 +5,22 @@
 //
 package edu.rice.autograder
 
+import arrow.core.Try
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.lang.RuntimeException
 
 private const val TAG = "YamlExporter"
+
+/** General-purpose Jackson XML mapper, used everywhere. */
+val kotlinYamlMapper = YAMLMapper()
+        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .registerKotlinModule()
+
 /**
  * Given a project name, as specified with a [GradeProject] annotation,
  * and a Java code package name, specifying which Java (or Kotlin) code
@@ -23,7 +35,12 @@ private const val TAG = "YamlExporter"
 fun yamlExporter(projectName: String, codePackage: String): String {
     val scan = scanEverything(codePackage)
     val project = scan[projectName] ?: Log.ethrow(TAG, "Unknown project: $projectName")
-
-    return YAMLMapper().writeValueAsString(project) ?: Log.ethrow(TAG, "Jackson YAML failure?!")
+    return yamlExporter(project);
 }
 
+fun yamlExporter(project: GGradeProject) =
+    kotlinYamlMapper.writeValueAsString(project) ?: Log.ethrow(TAG, "Jackson YAML failure?!")
+
+fun yamlImporter(input: String): Try<GGradeProject> = Try {
+    kotlinYamlMapper.readValue<GGradeProject>(input)
+}

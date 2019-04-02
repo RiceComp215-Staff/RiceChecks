@@ -60,4 +60,18 @@ class VerifyTestAnnotations {
     fun printTP3() {
         System.out.print(yamlExporter("TP3", "edu.rice.autogradertest"))
     }
+
+    @Test
+    fun textExportImportEquality() {
+        // This test is really important: so long as we trust that we can export and import our
+        // GGradeProject objects, without any loss or weirdness, then we can extract them from
+        // the source code and store them in the config directory. This means that students
+        // won't accidentally (or maliciously) change the test policy by tweaking the grade
+        // annotations in the source code they see. We could even strip the annotations
+        // completely out of the reference code prior to distribution to the students.
+
+        result.forEach { (name, project) ->
+            assertEquals(project, yamlImporter(yamlExporter(project)).getOrFail(), name)
+        }
+    }
 }
