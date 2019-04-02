@@ -35,11 +35,12 @@ import com.fasterxml.jackson.module.kotlin.readValue
 // which means that edu.rice.foo.baz should be included.
 
 @JsonRootName("report")
-data class JacocoReport (
-        @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
-        @set:JsonProperty("sessioninfo") var session: JacocoSession? = null,
-        @set:JsonProperty("package") var packages: List<JacocoPackage>? = null,
-        @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
+data class JacocoReport(
+    @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
+    @set:JsonProperty("sessioninfo") var session: JacocoSession? = null,
+    @set:JsonProperty("package") var packages: List<JacocoPackage>? = null,
+    @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null
+) {
 
     val counterMap by lazy {
         counters.associateNotNullBy { it.type }
@@ -60,14 +61,16 @@ data class JacocoReport (
 data class JacocoSession(
     @set:JacksonXmlProperty(localName = "id", isAttribute = true) var id: String? = null,
     @set:JacksonXmlProperty(localName = "start", isAttribute = true) var start: Long = 0,
-    @set:JacksonXmlProperty(localName = "dump", isAttribute = true) var dump: Long = 0)
+    @set:JacksonXmlProperty(localName = "dump", isAttribute = true) var dump: Long = 0
+)
 
 data class JacocoCounterResult(val type: JacocoCounterType, val missed: Long, val covered: Long)
 @JsonRootName("package")
 data class JacocoPackage(
-        @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
-        @set:JsonProperty("class") var classes: List<JacocoClass>? = null,
-        @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
+    @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
+    @set:JsonProperty("class") var classes: List<JacocoClass>? = null,
+    @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null
+) {
 
     val counterMap by lazy {
         counters.associateNotNullBy { it.type }
@@ -82,10 +85,11 @@ data class JacocoPackage(
 
 @JsonRootName("class")
 data class JacocoClass(
-        @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
-        @set:JacksonXmlProperty(localName = "sourcefilename", isAttribute = true) var sourceFileName: String? = null,
-        @set:JsonProperty("method") var methods: List<JacocoMethod>? = null,
-        @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
+    @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
+    @set:JacksonXmlProperty(localName = "sourcefilename", isAttribute = true) var sourceFileName: String? = null,
+    @set:JsonProperty("method") var methods: List<JacocoMethod>? = null,
+    @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null
+) {
 
     val counterMap by lazy {
         counters.associateNotNullBy { it.type }
@@ -98,10 +102,11 @@ data class JacocoClass(
 
 @JsonRootName("method")
 data class JacocoMethod(
-        @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
-        @set:JacksonXmlProperty(localName = "desc", isAttribute = true) var desc: String? = null,
-        @set:JacksonXmlProperty(localName = "line", isAttribute = true) var line: Int = 0,
-        @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
+    @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
+    @set:JacksonXmlProperty(localName = "desc", isAttribute = true) var desc: String? = null,
+    @set:JacksonXmlProperty(localName = "line", isAttribute = true) var line: Int = 0,
+    @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null
+) {
 
     val counterMap by lazy {
         counters.associateNotNullBy { it.type }
@@ -111,7 +116,8 @@ data class JacocoMethod(
 @JsonRootName("sourcefile")
 data class JacocoSourceFile(
     @set:JsonProperty("line") var lines: List<JacocoLine>? = null,
-    @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null) {
+    @set:JsonProperty("counter") var counters: List<JacocoCounter>? = null
+) {
 
     val counterMap by lazy {
         counters.associateNotNullBy { it.type }
@@ -128,17 +134,19 @@ enum class JacocoCounterType {
 
 @JsonRootName("counter")
 data class JacocoCounter(
-        @set:JacksonXmlProperty(localName = "type", isAttribute = true) var type: JacocoCounterType? = null,
-        @set:JacksonXmlProperty(localName = "missed", isAttribute = true) var missed: Int = 0,
-        @set:JacksonXmlProperty(localName = "covered", isAttribute = true) var covered: Int = 0)
+    @set:JacksonXmlProperty(localName = "type", isAttribute = true) var type: JacocoCounterType? = null,
+    @set:JacksonXmlProperty(localName = "missed", isAttribute = true) var missed: Int = 0,
+    @set:JacksonXmlProperty(localName = "covered", isAttribute = true) var covered: Int = 0
+)
 
 @JsonRootName("line")
 data class JacocoLine(
-        @set:JacksonXmlProperty(localName = "nr", isAttribute = true) var nr: Int = 0,
-        @set:JacksonXmlProperty(localName = "mi", isAttribute = true) var mi: Int = 0,
-        @set:JacksonXmlProperty(localName = "ci", isAttribute = true) var ci: Int = 0,
-        @set:JacksonXmlProperty(localName = "mb", isAttribute = true) var mb: Int = 0,
-        @set:JacksonXmlProperty(localName = "cb", isAttribute = true) var cb: Int = 0)
+    @set:JacksonXmlProperty(localName = "nr", isAttribute = true) var nr: Int = 0,
+    @set:JacksonXmlProperty(localName = "mi", isAttribute = true) var mi: Int = 0,
+    @set:JacksonXmlProperty(localName = "ci", isAttribute = true) var ci: Int = 0,
+    @set:JacksonXmlProperty(localName = "mb", isAttribute = true) var mb: Int = 0,
+    @set:JacksonXmlProperty(localName = "cb", isAttribute = true) var cb: Int = 0
+)
 
 /**
  * Given a string -- the rest of reading a Jacoco XML results file --
@@ -146,7 +154,7 @@ data class JacocoLine(
  */
 fun jacocoParser(fileData: String): JacocoReport = kotlinXmlMapper.readValue(fileData)
 
-fun GCoverageStyle.toJacocoCounterType() = when(this) {
+fun GCoverageStyle.toJacocoCounterType() = when (this) {
     GCoverageStyle.INSTRUCTIONS -> JacocoCounterType.INSTRUCTION
     GCoverageStyle.LINES -> JacocoCounterType.LINE
 }

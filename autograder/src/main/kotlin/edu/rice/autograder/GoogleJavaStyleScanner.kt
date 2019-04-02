@@ -16,10 +16,11 @@ package edu.rice.autograder
  * - filestate can apparently be FORMATTED, UNFORMATTED, INVALID, or UNKNOWN
  */
 data class GoogleJavaStyleResult(
-        val fileName: String,
-        val fileModTime: Long,
-        val fileNumBytes: Long,
-        val formattedStatus: String)
+    val fileName: String,
+    val fileModTime: Long,
+    val fileNumBytes: Long,
+    val formattedStatus: String
+)
 
 fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, deduction: Double = 1.0): EvaluatorResult {
     val numResults = results.size
@@ -27,7 +28,7 @@ fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, deduction: Do
     val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults)
 
     return if (numFormatted == numResults) {
-        passingEvaluatorResult(feedback);
+        passingEvaluatorResult(feedback)
     } else {
         val badFiles = results
             .filter { it.formattedStatus != "FORMATTED" }

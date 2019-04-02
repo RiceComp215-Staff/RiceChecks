@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import java.lang.RuntimeException
 
 private const val TAG = "YamlExporter"
 
@@ -35,7 +34,7 @@ val kotlinYamlMapper = YAMLMapper()
 fun yamlExporter(projectName: String, codePackage: String): String {
     val scan = scanEverything(codePackage)
     val project = scan[projectName] ?: Log.ethrow(TAG, "Unknown project: $projectName")
-    return yamlExporter(project);
+    return yamlExporter(project)
 }
 
 fun yamlExporter(project: GGradeProject) =

@@ -17,34 +17,38 @@ import io.github.classgraph.ScanResult
  * which breaks the individual grade tests down.
  */
 data class GGradeProject(
-        val name: String,
-        val description: String,
-        val maxPoints: Double,
-        val warningPoints: Double,
-        val coveragePoints: Double,
-        val coverageStyle: GCoverageStyle,
-        val coveragePercentage: Double,
-        val coverageAnnotations: List<GGradeCoverage>,
-        val topics: List<GGradeTopic>)
+    val name: String,
+    val description: String,
+    val maxPoints: Double,
+    val warningPoints: Double,
+    val coveragePoints: Double,
+    val coverageStyle: GCoverageStyle,
+    val coveragePercentage: Double,
+    val coverageAnnotations: List<GGradeCoverage>,
+    val topics: List<GGradeTopic>
+)
 
 enum class GCoverageStyle { LINES, INSTRUCTIONS }
 
 data class GGradeTopic(
-        val name: String,
-        val maxPoints: Double,
-        val tests: List<GGradeTest>)
+    val name: String,
+    val maxPoints: Double,
+    val tests: List<GGradeTest>
+)
 
 data class GGradeTest(
-        val points: Double,
-        val maxPoints: Double,
-        val className: String,
-        val methodName: String,
-        val testFactory: Boolean = false)
+    val points: Double,
+    val maxPoints: Double,
+    val className: String,
+    val methodName: String,
+    val testFactory: Boolean = false
+)
 
 data class GGradeCoverage(
-        val scope: GCoverageScope,
-        val excluded: Boolean,
-        val name: String)
+    val scope: GCoverageScope,
+    val excluded: Boolean,
+    val name: String
+)
 
 enum class GCoverageScope { PACKAGE, CLASS }
 
@@ -55,33 +59,37 @@ private data class AnnotationTuple(val ai: AnnotationInfo, val isPackage: Boolea
 
 private typealias ProjectMap = Map<String, IGradeProject>
 private data class IGradeProject(
-        val name: String,
-        val description: String,
-        val maxPoints: Double,
-        val warningPoints: Double,
-        val coveragePoints: Double,
-        val coverageStyle: String,
-        val coveragePercentage: Double)
+    val name: String,
+    val description: String,
+    val maxPoints: Double,
+    val warningPoints: Double,
+    val coveragePoints: Double,
+    val coverageStyle: String,
+    val coveragePercentage: Double
+)
 
 private data class IGradeTopic(
-        val project: IGradeProject,
-        val topic: String,
-        val maxPoints: Double)
+    val project: IGradeProject,
+    val topic: String,
+    val maxPoints: Double
+)
 
 private data class IGradeCoverage(
-        val project: IGradeProject,
-        val exclude: Boolean,
-        val scope: GCoverageScope,
-        val name: String)
+    val project: IGradeProject,
+    val exclude: Boolean,
+    val scope: GCoverageScope,
+    val name: String
+)
 
 private data class IGradeTest(
-        val project: IGradeProject,
-        val topic: String,
-        val points: Double,
-        val maxPoints: Double,
-        val className: String,
-        val methodName: String,
-        val testFactory: Boolean = false)
+    val project: IGradeProject,
+    val topic: String,
+    val points: Double,
+    val maxPoints: Double,
+    val className: String,
+    val methodName: String,
+    val testFactory: Boolean = false
+)
 
 private const val A_PREFIX = "edu.rice.autograder."
 private const val A_GRADE = A_PREFIX + "Grade"
@@ -174,7 +182,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
 
     return with(pv) {
         when {
-            this == null -> internalScannerErrorX("Unexpected null parameter values: ${this}")
+            this == null -> internalScannerErrorX("Unexpected null parameter values: $this")
 
             name == null ->
                 failScanner("Malformed GradeProject: no name specified: {$pv}")
@@ -220,13 +228,13 @@ private fun AnnotationTuple.toIGradeTopic(pmap: ProjectMap): IGradeTopic {
 
     return with(pv) {
         when {
-            this == null -> internalScannerErrorX("Unexpected null parameter values: ${this}")
+            this == null -> internalScannerErrorX("Unexpected null parameter values: $this")
 
             project == null ->
                 failScanner("Malformed GradeTopic: unknown project ($projectStr not in ${pmap.keys})")
 
             topic == "" ->
-                failScanner("Malformed GradeTopic: no topic specified: ${this}")
+                failScanner("Malformed GradeTopic: no topic specified: $this")
 
             else ->
                 IGradeTopic(project, topic, maxPoints)
@@ -245,14 +253,16 @@ private fun AnnotationTuple.toIGradeCoverage(pmap: ProjectMap): IGradeCoverage {
     } else {
         return IGradeCoverage(project,
                 pvExclude,
-                if(isPackage) GCoverageScope.PACKAGE else GCoverageScope.CLASS,
+                if (isPackage) GCoverageScope.PACKAGE else GCoverageScope.CLASS,
                 classOrPackageName)
     }
 }
 
-private fun AnnotationTuple.toIGradeTest(pmap: ProjectMap,
-                                 testAnnotations: Set<String>,
-                                 testFactoryAnnotations: Set<String>): IGradeTest {
+private fun AnnotationTuple.toIGradeTest(
+    pmap: ProjectMap,
+    testAnnotations: Set<String>,
+    testFactoryAnnotations: Set<String>
+): IGradeTest {
     val pv = ai.parameterValues
     val project = pmap[pv.lookup("project", "")]
     val topic = pv.lookupNoNull("topic", "")
@@ -377,13 +387,13 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
                             }
                             .also { mi ->
                                 if (verbose) {
-                                    System.err.println("Pre-expansion annotations:\n${mi.joinToString(transform={ "===> $it" }, separator="\n")}")
+                                    System.err.println("Pre-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
                                 }
                             }
                             .expandValueList(verbose)
                             .also { mi ->
                                 if (verbose) {
-                                    System.err.println("Post-expansion annotations:\n${mi.joinToString(transform={ "===> $it" }, separator="\n")}")
+                                    System.err.println("Post-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
                                 }
                             }
                 }
@@ -447,7 +457,6 @@ private fun <T> List<T>.failRepeating(failMessage: String, stringExtractor: (T) 
 
 private fun List<IGradeCoverage>.toGCoverages(): List<GGradeCoverage> = map { GGradeCoverage(it.scope, it.exclude, it.name) }
 
-
 // TODO: rework this, and all the print statements, to use our log library
 private const val VERBOSITY = false
 
@@ -466,7 +475,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                     emptyMap()
                 } else {
                     val gradeProjectAnnotations =
-                            scanResult.packageOrClassAnnotations(listOf(A_GRADEPROJECT, A_GRADEPROJECTS), verbose=VERBOSITY)
+                            scanResult.packageOrClassAnnotations(listOf(A_GRADEPROJECT, A_GRADEPROJECTS), verbose = VERBOSITY)
                                     .map { it.toIGradeProject() }
                                     .failRepeating("More than one project definition for") { it.name }
 
@@ -476,17 +485,17 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                     val projectMap = gradeProjectAnnotations.associateBy { it.name }
 
                     val gradeCoverageAnnotations =
-                            scanResult.packageOrClassAnnotations(listOf(A_GRADECOVERAGE, A_GRADECOVERAGES), verbose=VERBOSITY)
+                            scanResult.packageOrClassAnnotations(listOf(A_GRADECOVERAGE, A_GRADECOVERAGES), verbose = VERBOSITY)
                                     .map { it.toIGradeCoverage(projectMap) }
 
-                    val testAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST), verbose=VERBOSITY)
+                    val testAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST), verbose = VERBOSITY)
                             .mapNotNull { it.methodName }.toSet()
 
-                    val testFactoryAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY), verbose=VERBOSITY)
+                    val testFactoryAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY), verbose = VERBOSITY)
                             .mapNotNull { it.methodName }.toSet()
 
                     val gradeTestAnnotations =
-                            scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES), verbose=VERBOSITY)
+                            scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES), verbose = VERBOSITY)
                                     .map { it.toIGradeTest(projectMap, testAnnotations, testFactoryAnnotations) }
                                     // sort only to make it easier to read when printed for debugging
                                     .sortedWith(compareBy({ it.project.name }, { it.topic }, { it.className }, { it.methodName }))
@@ -507,8 +516,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                         val gtopics = topics.map { topic ->
                             val gtests = gradeTestAnnotations
                                     .filter { it.topic == topic.topic && it.project == topic.project }
-                                    .failRepeating("More than one GradeTest definition on the same method for project ${project.name} ")
-                                    { it.className + "." + it.methodName }
+                                    .failRepeating("More than one GradeTest definition on the same method for project ${project.name} ") { it.className + "." + it.methodName }
                             val maxPointsFromTests = gtests
                                     .map { if (it.testFactory) it.maxPoints else it.points }
                                     .fold(0.0) { a, b -> a + b }

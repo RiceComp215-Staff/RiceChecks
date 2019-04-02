@@ -17,18 +17,18 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 
-//CheckStyle's XML looks like this:
-//<?xml version="1.0" encoding="UTF-8"?>
-//<checkstyle version="8.17">
-//<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/ListTheories.java">
-//</file>
-//<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/QtHelpers.java">
-//<error line="33" severity="warning" message="Line is longer than 140 characters (found 224)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-//</file>
-//<file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/SequenceGenerators.java">
-//</file>
+// CheckStyle's XML looks like this:
+// <?xml version="1.0" encoding="UTF-8"?>
+// <checkstyle version="8.17">
+// <file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/ListTheories.java">
+// </file>
+// <file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/QtHelpers.java">
+// <error line="33" severity="warning" message="Line is longer than 140 characters (found 224)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+// </file>
+// <file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/qt/SequenceGenerators.java">
+// </file>
 // ...
-//</checkstyle>
+// </checkstyle>
 
 // So, what we're looking for are any files that have <error> entities inside. If we see
 // any of them, then we indicate a failure.
@@ -58,7 +58,8 @@ data class CheckStyleError(
     @set:JacksonXmlProperty(localName = "line", isAttribute = true) var line: String? = null,
     @set:JacksonXmlProperty(localName = "severity", isAttribute = true) var severity: String? = null,
     @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
-    @set:JacksonXmlProperty(localName = "source", isAttribute = true) var source: String? = null)
+    @set:JacksonXmlProperty(localName = "source", isAttribute = true) var source: String? = null
+)
 
 fun checkStyleParser(fileData: String): CheckStyleResults = kotlinXmlMapper.readValue(fileData)
 

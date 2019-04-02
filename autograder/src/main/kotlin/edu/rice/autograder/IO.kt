@@ -95,9 +95,9 @@ fun readResourceDir(dirPath: String): Try<Sequence<String>> =
                                     .map(ZipEntry::getName)
                                     .filter { it.startsWith(dirPath) }
                             }
-                        } .onFailure {
+                        }.onFailure {
                             Log.e(TAG, "trouble reading $dirUrl, ignoring and marching onward", it)
-                        }.fold({ emptySequence<String>()}, { it })
+                        }.fold({ emptySequence<String>() }, { it })
                     }
 
                     else -> {
@@ -114,7 +114,7 @@ private fun resourceToStream(resourceName: String): Try<InputStream> {
     return Try {
         ClassLoader.getSystemResourceAsStream(resourceName)
             ?: throw NullPointerException("null result from ClassLoader?")
-    } .onFailure {
+    }.onFailure {
         Log.e(TAG, "getSystemResources failed for resource($resourceName)", it)
     }
 }

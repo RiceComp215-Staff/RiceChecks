@@ -106,6 +106,10 @@ sourceSets {
     test.java.srcDirs += 'src/main/java'
 }
 
+configurations {
+    ktlint
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // we want to print the date and other useful stuff every time we compile; helpful when looking at logs
 import java.time.format.DateTimeFormatter
@@ -134,34 +138,24 @@ def printWelcome () {
     println "Gradle version: $gradle.gradleVersion"
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// This section configures JaCoCo (Java Code Coverage). For some assignments, we'll have minimum code
-// coverage requirements. JaCoCo can enforce this as part of 'gradle check'.
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/shyiko/ktlint#usage for more
+}
+check.dependsOn ktlint
 
-jacoco {
-    toolVersion = "0.8.3"
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "-F", "src/**/*.kt"
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        csv.enabled = false
-        html.destination file("${buildDir}/reports/jacoco/")
-    }
-}
-
-test {
-    useJUnitPlatform() // necessary to activate Gradle's JUnit5 support
-    outputs.upToDateWhen { false }
-
-    jacoco {
-        append = false
-    }
-
-    minHeapSize = "512m"
-    maxHeapSize = "2048m"
-    jvmArgs = ["-Xss128m"] // bigger stack as well
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // This section specifies all the external libraries being used by your Java
@@ -172,11 +166,7 @@ repositories {
 
 
 dependencies {
-    // Useful functional libraries
-//    compile 'io.vavr:vavr:0.10.0'
-//    compile 'io.vavr:vavr-kotlin:0.10.0'
-
-//    implementation 'com.github.aballano:MnemoniK:1.0.0' // needed by Arrow
+    ktlint "com.github.shyiko:ktlint:0.31.0"
 
     compile "io.arrow-kt:arrow-core-data:$arrow_version"
     compile "io.arrow-kt:arrow-core-extensions:$arrow_version"

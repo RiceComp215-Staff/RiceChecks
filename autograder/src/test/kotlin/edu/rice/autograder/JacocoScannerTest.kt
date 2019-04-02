@@ -8,7 +8,7 @@ package edu.rice.autograder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
-import edu.rice.autograder.JacocoCounterType.*
+import edu.rice.autograder.JacocoCounterType.INSTRUCTION
 
 class JacocoScannerTest {
     @Test
