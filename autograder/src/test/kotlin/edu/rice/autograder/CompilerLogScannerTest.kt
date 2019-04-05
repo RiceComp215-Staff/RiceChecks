@@ -17,11 +17,11 @@ class CompilerLogScannerTest {
             readResource("comp215-build/logs/$it").getOrFail()
         }
 
-        badFiles.forEach { assertFalse(javacZeroWarnings(it).passes) }
+        badFiles.forEach { assertFalse(javacZeroWarnings(it).second) }
     }
 
     @Test
     fun goodCompilation() {
-        assertTrue(javacZeroWarnings(readResource("comp215-build/logs/success.log").getOrFail()).passes)
+        assertTrue(javacZeroWarnings(readResource("comp215-build/logs/success.log").getOrFail()).second)
     }
 }

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
  * This is a simplified version of the Android logging system ([http://developer.android.com/reference/android/util/Log.html](http://developer.android.com/reference/android/util/Log.html))
  * that uses slf4j / [Logback](https://logback.qos.ch/) as its backend.
  */
-internal object Log {
+object Log {
     // We need to maintain one "logger" per "tag". We keep all of that inside this loggerMap.
     private val loggerMap = HashMap<String, Logger>()
 

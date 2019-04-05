@@ -69,7 +69,7 @@ import java.util.Date
 // So, the factory tests have method names with an index number afterward, but otherwise look just like regular tests.
 
 @JsonRootName("testsuite")
-internal data class JUnitSuite(
+data class JUnitSuite(
     @set:JsonProperty("testcase") var tests: List<JTestCase>? = null,
     @set:JacksonXmlProperty(localName = "name", isAttribute = true) var className: String? = null,
     @set:JacksonXmlProperty(localName = "tests", isAttribute = true) var numTests: Int = 0,
@@ -82,7 +82,7 @@ internal data class JUnitSuite(
 )
 
 @JsonRootName("testcase")
-internal data class JTestCase(
+data class JTestCase(
     @set:JacksonXmlProperty(localName = "name", isAttribute = true) var methodName: String? = null,
     @set:JacksonXmlProperty(localName = "classname", isAttribute = true) var className: String? = null,
     @set:JacksonXmlProperty(localName = "time", isAttribute = true) var duration: Double = 0.0,
@@ -90,7 +90,7 @@ internal data class JTestCase(
 )
 
 @JsonRootName("failure")
-internal data class JFailure(
+data class JFailure(
     @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
     @set:JacksonXmlProperty(localName = "type", isAttribute = true) var type: String? = null
 ) {
@@ -107,4 +107,26 @@ internal data class JFailure(
  * Given a string -- the result of reading a JUnit XML results file --
  * returns a [JUnitSuite] data class, suitable for subsequent queries.
  */
-internal fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
+fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
+
+private fun JUnitSuite.find(className: String, methodName: String): List<JTestCase> =
+    tests ?.filter { it.className == className && it.methodName == methodName } ?: emptyList()
+
+fun JUnitSuite.eval(project: GGradeProject): EvaluatorResult {
+    val tmp = project.topics.map { (topicName, topicMaxPoints, tests) ->
+        tests.map { (points, maxPoints, className, methodName, testFactory) ->
+            val name = "$className.$methodName"
+            if (testFactory) {
+                "" to 0.0
+            } else {
+                val testResults = find(className, methodName)
+                when {
+                    testResults.isEmpty() -> "$name: missing" to points
+                    testResults.find { it.failure != null } != null -> "$name: failed" to points
+                    else -> "$name: passed" to 0.0
+                }
+            }
+        }
+    }
+    throw RuntimeException("TODO")
+}

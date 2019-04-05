@@ -17,31 +17,24 @@ private const val TAG = "GoogleJavaStyle"
  * So, that's CSV format with fileName,fileModTime,fileNumBytes,formattedStatus
  * - filestate can apparently be FORMATTED, UNFORMATTED, INVALID, or UNKNOWN
  */
-internal data class GoogleJavaStyleResult(
+data class GoogleJavaStyleResult(
     val fileName: String,
     val fileModTime: Long,
     val fileNumBytes: Long,
     val formattedStatus: String
 )
 
-internal fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, deduction: Double = 1.0): EvaluatorResult {
-    val numResults = results.size
-    val numFormatted = results.filter { it.formattedStatus == "FORMATTED" }.size
-    val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults)
+fun List<GoogleJavaStyleResult>.eval(): Pair<String, Boolean> {
+    val numResults = size
+    val numFormatted = filter { it.formattedStatus == "FORMATTED" }.size
+    val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults) +
+            if (numFormatted == numResults) "" else "; run the <googleJavaFormat> gradle action to fix"
     Log.i(TAG, "googleJavaStyleEvaluator: $feedback")
 
-    return if (numFormatted == numResults) {
-        passingEvaluatorResult(feedback)
-    } else {
-        val badFiles = results
-            .filter { it.formattedStatus != "FORMATTED" }
-            .map { "-- Incorrect formatting: ${it.fileName}" }
-        EvaluatorResult(false,
-            listOf(feedback to deduction) + badFiles.map { it to 0.0 })
-    }
+    return feedback to (numFormatted == numResults)
 }
 
-internal fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> =
+fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> =
     // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
     // Unlikely we'll have escaped commas or other such landmines that would break this.
     fileData

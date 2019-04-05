@@ -14,10 +14,10 @@ private const val TAG = "JavacWarnings"
 // If the file has zero length, then the compile succeeded. Anything else, then
 // there were warnings and/or errors.
 
-internal fun javacZeroWarnings(fileData: String, deduction: Double = 1.0): EvaluatorResult {
-    val result = if (fileData.length == 0) passingEvaluatorResult("No compiler warnings or errors")
-    else EvaluatorResult(false, listOf("One or more compiler warnings / errors" to deduction))
+fun javacZeroWarnings(fileData: String): Pair<String, Boolean> {
+    val result = if (fileData.length == 0) "No compiler warnings or errors" to true
+    else "One or more compiler warnings / errors" to false
 
-    Log.i(TAG, "JavaC: " + result.deductions[0].first)
+    Log.i(TAG, "JavaC: " + result)
     return result
 }

@@ -38,23 +38,23 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 // https://medium.com/@foxjstephen/how-to-actually-parse-xml-in-java-kotlin-221a9309e6e8
 
 /** General-purpose Jackson XML mapper, used everywhere. */
-internal val kotlinXmlMapper = XmlMapper(JacksonXmlModule().apply {
+val kotlinXmlMapper = XmlMapper(JacksonXmlModule().apply {
     setDefaultUseWrapper(false)
 }).registerKotlinModule()
     .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 @JsonRootName("checkstyle")
-internal data class CheckStyleResults(
+data class CheckStyleResults(
     @set:JsonProperty("file") var files: List<CheckStyleFile> = emptyList())
 
 @JsonRootName("file")
-internal data class CheckStyleFile(
+data class CheckStyleFile(
     @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
     @set:JsonProperty("error") var errors: List<CheckStyleError> = emptyList())
 
 @JacksonXmlRootElement(localName = "error")
-internal data class CheckStyleError(
+data class CheckStyleError(
     @set:JacksonXmlProperty(localName = "line", isAttribute = true) var line: String? = null,
     @set:JacksonXmlProperty(localName = "severity", isAttribute = true) var severity: String? = null,
     @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
@@ -63,19 +63,19 @@ internal data class CheckStyleError(
 
 private const val TAG = "CheckStyleScanner"
 
-internal fun checkStyleParser(fileData: String): CheckStyleResults {
+fun checkStyleParser(fileData: String): CheckStyleResults {
     Log.i(TAG, "checkStyleParser: $fileData")
     return kotlinXmlMapper.readValue(fileData)
 }
 
 /** You'll typically run this twice: once for "test" and once for "main". */
-internal fun checkStyleEvaluator(moduleName: String, results: CheckStyleResults, deduction: Double = 1.0): EvaluatorResult {
-    val numFiles = results.files.count()
-    val numCleanFiles = results.files.filter { it.errors.isEmpty() }.count()
+fun CheckStyleResults.eval(moduleName: String): Pair<String, Boolean> {
+    val numFiles = files.count()
+    val numCleanFiles = files.filter { it.errors.isEmpty() }.count()
 
     val errorMsg = "CheckStyle ($moduleName): $numCleanFiles of $numFiles files passed"
     Log.i(TAG, "checkStyleEvaluator: $moduleName --> $errorMsg")
 
     val passing = numFiles == numCleanFiles
-    return EvaluatorResult(passing, listOf(errorMsg to if (passing) 0.0 else deduction))
+    return errorMsg to passing
 }

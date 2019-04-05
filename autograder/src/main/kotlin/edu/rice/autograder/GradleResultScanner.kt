@@ -22,13 +22,13 @@ import com.beust.jcommander.Parameter
 //   TODO: JUnit
 //   TODO: Compiler warnings/ErrorProne
 
-internal enum class Task {
+enum class Task {
     debugAnnotations, writeConfig, grade
 }
 
 private const val TAG = "GradleResultScanner"
 
-internal object GradleResultScanner {
+object GradleResultScanner {
     @JvmField
     @Parameter(names = ["--project"], description = "Name of the project to be graded (required)", required = true)
     var project: String? = null

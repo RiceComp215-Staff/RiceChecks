@@ -16,7 +16,7 @@ import io.github.classgraph.ScanResult
  * classes to test for coverage (might be empty), as well as a list of [GGradeTopic]
  * which breaks the individual grade tests down.
  */
-internal data class GGradeProject(
+data class GGradeProject(
     val name: String,
     val description: String,
     val maxPoints: Double,
@@ -28,15 +28,15 @@ internal data class GGradeProject(
     val topics: List<GGradeTopic>
 )
 
-internal enum class GCoverageStyle { LINES, INSTRUCTIONS }
+enum class GCoverageStyle { LINES, INSTRUCTIONS }
 
-internal data class GGradeTopic(
+data class GGradeTopic(
     val name: String,
     val maxPoints: Double,
     val tests: List<GGradeTest>
 )
 
-internal data class GGradeTest(
+data class GGradeTest(
     val points: Double,
     val maxPoints: Double,
     val className: String,
@@ -44,13 +44,13 @@ internal data class GGradeTest(
     val testFactory: Boolean = false
 )
 
-internal data class GGradeCoverage(
+data class GGradeCoverage(
     val scope: GCoverageScope,
     val excluded: Boolean,
     val name: String
 )
 
-internal enum class GCoverageScope { PACKAGE, CLASS }
+enum class GCoverageScope { PACKAGE, CLASS }
 
 // Below are internal classes we use while parsing, we'll transform these to the G-classes above
 // when sending output.
@@ -461,7 +461,7 @@ private const val TAG = "CodeAnnotationScanner"
  * [GGradeProject] containing everything we know about that project (i.e., its topics,
  * coverage requirements, and specific unit tests).
  */
-internal fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject> {
+fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject> {
     Log.i(TAG, "scanEverything: $codePackage")
 
     return ClassGraph()
