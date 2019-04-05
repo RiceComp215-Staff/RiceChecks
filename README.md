@@ -42,10 +42,11 @@ or you can use `gradlew demoSetup` to copy the relevant files into the demo proj
     directly from the command-line (e.g., `java -jar AnnoAutoGrader-fat-0.1.jar --project p1 grade`),
     then this Jar file has everything necessary.
   - `AnnotationAutoGrader-annotations-0.1.jar` -- a tiny Jar file, including *only* the annotations
-    and nothing else. If you want to leave the autograde annotations in code that students see, but otherwise
-    don't expect the students to run the autograder, this is the bare minimum.
+    and nothing else. This is the only dependency you want to be visible to student projects,
+    so they don't accidentally start calling into other autograder functions.
 
-- The usage we recommend is including `AnnoAutoGrader-0.1.jar` as a dependency in Gradle
+- Our sample gradle files use `AnnotationAutoGrader-annotations-0.1.jar` as a dependency for
+  student code, and from Gradle will invoke the main autograder library
   - Add appropriate tasks and dependencies to build.gradle
     - Task to extract autograder policy to yaml file
     - Task to run autograder based on yaml file
