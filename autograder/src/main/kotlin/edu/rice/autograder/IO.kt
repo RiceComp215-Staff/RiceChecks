@@ -36,7 +36,7 @@ private fun readdirPath(filePath: String): Try<Sequence<Path>> =
  * @return a Try.success of the list of resource names, or a Try.failure indicating what went
  * wrong
  */
-fun readResourceDir(dirPath: String): Try<Sequence<String>> =
+internal fun readResourceDir(dirPath: String): Try<Sequence<String>> =
         Try { ClassLoader.getSystemResources(dirPath).asSequence() }
             .onFailure { err -> Log.e(TAG, "getSystemResources failed for path($dirPath)", err); }
         .map { dirUrls: Sequence<URL> ->
@@ -128,7 +128,7 @@ private fun resourceToStream(resourceName: String): Try<InputStream> {
  * @return a Try.success of the file contents as a String, or a Try.failure indicating what went
  * wrong
  */
-fun readResource(resourceName: String): Try<String> =
+internal fun readResource(resourceName: String): Try<String> =
     readResourceBytes(resourceName).map { String(it, StandardCharsets.UTF_8) }
 
 /**
@@ -157,5 +157,5 @@ private fun InputStream.toByteArray(): Try<ByteArray> =
  * @return a Try.success of the file contents as a byte array, or a Try.failure indicating what
  * went wrong
  */
-fun readResourceBytes(resourceName: String): Try<ByteArray> =
+internal fun readResourceBytes(resourceName: String): Try<ByteArray> =
     resourceToStream(resourceName).flatMap { it.toByteArray() }

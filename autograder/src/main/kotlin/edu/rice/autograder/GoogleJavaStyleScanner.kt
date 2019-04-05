@@ -15,14 +15,14 @@ package edu.rice.autograder
  * So, that's CSV format with fileName,fileModTime,fileNumBytes,formattedStatus
  * - filestate can apparently be FORMATTED, UNFORMATTED, INVALID, or UNKNOWN
  */
-data class GoogleJavaStyleResult(
+internal data class GoogleJavaStyleResult(
     val fileName: String,
     val fileModTime: Long,
     val fileNumBytes: Long,
     val formattedStatus: String
 )
 
-fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, deduction: Double = 1.0): EvaluatorResult {
+internal fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, deduction: Double = 1.0): EvaluatorResult {
     val numResults = results.size
     val numFormatted = results.filter { it.formattedStatus == "FORMATTED" }.size
     val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults)
@@ -38,7 +38,7 @@ fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, deduction: Do
     }
 }
 
-fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> =
+internal fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> =
     // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
     // Unlikely we'll have escaped commas or other such landmines that would break this.
     fileData

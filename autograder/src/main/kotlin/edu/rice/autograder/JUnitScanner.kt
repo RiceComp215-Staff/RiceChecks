@@ -69,7 +69,7 @@ import java.util.Date
 // So, the factory tests have method names with an index number afterward, but otherwise look just like regular tests.
 
 @JsonRootName("testsuite")
-data class JUnitSuite(
+internal data class JUnitSuite(
     @set:JsonProperty("testcase") var tests: List<JTestCase>? = null,
     @set:JacksonXmlProperty(localName = "name", isAttribute = true) var className: String? = null,
     @set:JacksonXmlProperty(localName = "tests", isAttribute = true) var numTests: Int = 0,
@@ -82,7 +82,7 @@ data class JUnitSuite(
 )
 
 @JsonRootName("testcase")
-data class JTestCase(
+internal data class JTestCase(
     @set:JacksonXmlProperty(localName = "name", isAttribute = true) var methodName: String? = null,
     @set:JacksonXmlProperty(localName = "classname", isAttribute = true) var className: String? = null,
     @set:JacksonXmlProperty(localName = "time", isAttribute = true) var duration: Double = 0.0,
@@ -90,7 +90,7 @@ data class JTestCase(
 )
 
 @JsonRootName("failure")
-data class JFailure(
+internal data class JFailure(
     @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
     @set:JacksonXmlProperty(localName = "type", isAttribute = true) var type: String? = null
 ) {
@@ -107,4 +107,4 @@ data class JFailure(
  * Given a string -- the result of reading a JUnit XML results file --
  * returns a [JUnitSuite] data class, suitable for subsequent queries.
  */
-fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
+internal fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)

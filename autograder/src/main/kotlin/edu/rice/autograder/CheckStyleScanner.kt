@@ -38,33 +38,33 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 // https://medium.com/@foxjstephen/how-to-actually-parse-xml-in-java-kotlin-221a9309e6e8
 
 /** General-purpose Jackson XML mapper, used everywhere. */
-val kotlinXmlMapper = XmlMapper(JacksonXmlModule().apply {
+internal val kotlinXmlMapper = XmlMapper(JacksonXmlModule().apply {
     setDefaultUseWrapper(false)
 }).registerKotlinModule()
     .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 @JsonRootName("checkstyle")
-data class CheckStyleResults(
+internal data class CheckStyleResults(
     @set:JsonProperty("file") var files: List<CheckStyleFile> = emptyList())
 
 @JsonRootName("file")
-data class CheckStyleFile(
+internal data class CheckStyleFile(
     @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
     @set:JsonProperty("error") var errors: List<CheckStyleError> = emptyList())
 
 @JacksonXmlRootElement(localName = "error")
-data class CheckStyleError(
+internal data class CheckStyleError(
     @set:JacksonXmlProperty(localName = "line", isAttribute = true) var line: String? = null,
     @set:JacksonXmlProperty(localName = "severity", isAttribute = true) var severity: String? = null,
     @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
     @set:JacksonXmlProperty(localName = "source", isAttribute = true) var source: String? = null
 )
 
-fun checkStyleParser(fileData: String): CheckStyleResults = kotlinXmlMapper.readValue(fileData)
+internal fun checkStyleParser(fileData: String): CheckStyleResults = kotlinXmlMapper.readValue(fileData)
 
 /** You'll typically run this twice: once for "test" and once for "main". */
-fun checkStyleEvaluator(moduleName: String, results: CheckStyleResults, deduction: Double = 1.0): EvaluatorResult {
+internal fun checkStyleEvaluator(moduleName: String, results: CheckStyleResults, deduction: Double = 1.0): EvaluatorResult {
     val numFiles = results.files.count()
     val numCleanFiles = results.files.filter { it.errors.isEmpty() }.count()
     val errorMsg = "CheckStyle ($moduleName): $numCleanFiles of $numFiles files passed"

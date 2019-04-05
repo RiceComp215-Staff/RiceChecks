@@ -15,7 +15,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 private const val TAG = "YamlExporter"
 
 /** General-purpose Jackson XML mapper, used everywhere. */
-val kotlinYamlMapper = YAMLMapper()
+internal val kotlinYamlMapper = YAMLMapper()
         .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .registerKotlinModule()
@@ -31,15 +31,15 @@ val kotlinYamlMapper = YAMLMapper()
  * as for use in the Illinois autograder, but it's handy when trying
  * to have a human-readable version of our data.
  */
-fun yamlExporter(projectName: String, codePackage: String): String {
+internal fun yamlExporter(projectName: String, codePackage: String): String {
     val scan = scanEverything(codePackage)
     val project = scan[projectName] ?: Log.ethrow(TAG, "Unknown project: $projectName")
     return yamlExporter(project)
 }
 
-fun yamlExporter(project: GGradeProject) =
+internal fun yamlExporter(project: GGradeProject) =
     kotlinYamlMapper.writeValueAsString(project) ?: Log.ethrow(TAG, "Jackson YAML failure?!")
 
-fun yamlImporter(input: String): Try<GGradeProject> = Try {
+internal fun yamlImporter(input: String): Try<GGradeProject> = Try {
     kotlinYamlMapper.readValue<GGradeProject>(input)
 }

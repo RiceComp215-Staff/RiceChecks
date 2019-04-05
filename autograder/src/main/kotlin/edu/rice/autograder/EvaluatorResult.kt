@@ -16,9 +16,9 @@ package edu.rice.autograder
  * have deductions with zeros in the numeric portion and arbitrary strings elsewhere,
  * to report things like "googleJavaStyle: 35/35 files formatted correctly".
  */
-data class EvaluatorResult(val passes: Boolean, val deductions: List<Pair<String, Double>>)
+internal data class EvaluatorResult(val passes: Boolean, val deductions: List<Pair<String, Double>>)
 
-fun passingEvaluatorResult(happyString: String = "") =
+internal fun passingEvaluatorResult(happyString: String = "") =
     EvaluatorResult(true,
         if (happyString == "")
             emptyList()

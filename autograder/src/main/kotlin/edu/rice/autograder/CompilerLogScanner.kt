@@ -12,6 +12,6 @@ package edu.rice.autograder
 // If the file has zero length, then the compile succeeded. Anything else, then
 // there were warnings and/or errors.
 
-fun javacZeroWarnings(fileData: String, deduction: Double = 1.0): EvaluatorResult =
+internal fun javacZeroWarnings(fileData: String, deduction: Double = 1.0): EvaluatorResult =
     if (fileData.length == 0) passingEvaluatorResult("No compiler warnings or errors")
     else EvaluatorResult(false, listOf("One or more compiler warnings / errors" to deduction))
