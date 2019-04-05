@@ -5,10 +5,10 @@
 //
 package edu.rice.autogradertest;
 
-import edu.rice.autograder.*;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import edu.rice.autograder.annotations.Grade;
+import org.junit.jupiter.api.Test;
 
 public class TestProject2 {
   @Grade(project = "TP2", topic = "Group1", points = 1.0)

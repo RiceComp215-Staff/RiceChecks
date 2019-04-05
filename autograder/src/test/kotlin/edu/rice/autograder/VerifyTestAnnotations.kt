@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
 class VerifyTestAnnotations {
-    val result = scanEverything("edu.rice.autogradertest")
+    internal val result = scanEverything("edu.rice.autogradertest")
 
     @Test
     fun testDataSanityTest() {

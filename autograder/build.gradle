@@ -169,15 +169,35 @@ jar {
     manifest {
         attributes "Main-Class": "edu.rice.autograder.GradleResultScannerKt"
     }
+    
+    archiveBaseName = "AnnoAutoGrader"
 }
 
 task fatJar(type: Jar) {
+    dependsOn 'assemble'
+
     manifest {
         attributes "Main-Class": "edu.rice.autograder.GradleResultScannerKt"
     }
+    archiveBaseName = "AnnoAutoGrader"
+    archiveAppendix = 'fat'
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+}
+
+task annotationsJar(type: Jar) {
+    dependsOn 'assemble'
+
+    archiveBaseName = "AnnoAutoGrader"
+    archiveAppendix = 'annotations'
+    from sourceSets.main.output.classesDirs
+    include '**/annotations/**/*'
+    includeEmptyDirs false
+}
+
+task allJars {
+    dependsOn 'jar', 'fatJar', 'annotationsJar'
 }
 
 ////////////////////////////////////////////////////////////////////////////////

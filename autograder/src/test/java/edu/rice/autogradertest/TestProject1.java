@@ -5,24 +5,23 @@
 //
 package edu.rice.autogradertest;
 
-import edu.rice.autograder.*;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@GradeProject(name = "TP1",
+import edu.rice.autograder.annotations.Grade;
+import edu.rice.autograder.annotations.GradeProject;
+import edu.rice.autograder.annotations.GradeTopic;
+import org.junit.jupiter.api.Test;
+
+@GradeProject(
+    name = "TP1",
     description = "A fairly basic project",
     maxPoints = 10.0,
     coveragePercentage = 70,
     coveragePoints = 1.0,
     coverageMethod = "INSTRUCTIONS",
     warningPoints = 1.0)
-@GradeTopic(project = "TP1",
-    topic = "Group1",
-    maxPoints = 5.0)
-@GradeTopic(project = "TP1",
-    topic = "Group2",
-    maxPoints = 4.0)
+@GradeTopic(project = "TP1", topic = "Group1", maxPoints = 5.0)
+@GradeTopic(project = "TP1", topic = "Group2", maxPoints = 4.0)
 public class TestProject1 {
   @Grade(project = "TP1", topic = "Group1", points = 1.0)
   @Test

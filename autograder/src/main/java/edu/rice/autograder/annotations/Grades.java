@@ -3,16 +3,14 @@
 // Copyright 2018, Dan S. Wallach, Rice University
 // Made available subject to the Apache 2.0 License
 //
-package edu.rice.autograder;
+package edu.rice.autograder.annotations;
 
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.PACKAGE})
+@Target(ElementType.METHOD)
 @Documented
-public @interface GradeTopics {
-  /**
-   * When multiple GradeTopic annotations are specified, this is what you get back.
-   */
-  GradeTopic[] value();
+public @interface Grades {
+  /** When multiple Grade annotations are applied, this is what you get back. */
+  Grade[] value();
 }

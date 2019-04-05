@@ -28,34 +28,37 @@ The `autograder` directory includes our autograder implementation (in Kotlin) an
 as well as a pile of unit tests. The other top-level directories are demonstration projects. 
 
 You can run `gradlew check` or `gradlew test` to run the unit tests in the `autograder` project, 
-you can `gradlew jar` to make the jar files needed to install AnnoAutoGrader elsewhere, 
+you can `gradlew allJars` to make the jar files needed to install AnnoAutoGrader elsewhere, 
 or you can use `gradlew demoSetup` to copy the relevant files into the demo projects.
-
-(At least for now, we're not pushing these Jar files to any sort of MavenCentral server, although
-this would be easy enough to do.)
 
 ## Integrating the autograder into your Gradle projects
 
-- Run `gradlew jar` to generate the Jar file (or download from `link TBD`)
-- Place the Jar file into the `libs` directory
-- Inside your `build.gradle` file:
-  - Add a `libs` line into `dependencies`
-  - Add assorted rules to run the tests you care about, but you don't want them to fail the build.
-  - Perhaps better run as actions by Travis-CI or equivalent.
-    - Example
-    - Example
-    - Example
-  - Then, add Gradle code to execute the autograder, which reads the XML files left behind by the previous actions.
-    - Example
-    - Example
-    - Example
-  - Run the TBD extractor action to extract a grading policy from your code annotations
-    - Examine the policy to see if it matches your intuition on total points and other such things. If not, edit your annotations and repeat.
-      - This solves a significant paint point with other autograders: making it easy to keep
-        the grade specs and the code specs in alignment. You extract a grade spec from your
-        code in the same way that JavaDoc extracts documentation specs. 
-      - _I guess this means AnnoAutoGrader is a *literate autograder*_. That's kinda cool.
-    - Place the resulting `grade-policy.yaml` file in `config`
-    - You may now choose to delete one or more of the source files from which the config was generated
-    (perhaps because they contained private tests that you don't want the students to see).
-    - The autograder, seeing no such tests at runtime, will treat those missing test as failing
+- There are three different Jar files (built by the `gradlew allJars` task):
+  - `AnnoAutoGrader-0.1.jar` -- a "thin" Jar file, including the annotations and the autograder, but
+    without its external dependencies. You might include this in the "libs" directory of a Gradle
+    project or include it from a Maven server (TBD).
+  - `AnnoAutoGrader-fat-0.1.jar` -- a "fat" Jar file, including the annotations, the autograder, and
+    *all of the recursive dependencies of the autograder*. If you want to be able to run the autograder
+    directly from the command-line (e.g., `java -jar AnnoAutoGrader-fat-0.1.jar --project p1 grade`),
+    then this Jar file has everything necessary.
+  - `AnnotationAutoGrader-annotations-0.1.jar` -- a tiny Jar file, including *only* the annotations
+    and nothing else. If you want to leave the autograde annotations in code that students see, but otherwise
+    don't expect the students to run the autograder, this is the bare minimum.
+
+- The usage we recommend is including `AnnoAutoGrader-0.1.jar` as a dependency in Gradle
+  - Add appropriate tasks and dependencies to build.gradle
+    - Task to extract autograder policy to yaml file
+    - Task to run autograder based on yaml file
+    - Various changes to build.gradle so the build doesn't stop on first failure
+
+  - Project dev pipeline:
+    - Check out your project-specific branch
+      - All our projects are branches from "master"
+      - We then delete everything from future projects (in the branch)
+      - This leaves a branch with the reference solution intact
+    - Set build.gradle variable with project name
+    - While your reference solution is still there, extract the autograder policy
+    - Verify that running `gradlew autograde` yields perfect scores
+    - Modify files / remove reference solution
+    - Verify that running `gradlew autograde` yields the correct minimum score
+    

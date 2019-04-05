@@ -6,7 +6,7 @@
 
 package edu.rice.autogradertest;
 
-import edu.rice.autograder.GradeCoverage;
+import edu.rice.autograder.annotations.GradeCoverage;
 
 @GradeCoverage(project = "TP3")
 public class Project3 {

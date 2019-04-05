@@ -91,7 +91,7 @@ private data class IGradeTest(
     val testFactory: Boolean = false
 )
 
-private const val A_PREFIX = "edu.rice.autograder."
+private const val A_PREFIX = "edu.rice.autograder.annotations."
 private const val A_GRADE = A_PREFIX + "Grade"
 private const val A_GRADES = A_PREFIX + "Grades"
 private const val A_GRADETOPIC = A_PREFIX + "GradeTopic"

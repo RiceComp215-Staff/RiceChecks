@@ -5,33 +5,29 @@
 //
 package edu.rice.autogradertest;
 
-import edu.rice.autograder.Grade;
-import edu.rice.autograder.GradeProject;
-import edu.rice.autograder.GradeTopic;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
-
-import java.util.List;
-
 import static edu.rice.autogradertest.Project3.choose;
 import static edu.rice.autogradertest.Project3.factorial;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+
+import edu.rice.autograder.annotations.Grade;
+import edu.rice.autograder.annotations.GradeProject;
+import edu.rice.autograder.annotations.GradeTopic;
+import java.util.List;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 
 @GradeProject(
     name = "TP3",
     description = "Factorial and Choose",
     warningPoints = 1.0,
     coveragePoints = 1.0,
-//    coverageRatio =   0.64885,
-//    coverageRatio = 0.6489, // -- or larger -- leads to a NaN when reading this, but why?
+    //    coverageRatio =   0.64885,
+    //    coverageRatio = 0.6489, // -- or larger -- leads to a NaN when reading this, but why?
     coveragePercentage = 80,
-    coverageMethod = "INSTRUCTIONS"
-)
-@GradeTopic(
-    project = "TP3",
-    topic = "Correctness")
+    coverageMethod = "INSTRUCTIONS")
+@GradeTopic(project = "TP3", topic = "Correctness")
 public class TestProject3 {
   @TestFactory
   @Grade(project = "TP3", topic = "Correctness", points = 2.0, maxPoints = 4.0)
@@ -45,6 +41,6 @@ public class TestProject3 {
   @Test
   @Grade(project = "TP3", topic = "Correctness", points = 4.0)
   public void testChoose() {
-    assertEquals(15, choose(6,2));
+    assertEquals(15, choose(6, 2));
   }
 }
