@@ -6,7 +6,7 @@ class files.
 The essential design of the autograder is:
 - You decorate your unit tests with annotations that specify their associated projects and points values
   - If you've got a single master repository for multiple separate projects, you do these annotations once
-    and they stay put in your code.
+    and they stay put in your master branch.
 - You extract a *grading policy* for every given project, which you can then include in the `config` directory
   that is handed out to your students
 - You provide your students with a `build.gradle` file, specifying all the actions that need to
@@ -35,19 +35,20 @@ or you can use `gradlew demoSetup` to copy the relevant files into the demo proj
 
 - There are three different Jar files (built by the `gradlew allJars` task):
   - `AnnoAutoGrader-0.1.jar` -- a "thin" Jar file, including the annotations and the autograder, but
-    without its external dependencies. You might include this in the "libs" directory of a Gradle
-    project or include it from a Maven server (TBD).
+    without its external dependencies. Suitable for executing from a Gradle environment, which will
+    recursively fetch any dependencies.
   - `AnnoAutoGrader-fat-0.1.jar` -- a "fat" Jar file, including the annotations, the autograder, and
     *all of the recursive dependencies of the autograder*. If you want to be able to run the autograder
     directly from the command-line (e.g., `java -jar AnnoAutoGrader-fat-0.1.jar --project p1 grade`),
     then this Jar file has everything necessary.
   - `AnnotationAutoGrader-annotations-0.1.jar` -- a tiny Jar file, including *only* the annotations
-    and nothing else. This is the only dependency you want to be visible to student projects,
-    so they don't accidentally start calling into other autograder functions.
+    and nothing else. This is the only dependency you want to be visible to student projects.
+    (You don't want, for example, that students' IDEs will autocomplete into the guts of the
+     autograder implementation.)
 
-- Our sample gradle files use `AnnotationAutoGrader-annotations-0.1.jar` as a dependency for
-  student code, and from Gradle will invoke the main autograder library
-  - Add appropriate tasks and dependencies to build.gradle
+- Our sample gradle files use `AnnoAutoGrader-annotations-0.1.jar` as a dependency for
+  student code, and from Gradle will invoke the main autograder in `AnnoAutoGrader-0.1.jar`.
+  - Add appropriate tasks and dependencies to `build.gradle`
     - Task to extract autograder policy to yaml file
     - Task to run autograder based on yaml file
     - Various changes to build.gradle so the build doesn't stop on first failure
