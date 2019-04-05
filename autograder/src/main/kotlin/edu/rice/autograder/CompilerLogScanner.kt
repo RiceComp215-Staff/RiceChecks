@@ -6,12 +6,18 @@
 
 package edu.rice.autograder
 
+private const val TAG = "JavacWarnings"
+
 // This is almost too easy: our Gradle configuration copies stdout from the compiler
 // to a file: build/logs/compile.log
 
 // If the file has zero length, then the compile succeeded. Anything else, then
 // there were warnings and/or errors.
 
-internal fun javacZeroWarnings(fileData: String, deduction: Double = 1.0): EvaluatorResult =
-    if (fileData.length == 0) passingEvaluatorResult("No compiler warnings or errors")
+internal fun javacZeroWarnings(fileData: String, deduction: Double = 1.0): EvaluatorResult {
+    val result = if (fileData.length == 0) passingEvaluatorResult("No compiler warnings or errors")
     else EvaluatorResult(false, listOf("One or more compiler warnings / errors" to deduction))
+
+    Log.i(TAG, "JavaC: " + result.deductions[0].first)
+    return result
+}

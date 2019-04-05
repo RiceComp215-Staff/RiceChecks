@@ -6,6 +6,8 @@
 
 package edu.rice.autograder
 
+private const val TAG = "GoogleJavaStyle"
+
 /**
  * the data is formatted something like this:
  * - src/test/java/edu/rice/week12mockito/Week12LabTest.java,1546873388046247000,4759,FORMATTED
@@ -26,6 +28,7 @@ internal fun googleJavaStyleEvaluator(results: List<GoogleJavaStyleResult>, dedu
     val numResults = results.size
     val numFormatted = results.filter { it.formattedStatus == "FORMATTED" }.size
     val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults)
+    Log.i(TAG, "googleJavaStyleEvaluator: $feedback")
 
     return if (numFormatted == numResults) {
         passingEvaluatorResult(feedback)

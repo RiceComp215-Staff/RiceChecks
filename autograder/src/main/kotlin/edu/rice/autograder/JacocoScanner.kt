@@ -176,7 +176,7 @@ private fun matchingClassSpecs(coverages: List<GGradeCoverage>, report: JacocoRe
         // "including" annotation overrides an external "excluding" annotation.
         val relevantSpecs = packageSpecs.filter { className.startsWith(it.name + ".") } +
                 classSpecs.filter { className.startsWith(it.name + ".") }
-        val result = relevantSpecs.fold(false) { prior, next -> !next.excluded }
+        val result = relevantSpecs.fold(false) { _, next -> !next.excluded }
         result
     }
 

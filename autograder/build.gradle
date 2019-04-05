@@ -7,6 +7,7 @@ buildscript {
     ext.kotlin_version = '1.3.21'
     ext.jackson_version = '2.9.8'
     ext.arrow_version = '0.9.0'
+    ext.annoautograder_version = '0.1'
 
     ext.repos = {
         maven {
@@ -54,15 +55,15 @@ plugins {
     id 'jacoco'
     id 'com.github.sherter.google-java-format' version '0.8'
     
-    id "org.jetbrains.kotlin.kapt" version "1.3.21"
     id "org.jetbrains.kotlin.jvm" version "1.3.21"
+    id "org.jetbrains.kotlin.kapt" version "1.3.21"
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin'
+//apply plugin: 'kotlin-kapt'
 
 group 'edu.rice'
-version '1.0'
+version annoautograder_version
 
 allprojects {
     tasks.withType(JavaCompile) {
@@ -98,7 +99,6 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
-
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
     main.java.srcDirs += 'src/main/java'
@@ -156,6 +156,29 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     args "-F", "src/**/*.kt"
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// This section deals with making jar files. The regular "jar" task builds
+// a "thin" Jar file (~200KB) with external dependencies. The "fatJar" action puts
+// all the dependencies into a single file (~14MB).
+
+java {
+    project.version = annoautograder_version
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "edu.rice.autograder.GradleResultScannerKt"
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes "Main-Class": "edu.rice.autograder.GradleResultScannerKt"
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // This section specifies all the external libraries being used by your Java

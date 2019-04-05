@@ -21,22 +21,19 @@ internal object Log {
     const val NOTHING = -1
 
     private const val TAG = "Log"
-    private var logLevel = ALL
+    private var logLevel = NOTHING
 
-    init {
-        i(TAG, "AnnoAutoGrader log support ready!")
-
-        val properties = listOf(
-                "java.version",
+    fun logProperties() =
+        listOf("java.version",
                 "java.vm.version",
                 "java.runtime.name",
                 "java.home",
                 "java.vendor",
                 "java.vm.name",
                 "user.dir")
-
-        properties.forEach { str -> iformat(TAG, "System property: %-17s -> %s", str, System.getProperty(str)) }
-    }
+                .forEach {
+                    iformat(TAG, "System property: %-17s -> %s", it, System.getProperty(it))
+                }
 
     private fun logger(tag: String): Logger =
         // Once we have a Logback logger for a tag, we don't want to make a new one, so we save
@@ -54,8 +51,20 @@ internal object Log {
         if (level == ALL || level == ERROR || level == NOTHING) {
             logLevel = level
         } else {
-            throw IllegalStateException("Unknown log level: $level")
+            throw IllegalArgumentException("Unknown log level: $level")
         }
+    }
+
+    /**
+     * Set the log level.
+     *
+     * @param level (one of "all", "error", "nothing")
+     */
+    fun setLogLevel(level: String) = when (level) {
+        "all", "ALL" -> logLevel = ALL
+        "error", "ERROR" -> logLevel = ERROR
+        "nothing", "NOTHING" -> logLevel = NOTHING
+        else -> throw IllegalArgumentException("Supported log levels: all, error, nothing")
     }
 
     /**

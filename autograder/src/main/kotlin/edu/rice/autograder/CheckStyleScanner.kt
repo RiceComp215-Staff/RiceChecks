@@ -61,13 +61,21 @@ internal data class CheckStyleError(
     @set:JacksonXmlProperty(localName = "source", isAttribute = true) var source: String? = null
 )
 
-internal fun checkStyleParser(fileData: String): CheckStyleResults = kotlinXmlMapper.readValue(fileData)
+private const val TAG = "CheckStyleScanner"
+
+internal fun checkStyleParser(fileData: String): CheckStyleResults {
+    Log.i(TAG, "checkStyleParser: $fileData")
+    return kotlinXmlMapper.readValue(fileData)
+}
 
 /** You'll typically run this twice: once for "test" and once for "main". */
 internal fun checkStyleEvaluator(moduleName: String, results: CheckStyleResults, deduction: Double = 1.0): EvaluatorResult {
     val numFiles = results.files.count()
     val numCleanFiles = results.files.filter { it.errors.isEmpty() }.count()
+
     val errorMsg = "CheckStyle ($moduleName): $numCleanFiles of $numFiles files passed"
+    Log.i(TAG, "checkStyleEvaluator: $moduleName --> $errorMsg")
+
     val passing = numFiles == numCleanFiles
     return EvaluatorResult(passing, listOf(errorMsg to if (passing) 0.0 else deduction))
 }

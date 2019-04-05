@@ -106,7 +106,7 @@ private const val A_JUNIT5_TESTFACTORY = "org.junit.jupiter.api.TestFactory"
 
 /** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun internalScannerErrorX(s: String): Nothing {
-    // TODO: rework these to use our logging infrastructure?
+    Log.e(TAG, "Internal scanner failure: $s")
     System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
     throw RuntimeException(s)
 }
@@ -117,6 +117,7 @@ private fun AnnotationParameterValueList?.internalScannerError(s: String): Nothi
 
 /** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun failScannerX(s: String): Nothing {
+    Log.e(TAG, "Terminating: $s")
     System.err.println("Terminating Grade Annotation Scanner:\n  $s")
     throw RuntimeException(s)
 
@@ -308,7 +309,7 @@ private fun AnnotationTuple.toIGradeTest(
  * a list of annotation-tuples, some of which might have this weird array property, and
  * then expands them to the regular annotations within.
  */
-private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): List<AnnotationTuple> =
+private fun List<AnnotationTuple>.expandValueList(): List<AnnotationTuple> =
         flatMap {
             val (ai, isPackage, classOrPackageName, methodName) = it
             val pv = ai.parameterValues
@@ -317,7 +318,7 @@ private fun List<AnnotationTuple>.expandValueList(verbose: Boolean = false): Lis
                 val vlist = pv.lookup<Array<*>>("value", emptyArray)
                     ?: pv.failScanner("    Unexpected empty array when `value' found")
                 vlist.mapNotNull { v ->
-                    if (verbose) System.err.println("    Found: $v")
+                    Log.i(TAG, "    Found: $v")
                     when (v) {
                         null -> null
                         is AnnotationInfo -> AnnotationTuple(v, isPackage, classOrPackageName, methodName)
@@ -346,17 +347,17 @@ private fun List<AnnotationTuple>.checkNoValueGroups() {
  * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
  * describing every matching annotation found on a Java package (i.e., inside a package-info.java file).
  */
-private fun ScanResult.packageAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> {
-    if (verbose) System.err.println("Looking for packages with annotations: $annotationNames")
+private fun ScanResult.packageAnnotations(annotationNames: List<String>): List<AnnotationTuple> {
+    Log.i(TAG, "Looking for packages with annotations: $annotationNames")
     return packageInfo
             .filterNotNull()
             .flatMap { it.annotationInfo.map { ai -> AnnotationTuple(ai, true, it.name) } }
             .filter {
                 it.ai.name in annotationNames
             }
-            .expandValueList(verbose)
+            .expandValueList()
             .also {
-                if (verbose) System.err.println("Total: ${it.size} package annotations found")
+                Log.i(TAG, "Total: ${it.size} package annotations found")
                 it.checkNoValueGroups()
             }
 }
@@ -365,10 +366,10 @@ private fun ScanResult.packageAnnotations(annotationNames: List<String>, verbose
  * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
  * describing every matching annotation found on a Java method.
  */
-private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> {
-    if (verbose) System.err.println("================= Looking for methods with annotations: $annotationNames =================")
+private fun ScanResult.methodAnnotations(annotationNames: List<String>): List<AnnotationTuple> {
+    Log.i(TAG, "================= Looking for methods with annotations: $annotationNames =================")
     return annotationNames.flatMap { aname ->
-        if (verbose) System.err.println("Looking for: $aname")
+        Log.i(TAG, "Looking for: $aname")
         getClassesWithMethodAnnotation(aname)
                 .filterNotNull()
                 .flatMap { classInfo ->
@@ -386,20 +387,16 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
                                 it.ai.name == aname
                             }
                             .also { mi ->
-                                if (verbose) {
-                                    System.err.println("Pre-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
-                                }
+                                Log.i(TAG, "Pre-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
                             }
-                            .expandValueList(verbose)
+                            .expandValueList()
                             .also { mi ->
-                                if (verbose) {
-                                    System.err.println("Post-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
-                                }
+                                Log.i(TAG, "Post-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
                             }
                 }
     }
     .also {
-        if (verbose) System.err.println("Total: ${it.size} method annotations found")
+        Log.i(TAG, "Total: ${it.size} method annotations found")
         it.checkNoValueGroups()
     }
 }
@@ -408,8 +405,8 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>, verbose:
  * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
  * describing every matching annotation found on a Java class (inner or outer) or interface.
  */
-private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> {
-    if (verbose) System.err.println("Looking for classes with annotations: $annotationNames")
+private fun ScanResult.classAnnotations(annotationNames: List<String>): List<AnnotationTuple> {
+    Log.i(TAG, "Looking for classes with annotations: $annotationNames")
     return annotationNames.flatMap { aname ->
         getClassesWithAnnotation(aname)
                 .filterNotNull()
@@ -424,10 +421,10 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: 
                 .filter {
                     it.ai.name == aname
                 }
-                .expandValueList(verbose)
+                .expandValueList()
     }
     .also {
-        if (verbose) System.err.println("Total: ${it.size} class annotations found")
+        Log.i(TAG, "Total: ${it.size} class annotations found")
         it.checkNoValueGroups()
     }
 }
@@ -436,8 +433,8 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>, verbose: 
  * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
  * describing every matching annotation found on a Java package or class.
  */
-private fun ScanResult.packageOrClassAnnotations(annotationNames: List<String>, verbose: Boolean = false): List<AnnotationTuple> =
-        packageAnnotations(annotationNames, verbose) + classAnnotations(annotationNames, verbose)
+private fun ScanResult.packageOrClassAnnotations(annotationNames: List<String>): List<AnnotationTuple> =
+        packageAnnotations(annotationNames) + classAnnotations(annotationNames)
 
 /**
  * We have lists of things that we don't want to have repeats. No repeated project names.
@@ -457,16 +454,17 @@ private fun <T> List<T>.failRepeating(failMessage: String, stringExtractor: (T) 
 
 private fun List<IGradeCoverage>.toGCoverages(): List<GGradeCoverage> = map { GGradeCoverage(it.scope, it.exclude, it.name) }
 
-// TODO: rework this, and all the print statements, to use our log library
-private const val VERBOSITY = false
+private const val TAG = "CodeAnnotationScanner"
 
 /**
  * Given the name of a code package like "edu.rice", returns a mapping from project names to
  * [GGradeProject] containing everything we know about that project (i.e., its topics,
  * coverage requirements, and specific unit tests).
  */
-internal fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject> =
-    ClassGraph()
+internal fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject> {
+    Log.i(TAG, "scanEverything: $codePackage")
+
+    return ClassGraph()
 //            .verbose() // Log to stderr
             .enableAllInfo() // Scan classes, methods, fields, annotations
             .whitelistPackages(codePackage) // Scan codePackage and subpackages
@@ -475,7 +473,7 @@ internal fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGrad
                     emptyMap()
                 } else {
                     val gradeProjectAnnotations =
-                            scanResult.packageOrClassAnnotations(listOf(A_GRADEPROJECT, A_GRADEPROJECTS), verbose = VERBOSITY)
+                            scanResult.packageOrClassAnnotations(listOf(A_GRADEPROJECT, A_GRADEPROJECTS))
                                     .map { it.toIGradeProject() }
                                     .failRepeating("More than one project definition for") { it.name }
 
@@ -485,17 +483,17 @@ internal fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGrad
                     val projectMap = gradeProjectAnnotations.associateBy { it.name }
 
                     val gradeCoverageAnnotations =
-                            scanResult.packageOrClassAnnotations(listOf(A_GRADECOVERAGE, A_GRADECOVERAGES), verbose = VERBOSITY)
+                            scanResult.packageOrClassAnnotations(listOf(A_GRADECOVERAGE, A_GRADECOVERAGES))
                                     .map { it.toIGradeCoverage(projectMap) }
 
-                    val testAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST), verbose = VERBOSITY)
+                    val testAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST))
                             .mapNotNull { it.methodName }.toSet()
 
-                    val testFactoryAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY), verbose = VERBOSITY)
+                    val testFactoryAnnotations = scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY))
                             .mapNotNull { it.methodName }.toSet()
 
                     val gradeTestAnnotations =
-                            scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES), verbose = VERBOSITY)
+                            scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES))
                                     .map { it.toIGradeTest(projectMap, testAnnotations, testFactoryAnnotations) }
                                     // sort only to make it easier to read when printed for debugging
                                     .sortedWith(compareBy({ it.project.name }, { it.topic }, { it.className }, { it.methodName }))
@@ -544,6 +542,7 @@ internal fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGrad
                     }
                 }
             }
+}
 
 // TODO: print YAML file, make sure we can read it back in again
 // TODO: switch over to kotlinx.serialization, because it's portable across platforms, has the stuff that plants need

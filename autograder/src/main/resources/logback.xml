@@ -1,0 +1,10 @@
+<configuration debug="true">
+  <appender name="TextOut" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%date [%thread] %highlight(%-5level) %cyan(%logger{15}) - %msg %n</pattern>
+    </encoder>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="TextOut" />
+  </root>
+</configuration>
