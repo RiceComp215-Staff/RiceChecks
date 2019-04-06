@@ -24,7 +24,13 @@ data class GoogleJavaStyleResult(
     val formattedStatus: String
 )
 
+val googleJavaStyleMissing = "googleJavaStyleScanner: no input found" to false
+
 fun List<GoogleJavaStyleResult>.eval(): Pair<String, Boolean> {
+    if (isEmpty()) {
+        return googleJavaStyleMissing
+    }
+
     val numResults = size
     val numFormatted = filter { it.formattedStatus == "FORMATTED" }.size
     val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults) +
@@ -34,12 +40,19 @@ fun List<GoogleJavaStyleResult>.eval(): Pair<String, Boolean> {
     return feedback to (numFormatted == numResults)
 }
 
-fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> =
-    // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
-    // Unlikely we'll have escaped commas or other such landmines that would break this.
-    fileData
-        .split(Regex("[\n\r]+"))
-        .filter { it != "" }
-        .map { it.split(",") }
-        .map { (a, b, c, d) -> GoogleJavaStyleResult(a, b.toLong(), c.toLong(), d) }
-        .sortedBy { it.fileName }
+fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> {
+    Log.i(TAG, "googleJavaStyleParser: ${fileData.length ?: 0} bytes")
+
+    return if (fileData.isEmpty()) {
+        emptyList()
+    } else {
+        // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
+        // Unlikely we'll have escaped commas or other such landmines that would break this.
+        fileData
+                .split(Regex("[\n\r]+"))
+                .filter { it != "" }
+                .map { it.split(",") }
+                .map { (a, b, c, d) -> GoogleJavaStyleResult(a, b.toLong(), c.toLong(), d) }
+                .sortedBy { it.fileName }
+    }
+}

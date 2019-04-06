@@ -20,7 +20,7 @@ import java.util.zip.ZipEntry
 
 private const val TAG = "IO"
 
-private fun readdirPath(filePath: String): Try<Sequence<Path>> =
+fun readdirPath(filePath: String): Try<Sequence<Path>> =
     Try {
         java.nio.file.Files.newDirectoryStream(Paths.get(filePath)).use {
             // we need to iterate the full list before closing the directory stream
@@ -28,6 +28,15 @@ private fun readdirPath(filePath: String): Try<Sequence<Path>> =
             it?.toList()?.asSequence() ?: Log.ethrow(TAG, "failed to get anything from $filePath")
         }
     }
+
+fun Path.readFile(): Try<String> = Try {
+    java.nio.file.Files.readString(this)
+}
+        .onFailure {
+            Log.e(TAG, "failed to read file(${this.fileName})", it)
+        }
+
+fun readFile(fileName: String) = Paths.get(fileName).readFile()
 
 /**
  * Given a directory path into the resources, returns a list of resource names suitable for then
@@ -38,82 +47,82 @@ private fun readdirPath(filePath: String): Try<Sequence<Path>> =
  */
 fun readResourceDir(dirPath: String): Try<Sequence<String>> =
         Try { ClassLoader.getSystemResources(dirPath).asSequence() }
-            .onFailure { err -> Log.e(TAG, "getSystemResources failed for path($dirPath)", err); }
-        .map { dirUrls: Sequence<URL> ->
-            dirUrls.flatMap { dirUrl: URL ->
-                val rawUrlPath = dirUrl.path ?: Log.ethrow(TAG, "found null URL path?")
+                .onFailure { err -> Log.e(TAG, "getSystemResources failed for path($dirPath)", err); }
+                .map { dirUrls: Sequence<URL> ->
+                    dirUrls.flatMap { dirUrl: URL ->
+                        val rawUrlPath = dirUrl.path ?: Log.ethrow(TAG, "found null URL path?")
 
-                when (dirUrl.protocol) {
-                    "file" -> {
+                        when (dirUrl.protocol) {
+                            "file" -> {
 
-                        // On Windows, we get URL paths like file:/C:/Users/dwallach/....
-                        // On Macs, we get URL paths like file:/Users/dwallach/...
+                                // On Windows, we get URL paths like file:/C:/Users/dwallach/....
+                                // On Macs, we get URL paths like file:/Users/dwallach/...
 
-                        // With those Windows URLs, getPath() will
-                        // give us /C:/Users/... which doesn't work
-                        // when we try to actually open the
-                        // files. The solution? Match a regular
-                        // expression and then remove the leading
-                        // slash.
+                                // With those Windows URLs, getPath() will
+                                // give us /C:/Users/... which doesn't work
+                                // when we try to actually open the
+                                // files. The solution? Match a regular
+                                // expression and then remove the leading
+                                // slash.
 
-                        val urlPath = if (rawUrlPath.matches(Regex("^/\\p{Upper}:/.*$")))
-                            rawUrlPath.substring(1)
-                        else
-                            rawUrlPath
+                                val urlPath = if (rawUrlPath.matches(Regex("^/\\p{Upper}:/.*$")))
+                                    rawUrlPath.substring(1)
+                                else
+                                    rawUrlPath
 
-                        // if the URLDecoder fails, for whatever
-                        // reason, we'll just go with the original
-                        // undecoded path
-                        val decodedPath: Path = Paths.get(
-                            Try {
-                                URLDecoder.decode(urlPath, StandardCharsets.UTF_8)
-                            }.getOrElse { urlPath })
+                                // if the URLDecoder fails, for whatever
+                                // reason, we'll just go with the original
+                                // undecoded path
+                                val decodedPath: Path = Paths.get(
+                                        Try {
+                                            URLDecoder.decode(urlPath, StandardCharsets.UTF_8)
+                                        }.getOrElse { urlPath })
 
-                        readdirPath(decodedPath.toString())
-                            .getOrElse { emptySequence() }
-                            .map(decodedPath::relativize)
-                            .map(Path::toString)
-                            .map { "$dirPath/$it" }
-                    }
-
-                    "jar" -> {
-                        // Solution adapted from here:
-                        // http://www.uofr.net/~greg/java/get-resource-listing.html
-
-                        val jarPath = rawUrlPath.substring(
-                            5, rawUrlPath.indexOf("!")
-                        ) // strip out only the JAR file
-
-                        Try {
-                            JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8)).use {
-
-                                // This code is going to work, but could
-                                // be slow for huge JAR files.
-
-                                it.entries()
-                                    .asSequence()
-                                    .map(ZipEntry::getName)
-                                    .filter { it.startsWith(dirPath) }
+                                readdirPath(decodedPath.toString())
+                                        .getOrElse { emptySequence() }
+                                        .map(decodedPath::relativize)
+                                        .map(Path::toString)
+                                        .map { "$dirPath/$it" }
                             }
-                        }.onFailure {
-                            Log.e(TAG, "trouble reading $dirUrl, ignoring and marching onward", it)
-                        }.fold({ emptySequence<String>() }, { it })
-                    }
 
-                    else -> {
-                        Log.e(TAG, "unknown protocol in $dirUrl")
-                        emptySequence()
+                            "jar" -> {
+                                // Solution adapted from here:
+                                // http://www.uofr.net/~greg/java/get-resource-listing.html
+
+                                val jarPath = rawUrlPath.substring(
+                                        5, rawUrlPath.indexOf("!")
+                                ) // strip out only the JAR file
+
+                                Try {
+                                    JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8)).use {
+
+                                        // This code is going to work, but could
+                                        // be slow for huge JAR files.
+
+                                        it.entries()
+                                                .asSequence()
+                                                .map(ZipEntry::getName)
+                                                .filter { it.startsWith(dirPath) }
+                                    }
+                                }.onFailure {
+                                    Log.e(TAG, "trouble reading $dirUrl, ignoring and marching onward", it)
+                                }.fold({ emptySequence<String>() }, { it })
+                            }
+
+                            else -> {
+                                Log.e(TAG, "unknown protocol in $dirUrl")
+                                emptySequence()
+                            }
+                        }
                     }
                 }
-            }
-        }
 
 private fun resourceToStream(resourceName: String): Try<InputStream> {
     // If ClassLoader.getSystemResourceAsStream finds nothing, it
     // returns null, which we have to deal with.
     return Try {
         ClassLoader.getSystemResourceAsStream(resourceName)
-            ?: throw NullPointerException("null result from ClassLoader?")
+                ?: throw NullPointerException("null result from ClassLoader?")
     }.onFailure {
         Log.e(TAG, "getSystemResources failed for resource($resourceName)", it)
     }
@@ -129,25 +138,25 @@ private fun resourceToStream(resourceName: String): Try<InputStream> {
  * wrong
  */
 fun readResource(resourceName: String): Try<String> =
-    readResourceBytes(resourceName).map { String(it, StandardCharsets.UTF_8) }
+        readResourceBytes(resourceName).map { String(it, StandardCharsets.UTF_8) }
 
 /**
  * Get the contents of an `InputStream` as an array of bytes. The stream is closed
  * after being read.
  */
 private fun InputStream.toByteArray(): Try<ByteArray> =
-    Try {
-        use {
-            val os = ByteArrayOutputStream()
-            val buf = ByteArray(1024)
-            var n = it.read(buf)
-            while (n != -1) {
-                os.write(buf, 0, n)
-                n = it.read(buf)
+        Try {
+            use {
+                val os = ByteArrayOutputStream()
+                val buf = ByteArray(1024)
+                var n = it.read(buf)
+                while (n != -1) {
+                    os.write(buf, 0, n)
+                    n = it.read(buf)
+                }
+                os.toByteArray()
             }
-            os.toByteArray()
         }
-    }
 
 /**
  * Given a resource name, which typically maps to a file in the "resources" directory, read it in
@@ -158,4 +167,4 @@ private fun InputStream.toByteArray(): Try<ByteArray> =
  * went wrong
  */
 fun readResourceBytes(resourceName: String): Try<ByteArray> =
-    resourceToStream(resourceName).flatMap { it.toByteArray() }
+        resourceToStream(resourceName).flatMap { it.toByteArray() }

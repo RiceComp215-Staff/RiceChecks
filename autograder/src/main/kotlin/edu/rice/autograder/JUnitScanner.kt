@@ -12,6 +12,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.util.Date
+import kotlin.math.max
+import kotlin.math.min
 
 // A successful unit test file, with a name like TEST-edu.rice.json.ParserText.xml, looks like this:
 //
@@ -94,13 +96,14 @@ data class JFailure(
     @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
     @set:JacksonXmlProperty(localName = "type", isAttribute = true) var type: String? = null
 ) {
-    // Jackson bug workaround: https://github.com/FasterXML/jackson-module-kotlin/issues/138
+    // Jackson workaround: https://github.com/FasterXML/jackson-module-kotlin/issues/138
     @JacksonXmlText
     var stackTrace: String? = null
 
     /** Converts the stack backtrace to a list of strings starting at the frame where the exception was thrown. */
-    val stackTraceList: List<String>
-        get() = stackTrace?.split(Regex("[\n\r]+\\s*")) ?: emptyList()
+    val stackTraceList: List<String> by lazy {
+        stackTrace?.split(Regex("[\n\r]+\\s*")) ?: emptyList()
+    }
 }
 
 /**
@@ -109,24 +112,44 @@ data class JFailure(
  */
 fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
 
-private fun JUnitSuite.find(className: String, methodName: String): List<JTestCase> =
-    tests ?.filter { it.className == className && it.methodName == methodName } ?: emptyList()
+private fun List<JUnitSuite>.find(className: String, methodName: String): List<JTestCase> =
+        flatMap { suite ->
+            suite.tests
+                    ?.filter { it.className == className && it.methodName == methodName }
+                    ?: emptyList()
+        }
 
-fun JUnitSuite.eval(project: GGradeProject): EvaluatorResult {
-    val tmp = project.topics.map { (topicName, topicMaxPoints, tests) ->
-        tests.map { (points, maxPoints, className, methodName, testFactory) ->
+/**
+ * Returns a list of [EvaluatorResult] -- one per [GGradeTopic] associated with
+ * the given [GGradeProject].
+ */
+fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
+    project.topics.map { (topicName, topicMaxPoints, tests) ->
+        val topicResults = tests.map { (points, maxPoints, className, methodName, testFactory) ->
             val name = "$className.$methodName"
-            if (testFactory) {
-                "" to 0.0
-            } else {
-                val testResults = find(className, methodName)
-                when {
-                    testResults.isEmpty() -> "$name: missing" to points
-                    testResults.find { it.failure != null } != null -> "$name: failed" to points
-                    else -> "$name: passed" to 0.0
+            val testResults = find(className, methodName)
+
+            when {
+                testResults.isEmpty() -> "$name: missing" to points
+                testFactory -> {
+                    val numPassing = testResults.count { it.failure == null }
+                    val numFailing = testResults.count { it.failure != null }
+                    val totalTests = testResults.size
+                    val deduction = min(numFailing * points, maxPoints)
+                    "$name: $numPassing / $totalTests passing" to deduction
                 }
+                testResults.find { it.failure != null } != null -> "$name: failed" to points
+                else -> "$name: passed" to 0.0
             }
         }
+
+        val topicDeductions = min(topicResults.map { it.second }.sum(), topicMaxPoints)
+        val topicString = "Topic: $topicName"
+
+        if (topicDeductions == 0.0) {
+            passingEvaluatorResult(topicMaxPoints, topicString + ": no deductions")
+        } else {
+            EvaluatorResult(false, max(topicMaxPoints - topicDeductions, 0.0),
+                    topicString, topicResults)
+        }
     }
-    throw RuntimeException("TODO")
-}

@@ -152,12 +152,19 @@ data class JacocoLine(
  * Given a string -- the rest of reading a Jacoco XML results file --
  * returns a [JacocoReport] data class, suitable for subsequent queries.
  */
-fun jacocoParser(fileData: String): JacocoReport = kotlinXmlMapper.readValue(fileData)
+fun jacocoParser(fileData: String): JacocoReport? {
+    Log.i(TAG, "jacocoParser: ${fileData.length} bytes")
+
+    return if (fileData.isEmpty()) null
+    else kotlinXmlMapper.readValue(fileData)
+}
 
 fun GCoverageStyle.toJacocoCounterType() = when (this) {
     GCoverageStyle.INSTRUCTIONS -> JacocoCounterType.INSTRUCTION
     GCoverageStyle.LINES -> JacocoCounterType.LINE
 }
+
+val jacocoResultsMissing = EvaluatorResult(false, 0.0, "No test coverage results found", emptyList())
 
 private const val TAG = "JacocoScanner"
 
@@ -183,7 +190,11 @@ private fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): Li
     return namesToTestCoverage
 }
 
-fun JacocoReport.eval(project: GGradeProject): EvaluatorResult {
+fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
+    if (this == null) {
+        return jacocoResultsMissing
+    }
+
     if (project.coveragePoints == 0.0) return passingEvaluatorResult(0.0, "No test coverage requirement")
 
     val counterType = project.coverageStyle.toJacocoCounterType()

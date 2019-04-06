@@ -23,6 +23,9 @@ The essential design of the autograder is:
 AnnoAutoGrader, itself, is written in Kotlin, and should be able to process student projects written in Java or Kotlin,
 although our focus is on Java-based student projects, at least for now.
 
+**AnnoAutoGrader is only tested against OpenJDK 11. It's unlikely to work on earlier JDK releases.**
+
+
 ## Compiling / developing for AnnoAutoGrader
 The `autograder` directory includes our autograder implementation (in Kotlin) and annotations (Java)
 as well as a pile of unit tests. The other top-level directories are demonstration projects. 

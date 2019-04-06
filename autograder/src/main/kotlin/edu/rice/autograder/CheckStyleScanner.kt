@@ -63,13 +63,21 @@ data class CheckStyleError(
 
 private const val TAG = "CheckStyleScanner"
 
-fun checkStyleParser(fileData: String): CheckStyleResults {
-    Log.i(TAG, "checkStyleParser: $fileData")
-    return kotlinXmlMapper.readValue(fileData)
+fun checkStyleMissing(moduleName: String) = "CheckStyle ($moduleName): report not found" to false
+
+fun checkStyleParser(fileData: String): CheckStyleResults? {
+    Log.i(TAG, "checkStyleParser: ${fileData.length} bytes")
+
+    return if (fileData.isEmpty()) null
+    else kotlinXmlMapper.readValue(fileData)
 }
 
 /** You'll typically run this twice: once for "test" and once for "main". */
-fun CheckStyleResults.eval(moduleName: String): Pair<String, Boolean> {
+fun CheckStyleResults?.eval(moduleName: String): Pair<String, Boolean> {
+    if (this == null) {
+        return checkStyleMissing(moduleName)
+    }
+
     val numFiles = files.count()
     val numCleanFiles = files.filter { it.errors.isEmpty() }.count()
 

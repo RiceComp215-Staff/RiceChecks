@@ -8,6 +8,8 @@ package edu.rice.autograder
 
 private const val TAG = "JavacWarnings"
 
+val javacLogMissing = "Can't find compiler output" to false
+
 // This is almost too easy: our Gradle configuration copies stdout from the compiler
 // to a file: build/logs/compile.log
 
