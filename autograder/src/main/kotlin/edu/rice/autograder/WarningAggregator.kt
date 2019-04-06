@@ -7,7 +7,7 @@
 package edu.rice.autograder
 
 internal fun warningAggregator(project: GGradeProject): EvaluatorResult {
-    if(project.warningPoints == 0.0) {
+    if (project.warningPoints == 0.0) {
         return passingEvaluatorResult(0.0, "No warning / style deductions")
     } else {
         val allResults = listOf(
