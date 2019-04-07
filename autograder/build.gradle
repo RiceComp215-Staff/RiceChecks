@@ -128,7 +128,7 @@ java {
 
 jar {
     manifest {
-        attributes "Main-Class": "edu.rice.autograder.GradleResultScannerKt"
+        attributes "Main-Class": "edu.rice.autograder.AutoGraderKt"
     }
 
     archiveBaseName = 'annoautograder'
@@ -138,8 +138,9 @@ task fatJar(type: Jar) {
     dependsOn 'assemble'
 
     manifest {
-        attributes "Main-Class": "edu.rice.autograder.GradleResultScannerKt"
+        attributes "Main-Class": "edu.rice.autograder.AutoGraderKt"
     }
+    
     archiveBaseName = 'annoautograder'
     archiveAppendix = 'fat'
 
@@ -175,9 +176,9 @@ dependencies {
     compile "io.arrow-kt:arrow-core-data:$arrow_version"
     compile "io.arrow-kt:arrow-core-extensions:$arrow_version"
     compile "io.arrow-kt:arrow-syntax:$arrow_version"
-    compile "io.arrow-kt:arrow-typeclasses:$arrow_version"
-    compile "io.arrow-kt:arrow-extras-data:$arrow_version"
-    compile "io.arrow-kt:arrow-extras-extensions:$arrow_version"
+//    compile "io.arrow-kt:arrow-typeclasses:$arrow_version"
+//    compile "io.arrow-kt:arrow-extras-data:$arrow_version"
+//    compile "io.arrow-kt:arrow-extras-extensions:$arrow_version"
     kapt    "io.arrow-kt:arrow-meta:$arrow_version"
     
     // annotations to help ErrorProne and IntelliJ find bugs

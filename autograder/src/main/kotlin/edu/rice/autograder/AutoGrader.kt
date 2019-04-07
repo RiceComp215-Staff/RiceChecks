@@ -28,7 +28,7 @@ enum class Task {
 
 private const val TAG = "GradleResultScanner"
 
-object GradleResultScanner {
+object AutoGrader {
     @JvmField
     @Parameter(names = ["--package"], description = "Java package where student code can be found (only used when reading annotations from student code)")
     var packageName: String? = null
@@ -181,5 +181,5 @@ fun loadConfig(yamlFileName: String): GGradeProject =
 
 /** Entry point for calling the autograder from the command-line. */
 fun main(args: Array<String>) {
-    GradleResultScanner.autoGrade(args)
+    AutoGrader.autoGrade(args)
 }
