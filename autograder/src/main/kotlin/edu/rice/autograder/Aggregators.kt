@@ -7,39 +7,40 @@
 package edu.rice.autograder
 
 import arrow.core.getOrDefault
+import arrow.syntax.collections.tail
+import java.io.PrintStream
 
-fun warningAggregator(project: GGradeProject): EvaluatorResult {
-    if (project.warningPoints == 0.0) {
-        return passingEvaluatorResult(0.0, "No warning / style deductions")
-    } else {
-        val googleJavaStyleContents = readFile("build/google-java-format/0.8/fileStates.txt")
-                .map { googleJavaStyleParser(it).eval() }
-                .getOrDefault { googleJavaStyleMissing }
-        val checkStyleMainContents = readFile("build/reports/checkstyle/main.xml")
-                .map { checkStyleParser(it).eval("main") }
-                .getOrDefault { checkStyleMissing("main") }
-        val checkStyleTestContents = readFile("build/reports/checkstyle/test.xml")
-                .map { checkStyleParser(it).eval("test") }
-                .getOrDefault { checkStyleMissing("test") }
-        val compilerLogContents = readFile("build/logs/compile.log")
-                .map { javacZeroWarnings(it) }
-                .getOrDefault { javacLogMissing }
+fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
+        listOf(if (warningPoints == 0.0) {
+            passingEvaluatorResult(0.0, "No warning / style deductions")
+        } else {
+            val googleJavaStyleContents = readFile("build/google-java-format/0.8/fileStates.txt")
+                    .map { googleJavaStyleParser(it).eval() }
+                    .getOrDefault { googleJavaStyleMissing }
+            val checkStyleMainContents = readFile("build/reports/checkstyle/main.xml")
+                    .map { checkStyleParser(it).eval("main") }
+                    .getOrDefault { checkStyleMissing("main") }
+            val checkStyleTestContents = readFile("build/reports/checkstyle/test.xml")
+                    .map { checkStyleParser(it).eval("test") }
+                    .getOrDefault { checkStyleMissing("test") }
+            val compilerLogContents = readFile("build/logs/compile.log")
+                    .map { javacZeroWarnings(it) }
+                    .getOrDefault { javacLogMissing }
 
-        val allResults = listOf(googleJavaStyleContents,
-                checkStyleMainContents,
-                checkStyleTestContents,
-                compilerLogContents)
+            val allResults = listOf(googleJavaStyleContents,
+                    checkStyleMainContents,
+                    checkStyleTestContents,
+                    compilerLogContents)
 
-        val passing = allResults.fold(true) { a, b -> a && b.second }
+            val passing = allResults.fold(true) { a, b -> a && b.second }
 
-        return EvaluatorResult(passing,
-                if (passing) project.warningPoints else 0.0,
-                if (passing) "No warning / style deductions" else "Warning / style deductions",
-                allResults.map { it.first to if (it.second) project.warningPoints else 0.0 })
-    }
-}
+            EvaluatorResult(passing,
+                    if (passing) warningPoints else 0.0,
+                    if (passing) "No warning / style deductions" else "Warning / style deductions",
+                    allResults.map { it.first to if (it.second) warningPoints else 0.0 })
+        })
 
-fun unitTestAggregator(project: GGradeProject): List<EvaluatorResult> {
+fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
     val testResultFiles = readdirPath("build/test-results/test")
             .onFailure {
                 Log.e("unitTestAggregator", "Failed to read test-results directory!", it)
@@ -50,17 +51,80 @@ fun unitTestAggregator(project: GGradeProject): List<EvaluatorResult> {
         return listOf(EvaluatorResult(false, 0.0, "No unit tests found!", emptyList()))
     } else {
         val parsedResults = testResultFiles.map { junitSuiteParser(it) }.toList()
-        val tmp = parsedResults.eval(project)
+        val tmp = parsedResults.eval(this)
         return tmp
     }
 }
 
-fun jacocoAggregator(project: GGradeProject): EvaluatorResult {
-    if (project.coveragePoints == 0.0)  {
-        return passingEvaluatorResult(0.0, "No code coverage requirements")
-    }
+fun GGradeProject.jacocoAggregator(): List<EvaluatorResult> =
+        listOf(if (coveragePoints == 0.0)
+            passingEvaluatorResult(0.0, "No code coverage requirements")
+        else
+            readFile("build/reports/jacoco/test/jacocoTestReport.xml")
+                    .map { jacocoParser(it).eval(this) }
+                    .getOrDefault { jacocoResultsMissing })
 
-    return readFile("build/reports/jacoco/test/jacocoTestReport.xml")
-            .map { jacocoParser(it).eval(project) }
-            .getOrDefault { jacocoResultsMissing }
+fun GGradeProject.allResults(): List<EvaluatorResult> =
+        unitTestAggregator() + warningAggregator() +
+                if (coveragePoints == 0.0) emptyList() else jacocoAggregator()
+
+private const val lineLength = 70
+private const val leftColumn = 57
+private const val rightColumn = 8
+private const val checkMark = "✅"
+private const val failMark = "❌"
+/**
+ * Prints everything to the given output [PrintStream], then returns
+ * whether the tests succeeded (true) or failed (false).
+ */
+fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResult>): Boolean {
+    val blankLine = "=${" ".repeat(lineLength - 1)}"
+    stream.println("=".repeat(lineLength))
+    stream.println("= %${lineLength - 2}s".format("Autograder for $name"))
+    stream.println(blankLine)
+    wordWrap(description, lineLength - 2).forEach {
+        stream.println("= %${lineLength - 2}s".format(it))
+    }
+    stream.println(blankLine)
+    results.forEach { (passes, points, title, deductions) ->
+        val emoji = if (passes) checkMark else failMark
+        stream.println("= %${leftColumn}s $rightColumn.1f $emoji".format(title, points))
+        deductions.forEach { (name, value) ->
+            val wrapped = wordWrap(name, leftColumn - 2)
+            stream.println("= - %${leftColumn - 2}s $rightColumn.1f".format(wrapped[0], -value))
+            wrapped.tail().forEach {
+                stream.println("=   $it")
+            }
+        }
+    }
+    stream.println(blankLine)
+    val allPassing = results.fold(true) { a, b -> a && b.passes }
+    val emoji = if (allPassing) checkMark else failMark
+    val allPoints = results.sumByDouble { it.points }
+    stream.println("= %${leftColumn}s $rightColumn.1f $emoji".format("Total points", allPoints))
+    stream.println("=".repeat(lineLength))
+
+    return allPassing
+}
+
+// borrowed from rosettacode, then modified heavily
+fun wordWrap(text: String, lineWidth: Int): List<String> {
+    val result = emptyList<String>().toMutableList()
+    val words = text.split(' ')
+    var sb = StringBuilder("")
+    var spaceLeft = lineWidth
+
+    for (word in words) {
+        val len = word.length
+        if (len + 1 > spaceLeft) {
+            result.add(sb.toString())
+            sb = StringBuilder(word)
+            spaceLeft = lineWidth - len
+        } else {
+            sb.append(" ").append(word)
+            spaceLeft -= (len + 1)
+        }
+        result.add(sb.toString())
+    }
+    return result.toList() // make immutable
 }

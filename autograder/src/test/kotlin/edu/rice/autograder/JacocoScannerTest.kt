@@ -5,34 +5,47 @@
 //
 package edu.rice.autograder
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import edu.rice.autograder.JacocoCounterType.INSTRUCTION
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.fail
 
 class JacocoScannerTest {
     @Test
     fun testLoader() {
         val fileContents = readResource("comp215-build/reports/jacoco/test/jacocoTestReport.xml").getOrFail()
         val xmlResults = jacocoParser(fileContents)
-        val instructionsCovered = xmlResults.counterMap[INSTRUCTION]?.covered ?: 0
-        val instructionsMissed = xmlResults.counterMap[INSTRUCTION]?.missed ?: 0
+        if (xmlResults == null) {
+            fail()
+        } else {
+            val instructionsCovered = xmlResults.counterMap[INSTRUCTION]?.covered ?: 0
+            val instructionsMissed = xmlResults.counterMap[INSTRUCTION]?.missed ?: 0
 
-        assertNotEquals(0, instructionsCovered)
-        assertNotEquals(0, instructionsMissed)
+            assertNotEquals(0, instructionsCovered)
+            assertNotEquals(0, instructionsMissed)
 
-        val packages = xmlResults.packages ?: emptyList()
-        val packageInstructionsCovered = packages.sumBy { it.counterMap[INSTRUCTION]?.covered ?: 0 }
-        val packageInstructionsMissed = packages.sumBy { it.counterMap[INSTRUCTION]?.missed ?: 0 }
+            val packages = xmlResults.packages ?: emptyList()
+            val packageInstructionsCovered = packages.sumBy {
+                it.counterMap[INSTRUCTION]?.covered ?: 0
+            }
+            val packageInstructionsMissed = packages.sumBy {
+                it.counterMap[INSTRUCTION]?.missed ?: 0
+            }
 
-        assertEquals(instructionsCovered, packageInstructionsCovered)
-        assertEquals(instructionsMissed, packageInstructionsMissed)
+            assertEquals(instructionsCovered, packageInstructionsCovered)
+            assertEquals(instructionsMissed, packageInstructionsMissed)
 
-        val classes = packages.flatMap { it.classes ?: emptyList() }
-        val classesInstructionsCovered = classes.sumBy { it.counterMap[INSTRUCTION]?.covered ?: 0 }
-        val classesInstructionsMissed = classes.sumBy { it.counterMap[INSTRUCTION]?.missed ?: 0 }
+            val classes = packages.flatMap { it.classes ?: emptyList() }
+            val classesInstructionsCovered = classes.sumBy {
+                it.counterMap[INSTRUCTION]?.covered ?: 0
+            }
+            val classesInstructionsMissed = classes.sumBy {
+                it.counterMap[INSTRUCTION]?.missed ?: 0
+            }
 
-        assertEquals(instructionsCovered, classesInstructionsCovered)
-        assertEquals(instructionsMissed, classesInstructionsMissed)
+            assertEquals(instructionsCovered, classesInstructionsCovered)
+            assertEquals(instructionsMissed, classesInstructionsMissed)
+        }
     }
 }

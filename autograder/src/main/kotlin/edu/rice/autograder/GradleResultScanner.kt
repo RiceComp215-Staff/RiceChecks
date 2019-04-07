@@ -30,6 +30,10 @@ private const val TAG = "GradleResultScanner"
 
 object GradleResultScanner {
     @JvmField
+    @Parameter(names = ["--package"], description = "Java package where student code can be found (only used when reading annotations from student code)")
+    var packageName: String? = null
+
+    @JvmField
     @Parameter(names = ["--project"], description = "Name of the project to be graded (required)", required = true)
     var project: String? = null
 
@@ -57,15 +61,17 @@ object GradleResultScanner {
         commandParser.usage()
         System.out.print("\nThree tasks are supported:\n" +
                 ". debugAnnotations: Reads all the grading annotations and prints their interpretation\n" +
-                "      for the requested project.\n" +
+                "      for the requested project. Requires a --package annotation.\n" +
                 "\n" +
                 ". writeConfig: Reads all the grading annotations and writes a YAML config file\n" +
-                "      for the requested project to the filename specified by the --config parameter.\n" +
+                "      for the requested project to the filename specified by the --config parameter." +
+                "      Also requires a --package argument.\n" +
                 "\n" +
                 ". grade: The default task, loads the autograder spec for the requested project.\n" +
                 "      --config can be used to specify a YAML file for the project autograde spec, \n" +
-                "      or, by default, the autograde spec is loaded from the code annotations\n")
-        System.exit(0)
+                "      or, by default, the autograde spec is loaded from the code annotations, which" +
+                "      requires a --package argument.\n")
+        System.exit(1)
     }
 
     fun autoGrade(args: Array<String>) {
@@ -92,13 +98,86 @@ object GradleResultScanner {
         Log.i(TAG, "configFileName: $configFileName")
         Log.i(TAG, "task: $task")
 
+        // We're making "local" copies of the properties so that Kotlin's nullity inferences work
+        val lConfigFileName = configFileName
+        val lProject = project
+        val lPackageName = packageName
+
         when (task) {
-            Task.debugAnnotations -> System.out.println("debugAnnotations")
-            Task.writeConfig -> System.out.println("writeConfig")
-            Task.grade -> System.out.println("grade")
+            Task.debugAnnotations -> {
+                if (lProject != null && lPackageName != null) {
+                    Log.i(TAG, "scanning package($lPackageName), for project($lProject)")
+                    val gproject = scanEverything(lPackageName)[lProject]
+                    if (gproject == null) {
+                        Log.e(TAG, "No annotations found for project($lProject)")
+                        System.out.println("No annotations found for project($lProject)")
+                        System.exit(1)
+                    } else {
+                        System.out.println(gproject.yamlExporter())
+                        System.exit(0)
+                    }
+                } else {
+                    helpDump()
+                }
+            }
+
+            Task.writeConfig ->
+                if (lConfigFileName != null && lProject != null && lPackageName != null) {
+                    Log.i(TAG, "scanning package($lPackageName), writing configuration for project($lProject) to $lConfigFileName")
+                    val gproject = scanEverything(lPackageName)[lProject]
+                    if (gproject == null) {
+                        Log.e(TAG, "No annotations found for project($lProject)")
+                        System.out.println("No annotations found for project($lProject)")
+                        System.exit(1)
+                    } else {
+                        writeFile(lConfigFileName, gproject.yamlExporter())
+                                .onSuccess {
+                                    System.out.println("Config for $lProject written to $lConfigFileName")
+                                    System.exit(0)
+                                }
+                                .onFailure {
+                                    System.out.println("Error writing to $lConfigFileName: ${it.message}")
+                                    System.exit(1)
+                                }
+                    }
+                } else {
+                    helpDump()
+                }
+
+            Task.grade -> when {
+                lConfigFileName != null && lProject != null -> {
+                    Log.i(TAG, "Running autograder with configFileName($lConfigFileName), project($lProject)")
+                    val gproject = loadConfig(lConfigFileName)
+                    val passed = gproject.printResults(System.out, gproject.allResults())
+                    System.exit(if (passed) 0 else 1)
+                }
+                lConfigFileName == null && lProject != null && lPackageName != null -> {
+                    Log.i(TAG, "Running autograder from annotations for package($lPackageName), project($lProject)")
+                    val gproject = scanEverything(lPackageName)[lProject]
+                    if (gproject == null) {
+                        Log.e(TAG, "No annotations found for project($lProject)")
+                        System.out.println("No annotations found for project($lProject)")
+                        System.exit(1)
+                    } else {
+                        val passed = gproject.printResults(System.out, gproject.allResults())
+                        System.exit(if (passed) 0 else 1)
+                    }
+                }
+                else -> helpDump()
+            }
         }
     }
 }
+
+fun loadConfig(yamlFileName: String): GGradeProject =
+    readFile(yamlFileName)
+            .flatMap { yamlImporter(it) }
+            .onFailure {
+                Log.e(TAG, "Failed to load $yamlFileName", it)
+                System.out.println("Failed to load $yamlFileName: ${it.message}")
+                System.exit(1)
+            }
+            .getOrFail()
 
 /** Entry point for calling the autograder from the command-line. */
 fun main(args: Array<String>) {

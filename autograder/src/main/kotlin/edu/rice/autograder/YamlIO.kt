@@ -34,11 +34,11 @@ val kotlinYamlMapper = YAMLMapper()
 fun yamlExporter(projectName: String, codePackage: String): String {
     val scan = scanEverything(codePackage)
     val project = scan[projectName] ?: Log.ethrow(TAG, "Unknown project: $projectName")
-    return yamlExporter(project)
+    return project.yamlExporter()
 }
 
-fun yamlExporter(project: GGradeProject) =
-    kotlinYamlMapper.writeValueAsString(project) ?: Log.ethrow(TAG, "Jackson YAML failure?!")
+fun GGradeProject.yamlExporter() =
+    kotlinYamlMapper.writeValueAsString(this) ?: Log.ethrow(TAG, "Jackson YAML failure?!")
 
 fun yamlImporter(input: String): Try<GGradeProject> = Try {
     kotlinYamlMapper.readValue<GGradeProject>(input)

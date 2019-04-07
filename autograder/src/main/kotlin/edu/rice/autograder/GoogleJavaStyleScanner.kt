@@ -41,7 +41,7 @@ fun List<GoogleJavaStyleResult>.eval(): Pair<String, Boolean> {
 }
 
 fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> {
-    Log.i(TAG, "googleJavaStyleParser: ${fileData.length ?: 0} bytes")
+    Log.i(TAG, "googleJavaStyleParser: ${fileData.length} bytes")
 
     return if (fileData.isEmpty()) {
         emptyList()

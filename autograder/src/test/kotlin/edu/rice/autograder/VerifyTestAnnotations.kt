@@ -71,7 +71,7 @@ class VerifyTestAnnotations {
         // completely out of the reference code prior to distribution to the students.
 
         result.forEach { (name, project) ->
-            assertEquals(project, yamlImporter(yamlExporter(project)).getOrFail(), name)
+            assertEquals(project, yamlImporter(project.yamlExporter()).getOrFail(), name)
         }
     }
 }

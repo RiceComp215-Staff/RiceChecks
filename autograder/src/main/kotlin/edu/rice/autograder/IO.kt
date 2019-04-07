@@ -38,6 +38,12 @@ fun Path.readFile(): Try<String> = Try {
 
 fun readFile(fileName: String) = Paths.get(fileName).readFile()
 
+fun Path.writeFile(data: String) = Try {
+    java.nio.file.Files.write(this, data.toByteArray())
+}
+
+fun writeFile(fileName: String, data: String) = Paths.get(fileName).writeFile(data)
+
 /**
  * Given a directory path into the resources, returns a list of resource names suitable for then
  * passing to [.readResource], [.resourceToStream], etc.

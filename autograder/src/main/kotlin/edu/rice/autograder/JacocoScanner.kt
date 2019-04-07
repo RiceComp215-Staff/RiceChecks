@@ -223,6 +223,8 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         passingEvaluatorResult(project.coveragePoints, "Test coverage meets %.0f%% requirement".format(project.coveragePercentage))
     } else {
         EvaluatorResult(false, 0.0, "Test coverage",
-                fails.map { (name, coverage) -> "$name: %.2f".format(coverage) to 0.0 })
+                fails.map { (name, coverage) ->
+                    "$name: %.1f%% $counterType".format(coverage * 100.0) to 0.0
+                })
     }
 }
