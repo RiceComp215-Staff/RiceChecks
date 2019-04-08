@@ -66,6 +66,10 @@ allprojects {
         sourceCompatibility = '11'
         targetCompatibility = '11'
     }
+
+    tasks.withType(Test) {
+        useJUnitPlatform()
+    }
 }
 
 sourceSets {
@@ -160,6 +164,20 @@ task annotationsJar(type: Jar) {
 
 task allJars {
     dependsOn 'jar', 'fatJar', 'annotationsJar'
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// We want to run our own here on the various tiny projects in the test folder.
+// There's something meta about trying to test the tester.
+task testProject4 (dependsOn: classes, type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    maxHeapSize = "16g" // 16GB vs. 256MB default
+    jvmArgs = [ '-Xss500m' ] // 500MB stack, because we need a huge stack for some of the algorithms
+
+    main = "edu.rice.autograder.AutoGraderKt"
+
+    args = ["--package", "edu.rice.autogradertest", "--project", "TP4", "--log", "all", "grade"]
 }
 
 ////////////////////////////////////////////////////////////////////////////////

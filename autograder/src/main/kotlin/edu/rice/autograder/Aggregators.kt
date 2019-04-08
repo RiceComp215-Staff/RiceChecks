@@ -81,18 +81,18 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     val blankLine = "="
     val dividerLine = "=".repeat(lineLength)
     stream.println(dividerLine)
-    stream.println("= %${lineLength - 2}s".format("Autograder for $name"))
+    stream.println("= %-${lineLength - 2}s".format("Autograder for $name"))
     stream.println(blankLine)
     wordWrap(description, lineLength - 2).forEach {
-        stream.println("= %${lineLength - 2}s".format(it))
+        stream.println("= %-${lineLength - 2}s".format(it))
     }
     stream.println(blankLine)
     results.forEach { (passes, points, title, deductions) ->
         val emoji = if (passes) checkMark else failMark
-        stream.println("= %${leftColumn}s %$rightColumn.1f $emoji".format(title, points))
+        stream.println("= %-${leftColumn}s %$rightColumn.1f $emoji".format(title, points))
         deductions.forEach { (name, value) ->
             val wrapped = wordWrap(name, leftColumn - 2)
-            stream.println("= - %${leftColumn - 2}s %$rightColumn.1f".format(wrapped[0], -value))
+            stream.println("= - %-${leftColumn - 2}s %$rightColumn.1f".format(wrapped[0], -value))
             wrapped.tail().forEach {
                 stream.println("=   $it")
             }
@@ -115,10 +115,10 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
 fun wordWrap(text: String, lineWidth: Int): List<String> {
     val result = emptyList<String>().toMutableList()
     val words = text.split(' ')
-    var sb = StringBuilder("")
-    var spaceLeft = lineWidth
+    var sb = StringBuilder(words[0])
+    var spaceLeft = lineWidth - words[0].length
 
-    for (word in words) {
+    for (word in words.tail()) {
         val len = word.length
         if (len + 1 > spaceLeft) {
             result.add(sb.toString())
@@ -128,7 +128,7 @@ fun wordWrap(text: String, lineWidth: Int): List<String> {
             sb.append(" ").append(word)
             spaceLeft -= (len + 1)
         }
-        result.add(sb.toString())
     }
+    result.add(sb.toString())
     return result.toList() // make immutable
 }
