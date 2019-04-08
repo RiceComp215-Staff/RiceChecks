@@ -20,11 +20,11 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
-@GradeProject(name = "TP4", description = "Regular expressions")
+@GradeProject(name = "TP4", description = "Regular expressions", warningPoints = 1.0)
 @GradeTopic(project = "TP4", topic = "Identifiers")
 @GradeTopic(project = "TP4", topic = "Numbers")
 public class TestProject4 {
-  @Grade(project = "TP4", topic = "Identifiers", points = 1, maxPoints = 2)
+  @Grade(project = "TP4", topic = "Identifiers", points = 0.5, maxPoints = 1.5)
   @TestFactory
   public List<DynamicTest> testClassIdentifiers() {
     var goodClassNames = List.of("Alice", "Bob", "Charlie", "CamelCaseClasses", "Thing1", "Thing2");
@@ -45,7 +45,7 @@ public class TestProject4 {
     return goodAndBad(goodClassNames, badClassNames, Project4.classPattern);
   }
 
-  @Grade(project = "TP4", topic = "Identifiers", points = 1, maxPoints = 2)
+  @Grade(project = "TP4", topic = "Identifiers", points = 0.5, maxPoints = 1.5)
   @TestFactory
   public List<DynamicTest> testMethodIdentifiers() {
     var goodMethodNames = List.of("alice", "bob", "charlie", "camelCaseNames", "thing1", "thing2");

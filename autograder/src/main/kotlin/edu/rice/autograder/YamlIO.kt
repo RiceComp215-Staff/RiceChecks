@@ -21,7 +21,7 @@ val kotlinYamlMapper = YAMLMapper()
         .registerKotlinModule()
 
 /**
- * Given a project name, as specified with a [GradeProject] annotation,
+ * Given a project name, as specified with a [GGradeProject] annotation,
  * and a Java code package name, specifying which Java (or Kotlin) code
  * packages should be searched for Grade annotations, this scans for
  * the project grading specifications and produces a human-readable

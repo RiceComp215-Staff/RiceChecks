@@ -21,7 +21,22 @@ object Log {
     const val NOTHING = -1
 
     private const val TAG = "Log"
-    private var logLevel = NOTHING
+    var logLevel = NOTHING
+        set(level) {
+            field = when (level) {
+                ALL, ERROR, NOTHING -> level
+                else -> throw IllegalArgumentException("Unknown log level: $level")
+            }
+        }
+
+    fun setLogLevel(level: String) {
+        logLevel = when (level) {
+            "all", "ALL" -> ALL
+            "error", "ERROR" -> ERROR
+            "nothing", "NOTHING" -> NOTHING
+            else -> throw IllegalArgumentException("Supported log levels: all, error, nothing")
+        }
+    }
 
     fun logProperties() =
         listOf("java.version",
@@ -41,31 +56,6 @@ object Log {
         // computeIfAbsent method. In other words, we're *memoizing*, which we'll talk about more
         // later in the semester.
         loggerMap.getOrElse(tag) { LoggerFactory.getLogger(tag) }
-
-    /**
-     * Set the log level.
-     *
-     * @param level (one of Log.ALL, Log.ERROR, or Log.NOTHING)
-     */
-    fun setLogLevel(level: Int) {
-        if (level == ALL || level == ERROR || level == NOTHING) {
-            logLevel = level
-        } else {
-            throw IllegalArgumentException("Unknown log level: $level")
-        }
-    }
-
-    /**
-     * Set the log level.
-     *
-     * @param level (one of "all", "error", "nothing")
-     */
-    fun setLogLevel(level: String) = when (level) {
-        "all", "ALL" -> logLevel = ALL
-        "error", "ERROR" -> logLevel = ERROR
-        "nothing", "NOTHING" -> logLevel = NOTHING
-        else -> throw IllegalArgumentException("Supported log levels: all, error, nothing")
-    }
 
     /**
      * Many of the logging functions let you delay the computation of the log string, such that if

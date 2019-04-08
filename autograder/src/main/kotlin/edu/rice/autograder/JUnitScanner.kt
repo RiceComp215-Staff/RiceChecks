@@ -147,7 +147,7 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
         val topicString = "Topic: $topicName"
 
         if (topicDeductions == 0.0) {
-            passingEvaluatorResult(topicMaxPoints, topicString + ": no deductions")
+            passingEvaluatorResult(topicMaxPoints, "$topicString: no deductions")
         } else {
             EvaluatorResult(false, max(topicMaxPoints - topicDeductions, 0.0),
                     topicString, topicResults)

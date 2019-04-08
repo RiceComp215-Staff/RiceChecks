@@ -17,13 +17,13 @@ fun <T> Try<T>.onFailure(consumer: (Throwable) -> Unit): Try<T> = fold({ consume
 fun <T> Try<T>.onSuccess(consumer: (T) -> Unit): Try<T> = fold({ this }) { consumer(it); this }
 
 /** Converts a [Try] to a [List] of one or zero elements */
-fun <T> Try<T>.asList() = fold({ emptyList<T>() }, { listOf(it) })
+fun <T> Try<T>.asList() = fold({ emptyList<T>() }) { listOf(it) }
 
 /** Converts a [Try] to a [Sequence] of one or zero elements */
-fun <T> Try<T>.asSequence() = fold({ emptySequence<T>() }, { sequenceOf(it) })
+fun <T> Try<T>.asSequence() = fold({ emptySequence<T>() }) { sequenceOf(it) }
 
 /** Extracts a [Try] success value or (re-throws) an exception. */
-fun <T> Try<T>.getOrFail(): T = fold({ throw it }, { it })
+fun <T> Try<T>.getOrFail(): T = fold({ throw it }) { it }
 
 /** Extracts an [Option] some()'s value or throws an exception on none(). */
 fun <T> Option<T>.getOrFail(): T = fold({ throw IllegalStateException("getOrFail() on an Option.none") }) { it }

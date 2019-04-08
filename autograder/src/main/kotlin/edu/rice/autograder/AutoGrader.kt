@@ -50,14 +50,18 @@ object AutoGrader {
     var logString: String = "nothing"
 
     @JvmField
+    @Parameter(names = ["--build-dir"], description = "Build directory")
+    var buildDir: String = "./build"
+
+    @JvmField
     @Parameter(description = "task")
     var taskString: String = "grade"
 
-    var task = Task.grade
+    var task = Task.grade // will change below with arg parsing
 
-    lateinit var commandParser: JCommander
+    private lateinit var commandParser: JCommander
 
-    fun helpDump() {
+    private fun helpDump() {
         commandParser.usage()
         System.out.print("\nThree tasks are supported:\n" +
                 ". debugAnnotations: Reads all the grading annotations and prints their interpretation\n" +

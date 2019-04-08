@@ -63,6 +63,9 @@ private data class IGradeProject(
     val description: String,
     val maxPoints: Double,
     val warningPoints: Double,
+    val useCheckStyle: Boolean,
+    val useGoogleJavaFormat: Boolean,
+    val useJavacWarnings: Boolean,
     val coveragePoints: Double,
     val coverageStyle: String,
     val coveragePercentage: Double
@@ -174,6 +177,9 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val name = pv.lookup("name", "")
     val description = pv.lookupNoNull("description", "")
     val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
+    val useCheckStyle = pv.lookupNoNull("useCheckStyle", true)
+    val useGoogleJavaFormat = pv.lookupNoNull("useGoogleJavaFormat", true)
+    val useJavacWarnings = pv.lookupNoNull("useJavacWarnings", true)
     val warningPoints = pv.lookupNoNull("warningPoints", 0.0)
     val coveragePoints = pv.lookupNoNull("coveragePoints", 0.0)
     val coverageMethod = pv.lookupNoNull("coverageStyle", "LINES")
@@ -215,7 +221,8 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
             coverageMethod !in coverageMethodNames ->
                 failScanner("Malformed GradeProject: coverageStyle {$coverageMethod} must be in ${coverageMethodNames.joinToString(", ")}")
 
-            else -> IGradeProject(name, description, maxPoints, warningPoints, coveragePoints, coverageMethod, coveragePercentage)
+            else -> IGradeProject(name, description, maxPoints, warningPoints, useCheckStyle, useGoogleJavaFormat,
+                    useJavacWarnings, coveragePoints, coverageMethod, coveragePercentage)
         }
     }
 }
@@ -516,8 +523,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                                     .filter { it.topic == topic.topic && it.project == topic.project }
                                     .failRepeating("More than one GradeTest definition on the same method for project ${project.name} ") { it.className + "." + it.methodName }
                             val maxPointsFromTests = gtests
-                                    .map { if (it.testFactory) it.maxPoints else it.points }
-                                    .fold(0.0) { a, b -> a + b }
+                                    .sumByDouble { if (it.testFactory) it.maxPoints else it.points }
 
 //                            System.out.println("Project ${project.name}, Topic ${topic.topic}: internal maxPoints ${topic.maxPoints}, external maxPoints ${maxPointsFromTests}")
                             val actualMaxPoints = if (topic.maxPoints == 0.0) maxPointsFromTests else topic.maxPoints
@@ -531,8 +537,13 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                             })
                         }
 
-                        val maxPointsFromTopics = gtopics.map { it.maxPoints }.fold(0.0) { a, b -> a + b }
-                        val actualMaxPoints = if (project.maxPoints == 0.0) maxPointsFromTopics else project.maxPoints
+                        val maxPointsFromTopics = gtopics.sumByDouble { it.maxPoints }
+                        val coverageAndWarningPoints = project.warningPoints + project.coveragePoints
+
+                        val actualMaxPoints = when {
+                            project.maxPoints == 0.0 -> maxPointsFromTopics + coverageAndWarningPoints
+                            else -> project.maxPoints
+                        }
 
                         val coverageMethod = enumValueOf<GCoverageStyle>(project.coverageStyle)
 

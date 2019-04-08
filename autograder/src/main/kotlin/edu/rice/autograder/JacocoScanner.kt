@@ -181,6 +181,8 @@ private fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): Li
         // then the most general to teh most specific class annotation (the sorting above is essential
         // to make this happen). The logic here is that the last relevant annotation wins, so an inner
         // "including" annotation overrides an external "excluding" annotation.
+
+        // TODO: inline this into a single expr after we're sure we won't need to single-step through here with a debugger
         val relevantSpecs = packageSpecs.filter { className.startsWith(it.name + ".") } +
                 classSpecs.filter { className.startsWith(it.name + ".") }
         val result = relevantSpecs.fold(false) { _, next -> !next.excluded }

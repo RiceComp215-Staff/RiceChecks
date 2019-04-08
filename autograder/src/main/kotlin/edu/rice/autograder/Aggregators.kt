@@ -14,16 +14,16 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
         listOf(if (warningPoints == 0.0) {
             passingEvaluatorResult(0.0, "No warning / style deductions")
         } else {
-            val googleJavaStyleContents = readFile("build/google-java-format/0.8/fileStates.txt")
+            val googleJavaStyleContents = readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
                     .map { googleJavaStyleParser(it).eval() }
                     .getOrDefault { googleJavaStyleMissing }
-            val checkStyleMainContents = readFile("build/reports/checkstyle/main.xml")
+            val checkStyleMainContents = readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
                     .map { checkStyleParser(it).eval("main") }
                     .getOrDefault { checkStyleMissing("main") }
-            val checkStyleTestContents = readFile("build/reports/checkstyle/test.xml")
+            val checkStyleTestContents = readFile("${AutoGrader.buildDir}/reports/checkstyle/test.xml")
                     .map { checkStyleParser(it).eval("test") }
                     .getOrDefault { checkStyleMissing("test") }
-            val compilerLogContents = readFile("build/logs/compile.log")
+            val compilerLogContents = readFile("${AutoGrader.buildDir}/logs/compile.log")
                     .map { javacZeroWarnings(it) }
                     .getOrDefault { javacLogMissing }
 
@@ -41,18 +41,19 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
         })
 
 fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
-    val testResultFiles = readdirPath("build/test-results/test")
+    val testResultFiles = readdirPath("${AutoGrader.buildDir}/test-results/test")
             .onFailure {
                 Log.e("unitTestAggregator", "Failed to read test-results directory!", it)
             }.getOrDefault { emptySequence() }
             .flatMap { it.readFile().asSequence() }
 
-    if (testResultFiles.none()) {
-        return listOf(EvaluatorResult(false, 0.0, "No unit tests found!", emptyList()))
+    return if (testResultFiles.none()) {
+        listOf(EvaluatorResult(false, 0.0, "No unit tests found!", emptyList()))
     } else {
+        // TODO: inline this into one expr after we're sure we won't want to step through here with a debugger
         val parsedResults = testResultFiles.map { junitSuiteParser(it) }.toList()
-        val tmp = parsedResults.eval(this)
-        return tmp
+        val evalResults = parsedResults.eval(this)
+        evalResults
     }
 }
 
@@ -60,7 +61,7 @@ fun GGradeProject.jacocoAggregator(): List<EvaluatorResult> =
         listOf(if (coveragePoints == 0.0)
             passingEvaluatorResult(0.0, "No code coverage requirements")
         else
-            readFile("build/reports/jacoco/test/jacocoTestReport.xml")
+            readFile("${AutoGrader.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
                     .map { jacocoParser(it).eval(this) }
                     .getOrDefault { jacocoResultsMissing })
 
@@ -78,6 +79,10 @@ private const val failMark = "❌"
  * whether the tests succeeded (true) or failed (false).
  */
 fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResult>): Boolean {
+    // Engineering note: inside each topic, we start from the maximum score and then subtract
+    // deductions, with a floor at zero. When producing the final grade, we then add together
+    // all the individual topic scores.
+
     val blankLine = "│" // unicode: "BOX DRAWINGS LIGHT VERTICAL"
     val dividerLine = "├" + "─".repeat(lineLength - 1)
     val startDividerLine = "┌" + "─".repeat(lineLength - 1)
