@@ -71,42 +71,46 @@ fun GGradeProject.allResults(): List<EvaluatorResult> =
 private const val lineLength = 71
 private const val leftColumn = 57
 private const val rightColumn = 8
-private const val checkMark = "✅" // fixed-width font note: these are 2 chars wide
+private const val checkMark = "✅" // fixed-width font note: we have no guarantees about Emoji widths
 private const val failMark = "❌"
 /**
  * Prints everything to the given output [PrintStream], then returns
  * whether the tests succeeded (true) or failed (false).
  */
 fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResult>): Boolean {
-    val blankLine = "="
-    val dividerLine = "=".repeat(lineLength)
-    stream.println(dividerLine)
-    stream.println("= %-${lineLength - 2}s".format("Autograder for $name"))
-    stream.println(blankLine)
+    val blankLine = "│" // unicode: "BOX DRAWINGS LIGHT VERTICAL"
+    val dividerLine = "├" + "─".repeat(lineLength - 1)
+    val startDividerLine = "┌" + "─".repeat(lineLength - 1)
+    val endDividerLine = "└" + "─".repeat(lineLength - 1)
+
+    stream.println(startDividerLine)
+    stream.println("$blankLine %-${lineLength - 2}s".format("Autograder for $name"))
     wordWrap(description, lineLength - 2).forEach {
-        stream.println("= %-${lineLength - 2}s".format(it))
+        stream.println("$blankLine %-${lineLength - 2}s".format(it))
     }
+    stream.println(dividerLine)
     stream.println(blankLine)
     results.forEach { (passes, points, title, deductions) ->
         val emoji = if (passes) checkMark else failMark
-        stream.println("= %-${leftColumn}s %$rightColumn.1f $emoji".format(title, points))
+        stream.println("$blankLine %-${leftColumn}s %$rightColumn.1f $emoji".format(title, points))
         deductions.forEach { (name, value) ->
             val wrapped = wordWrap(name, leftColumn - 2)
-            stream.println("= - %-${leftColumn - 2}s %$rightColumn.1f".format(wrapped[0], -value))
+            stream.println("$blankLine - %-${leftColumn - 2}s %$rightColumn.1f".format(wrapped[0], -value))
             wrapped.tail().forEach {
-                stream.println("=   $it")
+                stream.println("$blankLine   $it")
             }
         }
+        stream.println(blankLine)
     }
 
     val allPassing = results.fold(true) { a, b -> a && b.passes }
     val emoji = if (allPassing) checkMark else failMark
     val allPoints = results.sumByDouble { it.points }
 
-    // For this one time, we're not doing the two columns
-    stream.println(blankLine)
-    stream.println("= Total points: %.1f/%.1f $emoji".format(allPoints, maxPoints))
     stream.println(dividerLine)
+    // For this one time, we're not doing the two columns
+    stream.println("$blankLine Total points: %.1f/%.1f $emoji".format(allPoints, maxPoints))
+    stream.println(endDividerLine)
 
     return allPassing
 }
