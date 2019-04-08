@@ -9,6 +9,8 @@ The essential design of the autograder is:
     and they stay put in your master branch.
 - You extract a *grading policy* for every given project, which you can then include in the `config` directory
   that is handed out to your students
+  - This policy is a human-readable YAML file, so you can easily review it, for example, to
+    ensure that you have the expected total number of points.
 - You provide your students with a `build.gradle` file, specifying all the actions that need to
   be run. This includes JUnit4/5 tests, CheckStyle, google-java-style, ErrorProne, and JaCoCo.
 - You add the autograder code to `build.gradle` that we provide, which runs all these things,
@@ -19,11 +21,18 @@ The essential design of the autograder is:
   exits with 0 or non-zero (success or failure), giving the student a "green check" or "red X" 
   on GitHub.
 - You configure your CI service to run all of this every time there's a push to GitHub.
+- We provide you several example projects so you can see how this all fits together.
     
 AnnoAutoGrader, itself, is written in Kotlin, and should be able to process student projects written in Java or Kotlin,
-although our focus is on Java-based student projects, at least for now.
+although our focus is on Java-based student projects, at least for now. Notably, AnnoAutoGrader
+runs as a standalone Java program, reading the various log files left behind as part of Gradle
+compiling and testing a program. It writes its grading conclusions to standard-out as human-readable
+text. Our human graders read this text from the CI system's logs, and then transcribe these
+numbers into our university learning management system (Canvas), while also looking over the
+student projects to ensure that they didn't do something sketchy.
 
-**AnnoAutoGrader is only tested against OpenJDK 11. It's unlikely to work on earlier JDK releases.**
+**AnnoAutoGrader, itself, is only tested against OpenJDK 11. It's unlikely to work on earlier JDK releases.
+Student code running with earlier Java releases should work just fine, although we do everything on the same version.**
 
 
 ## Compiling / developing for AnnoAutoGrader
@@ -49,21 +58,12 @@ or you can use `gradlew demoSetup` to copy the relevant files into the demo proj
     (You don't want, for example, that students' IDEs will autocomplete into the guts of the
      autograder implementation.)
 
-- Our sample gradle files use `AnnoAutoGrader-annotations-0.1.jar` as a dependency for
-  student code, and from Gradle will invoke the main autograder in `AnnoAutoGrader-0.1.jar`.
-  - Add appropriate tasks and dependencies to `build.gradle`
-    - Task to extract autograder policy to yaml file
-    - Task to run autograder based on yaml file
-    - Various changes to build.gradle so the build doesn't stop on first failure
-
-  - Project dev pipeline:
-    - Check out your project-specific branch
-      - All our projects are branches from "master"
-      - We then delete everything from future projects (in the branch)
-      - This leaves a branch with the reference solution intact
-    - Set build.gradle variable with project name
-    - While your reference solution is still there, extract the autograder policy
-    - Verify that running `gradlew autograde` yields perfect scores
-    - Modify files / remove reference solution
-    - Verify that running `gradlew autograde` yields the correct minimum score
-    
+- Our sample gradle projects use `AnnoAutoGrader-annotations-0.1.jar` as a dependency for
+  student code, and from Gradle will invoke the main autograder in `AnnoAutoGrader-0.1.jar`,
+  recursively pulling in the necessary dependencies. (Notably, we don't want to pollute
+  students' code namespaces with symbols from the autograder.)
+  
+- Ultimately, the `gradlew autograde` action replaces what might normally be a call to
+  `gradlew check`. The `autograde` action runs the compiler and lint checks, unit tests, 
+  and coverage tests, then prints its summary and either passes or fails the build based
+  on whether any deductions were found.
