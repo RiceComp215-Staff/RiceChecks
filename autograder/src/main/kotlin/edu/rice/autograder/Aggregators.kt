@@ -108,14 +108,13 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     val allPoints = results.sumByDouble { it.points }
 
     stream.println(dividerLine)
-    // For this one time, we're not doing the two columns
     stream.println("$blankLine Total points: %.1f/%.1f $emoji".format(allPoints, maxPoints))
     stream.println(endDividerLine)
 
     return allPassing
 }
 
-// borrowed from rosettacode, then modified heavily
+// borrowed from rosettacode then tweaked
 fun wordWrap(text: String, lineWidth: Int): List<String> {
     val result = emptyList<String>().toMutableList()
     val words = text.split(' ')

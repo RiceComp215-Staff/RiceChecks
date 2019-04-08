@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 class WordWrapTest {
     @Test
     fun basics() {
-        assertEquals(listOf("Hello", "World"), wordWrap("Hello World", 4));
+        assertEquals(listOf("Hello", "World"), wordWrap("Hello World", 4))
     }
 
     @Test
