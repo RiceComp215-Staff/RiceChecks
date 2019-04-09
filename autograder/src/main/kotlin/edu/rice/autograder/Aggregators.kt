@@ -94,7 +94,7 @@ private val startDividerLine = "┌" + "─".repeat(lineLength - 1)
 private val endDividerLine = "└" + "─".repeat(lineLength - 1)
 
 private fun Double.rightColumnNonZero() = if (this == 0.0) "" else "%${rightColumn}s".format("(%.1f)".format(this))
-private fun Double.rightColumn() = "%${rightColumn-1}.1f ".format(this)
+private fun Double.rightColumn() = "%${rightColumn - 1}.1f ".format(this)
 private fun fractionLine(detail: String, top: Double, bottom: Double, passing: Boolean): String {
     val emoji = if (passing) checkMark else failMark
     val fraction = "%.1f/%.1f".format(top, bottom)
@@ -122,10 +122,10 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
         deductions.forEach { (text, value) ->
             // newlines are optional
             val wrapped = text.split("\n").flatMap {
-             wordWrap(it, leftColumn - 2)
+                wordWrap(it, leftColumn - 2)
             }
 
-            stream.println("$blankLine - %-${leftColumn - 2}s %s".format(wrapped[0], (-value).rightColumnNonZero() ))
+            stream.println("$blankLine - %-${leftColumn - 2}s %s".format(wrapped[0], (-value).rightColumnNonZero()))
             wrapped.tail().forEach {
                 stream.println("$blankLine   $it")
             }
