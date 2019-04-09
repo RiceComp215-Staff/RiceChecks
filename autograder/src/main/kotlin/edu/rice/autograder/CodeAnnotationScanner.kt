@@ -21,6 +21,9 @@ data class GGradeProject(
     val description: String,
     val maxPoints: Double,
     val warningPoints: Double,
+    val useCheckStyle: Boolean,
+    val useGoogleJavaFormat: Boolean,
+    val useJavacWarnings: Boolean,
     val coveragePoints: Double,
     val coverageStyle: GCoverageStyle,
     val coveragePercentage: Double,
@@ -394,11 +397,13 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>): List<An
                                 it.ai.name == aname
                             }
                             .also { mi ->
-                                Log.i(TAG, "Pre-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
+                                Log.i(TAG, "Pre-expansion annotations: ")
+                                mi.forEach { Log.i(TAG, "===> $it") }
                             }
                             .expandValueList()
                             .also { mi ->
-                                Log.i(TAG, "Post-expansion annotations:\n${mi.joinToString(transform = { "===> $it" }, separator = "\n")}")
+                                Log.i(TAG, "Post-expansion annotations: ")
+                                mi.forEach { Log.i(TAG, "===> $it") }
                             }
                 }
     }
@@ -459,7 +464,8 @@ private fun <T> List<T>.failRepeating(failMessage: String, stringExtractor: (T) 
     }
 }
 
-private fun List<IGradeCoverage>.toGCoverages(): List<GGradeCoverage> = map { GGradeCoverage(it.scope, it.exclude, it.name) }
+private fun List<IGradeCoverage>.toGCoverages(): List<GGradeCoverage> =
+        map { GGradeCoverage(it.scope, it.exclude, it.name) }
 
 private const val TAG = "CodeAnnotationScanner"
 
@@ -482,10 +488,12 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                     val gradeProjectAnnotations =
                             scanResult.packageOrClassAnnotations(listOf(A_GRADEPROJECT, A_GRADEPROJECTS))
                                     .map { it.toIGradeProject() }
-                                    .failRepeating("More than one project definition for") { it.name }
+                                    .failRepeating("More than one project definition for") {
+                                        it.name
+                                    }
 
-//                    System.out.println("Found ${gradeProjectAnnotations.size} GradeProject annotations:")
-//                    gradeProjectAnnotations.forEach { System.out.println(it) }
+//                    Log.i(TAG, "Found ${gradeProjectAnnotations.size} GradeProject annotations:")
+//                    gradeProjectAnnotations.forEach { Log.i(TAG, it) }
 
                     val projectMap = gradeProjectAnnotations.associateBy { it.name }
 
@@ -521,11 +529,13 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                         val gtopics = topics.map { topic ->
                             val gtests = gradeTestAnnotations
                                     .filter { it.topic == topic.topic && it.project == topic.project }
-                                    .failRepeating("More than one GradeTest definition on the same method for project ${project.name} ") { it.className + "." + it.methodName }
+                                    .failRepeating("More than one GradeTest definition on the same method for project ${project.name} ") {
+                                        it.className + "." + it.methodName
+                                    }
                             val maxPointsFromTests = gtests
                                     .sumByDouble { if (it.testFactory) it.maxPoints else it.points }
 
-//                            System.out.println("Project ${project.name}, Topic ${topic.topic}: internal maxPoints ${topic.maxPoints}, external maxPoints ${maxPointsFromTests}")
+//                            Log.i(TAG, "Project ${project.name}, Topic ${topic.topic}: internal maxPoints ${topic.maxPoints}, external maxPoints ${maxPointsFromTests}")
                             val actualMaxPoints = if (topic.maxPoints == 0.0) maxPointsFromTests else topic.maxPoints
 
                             if (actualMaxPoints == 0.0) {
@@ -547,9 +557,10 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
 
                         val coverageMethod = enumValueOf<GCoverageStyle>(project.coverageStyle)
 
-                        GGradeProject(project.name, project.description, actualMaxPoints, project.warningPoints,
-                                project.coveragePoints, coverageMethod, project.coveragePercentage,
-                                coverages.toGCoverages(), gtopics)
+                        GGradeProject(project.name, project.description, actualMaxPoints,
+                                project.warningPoints, project.useCheckStyle, project.useGoogleJavaFormat,
+                                project.useJavacWarnings, project.coveragePoints, coverageMethod,
+                                project.coveragePercentage, coverages.toGCoverages(), gtopics)
                     }
                 }
             }

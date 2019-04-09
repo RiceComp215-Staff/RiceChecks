@@ -20,12 +20,12 @@ import java.util.zip.ZipEntry
 
 private const val TAG = "IO"
 
-fun readdirPath(filePath: String): Try<Sequence<Path>> =
+fun readdirPath(filePath: String): Try<List<Path>> =
     Try {
         java.nio.file.Files.newDirectoryStream(Paths.get(filePath)).use {
             // we need to iterate the full list before closing the directory stream
             // so thus toList() then back to a sequence.
-            it?.toList()?.asSequence() ?: Log.ethrow(TAG, "failed to get anything from $filePath")
+            it?.toList() ?: Log.ethrow(TAG, "failed to get anything from $filePath")
         }
     }
 
@@ -51,10 +51,10 @@ fun writeFile(fileName: String, data: String) = Paths.get(fileName).writeFile(da
  * @return a Try.success of the list of resource names, or a Try.failure indicating what went
  * wrong
  */
-fun readResourceDir(dirPath: String): Try<Sequence<String>> =
-        Try { ClassLoader.getSystemResources(dirPath).asSequence() }
+fun readResourceDir(dirPath: String): Try<List<String>> =
+        Try { ClassLoader.getSystemResources(dirPath).toList() }
                 .onFailure { err -> Log.e(TAG, "getSystemResources failed for path($dirPath)", err); }
-                .map { dirUrls: Sequence<URL> ->
+                .map { dirUrls: List<URL> ->
                     dirUrls.flatMap { dirUrl: URL ->
                         val rawUrlPath = dirUrl.path ?: Log.ethrow(TAG, "found null URL path?")
 
@@ -85,7 +85,7 @@ fun readResourceDir(dirPath: String): Try<Sequence<String>> =
                                         }.getOrElse { urlPath })
 
                                 readdirPath(decodedPath.toString())
-                                        .getOrElse { emptySequence() }
+                                        .getOrElse { emptyList() }
                                         .map(decodedPath::relativize)
                                         .map(Path::toString)
                                         .map { "$dirPath/$it" }
@@ -106,18 +106,18 @@ fun readResourceDir(dirPath: String): Try<Sequence<String>> =
                                         // be slow for huge JAR files.
 
                                         it.entries()
-                                                .asSequence()
+                                                .toList()
                                                 .map(ZipEntry::getName)
                                                 .filter { it.startsWith(dirPath) }
                                     }
                                 }.onFailure {
                                     Log.e(TAG, "trouble reading $dirUrl, ignoring and marching onward", it)
-                                }.fold({ emptySequence<String>() }, { it })
+                                }.fold({ emptyList<String>() }, { it })
                             }
 
                             else -> {
                                 Log.e(TAG, "unknown protocol in $dirUrl")
-                                emptySequence()
+                                emptyList()
                             }
                         }
                     }

@@ -222,6 +222,8 @@ dependencies {
 
     compile 'ch.qos.logback:logback-classic:1.2.3' // logging
 
+    compile "com.github.davidmoten:word-wrap:0.1.6" // fancy word-wrapping library
+
     // JUnit5 support
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'

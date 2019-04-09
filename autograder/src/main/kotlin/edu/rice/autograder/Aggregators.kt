@@ -14,6 +14,8 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
         listOf(if (warningPoints == 0.0) {
             passingEvaluatorResult(0.0, "No warning / style deductions")
         } else {
+            Log.i("warningAggregator", "useCheckStyle($useCheckStyle), useGoogleJavaFormat($useGoogleJavaFormat), useJavacWarnings($useJavacWarnings)")
+
             val googleJavaStyleContents = readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
                     .map { googleJavaStyleParser(it).eval() }
                     .getOrDefault { googleJavaStyleMissing }
@@ -27,31 +29,37 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
                     .map { javacZeroWarnings(it) }
                     .getOrDefault { javacLogMissing }
 
-            val allResults = listOf(googleJavaStyleContents,
-                    checkStyleMainContents,
-                    checkStyleTestContents,
-                    compilerLogContents)
+            val checkStyleMaybe =
+                    if (useCheckStyle) listOf(checkStyleMainContents, checkStyleTestContents) else emptyList()
+            val googleJavaStyleMaybe =
+                    if (useGoogleJavaFormat) listOf(googleJavaStyleContents) else emptyList()
+            val compilerMaybe =
+                    if (useJavacWarnings) listOf(compilerLogContents) else emptyList()
+
+            val allResults = checkStyleMaybe + googleJavaStyleMaybe + compilerMaybe
 
             val passing = allResults.fold(true) { a, b -> a && b.second }
 
             EvaluatorResult(passing,
                     if (passing) warningPoints else 0.0,
                     if (passing) "No warning / style deductions" else "Warning / style deductions",
-                    allResults.map { it.first to if (it.second) warningPoints else 0.0 })
+                    allResults.map { it.first to if (it.second) 0.0 else warningPoints })
         })
 
 fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
     val testResultFiles = readdirPath("${AutoGrader.buildDir}/test-results/test")
             .onFailure {
                 Log.e("unitTestAggregator", "Failed to read test-results directory!", it)
-            }.getOrDefault { emptySequence() }
-            .flatMap { it.readFile().asSequence() }
+            }.getOrDefault { emptyList() }
+            .filter { it.fileName.toString().endsWith(".xml") }
+            .flatMap { it.readFile().asList() }
 
     return if (testResultFiles.none()) {
         listOf(EvaluatorResult(false, 0.0, "No unit tests found!", emptyList()))
     } else {
         // TODO: inline this into one expr after we're sure we won't want to step through here with a debugger
-        val parsedResults = testResultFiles.map { junitSuiteParser(it) }.toList()
+        val parsedResults = testResultFiles
+                .map { junitSuiteParser(it) }.toList()
         val evalResults = parsedResults.eval(this)
         evalResults
     }
@@ -100,7 +108,7 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
         stream.println("$blankLine %-${leftColumn}s %$rightColumn.1f $emoji".format(title, points))
         deductions.forEach { (name, value) ->
             val wrapped = wordWrap(name, leftColumn - 2)
-            stream.println("$blankLine - %-${leftColumn - 2}s %$rightColumn.1f".format(wrapped[0], -value))
+            stream.println("$blankLine - %-${leftColumn - 2}s %$rightColumn.1f".format(wrapped[0], if (value != 0.0) -value else 0.0))
             wrapped.tail().forEach {
                 stream.println("$blankLine   $it")
             }
@@ -117,26 +125,4 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     stream.println(endDividerLine)
 
     return allPassing
-}
-
-// borrowed from rosettacode then tweaked
-fun wordWrap(text: String, lineWidth: Int): List<String> {
-    val result = emptyList<String>().toMutableList()
-    val words = text.split(' ')
-    var sb = StringBuilder(words[0])
-    var spaceLeft = lineWidth - words[0].length
-
-    for (word in words.tail()) {
-        val len = word.length
-        if (len + 1 > spaceLeft) {
-            result.add(sb.toString())
-            sb = StringBuilder(word)
-            spaceLeft = lineWidth - len
-        } else {
-            sb.append(" ").append(word)
-            spaceLeft -= (len + 1)
-        }
-    }
-    result.add(sb.toString())
-    return result.toList() // make immutable
 }

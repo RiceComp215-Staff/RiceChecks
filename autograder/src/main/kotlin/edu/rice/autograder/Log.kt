@@ -80,41 +80,6 @@ object Log {
      *
      * @param tag String indicating which code is responsible for the log message
      * @param msgFunc Lambda providing the string or object to be logged
-     * @param th Throwable, exception, error, etc. to be included in the log
-     */
-    fun i(tag: String, msgFunc: () -> Any?, th: Throwable) {
-        // Engineering / performance note:
-        //
-        // This logging function and every other logging function tries to
-        // bail out as early as possible, to avoid any unnecessary
-        // computation if the logging level is disabled.
-        //
-        // There are actually two opportunities for us to detect when a
-        // log event will never happen.  First, we can check the logLevel,
-        // which is internal to edu.rice.util.Log. After that, Logback has
-        // its own checking that it will do. We make both checks
-        // explicitly here before calling safeGet() to extract the string
-        // we're about to log.
-        //
-        // Elsewhere in Comp215, you shouldn't go to the level of trouble
-        // that we do in edu.rice.util.Log, especially since it appears to
-        // violate our "don't repeat yourself" principle, but since it's
-        // our goal to make these functions outrageously cheap when
-        // logging is disabled, we need to go through some extra hoops.
-
-        if (logLevel == ALL) {
-            val l = logger(tag)
-            if (l.isInfoEnabled) {
-                l.info(safeGet(msgFunc), th)
-            }
-        }
-    }
-
-    /**
-     * Information logging. Lambda variant allows the string to be evaluated only if needed.
-     *
-     * @param tag String indicating which code is responsible for the log message
-     * @param msgFunc Lambda providing the string or object to be logged
      */
     fun i(tag: String, msgFunc: () -> Any?) {
         if (logLevel == ALL) {
