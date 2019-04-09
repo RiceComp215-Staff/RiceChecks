@@ -32,7 +32,7 @@ import org.junit.jupiter.api.TestFactory;
 public class TestProject3 {
   @TestFactory
   @Grade(project = "TP3", topic = "Correctness", points = 2.0, maxPoints = 4.0)
-  public Iterable<DynamicTest> testFactorial() {
+  Iterable<DynamicTest> testFactorial() {
     return List.of(
         dynamicTest("0", () -> assertEquals(1, factorial(0))),
         dynamicTest("1", () -> assertEquals(1, factorial(1))),
@@ -41,7 +41,7 @@ public class TestProject3 {
 
   @Test
   @Grade(project = "TP3", topic = "Correctness", points = 4.0)
-  public void testChoose() {
+  void testChoose() {
     assertEquals(15, choose(6, 2));
   }
 }

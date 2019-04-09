@@ -3,13 +3,15 @@
 // Copyright 2018, Dan S. Wallach, Rice University
 // Made available subject to the Apache 2.0 License
 //
+
 package edu.rice.autograder
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
- * This is a simplified version of the Android logging system ([http://developer.android.com/reference/android/util/Log.html](http://developer.android.com/reference/android/util/Log.html))
+ * This is a simplified version of the Android logging system
+ * ([http://developer.android.com/reference/android/util/Log.html](http://developer.android.com/reference/android/util/Log.html))
  * that uses slf4j / [Logback](https://logback.qos.ch/) as its backend.
  */
 object Log {

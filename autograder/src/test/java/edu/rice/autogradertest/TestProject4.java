@@ -26,7 +26,7 @@ import org.junit.jupiter.api.TestFactory;
 public class TestProject4 {
   @Grade(project = "TP4", topic = "Identifiers", points = 0.5, maxPoints = 1.5)
   @TestFactory
-  public List<DynamicTest> testClassIdentifiers() {
+  List<DynamicTest> testClassIdentifiers() {
     var goodClassNames = List.of("Alice", "Bob", "Charlie", "CamelCaseClasses", "Thing1", "Thing2");
     var badClassNames =
         List.of(
@@ -47,7 +47,7 @@ public class TestProject4 {
 
   @Grade(project = "TP4", topic = "Identifiers", points = 0.5, maxPoints = 1.5)
   @TestFactory
-  public List<DynamicTest> testMethodIdentifiers() {
+  List<DynamicTest> testMethodIdentifiers() {
     var goodMethodNames = List.of("alice", "bob", "charlie", "camelCaseNames", "thing1", "thing2");
     var badMethodNames =
         List.of(
@@ -66,39 +66,21 @@ public class TestProject4 {
     return goodAndBad(goodMethodNames, badMethodNames, Project4.methodPattern);
   }
 
-  @Grade(project = "TP4", topic = "Numbers", points = 1, maxPoints = 6)
+  @Grade(project = "TP4", topic = "Numbers", points = 1, maxPoints = 1)
   @TestFactory
-  public List<DynamicTest> testIntegers() {
-    var goodNumbers =
-        List.of(
-            "-29",
-            "-3",
-            "-0",
-            "0",
-            "1",
-            "22",
-            "9285",
-            "0L",
-            "1L",
-            "234_567",
-            "2_3_4_5_6_7",
-            "-234_567_890L");
+  List<DynamicTest> testIntegerUnderscores() {
+    var goodNumbers = List.of("234_567", "2_3_4_5_6_7", "-234_567_890L");
+    var badNumbers = List.of("_234_567", "2__3_4_5_6_7", "8_");
+
+    return goodAndBad(goodNumbers, badNumbers, Project4.integerPattern);
+  }
+
+  @Grade(project = "TP4", topic = "Numbers", points = 1, maxPoints = 5)
+  @TestFactory
+  List<DynamicTest> testIntegers() {
+    var goodNumbers = List.of("-29", "-3", "-0", "0", "1", "22", "9285", "0L", "1L");
     var badNumbers =
-        List.of(
-            "-029",
-            "-03",
-            "-00",
-            "00",
-            "0-",
-            "0-0",
-            "1f",
-            "0x22",
-            "9285.3",
-            "10e5",
-            "NaN",
-            "_234_567",
-            "2__3_4_5_6_7",
-            "8_");
+        List.of("-029", "-03", "-00", "00", "0-", "0-0", "1f", "0x22", "9285.3", "10e5", "NaN");
 
     return goodAndBad(goodNumbers, badNumbers, Project4.integerPattern);
   }
@@ -107,9 +89,10 @@ public class TestProject4 {
       List<String> goodExamples, List<String> badExamples, String regex) {
     var p = Pattern.compile(regex).asMatchPredicate();
 
-    // In Comp215, we use VAVR, but this example uses Java Streams.
-    var positiveTests = goodExamples.stream().map(s -> dynamicTest(s, () -> assertTrue(p.test(s))));
-    var negativeTests = badExamples.stream().map(s -> dynamicTest(s, () -> assertFalse(p.test(s))));
+    var positiveTests =
+        goodExamples.stream().map(s -> dynamicTest("Good: " + s, () -> assertTrue(p.test(s))));
+    var negativeTests =
+        badExamples.stream().map(s -> dynamicTest("Bad: " + s, () -> assertFalse(p.test(s))));
 
     return Stream.concat(positiveTests, negativeTests).collect(Collectors.toList());
   }

@@ -3,6 +3,7 @@
 // Copyright 2018, Dan S. Wallach, Rice University
 // Made available subject to the Apache 2.0 License
 //
+
 package edu.rice.autograder.annotations;
 
 import java.lang.annotation.*;
@@ -44,28 +45,24 @@ public @interface GradeProject {
   double maxPoints() default 0.0;
 
   /**
-   * Specifies whether zero warnings are required from CheckStyle and so forth.
-   * If any warnings appear, then the points specific here will deducted.
-   * Defaults to zero.
+   * Specifies whether zero warnings are required from CheckStyle and so forth. If any warnings
+   * appear, then the points specific here will deducted. Defaults to zero.
    */
   double warningPoints() default 0.0;
 
-  /**
-   * Specifies whether CheckStyle is considered as part of the warningPoints.
-   * Defaults to true.
-   */
+  /** Specifies whether CheckStyle is considered as part of the warningPoints. Defaults to true. */
   boolean useCheckStyle() default true;
 
   /**
-   * Specifies whether GoogleJavaFormat is considered as part of the warningPoints.
-   * Defaults to true.
+   * Specifies whether GoogleJavaFormat is considered as part of the warningPoints. Defaults to
+   * true.
    */
   boolean useGoogleJavaFormat() default true;
 
   /**
-   * Specifies whether Java compiler warnings are considered as part of the warningPoints.
-   * Defaults to true. (If you've enabled ErrorProne, its warnings are included alongside
-   * the Java compiler's warnings.)
+   * Specifies whether Java compiler warnings are considered as part of the warningPoints. Defaults
+   * to true. (If you've enabled ErrorProne, its warnings are included alongside the Java compiler's
+   * warnings.)
    */
   boolean useJavacWarnings() default true;
 

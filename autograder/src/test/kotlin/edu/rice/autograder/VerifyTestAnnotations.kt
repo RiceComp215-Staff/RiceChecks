@@ -21,8 +21,6 @@ class VerifyTestAnnotations {
         assertEquals(5, result["TP1"]?.topics?.flatMap { it.tests }?.size ?: -1)
         assertEquals(6, result["TP2"]?.topics?.flatMap { it.tests }?.size ?: -1)
         assertEquals(2, result["TP3"]?.topics?.flatMap { it.tests }?.size ?: -1)
-        val allGradeTestAnnotations = result.values.flatMap { it.topics }.flatMap { it.tests }
-        assertEquals(13, allGradeTestAnnotations.size)
     }
 
     private fun testSaneDouble(s: String, d: Double): DynamicTest = dynamicTest(s) {

@@ -3,6 +3,7 @@
 // Copyright 2018, Dan S. Wallach, Rice University
 // Made available subject to the Apache 2.0 License
 //
+
 buildscript {
     ext {
         kotlin_version = '1.3.21'
@@ -31,6 +32,7 @@ buildscript {
 plugins {
     id 'java'
     id 'idea'
+    id 'checkstyle'
     id 'jacoco'
     id 'com.github.sherter.google-java-format' version '0.8'
     id "org.jetbrains.kotlin.jvm" version "1.3.21"
@@ -39,6 +41,14 @@ plugins {
 
 group 'edu.rice'
 version annoautograder_version
+
+checkstyle {
+    toolVersion = '8.17'
+}
+
+googleJavaFormat {
+    toolVersion = '1.7'
+}
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
@@ -212,7 +222,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}" // Kotlin standard libraries
 
     // Support specifically for AnnoAutoGrader
-    compile 'io.github.classgraph:classgraph:4.8.21' // for reading class annotations
+    compile 'io.github.classgraph:classgraph:4.8.24' // for reading class annotations
     compile 'com.beust:jcommander:1.72' // command-line parsing
 
     // Jackson (for XML, YAML, and other such things)
