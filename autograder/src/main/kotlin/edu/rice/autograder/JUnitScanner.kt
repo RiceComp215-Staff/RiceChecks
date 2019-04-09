@@ -149,11 +149,14 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
             }
         }
 
+        val numTests = topicResults.size
+        val numPassingTests = topicResults.filter { it.second == 0.0 }.size
+
         val topicDeductions = min(topicResults.map { it.second }.sum(), topicMaxPoints)
-        val topicString = "Topic: $topicName"
+        val topicString = "Topic: $topicName: $numPassingTests of $numTests tests passed"
 
         if (topicDeductions == 0.0) {
-            passingEvaluatorResult(topicMaxPoints, "$topicString: no deductions")
+            passingEvaluatorResult(topicMaxPoints, topicString)
         } else {
             EvaluatorResult(false, max(topicMaxPoints - topicDeductions, 0.0),
                     topicMaxPoints, topicString, topicResults)
