@@ -6,8 +6,7 @@
 
 package edu.rice.autograder
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class JUnitSuiteScannerTest {
@@ -31,5 +30,11 @@ class JUnitSuiteScannerTest {
         val stackTrace = stringConcatResult[0].failure?.stackTraceList ?: fail()
         assertEquals("org.opentest4j.AssertionFailedError", stackTrace[0])
         assertEquals("at edu.rice.qt.ListTheories.stringConcatenationIsNotCommutative(ListTheories.java:132)", stackTrace[3])
+    }
+
+    @Test
+    fun testMethodMatcher() {
+        val test1 = JTestCase("testObjects()[1]", "edu.rice.json.ParserTestPrivate", 0.0, null)
+        assertTrue(test1.matches("edu.rice.json.ParserTestPrivate", "testObjects"))
     }
 }

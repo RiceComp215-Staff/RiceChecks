@@ -6,7 +6,7 @@
 
 package edu.rice.autograder
 
-private const val TAG = "GoogleJavaStyle"
+private const val TAG = "GoogleJavaFormat"
 
 /**
  * the data is formatted something like this:
@@ -17,31 +17,31 @@ private const val TAG = "GoogleJavaStyle"
  * So, that's CSV format with fileName,fileModTime,fileNumBytes,formattedStatus
  * - filestate can apparently be FORMATTED, UNFORMATTED, INVALID, or UNKNOWN
  */
-data class GoogleJavaStyleResult(
+data class GoogleJavaFormatResult(
     val fileName: String,
     val fileModTime: Long,
     val fileNumBytes: Long,
     val formattedStatus: String
 )
 
-val googleJavaStyleMissing = "googleJavaStyleScanner: no input found" to false
+val googleJavaFormatMissing = "$TAG: no input found" to false
 
-fun List<GoogleJavaStyleResult>.eval(): Pair<String, Boolean> {
+fun List<GoogleJavaFormatResult>.eval(): Pair<String, Boolean> {
     if (isEmpty()) {
-        return googleJavaStyleMissing
+        return googleJavaFormatMissing
     }
 
     val numResults = size
     val numFormatted = filter { it.formattedStatus == "FORMATTED" }.size
-    val feedback = "googleJavaStyleScanner: %d/%d files correctly formatted".format(numFormatted, numResults) +
+    val feedback = "$TAG: %d of %d files correctly formatted".format(numFormatted, numResults) +
             if (numFormatted == numResults) "" else "; run the <googleJavaFormat> gradle action to fix"
-    Log.i(TAG, "googleJavaStyleEvaluator: $feedback")
+    Log.i(TAG, "eval: $feedback")
 
     return feedback to (numFormatted == numResults)
 }
 
-fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> {
-    Log.i(TAG, "googleJavaStyleParser: ${fileData.length} bytes")
+fun googleJavaFormatParser(fileData: String): List<GoogleJavaFormatResult> {
+    Log.i(TAG, "parser: ${fileData.length} bytes")
 
     return if (fileData.isEmpty()) {
         emptyList()
@@ -52,7 +52,7 @@ fun googleJavaStyleParser(fileData: String): List<GoogleJavaStyleResult> {
                 .split(Regex("[\n\r]+"))
                 .filter { it != "" }
                 .map { it.split(",") }
-                .map { (a, b, c, d) -> GoogleJavaStyleResult(a, b.toLong(), c.toLong(), d) }
+                .map { (a, b, c, d) -> GoogleJavaFormatResult(a, b.toLong(), c.toLong(), d) }
                 .sortedBy { it.fileName }
     }
 }

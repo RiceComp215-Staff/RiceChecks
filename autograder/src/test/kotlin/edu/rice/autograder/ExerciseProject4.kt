@@ -18,7 +18,7 @@ class ExerciseProject4 {
         AutoGrader.autoGrade(arrayOf("--package", "edu.rice.autogradertest",
                 "--project", "TP4",
                 "--log", "all",
-                "--build-dir", "build",
+                "--build-dir", "autograder/build",
                 "grade"))
     }
 

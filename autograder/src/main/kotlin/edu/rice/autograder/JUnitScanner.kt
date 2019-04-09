@@ -112,10 +112,15 @@ data class JFailure(
  */
 fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
 
+fun JTestCase.matches(className: String, methodName: String): Boolean {
+    val fixedMethodName = this.methodName?.replace(Regex("\\(\\).*$"), "") ?: ""
+    return fixedMethodName == methodName && this.className == className
+}
+
 private fun List<JUnitSuite>.find(className: String, methodName: String): List<JTestCase> =
         flatMap { suite ->
             suite.tests
-                    ?.filter { it.className == className && it.methodName == methodName }
+                    ?.filter { it.matches(className, methodName) }
                     ?: emptyList()
         }
 
@@ -130,13 +135,14 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
             val testResults = find(className, methodName)
 
             when {
+                testFactory && testResults.isEmpty() -> "$name: missing" to maxPoints
                 testResults.isEmpty() -> "$name: missing" to points
                 testFactory -> {
                     val numPassing = testResults.count { it.failure == null }
                     val numFailing = testResults.count { it.failure != null }
                     val totalTests = testResults.size
                     val deduction = min(numFailing * points, maxPoints)
-                    "$name: $numPassing / $totalTests passing" to deduction
+                    "$name:\n$numPassing of $totalTests passing" to deduction
                 }
                 testResults.find { it.failure != null } != null -> "$name: failed" to points
                 else -> "$name: passed" to 0.0
@@ -150,6 +156,6 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
             passingEvaluatorResult(topicMaxPoints, "$topicString: no deductions")
         } else {
             EvaluatorResult(false, max(topicMaxPoints - topicDeductions, 0.0),
-                    topicString, topicResults)
+                    topicMaxPoints, topicString, topicResults)
         }
     }

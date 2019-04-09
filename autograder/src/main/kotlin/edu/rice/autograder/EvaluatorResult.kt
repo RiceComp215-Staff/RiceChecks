@@ -27,9 +27,10 @@ package edu.rice.autograder
 data class EvaluatorResult(
     val passes: Boolean,
     val points: Double,
+    val maxPoints: Double,
     val title: String,
     val deductions: List<Pair<String, Double>>
 )
 
 fun passingEvaluatorResult(happyPoints: Double = 0.0, happyString: String = "") =
-    EvaluatorResult(true, happyPoints, happyString, emptyList())
+    EvaluatorResult(true, happyPoints, happyPoints, happyString, emptyList())

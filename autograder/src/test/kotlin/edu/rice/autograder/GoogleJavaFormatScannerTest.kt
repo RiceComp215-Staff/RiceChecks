@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class GoogleJavaStyleScannerTest {
+class GoogleJavaFormatScannerTest {
     @Test
     fun testReadDir() {
         val comp215BuildDir = readResourceDir("comp215-build").getOrFail().toList()
@@ -22,7 +22,7 @@ class GoogleJavaStyleScannerTest {
     @Test
     fun testFileStatesExample() {
         val input = readResource("comp215-build/google-java-format/0.8/fileStates.txt").getOrFail()
-        val testResult = googleJavaStyleParser(input).eval()
+        val testResult = googleJavaFormatParser(input).eval()
         assertFalse(testResult.second)
     }
 }

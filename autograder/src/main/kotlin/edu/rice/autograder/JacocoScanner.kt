@@ -164,7 +164,7 @@ fun GCoverageStyle.toJacocoCounterType() = when (this) {
     GCoverageStyle.LINES -> JacocoCounterType.LINE
 }
 
-val jacocoResultsMissing = EvaluatorResult(false, 0.0, "No test coverage results found", emptyList())
+fun GGradeProject.jacocoResultsMissing() = EvaluatorResult(false, 0.0, coveragePoints, "No test coverage results found", emptyList())
 
 private const val TAG = "JacocoScanner"
 
@@ -194,7 +194,7 @@ private fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): Li
 
 fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     if (this == null) {
-        return jacocoResultsMissing
+        return project.jacocoResultsMissing()
     }
 
     if (project.coveragePoints == 0.0) return passingEvaluatorResult(0.0, "No test coverage requirement")
@@ -224,7 +224,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     return if (passing) {
         passingEvaluatorResult(project.coveragePoints, "Test coverage meets %.0f%% requirement".format(project.coveragePercentage))
     } else {
-        EvaluatorResult(false, 0.0, "Test coverage",
+        EvaluatorResult(false, 0.0, project.coveragePoints, "Test coverage",
                 fails.map { (name, coverage) ->
                     "$name: %.1f%% $counterType".format(coverage * 100.0) to 0.0
                 })

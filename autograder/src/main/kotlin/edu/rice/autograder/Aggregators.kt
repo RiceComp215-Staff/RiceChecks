@@ -17,8 +17,8 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
             Log.i("warningAggregator", "useCheckStyle($useCheckStyle), useGoogleJavaFormat($useGoogleJavaFormat), useJavacWarnings($useJavacWarnings)")
 
             val googleJavaStyleContents = readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
-                    .map { googleJavaStyleParser(it).eval() }
-                    .getOrDefault { googleJavaStyleMissing }
+                    .map { googleJavaFormatParser(it).eval() }
+                    .getOrDefault { googleJavaFormatMissing }
             val checkStyleMainContents = readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
                     .map { checkStyleParser(it).eval("main") }
                     .getOrDefault { checkStyleMissing("main") }
@@ -42,6 +42,7 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
 
             EvaluatorResult(passing,
                     if (passing) warningPoints else 0.0,
+                    warningPoints,
                     if (passing) "No warning / style deductions" else "Warning / style deductions",
                     allResults.map { it.first to if (it.second) 0.0 else warningPoints })
         })
@@ -54,13 +55,18 @@ fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
             .filter { it.fileName.toString().endsWith(".xml") }
             .flatMap { it.readFile().asList() }
 
-    return if (testResultFiles.none()) {
-        listOf(EvaluatorResult(false, 0.0, "No unit tests found!", emptyList()))
+    Log.i("unitTestAggregator", "Found ${testResultFiles.size} files")
+
+    return if (testResultFiles.isEmpty()) {
+        Log.i("unitTestAggregator", "Yielded zero evaluation results!")
+        listOf(EvaluatorResult(false, 0.0, this.maxPoints, "No unit tests found!", emptyList()))
     } else {
         // TODO: inline this into one expr after we're sure we won't want to step through here with a debugger
         val parsedResults = testResultFiles
-                .map { junitSuiteParser(it) }.toList()
+                .map { junitSuiteParser(it) }
+                .sortedBy { it.className }
         val evalResults = parsedResults.eval(this)
+        Log.i("unitTestAggregator", "Yielded ${evalResults.size} evaluation results")
         evalResults
     }
 }
@@ -71,17 +77,30 @@ fun GGradeProject.jacocoAggregator(): List<EvaluatorResult> =
         else
             readFile("${AutoGrader.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
                     .map { jacocoParser(it).eval(this) }
-                    .getOrDefault { jacocoResultsMissing })
+                    .getOrDefault { jacocoResultsMissing() })
 
 fun GGradeProject.allResults(): List<EvaluatorResult> =
         unitTestAggregator() + warningAggregator() +
                 if (coveragePoints == 0.0) emptyList() else jacocoAggregator()
 
-private const val lineLength = 71
-private const val leftColumn = 57
+private const val lineLength = 78
 private const val rightColumn = 8
+private const val leftColumn = lineLength - rightColumn - 6
 private const val checkMark = "✅" // fixed-width font note: we have no guarantees about Emoji widths
 private const val failMark = "❌"
+private const val blankLine = "│" // unicode: "BOX DRAWINGS LIGHT VERTICAL"
+private val dividerLine = "├" + "─".repeat(lineLength - 1)
+private val startDividerLine = "┌" + "─".repeat(lineLength - 1)
+private val endDividerLine = "└" + "─".repeat(lineLength - 1)
+
+private fun Double.rightColumnNonZero() = if (this == 0.0) "" else "%${rightColumn}s".format("(%.1f)".format(this))
+private fun Double.rightColumn() = "%${rightColumn-1}.1f ".format(this)
+private fun fractionLine(detail: String, top: Double, bottom: Double, passing: Boolean): String {
+    val emoji = if (passing) checkMark else failMark
+    val fraction = "%.1f/%.1f".format(top, bottom)
+    return "$blankLine %-${leftColumn - rightColumn - 2}s %${rightColumn * 2 + 1}s $emoji".format(detail, fraction)
+}
+
 /**
  * Prints everything to the given output [PrintStream], then returns
  * whether the tests succeeded (true) or failed (false).
@@ -91,11 +110,6 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     // deductions, with a floor at zero. When producing the final grade, we then add together
     // all the individual topic scores.
 
-    val blankLine = "│" // unicode: "BOX DRAWINGS LIGHT VERTICAL"
-    val dividerLine = "├" + "─".repeat(lineLength - 1)
-    val startDividerLine = "┌" + "─".repeat(lineLength - 1)
-    val endDividerLine = "└" + "─".repeat(lineLength - 1)
-
     stream.println(startDividerLine)
     stream.println("$blankLine %-${lineLength - 2}s".format("Autograder for $name"))
     wordWrap(description, lineLength - 2).forEach {
@@ -103,12 +117,15 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     }
     stream.println(dividerLine)
     stream.println(blankLine)
-    results.forEach { (passes, points, title, deductions) ->
-        val emoji = if (passes) checkMark else failMark
-        stream.println("$blankLine %-${leftColumn}s %$rightColumn.1f $emoji".format(title, points))
-        deductions.forEach { (name, value) ->
-            val wrapped = wordWrap(name, leftColumn - 2)
-            stream.println("$blankLine - %-${leftColumn - 2}s %$rightColumn.1f".format(wrapped[0], if (value != 0.0) -value else 0.0))
+    results.forEach { (passes, points, maxPoints, title, deductions) ->
+        stream.println(fractionLine(title, points, maxPoints, passes))
+        deductions.forEach { (text, value) ->
+            // newlines are optional
+            val wrapped = text.split("\n").flatMap {
+             wordWrap(it, leftColumn - 2)
+            }
+
+            stream.println("$blankLine - %-${leftColumn - 2}s %s".format(wrapped[0], (-value).rightColumnNonZero() ))
             wrapped.tail().forEach {
                 stream.println("$blankLine   $it")
             }
@@ -117,11 +134,10 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     }
 
     val allPassing = results.fold(true) { a, b -> a && b.passes }
-    val emoji = if (allPassing) checkMark else failMark
     val allPoints = results.sumByDouble { it.points }
 
     stream.println(dividerLine)
-    stream.println("$blankLine Total points: %.1f/%.1f $emoji".format(allPoints, maxPoints))
+    stream.println(fractionLine("Total points:", allPoints, maxPoints, allPassing))
     stream.println(endDividerLine)
 
     return allPassing

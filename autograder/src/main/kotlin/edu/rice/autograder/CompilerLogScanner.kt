@@ -8,7 +8,7 @@ package edu.rice.autograder
 
 private const val TAG = "JavacWarnings"
 
-val javacLogMissing = "Can't find compiler output" to false
+val javacLogMissing = "Compiler: Can't find output" to false
 
 // This is almost too easy: our Gradle configuration copies stdout from the compiler
 // to a file: build/logs/compile.log
@@ -17,8 +17,8 @@ val javacLogMissing = "Can't find compiler output" to false
 // there were warnings and/or errors.
 
 fun javacZeroWarnings(fileData: String): Pair<String, Boolean> {
-    val result = if (fileData.isEmpty()) "No compiler warnings or errors" to true
-    else "One or more compiler warnings / errors" to false
+    val result = if (fileData.isEmpty()) "Compiler: No warnings or errors" to true
+    else "Compiler: One or more warnings / errors" to false
 
     Log.i(TAG, "JavaC: $result")
     return result
