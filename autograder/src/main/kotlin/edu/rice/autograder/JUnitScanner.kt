@@ -142,7 +142,7 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
                     val numFailing = testResults.count { it.failure != null }
                     val totalTests = testResults.size
                     val deduction = min(numFailing * points, maxPoints)
-                    "$name:\n$numPassing of $totalTests passing" to deduction
+                    "$name:\n$numPassing of $totalTests passing (-%.1f / fail)".format(points) to deduction
                 }
                 testResults.find { it.failure != null } != null -> "$name: failed" to points
                 else -> "$name: passed" to 0.0
