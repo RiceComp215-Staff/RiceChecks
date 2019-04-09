@@ -36,7 +36,7 @@ plugins {
     id 'jacoco'
     id 'com.github.sherter.google-java-format' version '0.8'
     id "org.jetbrains.kotlin.jvm" version "1.3.21"
-    id "org.jetbrains.kotlin.kapt" version "1.3.21"
+//    id "org.jetbrains.kotlin.kapt" version "1.3.21"
 }
 
 group 'edu.rice'
@@ -207,7 +207,7 @@ dependencies {
 //    compile "io.arrow-kt:arrow-typeclasses:$arrow_version"
 //    compile "io.arrow-kt:arrow-extras-data:$arrow_version"
 //    compile "io.arrow-kt:arrow-extras-extensions:$arrow_version"
-    kapt    "io.arrow-kt:arrow-meta:$arrow_version"
+//    kapt    "io.arrow-kt:arrow-meta:$arrow_version"
     
     // annotations to help ErrorProne and IntelliJ find bugs
     compile 'org.jetbrains:annotations:15.0'
