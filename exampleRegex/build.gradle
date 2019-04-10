@@ -1,0 +1,162 @@
+buildscript {
+    repositories {
+        maven { url "https://maven-central.storage.googleapis.com" }
+        jcenter()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'jacoco'
+    id "net.ltgt.errorprone" version "0.7.1" // JDK9+
+    id 'com.github.sherter.google-java-format' version '0.8'
+}
+
+group 'edu.rice'
+version '1.0'
+
+checkstyle {
+    toolVersion = '8.17'
+}
+
+googleJavaFormat {
+    toolVersion = '1.7'
+}
+
+allprojects {
+    // Makes the "javadoc" action run without a ton of errors and warnings.
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+    
+    tasks.withType(JavaCompile) {
+        options.fork = true
+        options.incremental = true
+        options.encoding = "UTF-8"
+
+        options.compilerArgs << "-Xlint:all" << "-Xlint:-serial" << "-Xlint:-processing" << "-Xlint:-deprecation"
+
+        // ErrorProne's "unused" warnings seems to trigger far too often, so we're suppressing them.
+        options.errorprone.errorproneArgs << "-Xep:UnusedVariable:OFF" << "-Xep:UnusedMethod:OFF"
+
+        sourceCompatibility = '11'
+        targetCompatibility = '11'
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// This section configures JaCoCo (Java Code Coverage), JUnit (unit tests), GoogleJavaFormat,
+// and the autograder.
+
+jacoco {
+    toolVersion = "0.8.3"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.destination file("${buildDir}/reports/jacoco/")
+    }
+}
+
+// We need to capture the errors and warnings printed by the Java compiler.
+// Everything else is already written into the build directory, but not this.
+
+import java.nio.file.*
+
+task initLogFile {
+    doLast {
+        def rootDirPath = Paths.get(rootDir.toString())
+        def buildLogDir = rootDirPath.resolve("build/logs")
+        def buildLogDirPath = Files.createDirectories(buildLogDir)
+        def buildLogPath = buildLogDirPath.resolve("compile.log")
+        logger.info("making ${buildLogPath.toString()}")
+
+        def gradleBuildLog = Files.newOutputStream(buildLogPath)
+
+        def fileLogger = [
+                onOutput: {
+                    gradleBuildLog << it
+                }
+        ] as StandardOutputListener
+
+        tasks.withType(JavaCompile) {
+            logger.info("compilation logging for $it")
+            logging.addStandardOutputListener(fileLogger)
+            logging.addStandardErrorListener(fileLogger)
+        }
+    }
+}
+
+compileJava.dependsOn initLogFile
+
+test {
+    useJUnitPlatform()
+    outputs.upToDateWhen { false }
+
+    minHeapSize = "512m"
+    maxHeapSize = "2048m"
+    jvmArgs = ["-Xss128m"]
+    ignoreFailures true
+}
+
+import com.github.sherter.googlejavaformatgradleplugin.VerifyGoogleJavaFormat
+task verifyFormatting(type: VerifyGoogleJavaFormat) {
+    source 'src/main'
+    source 'src/test'
+    include '**/*.java'
+    ignoreFailures true
+}
+
+task autograder (dependsOn: classes, type: JavaExec) {
+    dependsOn 'jacocoTestCoverageVerification', 'jacocoTestReport', 'verifyFormatting',
+            'checkstyleMain', 'checkstyleTest', 'test'
+
+    classpath = sourceSets.main.runtimeClasspath
+    main = "edu.rice.autograder.AutoGraderKt"
+    args = [ "--package", "edu.rice.regex", "--project", "RE", "--config", "config/grade.yaml", "grade" ]
+}
+
+task debugAnnotations (type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "edu.rice.autograder.AutoGraderKt"
+    args = [ "--package", "edu.rice.regex", "--project", "RE", "--log", "all", "debugAnnotations" ]
+}
+
+task writeConfig (type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "edu.rice.autograder.AutoGraderKt"
+    args = [ "--package", "edu.rice.regex", "--project", "RE", "--config", "config/grade.yaml", "writeConfig" ]
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// This section specifies all the external libraries being used by your Java
+// program and where to find them.
+repositories {
+    maven { url "https://maven-central.storage.googleapis.com" }
+    mavenCentral()
+}
+
+dependencies {
+    // this creates a dependency on the autograder subproject: see the README.md
+    // file for how to set up a standalone project
+    compile project (':autograder')
+
+    errorprone("com.google.errorprone:error_prone_core:2.3.3")
+
+    // logging
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+
+    // annotations to help ErrorProne and IntelliJ find bugs
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.google.code.findbugs:annotations:3.0.1'
+    implementation 'com.google.errorprone:error_prone_annotations:2.3.3'
+
+    // JUnit5 support
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+}

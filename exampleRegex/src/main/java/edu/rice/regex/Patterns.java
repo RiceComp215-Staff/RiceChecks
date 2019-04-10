@@ -4,11 +4,11 @@
 // Made available subject to the Apache 2.0 License
 //
 
-package edu.rice.autogradertest;
+package edu.rice.regex;
 
 import org.intellij.lang.annotations.Language;
 
-public class Project4 {
+public class Patterns {
   // Java class-names start with capital letters and after that, by convention, we use
   // upper and lower-case letters and numbers, and nothing else. Write a regular
   // expression that matches this.

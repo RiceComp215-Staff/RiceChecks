@@ -17,12 +17,12 @@ class WordWrapTest {
 
     @Test
     fun lessBasics() {
-        assertEquals(listOf("edu.rice.autogradertest.TestProject4.",
+        assertEquals(listOf("edu.rice.regex.TestProject4.",
                 "testClassIdentifiers: missing"),
-                wordWrap("edu.rice.autogradertest.TestProject4.testClassIdentifiers: missing", 40))
+                wordWrap("edu.rice.regex.TestProject4.testClassIdentifiers: missing", 40))
         assertEquals(listOf("edu.rice.autogradertest.",
                 "TestProject4.",
                 "testClassIdentifiers: missing"),
-                wordWrap("edu.rice.autogradertest.TestProject4.testClassIdentifiers: missing", 30))
+                wordWrap("edu.rice.regex.TestProject4.testClassIdentifiers: missing", 30))
     }
 }

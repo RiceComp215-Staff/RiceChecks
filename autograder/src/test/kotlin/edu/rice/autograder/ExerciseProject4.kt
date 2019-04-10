@@ -15,11 +15,6 @@ class ExerciseProject4 {
     @Test
     @Disabled
     fun runGrader() {
-        AutoGrader.autoGrade(arrayOf("--package", "edu.rice.autogradertest",
-                "--project", "TP4",
-                "--log", "all",
-                "--build-dir", "autograder/build",
-                "grade"))
     }
 
     @Test

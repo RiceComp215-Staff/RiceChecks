@@ -94,23 +94,6 @@ configurations {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// we want to print the date and other useful stuff every time we compile; helpful when looking at logs
-import java.time.format.DateTimeFormatter
-import java.time.ZoneId
-import java.time.ZonedDateTime
-
-gradle.taskGraph.whenReady {
-    println "Compilation time: " +
-            ZonedDateTime.now(ZoneId.of("America/Chicago")).format(DateTimeFormatter.RFC_1123_DATE_TIME)
-
-    // And, while we're here, we might as well print out the Java version
-    println "Gradle JDK: " + System.getProperty("java.version")
-
-    // Print everything Gradle knows about itself
-    println "Gradle version: $gradle.gradleVersion"
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // Linting and code formatting / indentation for Kotlin via ktlint.
 
 task ktlint(type: JavaExec, group: "verification") {
