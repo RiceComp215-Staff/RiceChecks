@@ -23,10 +23,6 @@ checkstyle {
     reportsDir = project.file("build/reports/checkstyle")
 }
 
-googleJavaFormat {
-    toolVersion = '1.7'
-}
-
 allprojects {
     // Makes the "javadoc" action run without a ton of errors and warnings.
     tasks.withType(Javadoc) {
@@ -102,25 +98,45 @@ test {
     ignoreFailures true
 }
 
+googleJavaFormat {
+    toolVersion = '1.7'
+}
+
 import com.github.sherter.googlejavaformatgradleplugin.VerifyGoogleJavaFormat
-task verifyFormatting(type: VerifyGoogleJavaFormat) {
+task autograderVerifyGoogleJavaFormat(type: VerifyGoogleJavaFormat) {
     source 'src/main'
     source 'src/test'
     include '**/*.java'
     ignoreFailures true
-
-    doLast {
-        println "Running GoogleJavaFormat verifier"
-    }
 }
 
-task autograder (dependsOn: classes, type: JavaExec) {
-    dependsOn 'jacocoTestCoverageVerification', 'jacocoTestReport', 'verifyFormatting',
-            'checkstyleMain', 'checkstyleTest', 'test'
+task autograder {
+    dependsOn 'classes', 'jacocoTestCoverageVerification', 'jacocoTestReport',
+            'autograderVerifyGoogleJavaFormat', 'checkstyleMain', 'checkstyleTest', 'test'
 
-    classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
-    main = "edu.rice.autograder.AutoGraderKt"
-    args = [ "--package", "edu.rice.regex", "--project", "RE", "--config", "config/grade.yaml", "--log", "all", "grade" ]
+    doLast {
+        // We're not running the autograder directly because GoogleJavaFormat has
+        // a bug where it doesn't write its file output until the build finishes.
+        // This hack means that the autograder task schedules the actual autograding
+        // to happen after everything else is done. Once this bug is resolved,
+        // we can convert this into a regular JavaExec task.
+        // https://github.com/sherter/google-java-format-gradle-plugin/issues/35
+
+
+        gradle.buildFinished { ignoredResult ->
+//            def fileName = "$buildDir/google-java-format/0.8/fileStates.txt"
+//            def lines = file(fileName).readLines()
+//            println "$fileName: lines: " + lines.size()
+            project.javaexec {
+                classpath = sourceSets.main.runtimeClasspath
+                main = "edu.rice.autograder.AutoGraderKt"
+                args = [ "--package", "edu.rice.regex",
+                         "--project", "RE",
+                         "--config", "config/grade.yaml",
+                         "grade" ]
+            }
+        }
+    }
 }
 
 task debugAnnotations (type: JavaExec) {

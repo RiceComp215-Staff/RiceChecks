@@ -75,8 +75,10 @@ object AutoGrader {
                 "      --config can be used to specify a YAML file for the project autograde spec, \n" +
                 "      or, by default, the autograde spec is loaded from the code annotations, which" +
                 "      requires a --package argument.\n")
-        System.exit(1)
+        exit(false)
     }
+
+    private fun exit(passing: Boolean) = System.exit(if (passing) 0 else 1)
 
     fun autoGrade(args: Array<String>) {
         commandParser = JCommander.newBuilder()
@@ -115,10 +117,10 @@ object AutoGrader {
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
                         System.out.println("No annotations found for project($lProject)")
-                        System.exit(1)
+                        exit(false)
                     } else {
                         System.out.println(gproject.yamlExporter())
-                        System.exit(0)
+                        exit(true)
                     }
                 } else {
                     helpDump()
@@ -132,16 +134,16 @@ object AutoGrader {
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
                         System.out.println("No annotations found for project($lProject)")
-                        System.exit(1)
+                        exit(false)
                     } else {
                         writeFile(lConfigFileName, gproject.yamlExporter())
                                 .onSuccess {
                                     System.out.println("Config for $lProject written to $lConfigFileName")
-                                    System.exit(0)
+                                    exit(true)
                                 }
                                 .onFailure {
                                     System.out.println("Error writing to $lConfigFileName: ${it.message}")
-                                    System.exit(1)
+                                    exit(false)
                                 }
                     }
                 } else {
@@ -153,7 +155,7 @@ object AutoGrader {
                     Log.i(TAG, "Running autograder with configFileName($lConfigFileName), project($lProject)")
                     val gproject = loadConfig(lConfigFileName)
                     val passed = gproject.printResults(System.out, gproject.allResults())
-                    System.exit(if (passed) 0 else 1)
+                    exit(passed)
                 }
                 lConfigFileName == null && lProject != null && lPackageName != null -> {
                     Log.i(TAG, "Running autograder from annotations for package($lPackageName), project($lProject)")
@@ -161,27 +163,28 @@ object AutoGrader {
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
                         System.out.println("No annotations found for project($lProject)")
-                        System.exit(1)
+                        exit(false)
                     } else {
                         val passed = gproject.printResults(System.out, gproject.allResults())
-                        System.exit(if (passed) 0 else 1)
+                        exit(passed)
                     }
                 }
                 else -> helpDump()
             }
         }
     }
-}
 
-fun loadConfig(yamlFileName: String): GGradeProject =
-    readFile(yamlFileName)
-            .flatMap { yamlImporter(it) }
-            .onFailure {
-                Log.e(TAG, "Failed to load $yamlFileName", it)
-                System.out.println("Failed to load $yamlFileName: ${it.message}")
-                System.exit(1)
-            }
-            .getOrFail()
+    fun loadConfig(yamlFileName: String): GGradeProject =
+            readFile(yamlFileName)
+                    .flatMap { yamlImporter(it) }
+                    .onFailure {
+                        Log.e(TAG, "Failed to load $yamlFileName", it)
+                        System.out.println("Failed to load $yamlFileName: ${it.message}")
+                        exit(false)
+                    }
+                    .getOrFail()
+
+}
 
 /** Entry point for calling the autograder from the command-line. */
 fun main(args: Array<String>) {
