@@ -44,6 +44,8 @@ version annoautograder_version
 
 checkstyle {
     toolVersion = '8.17'
+    configDir = project.file("config/checkstyle")
+    reportsDir = project.file("build/reports/checkstyle")
 }
 
 googleJavaFormat {

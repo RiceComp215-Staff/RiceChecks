@@ -19,6 +19,8 @@ version '1.0'
 
 checkstyle {
     toolVersion = '8.17'
+    configDir = project.file("config/checkstyle")
+    reportsDir = project.file("build/reports/checkstyle")
 }
 
 googleJavaFormat {
@@ -115,19 +117,19 @@ task autograder (dependsOn: classes, type: JavaExec) {
     dependsOn 'jacocoTestCoverageVerification', 'jacocoTestReport', 'verifyFormatting',
             'checkstyleMain', 'checkstyleTest', 'test'
 
-    classpath = sourceSets.main.runtimeClasspath
+    classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
     args = [ "--package", "edu.rice.regex", "--project", "RE", "--config", "config/grade.yaml", "grade" ]
 }
 
 task debugAnnotations (type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
+    classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
     args = [ "--package", "edu.rice.regex", "--project", "RE", "--log", "all", "debugAnnotations" ]
 }
 
 task writeConfig (type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
+    classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
     args = [ "--package", "edu.rice.regex", "--project", "RE", "--config", "config/grade.yaml", "writeConfig" ]
 }

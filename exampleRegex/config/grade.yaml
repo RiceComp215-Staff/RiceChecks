@@ -1,0 +1,39 @@
+---
+name: "RE"
+description: "Writing regular expressions"
+maxPoints: 10.0
+warningPoints: 1.0
+useCheckStyle: true
+useGoogleJavaFormat: true
+useJavacWarnings: true
+coveragePoints: 0.0
+coverageStyle: "LINES"
+coveragePercentage: 0.0
+coverageAnnotations: []
+topics:
+- name: "Identifiers"
+  maxPoints: 3.0
+  tests:
+  - points: 0.5
+    maxPoints: 1.5
+    className: "edu.rice.regex.TestPatterns"
+    methodName: "testClassIdentifiers"
+    testFactory: true
+  - points: 0.5
+    maxPoints: 1.5
+    className: "edu.rice.regex.TestPatterns"
+    methodName: "testMethodIdentifiers"
+    testFactory: true
+- name: "Numbers"
+  maxPoints: 6.0
+  tests:
+  - points: 1.0
+    maxPoints: 1.0
+    className: "edu.rice.regex.TestPatterns"
+    methodName: "testIntegerUnderscores"
+    testFactory: true
+  - points: 1.0
+    maxPoints: 5.0
+    className: "edu.rice.regex.TestPatterns"
+    methodName: "testIntegers"
+    testFactory: true
