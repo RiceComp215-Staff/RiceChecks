@@ -71,6 +71,7 @@ import java.nio.file.*
 
 task initLogFile {
     doLast {
+        file("$buildDir").mkdir()
         file("$buildDir/logs").mkdir()
         def gradleBuildLog = file("$buildDir/logs/compile.log")
         gradleBuildLog.write("") // empty write forces file to exist with size 0
@@ -107,6 +108,10 @@ task verifyFormatting(type: VerifyGoogleJavaFormat) {
     source 'src/test'
     include '**/*.java'
     ignoreFailures true
+
+    doLast {
+        println "Running GoogleJavaFormat verifier"
+    }
 }
 
 task autograder (dependsOn: classes, type: JavaExec) {
@@ -115,7 +120,7 @@ task autograder (dependsOn: classes, type: JavaExec) {
 
     classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
-    args = [ "--package", "edu.rice.regex", "--project", "RE", "--config", "config/grade.yaml", "grade" ]
+    args = [ "--package", "edu.rice.regex", "--project", "RE", "--config", "config/grade.yaml", "--log", "all", "grade" ]
 }
 
 task debugAnnotations (type: JavaExec) {

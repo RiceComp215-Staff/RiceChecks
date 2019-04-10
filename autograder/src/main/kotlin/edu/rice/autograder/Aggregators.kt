@@ -16,7 +16,7 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
         } else {
             Log.i("warningAggregator", "useCheckStyle($useCheckStyle), useGoogleJavaFormat($useGoogleJavaFormat), useJavacWarnings($useJavacWarnings)")
 
-            val googleJavaStyleContents = readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
+            val googleJavaFormatContents = readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
                     .map { googleJavaFormatParser(it).eval() }
                     .getOrDefault { googleJavaFormatMissing }
             val checkStyleMainContents = readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
@@ -32,7 +32,7 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
             val checkStyleMaybe =
                     if (useCheckStyle) listOf(checkStyleMainContents, checkStyleTestContents) else emptyList()
             val googleJavaStyleMaybe =
-                    if (useGoogleJavaFormat) listOf(googleJavaStyleContents) else emptyList()
+                    if (useGoogleJavaFormat) listOf(googleJavaFormatContents) else emptyList()
             val compilerMaybe =
                     if (useJavacWarnings) listOf(compilerLogContents) else emptyList()
 
