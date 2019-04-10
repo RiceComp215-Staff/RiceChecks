@@ -71,17 +71,13 @@ import java.nio.file.*
 
 task initLogFile {
     doLast {
-        def rootDirPath = Paths.get(rootDir.toString())
-        def buildLogDir = rootDirPath.resolve("build/logs")
-        def buildLogDirPath = Files.createDirectories(buildLogDir)
-        def buildLogPath = buildLogDirPath.resolve("compile.log")
-        logger.info("making ${buildLogPath.toString()}")
-
-        def gradleBuildLog = Files.newOutputStream(buildLogPath)
-
+        file("$buildDir/logs").mkdir()
+        def gradleBuildLog = file("$buildDir/logs/compile.log")
+        gradleBuildLog.write("") // empty write forces file to exist with size 0
+        
         def fileLogger = [
                 onOutput: {
-                    gradleBuildLog << it
+                    gradleBuildLog.write(it)
                 }
         ] as StandardOutputListener
 

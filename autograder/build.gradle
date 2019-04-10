@@ -162,20 +162,6 @@ task allJars {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// We want to run our own here on the various tiny projects in the test folder.
-// There's something meta about trying to test the tester.
-task testProject4 (dependsOn: classes, type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-
-    maxHeapSize = "16g" // 16GB vs. 256MB default
-    jvmArgs = [ '-Xss500m' ] // 500MB stack, because we need a huge stack for some of the algorithms
-
-    main = "edu.rice.autograder.AutoGraderKt"
-
-    args = ["--package", "edu.rice.autogradertest", "--project", "TP4", "--log", "all", "grade"]
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // This section specifies all the external libraries being used by your Java
 // program and where to find them.
 repositories {

@@ -78,7 +78,10 @@ object AutoGrader {
         System.exit(1)
     }
 
+    private const val BOM = "\ufeff" // Unicode to say "definitely unicode here!"
     fun autoGrade(args: Array<String>) {
+        System.out.print(BOM)
+
         commandParser = JCommander.newBuilder()
                 .addObject(this)
                 .build()

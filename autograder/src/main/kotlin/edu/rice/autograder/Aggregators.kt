@@ -40,10 +40,11 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
 
             val passing = allResults.fold(true) { a, b -> a && b.second }
 
-            EvaluatorResult(passing,
-                    if (passing) warningPoints else 0.0,
+            if (passing) passingEvaluatorResult(warningPoints, "No warning / style deductions")
+            else EvaluatorResult(false,
+                    0.0,
                     warningPoints,
-                    if (passing) "No warning / style deductions" else "Warning / style deductions",
+                    "Warning / style deductions",
                     allResults.map { it.first to if (it.second) 0.0 else warningPoints })
         })
 
