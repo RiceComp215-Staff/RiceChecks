@@ -72,29 +72,56 @@ import kotlin.math.min
 
 @JsonRootName("testsuite")
 data class JUnitSuite(
-    @set:JsonProperty("testcase") var tests: List<JTestCase>? = null,
-    @set:JacksonXmlProperty(localName = "name", isAttribute = true) var className: String? = null,
-    @set:JacksonXmlProperty(localName = "tests", isAttribute = true) var numTests: Int = 0,
-    @set:JacksonXmlProperty(localName = "skipped", isAttribute = true) var numSkipped: Int = 0,
-    @set:JacksonXmlProperty(localName = "failures", isAttribute = true) var numFailures: Int = 0,
-    @set:JacksonXmlProperty(localName = "errors", isAttribute = true) var numErrors: Int = 0,
-    @set:JacksonXmlProperty(localName = "timestamp", isAttribute = true) var timeStamp: Date? = null,
-    @set:JacksonXmlProperty(localName = "hostname", isAttribute = true) var hostName: String? = null,
-    @set:JacksonXmlProperty(localName = "time", isAttribute = true) var duration: Double = 0.0
+    @set:JsonProperty("testcase")
+    var tests: List<JTestCase>? = null,
+
+    @set:JacksonXmlProperty(localName = "name", isAttribute = true)
+    var className: String? = null,
+
+    @set:JacksonXmlProperty(localName = "tests", isAttribute = true)
+    var numTests: Int = 0,
+
+    @set:JacksonXmlProperty(localName = "skipped", isAttribute = true)
+    var numSkipped: Int = 0,
+
+    @set:JacksonXmlProperty(localName = "failures", isAttribute = true)
+    var numFailures: Int = 0,
+
+    @set:JacksonXmlProperty(localName = "errors", isAttribute = true)
+    var numErrors: Int = 0,
+
+    @set:JacksonXmlProperty(localName = "timestamp", isAttribute = true)
+    var timeStamp: Date? = null,
+
+    @set:JacksonXmlProperty(localName = "hostname", isAttribute = true)
+    var hostName: String? = null,
+
+    @set:JacksonXmlProperty(localName = "time", isAttribute = true)
+    var duration: Double = 0.0
 )
 
 @JsonRootName("testcase")
 data class JTestCase(
-    @set:JacksonXmlProperty(localName = "name", isAttribute = true) var methodName: String? = null,
-    @set:JacksonXmlProperty(localName = "classname", isAttribute = true) var className: String? = null,
-    @set:JacksonXmlProperty(localName = "time", isAttribute = true) var duration: Double = 0.0,
-    @set:JsonProperty("failure") var failure: JFailure? = null
+    @set:JacksonXmlProperty(localName = "name", isAttribute = true)
+    var methodName: String? = null,
+
+    @set:JacksonXmlProperty(localName = "classname", isAttribute = true)
+    var className: String? = null,
+
+    @set:JacksonXmlProperty(localName = "time", isAttribute = true)
+    var duration: Double = 0.0,
+
+    @set:JsonProperty("failure")
+    var failure: JFailure? = null
 )
 
 @JsonRootName("failure")
 data class JFailure(
-    @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
-    @set:JacksonXmlProperty(localName = "type", isAttribute = true) var type: String? = null
+    @set:JacksonXmlProperty(localName = "message", isAttribute = true)
+    var message: String? = null,
+
+    @set:JacksonXmlProperty(localName = "type", isAttribute = true)
+    var type: String? = null
 ) {
     // Jackson workaround: https://github.com/FasterXML/jackson-module-kotlin/issues/138
     @JacksonXmlText
@@ -142,7 +169,9 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
                     val numFailing = testResults.count { it.failure != null }
                     val totalTests = testResults.size
                     val deduction = min(numFailing * points, maxPoints)
-                    "$name:\n$numPassing of $totalTests passing (-%.1f / fail)".format(points) to deduction
+
+                    "$name:\n$numPassing of $totalTests passing (-%.1f / fail)"
+                        .format(points) to deduction
                 }
                 testResults.find { it.failure != null } != null -> "$name: failed" to points
                 else -> "$name: passed" to 0.0

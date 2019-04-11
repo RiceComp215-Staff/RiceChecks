@@ -14,7 +14,9 @@ import org.junit.jupiter.api.Test
 class JUnitSuiteScannerTest {
     @Test
     fun testLoader() {
-        val files = readResourceDir("comp215-build/test-results/test").fold({ emptyList<String>() }, { it.toList() })
+        val files =
+            readResourceDir("comp215-build/test-results/test")
+                .fold({ emptyList<String>() }, { it.toList() })
         val fileContents = files.flatMap { readResource(it).asList() }
         val xmlResults = fileContents.map { junitSuiteParser(it) }
         val allTests = xmlResults.flatMap { it.tests ?: emptyList() }
@@ -31,7 +33,10 @@ class JUnitSuiteScannerTest {
 
         val stackTrace = stringConcatResult[0].failure?.stackTraceList ?: fail()
         assertEquals("org.opentest4j.AssertionFailedError", stackTrace[0])
-        assertEquals("at edu.rice.qt.ListTheories.stringConcatenationIsNotCommutative(ListTheories.java:132)", stackTrace[3])
+        assertEquals(
+            "at edu.rice.qt.ListTheories." +
+                "stringConcatenationIsNotCommutative(ListTheories.java:132)",
+            stackTrace[3])
     }
 
     @Test

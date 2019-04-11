@@ -35,11 +35,18 @@ class VerifyTestAnnotations {
             .flatMap { key ->
                 result[key]?.topics?.flatMap { topic ->
                     val prefixStr = "Key ($key), Topic(${topic.name})"
-                    val testMaxPoints = dynamicTest("$prefixStr, MaxPoints") { assertTrue(topic.maxPoints.isFinite()); assertTrue(topic.maxPoints >= 0) }
-                    val methodTests = topic.tests.flatMap { test -> listOf(
-                            testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}", test.points),
-                            testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}", test.points))
-                    }
+                    val testMaxPoints =
+                        dynamicTest("$prefixStr, MaxPoints") {
+                            assertTrue(topic.maxPoints.isFinite()); assertTrue(topic.maxPoints >= 0)
+                        }
+                    val methodTests =
+                        topic.tests.flatMap { test ->
+                            listOf(
+                                testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
+                                    test.points),
+                                testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
+                                    test.points))
+                        }
                     methodTests + testMaxPoints
                 } ?: emptyList()
             }

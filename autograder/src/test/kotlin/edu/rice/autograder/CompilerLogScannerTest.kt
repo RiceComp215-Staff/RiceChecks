@@ -22,6 +22,7 @@ class CompilerLogScannerTest {
 
     @Test
     fun goodCompilation() {
-        assertTrue(javacZeroWarnings(readResource("comp215-build/logs/success.log").getOrFail()).second)
+        assertTrue(javacZeroWarnings(
+            readResource("comp215-build/logs/success.log").getOrFail()).second)
     }
 }

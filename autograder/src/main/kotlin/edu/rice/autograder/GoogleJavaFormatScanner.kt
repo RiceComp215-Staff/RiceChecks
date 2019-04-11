@@ -34,7 +34,10 @@ fun List<GoogleJavaFormatResult>.eval(): Pair<String, Boolean> {
     val numResults = size
     val numFormatted = filter { it.formattedStatus == "FORMATTED" }.size
     val feedback = "$TAG: %d of %d files passed".format(numFormatted, numResults) +
-            if (numFormatted == numResults) "" else "; run the <googleJavaFormat> gradle action to fix"
+            if (numFormatted == numResults)
+                ""
+            else
+                "; run the <googleJavaFormat> gradle action to fix"
     Log.i(TAG, "eval: $feedback")
 
     return feedback to (numFormatted == numResults)
@@ -52,7 +55,8 @@ fun googleJavaFormatParser(fileData: String): List<GoogleJavaFormatResult> {
                 .split(Regex("[\n\r]+"))
                 .filter { it != "" }
                 .map { it.split(",") }
-                .map { (a, b, c, d) -> GoogleJavaFormatResult(a, b.toLong(), c.toLong(), d) }
+                .map { (a, b, c, d) ->
+                    GoogleJavaFormatResult(a, b.toLong(), c.toLong(), d) }
                 .sortedBy { it.fileName }
     }
 }

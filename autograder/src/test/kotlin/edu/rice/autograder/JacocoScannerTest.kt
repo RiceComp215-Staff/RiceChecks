@@ -17,7 +17,9 @@ import org.junit.jupiter.api.Assertions.fail
 class JacocoScannerTest {
     @Test
     fun testLoader() {
-        val fileContents = readResource("comp215-build/reports/jacoco/test/jacocoTestReport.xml").getOrFail()
+        val fileContents =
+            readResource("comp215-build/reports/jacoco/test/jacocoTestReport.xml")
+                .getOrFail()
         val xmlResults = jacocoParser(fileContents)
         if (xmlResults == null) {
             fail()
@@ -54,7 +56,9 @@ class JacocoScannerTest {
 
     @Test
     fun testMatchingClassSpecs() {
-        val fileContents = readResource("comp215-build/reports/jacoco/test/jacocoTestReport.xml").getOrFail()
+        val fileContents =
+            readResource("comp215-build/reports/jacoco/test/jacocoTestReport.xml")
+                .getOrFail()
         val xmlResults = jacocoParser(fileContents)
         if (xmlResults == null) {
             fail()
@@ -62,9 +66,12 @@ class JacocoScannerTest {
             // we're setting up a non-trivial set of nested inclusion/exclusion directives to
             // see whether our matching logic works correctly
             val coverages = listOf(
-                    GGradeCoverage(GCoverageScope.PACKAGE, false, "edu.rice.week2lists"),
-                    GGradeCoverage(GCoverageScope.CLASS, true, "edu.rice.week2lists.ObjectList"),
-                    GGradeCoverage(GCoverageScope.CLASS, false, "edu.rice.week2lists.ObjectList.Empty"))
+                    GGradeCoverage(GCoverageScope.PACKAGE, false,
+                        "edu.rice.week2lists"),
+                    GGradeCoverage(GCoverageScope.CLASS, true,
+                        "edu.rice.week2lists.ObjectList"),
+                    GGradeCoverage(GCoverageScope.CLASS, false,
+                        "edu.rice.week2lists.ObjectList.Empty"))
 
             val matchingClasses = xmlResults.matchingClassSpecs(coverages)
 

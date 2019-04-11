@@ -54,7 +54,9 @@ fun writeFile(fileName: String, data: String) = Paths.get(fileName).writeFile(da
  */
 fun readResourceDir(dirPath: String): Try<List<String>> =
         Try { ClassLoader.getSystemResources(dirPath).toList() }
-                .onFailure { err -> Log.e(TAG, "getSystemResources failed for path($dirPath)", err); }
+                .onFailure { err ->
+                    Log.e(TAG, "getSystemResources failed for path($dirPath)", err)
+                }
                 .map { dirUrls: List<URL> ->
                     dirUrls.flatMap { dirUrl: URL ->
                         val rawUrlPath = dirUrl.path ?: Log.ethrow(TAG, "found null URL path?")
@@ -101,18 +103,19 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
                                 ) // strip out only the JAR file
 
                                 Try {
-                                    JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8)).use {
+                                    JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))
+                                        .use {
+                                            // This code is going to work, but could
+                                            // be slow for huge JAR files.
 
-                                        // This code is going to work, but could
-                                        // be slow for huge JAR files.
-
-                                        it.entries()
+                                            it.entries()
                                                 .toList()
                                                 .map(ZipEntry::getName)
                                                 .filter { it.startsWith(dirPath) }
-                                    }
+                                        }
                                 }.onFailure {
-                                    Log.e(TAG, "trouble reading $dirUrl, ignoring and marching onward", it)
+                                    Log.e(TAG, "trouble reading $dirUrl, " +
+                                        "ignoring and marching onward", it)
                                 }.fold({ emptyList<String>() }, { it })
                             }
 
