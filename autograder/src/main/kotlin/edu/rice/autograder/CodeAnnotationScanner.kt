@@ -10,6 +10,7 @@ import io.github.classgraph.AnnotationInfo
 import io.github.classgraph.AnnotationParameterValueList
 import io.github.classgraph.ClassGraph
 import io.github.classgraph.ScanResult
+import kotlin.system.exitProcess
 
 /**
  * When you call [scanEverything], you get back a mapping from project names
@@ -114,7 +115,7 @@ private const val A_JUNIT5_TESTFACTORY = "org.junit.jupiter.api.TestFactory"
 /** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun internalScannerErrorX(s: String): Nothing {
     Log.e(TAG, "Internal scanner failure: $s")
-    System.err.println("Internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
+    System.err.println("$AutoGraderName: internal scanner failure:\n  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
     throw RuntimeException(s)
 }
 
@@ -125,10 +126,8 @@ private fun AnnotationParameterValueList?.internalScannerError(s: String): Nothi
 /** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun failScannerX(s: String): Nothing {
     Log.e(TAG, "Terminating: $s")
-    System.err.println("Terminating Grade Annotation Scanner:\n  $s")
-    throw RuntimeException(s)
-
-//    exitProcess(1)
+    System.err.println("$AutoGraderName: $s")
+    exitProcess(1)
 }
 
 /** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
@@ -557,6 +556,11 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                         }
 
                         val coverageMethod = enumValueOf<GCoverageStyle>(project.coverageStyle)
+                        val gcoverage = coverages.toGCoverages()
+
+                        if (project.coveragePoints != 0.0 && gcoverage.isEmpty()) {
+                            failScannerX("Coverage points specified (${project.coveragePoints}) but no @GradeCoverage annotations found")
+                        }
 
                         GGradeProject(project.name, project.description, actualMaxPoints,
                                 project.warningPoints, project.useCheckStyle, project.useGoogleJavaFormat,

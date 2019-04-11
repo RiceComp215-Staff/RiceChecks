@@ -112,7 +112,7 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     // all the individual topic scores.
 
     stream.println(startDividerLine)
-    stream.println("$blankLine %-${lineLength - 2}s".format("Autograder for $name"))
+    stream.println("$blankLine %-${lineLength - 2}s".format("$AutoGraderName for $name"))
     wordWrap(description, lineLength - 2).forEach {
         stream.println("$blankLine %-${lineLength - 2}s".format(it))
     }

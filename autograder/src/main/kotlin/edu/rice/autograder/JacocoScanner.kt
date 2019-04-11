@@ -206,6 +206,11 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         classesMap[it] ?: Log.ethrow(TAG, "internal failure: can't find $it")
     }
 
+    if (matchingClasses.isEmpty()) {
+        Log.e(TAG, "No classes found to test for coverage!")
+        return passingEvaluatorResult(project.coveragePoints, "Test coverage: no classes specified for coverage!")
+    }
+
     val coverageReport = matchingClasses.flatMap {
         val covered = it.counterMap[counterType]?.covered ?: Log.ethrow(TAG, "no coverage number found for $it")
         val missed = it.counterMap[counterType]?.missed ?: Log.ethrow(TAG, "no missed number found for $it")
@@ -214,7 +219,9 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         if (covered + missed == 0) emptyList()
         else {
             val percentage = 100.0 * covered / (covered + missed).toDouble()
-            listOf("Coverage of %s: %.1f%%".format(name.replace('/', '.'), percentage) to percentage)
+            val coverageStr = "Coverage of %s: %.1f%%".format(name.replace('/', '.'), percentage)
+            Log.i(TAG, coverageStr)
+            listOf(coverageStr to percentage)
         }
     }
 

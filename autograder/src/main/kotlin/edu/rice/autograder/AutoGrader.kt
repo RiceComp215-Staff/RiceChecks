@@ -9,6 +9,7 @@ package edu.rice.autograder
 import arrow.core.Try
 import com.beust.jcommander.JCommander
 import com.beust.jcommander.Parameter
+import kotlin.system.exitProcess
 
 // TODO: figure out whether need "thin" vs. "fat" Jars and how to distribute
 // https://stackoverflow.com/questions/29643973/run-jar-with-parameters-in-gradle
@@ -22,6 +23,7 @@ enum class Task {
 }
 
 private const val TAG = "GradleResultScanner"
+const val AutoGraderName = "RiceChecks"
 
 object AutoGrader {
     @JvmField
@@ -58,7 +60,7 @@ object AutoGrader {
 
     private fun helpDump() {
         commandParser.usage()
-        System.out.print("\nThree tasks are supported:\n" +
+        System.out.print("\n$AutoGraderName supports these tasks:\n" +
                 ". debugAnnotations: Reads all the grading annotations and prints their interpretation\n" +
                 "      for the requested project. Requires a --package annotation.\n" +
                 "\n" +
@@ -73,7 +75,7 @@ object AutoGrader {
         exit(false)
     }
 
-    private fun exit(passing: Boolean) = System.exit(if (passing) 0 else 1)
+    private fun exit(passing: Boolean): Nothing = exitProcess(if (passing) 0 else 1)
 
     fun autoGrade(args: Array<String>) {
         commandParser = JCommander.newBuilder()
