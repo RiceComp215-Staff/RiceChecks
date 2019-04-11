@@ -136,8 +136,7 @@ task autograder {
             project.javaexec {
                 classpath = sourceSets.main.runtimeClasspath
                 main = "edu.rice.autograder.AutoGraderKt"
-                args = [ "--package", "edu.rice.regex",
-                         "--project", "RE",
+                args = [ "--project", "RE",
                          "--config", "config/grade.yaml",
                          "grade" ]
             }
