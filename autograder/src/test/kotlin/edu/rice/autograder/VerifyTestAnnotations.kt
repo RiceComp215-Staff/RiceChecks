@@ -53,6 +53,7 @@ class VerifyTestAnnotations {
 
     @Test
     fun printTP1() {
+        // Doesn't do much, but if there's an exception anywhere here, the test will fail
         System.out.print(yamlExporter("TP1", "edu.rice.autogradertest"))
     }
 

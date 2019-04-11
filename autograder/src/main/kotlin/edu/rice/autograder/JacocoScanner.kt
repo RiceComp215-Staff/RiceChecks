@@ -302,16 +302,26 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         }
     }
 
-    val fails = coverageReport.filter { it.second < project.coveragePercentage }
+    val fails = coverageReport
+        .filter { it.second < project.coveragePercentage }
+        .map { (name, _) -> name to 0.0 }
+
+    val wins = coverageReport
+        .filter { it.second >= project.coveragePercentage }
+        .map { (name, _) -> name to 0.0 }
+
     val passing = fails.isEmpty()
+    val counterTypeStr = "(by ${counterType.toString().toLowerCase()})"
 
     return if (passing) {
-        passingEvaluatorResult(project.coveragePoints,
-            "Test coverage meets %.0f%% requirement".format(project.coveragePercentage))
+        EvaluatorResult(true, project.coveragePoints, project.coveragePoints,
+            "Test coverage meets %.0f%% %s requirement"
+                .format(project.coveragePercentage, counterTypeStr),
+            wins)
     } else {
-        EvaluatorResult(false, 0.0, project.coveragePoints, "Test coverage",
-                fails.map { (name, coverage) ->
-                    "$name: %.1f%% $counterType".format(coverage * 100.0) to 0.0
-                })
+        EvaluatorResult(false, 0.0, project.coveragePoints,
+            "Classes with coverage below %0.f%% %s requirement"
+                .format(project.coveragePercentage, counterTypeStr),
+            fails)
     }
 }

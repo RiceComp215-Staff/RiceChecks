@@ -67,3 +67,19 @@ or you can use `gradlew demoSetup` to copy the relevant files into the demo proj
   `gradlew check`. The `autograde` action runs the compiler and lint checks, unit tests, 
   and coverage tests, then prints its summary and either passes or fails the build based
   on whether any deductions were found.
+
+## About coverage testing
+
+JaCoCo has a wide variety of ways that you can configure its Gradle plugin to either
+fail or pass the build based on different coverage policies. When we tried to just use
+this as-is, students were wildly unhappy with the feedback. The way we do coverage
+in AnnoAutoGrader is:
+- Annotate packages (via `package-info.java`) or classes with an `@GradeCoverage`
+  annotation to note which project(s) care about coverage for those classes or packages.
+- You can set an `exclude = true` flag if you want to say that a particular class is
+  *not* to be considered for coverage testing.
+- As part of your `@GradeProject` annotation you specify how many points are awarded
+  for meeting the coverage requirement. It's all or nothing. You can also specify
+  whether coverage is evaluated by `LINE` or `INSTRUCTION`.
+- Each class (or inner class) is evaluated for its coverage, for the desired metric,
+  independently. Every class must pass for AnnoAutoGrader to grant the coverage points.
