@@ -9,7 +9,9 @@ package edu.rice.autograder
 import org.junit.jupiter.api.Test
 import edu.rice.autograder.JacocoCounterType.INSTRUCTION
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.fail
 
 class JacocoScannerTest {
@@ -47,6 +49,30 @@ class JacocoScannerTest {
 
             assertEquals(instructionsCovered, classesInstructionsCovered)
             assertEquals(instructionsMissed, classesInstructionsMissed)
+        }
+    }
+
+    @Test
+    fun testMatchingClassSpecs() {
+        val fileContents = readResource("comp215-build/reports/jacoco/test/jacocoTestReport.xml").getOrFail()
+        val xmlResults = jacocoParser(fileContents)
+        if (xmlResults == null) {
+            fail()
+        } else {
+            // we're setting up a non-trivial set of nested inclusion/exclusion directives to
+            // see whether our matching logic works correctly
+            val coverages = listOf(
+                    GGradeCoverage(GCoverageScope.PACKAGE, false, "edu.rice.week2lists"),
+                    GGradeCoverage(GCoverageScope.CLASS, true, "edu.rice.week2lists.ObjectList"),
+                    GGradeCoverage(GCoverageScope.CLASS, false, "edu.rice.week2lists.ObjectList.Empty"))
+
+            val matchingClasses = xmlResults.matchingClassSpecs(coverages)
+
+            assertTrue(matchingClasses.isNotEmpty())
+            assertFalse(matchingClasses.contains("edu.rice.week2lists.ObjectList"))
+            assertFalse(matchingClasses.contains("edu.rice.week2lists.ObjectList.Cons"))
+            assertTrue(matchingClasses.contains("edu.rice.week2lists.ObjectList.Empty"))
+            assertTrue(matchingClasses.contains("edu.rice.week2lists.MList"))
         }
     }
 }

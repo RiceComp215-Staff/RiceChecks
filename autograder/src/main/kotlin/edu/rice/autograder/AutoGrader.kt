@@ -27,23 +27,28 @@ const val AutoGraderName = "RiceChecks"
 
 object AutoGrader {
     @JvmField
-    @Parameter(names = ["--package"], description = "Java package where student code can be found (ignored if --config is specified)")
+    @Parameter(names = ["--package"],
+        description = "Java package name for student code (ignored if --config is specified)")
     var packageName: String? = null
 
     @JvmField
-    @Parameter(names = ["--project"], description = "Name of the project to be graded (required)", required = true)
+    @Parameter(names = ["--project"],
+        description = "Name of the project to be graded (required)", required = true)
     var project: String? = null
 
     @JvmField
-    @Parameter(names = ["--config"], description = "Name of the YAML-formatted configuration file")
+    @Parameter(names = ["--config"],
+        description = "Name of the YAML-formatted configuration file")
     var configFileName: String? = null
 
     @JvmField
-    @Parameter(names = ["--help"], description = "Prints usage information", help = true)
+    @Parameter(names = ["--help"],
+        description = "Prints usage information", help = true)
     var help: Boolean = false
 
     @JvmField
-    @Parameter(names = ["--log"], description = "Internal logging level (one of: all, error, nothing)")
+    @Parameter(names = ["--log"],
+        description = "Internal logging level (one of: all, error, nothing)")
     var logString: String = "nothing"
 
     @JvmField
@@ -61,17 +66,18 @@ object AutoGrader {
     private fun helpDump() {
         commandParser.usage()
         System.out.print("\n$AutoGraderName supports these tasks:\n" +
-                ". debugAnnotations: Reads all the grading annotations and prints their interpretation\n" +
-                "      for the requested project. Requires a --package annotation.\n" +
+                ". debugAnnotations: Reads all the grading annotations and prints their\n" +
+                "      interpretation for the requested project. Requires a --package " +
+                "      annotation.\n" +
                 "\n" +
-                ". writeConfig: Reads all the grading annotations and writes a YAML config file\n" +
-                "      for the requested project to the filename specified by the --config parameter." +
-                "      Also requires a --package argument.\n" +
+                ". writeConfig: Reads all the grading annotations and writes a YAML config\n" +
+                "      file for the requested project to the filename specified by the\n" +
+                "      --config parameter. Also requires a --package argument.\n" +
                 "\n" +
-                ". grade: The default task, loads the autograder spec for the requested project.\n" +
-                "      --config can be used to specify a YAML file for the project autograde spec, \n" +
-                "      or, by default, the autograde spec is loaded from the code annotations, which" +
-                "      requires a --package argument.\n")
+                ". grade: The default task, loads the autograder spec for the requested\n" +
+                "      project. --config can be used to specify a YAML file for the project\n" +
+                "      autograde spec, or, by default, the autograde spec is loaded from the\n" +
+                "      code annotations, which requires a --package argument.\n")
         exit(false)
     }
 
@@ -126,7 +132,8 @@ object AutoGrader {
 
             Task.writeConfig ->
                 if (lConfigFileName != null && lProject != null && lPackageName != null) {
-                    Log.i(TAG, "scanning package($lPackageName), writing configuration for project($lProject) to $lConfigFileName")
+                    Log.i(TAG, "scanning package($lPackageName), writing configuration for " +
+                        "project($lProject) to $lConfigFileName")
                     val gproject = scanEverything(lPackageName)[lProject]
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
@@ -135,11 +142,13 @@ object AutoGrader {
                     } else {
                         writeFile(lConfigFileName, gproject.yamlExporter())
                                 .onSuccess {
-                                    System.out.println("Config for $lProject written to $lConfigFileName")
+                                    System.out.println("Config for $lProject written to " +
+                                        "$lConfigFileName")
                                     exit(true)
                                 }
                                 .onFailure {
-                                    System.out.println("Error writing to $lConfigFileName: ${it.message}")
+                                    System.out.println("Error writing to $lConfigFileName: " +
+                                        "${it.message}")
                                     exit(false)
                                 }
                     }
@@ -153,13 +162,15 @@ object AutoGrader {
                     helpDump()
                 }
                 lConfigFileName != null && lProject != null -> {
-                    Log.i(TAG, "Running autograder with configFileName($lConfigFileName), project($lProject)")
+                    Log.i(TAG, "Running autograder with " +
+                        "configFileName($lConfigFileName), project($lProject)")
                     val gproject = loadConfig(lConfigFileName)
                     val passed = gproject.printResults(System.out, gproject.allResults())
                     exit(passed)
                 }
                 lConfigFileName == null && lProject != null && lPackageName != null -> {
-                    Log.i(TAG, "Running autograder from annotations for package($lPackageName), project($lProject)")
+                    Log.i(TAG, "Running autograder from annotations for " +
+                        "package($lPackageName), project($lProject)")
                     val gproject = scanEverything(lPackageName)[lProject]
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
@@ -184,7 +195,6 @@ object AutoGrader {
                         exit(false)
                     }
                     .getOrFail()
-
 }
 
 /** Entry point for calling the autograder from the command-line. */

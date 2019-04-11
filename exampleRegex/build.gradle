@@ -72,8 +72,6 @@ jacocoTestReport {
 // We need to capture the errors and warnings printed by the Java compiler.
 // Everything else is already written into the build directory, but not this.
 
-import java.nio.file.*
-
 task initLogFile {
     doLast {
         file("$buildDir").mkdir()

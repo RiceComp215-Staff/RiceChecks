@@ -60,7 +60,12 @@ enum class GCoverageScope { PACKAGE, CLASS }
 // Below are internal classes we use while parsing, we'll transform these to the G-classes above
 // when sending output.
 
-private data class AnnotationTuple(val ai: AnnotationInfo, val isPackage: Boolean, val classOrPackageName: String, val methodName: String? = null)
+private data class AnnotationTuple(
+    val ai: AnnotationInfo,
+    val isPackage: Boolean,
+    val classOrPackageName: String,
+    val methodName: String? = null
+)
 
 private typealias ProjectMap = Map<String, IGradeProject>
 private data class IGradeProject(

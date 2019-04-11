@@ -47,24 +47,36 @@ val kotlinXmlMapper: ObjectMapper = XmlMapper(JacksonXmlModule().apply {
 
 @JsonRootName("checkstyle")
 data class CheckStyleResults(
-    @set:JsonProperty("file") var files: List<CheckStyleFile> = emptyList())
+    @set:JsonProperty("file")
+    var files: List<CheckStyleFile> = emptyList())
 
 @JsonRootName("file")
 data class CheckStyleFile(
-    @set:JacksonXmlProperty(localName = "name", isAttribute = true) var name: String? = null,
-    @set:JsonProperty("error") var errors: List<CheckStyleError> = emptyList())
+    @set:JacksonXmlProperty(localName = "name", isAttribute = true)
+    var name: String? = null,
+
+    @set:JsonProperty("error")
+    var errors: List<CheckStyleError> = emptyList())
 
 @JacksonXmlRootElement(localName = "error")
 data class CheckStyleError(
-    @set:JacksonXmlProperty(localName = "line", isAttribute = true) var line: String? = null,
-    @set:JacksonXmlProperty(localName = "severity", isAttribute = true) var severity: String? = null,
-    @set:JacksonXmlProperty(localName = "message", isAttribute = true) var message: String? = null,
-    @set:JacksonXmlProperty(localName = "source", isAttribute = true) var source: String? = null
+    @set:JacksonXmlProperty(localName = "line", isAttribute = true)
+    var line: String? = null,
+
+    @set:JacksonXmlProperty(localName = "severity", isAttribute = true)
+    var severity: String? = null,
+
+    @set:JacksonXmlProperty(localName = "message", isAttribute = true)
+    var message: String? = null,
+
+    @set:JacksonXmlProperty(localName = "source", isAttribute = true)
+    var source: String? = null
 )
 
 private const val TAG = "CheckStyleScanner"
 
-fun checkStyleMissing(moduleName: String) = "CheckStyle ($moduleName): report not found" to false
+fun checkStyleMissing(moduleName: String) =
+    "CheckStyle ($moduleName): report not found" to false
 
 fun checkStyleParser(fileData: String): CheckStyleResults? {
     Log.i(TAG, "checkStyleParser: ${fileData.length} bytes")

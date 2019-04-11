@@ -14,23 +14,33 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
         listOf(if (warningPoints == 0.0) {
             passingEvaluatorResult(0.0, "No warning / style deductions")
         } else {
-            Log.i("warningAggregator", "useCheckStyle($useCheckStyle), useGoogleJavaFormat($useGoogleJavaFormat), useJavacWarnings($useJavacWarnings)")
+            Log.i("warningAggregator",
+                "useCheckStyle($useCheckStyle), " +
+                    "useGoogleJavaFormat($useGoogleJavaFormat), " +
+                    "useJavacWarnings($useJavacWarnings)")
 
-            val googleJavaFormatContents = readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
+            val googleJavaFormatContents =
+                readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
                     .map { googleJavaFormatParser(it).eval() }
                     .getOrDefault { googleJavaFormatMissing }
-            val checkStyleMainContents = readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
+            val checkStyleMainContents =
+                readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
                     .map { checkStyleParser(it).eval("main") }
                     .getOrDefault { checkStyleMissing("main") }
-            val checkStyleTestContents = readFile("${AutoGrader.buildDir}/reports/checkstyle/test.xml")
+            val checkStyleTestContents =
+                readFile("${AutoGrader.buildDir}/reports/checkstyle/test.xml")
                     .map { checkStyleParser(it).eval("test") }
                     .getOrDefault { checkStyleMissing("test") }
-            val compilerLogContents = readFile("${AutoGrader.buildDir}/logs/compile.log")
+            val compilerLogContents =
+                readFile("${AutoGrader.buildDir}/logs/compile.log")
                     .map { javacZeroWarnings(it) }
                     .getOrDefault { javacLogMissing }
 
             val checkStyleMaybe =
-                    if (useCheckStyle) listOf(checkStyleMainContents, checkStyleTestContents) else emptyList()
+                    if (useCheckStyle)
+                        listOf(checkStyleMainContents, checkStyleTestContents)
+                    else
+                        emptyList()
             val googleJavaStyleMaybe =
                     if (useGoogleJavaFormat) listOf(googleJavaFormatContents) else emptyList()
             val compilerMaybe =
@@ -94,12 +104,18 @@ private val dividerLine = "├" + "─".repeat(lineLength - 1)
 private val startDividerLine = "┌" + "─".repeat(lineLength - 1)
 private val endDividerLine = "└" + "─".repeat(lineLength - 1)
 
-private fun Double.rightColumnNonZero() = if (this == 0.0) "" else "%${rightColumn}s".format("(%.1f)".format(this))
+private fun Double.rightColumnNonZero() =
+    if (this == 0.0)
+        ""
+    else
+        "%${rightColumn}s".format("(%.1f)".format(this))
+
 private fun Double.rightColumn() = "%${rightColumn - 1}.1f ".format(this)
 private fun fractionLine(detail: String, top: Double, bottom: Double, passing: Boolean): String {
     val emoji = if (passing) checkMark else failMark
     val fraction = "%.1f/%.1f".format(top, bottom)
-    return "$blankLine %-${leftColumn - rightColumn - 2}s %${rightColumn * 2 + 1}s $emoji".format(detail, fraction)
+    return "$blankLine %-${leftColumn - rightColumn - 2}s %${rightColumn * 2 + 1}s $emoji"
+        .format(detail, fraction)
 }
 
 /**
@@ -126,7 +142,8 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
                 wordWrap(it, leftColumn - 2)
             }
 
-            stream.println("$blankLine - %-${leftColumn - 2}s %s".format(wrapped[0], (-value).rightColumnNonZero()))
+            stream.println("$blankLine - %-${leftColumn - 2}s %s"
+                .format(wrapped[0], (-value).rightColumnNonZero()))
             wrapped.tail().forEach {
                 stream.println("$blankLine   $it")
             }

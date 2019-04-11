@@ -79,7 +79,11 @@ data class JacocoPackage(
     // Note: we're standardizing class names in classMap to use dots rather than slashes,
     // making them consistent with everything else in AnnoAutoGrader.
     val classMap: Map<String, JacocoClass> by lazy {
-        classes.associateNotNullBy { it.name?.replace('/', '.') }
+        classes.associateNotNullBy {
+            it.name
+                    ?.replace('/', '.')
+                    ?.replace('$', '.')
+        }
     }
 }
 
@@ -168,7 +172,13 @@ fun GGradeProject.jacocoResultsMissing() = EvaluatorResult(false, 0.0, coverageP
 
 private const val TAG = "JacocoScanner"
 
-private fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<String> {
+private infix fun String.subClassOf(classOrPackageName: String): Boolean = when {
+    this == classOrPackageName -> true
+    this.startsWith(classOrPackageName + ".") -> true
+    else -> false
+}
+
+fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<String> {
     // In our GGradeProject structure, the names of classes are going to be in normal human
     // form (e.g., edu.rice.autograder.test.Project3) while they'll be in slashy form in
     // the JacocoReport.
@@ -183,13 +193,13 @@ private fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): Li
         // "including" annotation overrides an external "excluding" annotation.
 
         // TODO: inline this into a single expr after we're sure we won't need to single-step through here with a debugger
-        val relevantSpecs = packageSpecs.filter { className.startsWith(it.name + ".") } +
-                classSpecs.filter { className.startsWith(it.name + ".") }
+        val relevantSpecs = packageSpecs.filter { className subClassOf it.name } +
+                classSpecs.filter { className subClassOf it.name }
         val result = relevantSpecs.fold(false) { _, next -> !next.excluded }
         result
     }
 
-    return namesToTestCoverage
+    return namesToTestCoverage.sorted()
 }
 
 fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
@@ -208,7 +218,13 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
 
     if (matchingClasses.isEmpty()) {
         Log.e(TAG, "No classes found to test for coverage!")
-        return passingEvaluatorResult(project.coveragePoints, "Test coverage: no classes specified for coverage!")
+        matchingClassNames.forEach {
+            Log.e(TAG, " -- matchingClassName: $it")
+        }
+        classesMap.keys.forEach {
+            Log.e(TAG, " -- classesMap[$it] = ${classesMap[it]}")
+        }
+        return EvaluatorResult(false, 0.0, project.coveragePoints, "Test coverage: no classes specified for coverage!", emptyList())
     }
 
     val coverageReport = matchingClasses.flatMap {
