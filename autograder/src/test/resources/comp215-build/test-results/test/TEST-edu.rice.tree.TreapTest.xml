@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
 <testsuite name="edu.rice.tree.TreapTest" tests="25" skipped="0" failures="2" errors="0" timestamp="2019-03-29T14:20:27" hostname="bunsen-honeydew.cs.rice.edu" time="0.471">
   <properties/>
   <testcase name="testSuite()[1]" classname="edu.rice.tree.TreapTest" time="0.0"/>

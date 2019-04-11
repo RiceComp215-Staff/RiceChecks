@@ -1,8 +1,8 @@
-//
-// This code is part of AnnoAutoGrader
-// Copyright 2018, Dan S. Wallach, Rice University
-// Made available subject to the Apache 2.0 License
-//
+/*
+ * AnnoAutoGrader
+ * Copyright (c) 2019, Dan S. Wallach, Rice University
+ * Available subject to the Apache 2.0 License
+ */
 
 package edu.rice.autograder
 
@@ -61,7 +61,7 @@ class VerifyTestAnnotations {
 
     @Test
     fun textExportImportEquality() {
-        // This test is really important: so long as we trust that we can export and import our
+        // This design is really important: so long as we trust that we can export and import our
         // GGradeProject objects, without any loss or weirdness, then we can extract them from
         // the source code and store them in the config directory. This means that students
         // won't accidentally (or maliciously) change the test policy by tweaking the grade

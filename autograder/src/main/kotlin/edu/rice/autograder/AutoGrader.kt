@@ -1,8 +1,8 @@
-//
-// This code is part of AnnoAutoGrader
-// Copyright 2018, Dan S. Wallach, Rice University
-// Made available subject to the Apache 2.0 License
-//
+/*
+ * AnnoAutoGrader
+ * Copyright (c) 2019, Dan S. Wallach, Rice University
+ * Available subject to the Apache 2.0 License
+ */
 
 package edu.rice.autograder
 
@@ -15,12 +15,7 @@ import com.beust.jcommander.Parameter
 // Or, we could just stuff the generated Jar file into the GitHub repository
 // https://stackoverflow.com/questions/7111362/pulling-a-gradle-dependency-jar-from-maven-and-then-running-it-directly
 
-// TODO: evaluate rules against results!
-//   TODO: GoogleJavaStyle
-//   TODO: CheckStyle
-//   TODO: Jacoco
-//   TODO: JUnit
-//   TODO: Compiler warnings/ErrorProne
+// TODO: test case to exercise JaCoCo
 
 enum class Task {
     debugAnnotations, writeConfig, grade
@@ -30,7 +25,7 @@ private const val TAG = "GradleResultScanner"
 
 object AutoGrader {
     @JvmField
-    @Parameter(names = ["--package"], description = "Java package where student code can be found (only used when reading annotations from student code)")
+    @Parameter(names = ["--package"], description = "Java package where student code can be found (ignored if --config is specified)")
     var packageName: String? = null
 
     @JvmField
@@ -151,6 +146,10 @@ object AutoGrader {
                 }
 
             Task.grade -> when {
+                lConfigFileName != null && lPackageName != null -> {
+                    System.out.println("Please specify either --config or --package, but not both")
+                    helpDump()
+                }
                 lConfigFileName != null && lProject != null -> {
                     Log.i(TAG, "Running autograder with configFileName($lConfigFileName), project($lProject)")
                     val gproject = loadConfig(lConfigFileName)

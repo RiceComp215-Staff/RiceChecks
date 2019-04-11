@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
 <testsuite name="edu.rice.dynamic.MemoizedBiFunctionTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:35" hostname="bunsen-honeydew.cs.rice.edu" time="0.068">
   <properties/>
   <testcase name="makeOnlyOnce()" classname="edu.rice.dynamic.MemoizedBiFunctionTest" time="0.027"/>

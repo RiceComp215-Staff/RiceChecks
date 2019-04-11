@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
 <testsuite name="edu.rice.rpn.InfixCalculatorTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:36" hostname="bunsen-honeydew.cs.rice.edu" time="0.157">
   <properties/>
   <testcase name="leftAssociativity()" classname="edu.rice.rpn.InfixCalculatorTest" time="0.053"/>

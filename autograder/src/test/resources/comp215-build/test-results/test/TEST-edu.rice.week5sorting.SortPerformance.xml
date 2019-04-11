@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
 <testsuite name="edu.rice.week5sorting.SortPerformance" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:40" hostname="bunsen-honeydew.cs.rice.edu" time="0.924">
   <properties/>
   <testcase name="testVavrSort()" classname="edu.rice.week5sorting.SortPerformance" time="0.173"/>

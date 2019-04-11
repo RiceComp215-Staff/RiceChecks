@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
 <testsuite name="edu.rice.github.EventsApiTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:38" hostname="bunsen-honeydew.cs.rice.edu" time="0.189">
   <properties/>
   <testcase name="readKnownGoodEvents()" classname="edu.rice.github.EventsApiTests" time="0.189"/>

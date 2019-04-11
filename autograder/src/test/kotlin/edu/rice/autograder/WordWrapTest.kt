@@ -1,8 +1,8 @@
-//
-// This code is part of AnnoAutoGrader
-// Copyright 2018, Dan S. Wallach, Rice University
-// Made available subject to the Apache 2.0 License
-//
+/*
+ * AnnoAutoGrader
+ * Copyright (c) 2019, Dan S. Wallach, Rice University
+ * Available subject to the Apache 2.0 License
+ */
 
 package edu.rice.autograder
 
@@ -20,8 +20,7 @@ class WordWrapTest {
         assertEquals(listOf("edu.rice.regex.TestProject4.",
                 "testClassIdentifiers: missing"),
                 wordWrap("edu.rice.regex.TestProject4.testClassIdentifiers: missing", 40))
-        assertEquals(listOf("edu.rice.autogradertest.",
-                "TestProject4.",
+        assertEquals(listOf("edu.rice.regex.TestProject4.",
                 "testClassIdentifiers: missing"),
                 wordWrap("edu.rice.regex.TestProject4.testClassIdentifiers: missing", 30))
     }

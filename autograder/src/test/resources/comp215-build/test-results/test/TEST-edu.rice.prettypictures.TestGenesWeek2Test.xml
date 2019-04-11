@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
 <testsuite name="edu.rice.prettypictures.TestGenesWeek2Test" tests="58" skipped="0" failures="0" errors="0" timestamp="2019-03-29T14:20:42" hostname="bunsen-honeydew.cs.rice.edu" time="0.612">
   <properties/>
   <testcase name="testRendering()[1]" classname="edu.rice.prettypictures.TestGenesWeek2Test" time="0.011"/>

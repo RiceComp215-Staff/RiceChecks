@@ -1,4 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><!DOCTYPE report PUBLIC
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
+<!DOCTYPE report PUBLIC
   "-//JACOCO//DTD Report 1.1//EN" "report.dtd">
 <report name="comp215-code">
   <sessioninfo id="bunsen-honeydew.cs.rice.edu-465c9d49" start="1553527264146"

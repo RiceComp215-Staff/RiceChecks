@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ AnnoAutoGrader
+  ~ Copyright (c) 2019, Dan S. Wallach, Rice University
+  ~ Available subject to the Apache 2.0 License
+  -->
+
 <checkstyle version="8.17">
 <file name="/Users/dwallach/IdeaProjects/comp215-code/src/test/java/edu/rice/cparser/ParserFunctionTest.java">
 </file>
