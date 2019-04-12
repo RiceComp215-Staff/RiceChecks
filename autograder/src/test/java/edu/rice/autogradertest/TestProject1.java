@@ -9,7 +9,6 @@ package edu.rice.autogradertest;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.rice.autograder.annotations.Grade;
-import edu.rice.autograder.annotations.GradeCoverage;
 import edu.rice.autograder.annotations.GradeProject;
 import edu.rice.autograder.annotations.GradeTopic;
 import org.junit.jupiter.api.Test;

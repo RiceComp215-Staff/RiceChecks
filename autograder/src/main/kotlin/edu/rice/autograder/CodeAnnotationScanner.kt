@@ -157,8 +157,7 @@ private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, 
     // type parameter to this method.
 
     val o = this[key] ?: return null
-    val v = o.value
-    return when (v) {
+    return when (val v = o.value) {
         null -> default
         is T -> v
         else -> {
@@ -237,7 +236,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
 
             coverageMethod !in coverageMethodNames ->
                 failScanner("Malformed GradeProject: coverageStyle {$coverageMethod} must be in " +
-                    "${coverageMethodNames.joinToString(", ")}")
+                    coverageMethodNames.joinToString(", "))
 
             else -> IGradeProject(name, description, maxPoints, warningPoints, useCheckStyle,
                 useGoogleJavaFormat, useJavacWarnings, coveragePoints, coverageMethod,

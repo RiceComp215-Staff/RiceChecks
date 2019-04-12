@@ -221,7 +221,7 @@ private const val TAG = "JacocoScanner"
 
 private infix fun String.subClassOf(classOrPackageName: String): Boolean = when {
     this == classOrPackageName -> true
-    this.startsWith(classOrPackageName + ".") -> true
+    this.startsWith("$classOrPackageName.") -> true
     else -> false
 }
 
@@ -237,7 +237,7 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
         .filter { it.scope == GCoverageScope.CLASS }
         .sortedBy { it.name }
 
-    val namesToTestCoverage = classesMap.keys.filter { className ->
+    return classesMap.keys.filter { className ->
         // We're working our way down from the most general to the most specific package annotation
         // then the most general to teh most specific class annotation (the sorting above is essential
         // to make this happen). The logic here is that the last relevant annotation wins, so an inner
@@ -249,8 +249,6 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
             classSpecs.filter { className subClassOf it.name })
             .fold(false) { _, next -> !next.excluded }
     }
-
-    return namesToTestCoverage
 }
 
 fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
