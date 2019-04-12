@@ -37,7 +37,7 @@ fun List<GoogleJavaFormatResult>.eval(): Pair<String, Boolean> {
             if (numFormatted == numResults)
                 ""
             else
-                "; run the <googleJavaFormat> gradle action to fix"
+                "; <googleJavaFormat> gradle action to fix"
     Log.i(TAG, "eval: $feedback")
 
     return feedback to (numFormatted == numResults)

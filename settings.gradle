@@ -6,5 +6,4 @@
 
 rootProject.name = 'AnnoAutoGrader'
 
-include 'autograder', 'exampleRegex', 'exampleRpn'
-
+include 'autograder', 'exampleRegex', 'exampleRpn', 'exampleSort'

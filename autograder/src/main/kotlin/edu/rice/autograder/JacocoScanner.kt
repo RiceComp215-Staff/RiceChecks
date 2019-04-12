@@ -76,7 +76,6 @@ data class JacocoSession(
     var dump: Long = 0
 )
 
-data class JacocoCounterResult(val type: JacocoCounterType, val missed: Long, val covered: Long)
 @JsonRootName("package")
 data class JacocoPackage(
     @set:JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -97,12 +96,13 @@ data class JacocoPackage(
     // making them consistent with everything else in AnnoAutoGrader.
     val classMap: Map<String, JacocoClass> by lazy {
         classes.associateNotNullBy {
-            it.name
-                    ?.replace('/', '.')
-                    ?.replace('$', '.')
+            it.name.fixClassName()
         }
     }
 }
+
+private fun String?.fixClassName() =
+    this?.replace('/', '.')?.replace('$', '.')
 
 @JsonRootName("class")
 data class JacocoClass(
@@ -296,7 +296,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         else {
             val percentage = 100.0 * covered / (covered + missed).toDouble()
             val coverageStr = "Coverage of %s: %.1f%%"
-                .format(name.replace('/', '.'), percentage)
+                .format(name.fixClassName(), percentage)
             Log.i(TAG, coverageStr)
             listOf(coverageStr to percentage)
         }

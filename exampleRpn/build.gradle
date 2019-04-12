@@ -139,7 +139,6 @@ task autograder {
                 main = "edu.rice.autograder.AutoGraderKt"
                 args = [ "--project", gradeProject,
                          "--config", "config/grade.yaml",
-                        "--log", "all",
                          "grade" ]
             }
         }
@@ -150,7 +149,7 @@ task autograderDebugAnnotations (type: JavaExec) {
     dependsOn 'classes'
     classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
-    args = [ "--package", gradePackage, "--project", gradeProject, "--log", "all", "debugAnnotations" ]
+    args = [ "--package", gradePackage, "--project", gradeProject, "debugAnnotations" ]
 }
 
 task autograderWriteConfig (type: JavaExec) {

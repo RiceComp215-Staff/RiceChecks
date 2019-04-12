@@ -5,9 +5,9 @@
  */
 
 buildscript {
-    ext.gradeProject = "RE"
-    ext.gradePackage = "edu.rice.regex"
-
+    ext.gradeProject = "Sorting"
+    ext.gradePackage = "edu.rice.sort"
+    
     repositories {
         maven { url "https://maven-central.storage.googleapis.com" }
         jcenter()
@@ -152,12 +152,14 @@ task autograder {
 }
 
 task autograderDebugAnnotations (type: JavaExec) {
+    dependsOn 'classes'
     classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
-    args = [ "--package", gradePackage, "--project", gradeProject, "debugAnnotations" ]
+    args = [ "--package", gradePackage, "--project", gradeProject, "--log", "all", "debugAnnotations" ]
 }
 
 task autograderWriteConfig (type: JavaExec) {
+    dependsOn 'classes'
     classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
     args = [ "--package", gradePackage, "--project", gradeProject, "--config", "config/grade.yaml", "writeConfig" ]
@@ -190,4 +192,7 @@ dependencies {
     // JUnit5 support
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    
+    // QuickTheories, for property-based testing
+    testImplementation 'org.quicktheories:quicktheories:0.25'
 }
