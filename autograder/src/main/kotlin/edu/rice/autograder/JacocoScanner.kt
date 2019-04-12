@@ -318,7 +318,8 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
             "Classes with coverage below %.0f%% %s requirement"
                 .format(project.coveragePercentage, counterTypeStr),
             fails +
-                listOf("See the coverage report for details:\n${AutoGrader.buildDir}/reports/jacoco/index.html" to 0.0))
+                listOf("See the coverage report for details:\n" +
+                    "${AutoGrader.buildDir}/reports/jacoco/index.html" to 0.0))
     }
 }
 

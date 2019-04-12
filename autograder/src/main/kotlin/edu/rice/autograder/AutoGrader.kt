@@ -122,7 +122,7 @@ object AutoGrader {
                         System.out.println("No annotations found for project($lProject)")
                         exit(false)
                     } else {
-                        System.out.println(gproject.yamlExporter())
+                        System.out.println(gproject.yamlExporter(true))
                         exit(true)
                     }
                 } else {
