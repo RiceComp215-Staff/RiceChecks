@@ -4,6 +4,68 @@ We try to simplify the process of specifying how unit tests and such
 are mapped to points, leveraging Java annotations, so your grading policy
 is embedded in your code. It's like JavaDoc, but for grading policies.
 
+The output looks something like this for a successful project:
+```
+┌─────────────────────────────────────────────────────────────────────────────
+│ RiceChecks for Sorting                                                      
+│ Implement Many Sorting Algorithms                                           
+├─────────────────────────────────────────────────────────────────────────────
+│
+│ Topic: HeapSort: 2 of 2 tests passed                             2.0/2.0 ✅
+│
+│ Topic: InsertionSort: 2 of 2 tests passed                        2.0/2.0 ✅
+│
+│ Topic: PatienceSort: 2 of 2 tests passed                         2.0/2.0 ✅
+│
+│ Topic: ShellSort: 2 of 2 tests passed                            2.0/2.0 ✅
+│
+│ No warning / style deductions                                    1.0/1.0 ✅
+│
+│ Test coverage meets 90% (by line) requirement                    1.0/1.0 ✅
+│ - Coverage of edu.rice.sort.HeapSort: 100.0%                     
+│ - Coverage of edu.rice.sort.InsertionSort: 100.0%                
+│ - Coverage of edu.rice.sort.PatienceSort: 100.0%                 
+│ - Coverage of edu.rice.sort.PatienceSort.Pile: 100.0%            
+│
+├─────────────────────────────────────────────────────────────────────────────
+│ Total points:                                                  10.0/10.0 ✅
+└─────────────────────────────────────────────────────────────────────────────
+```
+
+Whereas, for a project with some bugs, you might see:
+```
+┌─────────────────────────────────────────────────────────────────────────────
+│ RiceChecks for RPN                                                          
+│ Simple RPN Calculator                                                       
+├─────────────────────────────────────────────────────────────────────────────
+│
+│ Topic: Correctness: 1 of 2 tests passed                          3.0/6.0 ❌
+│ - edu.rice.rpn.RpnCalcTest.testBasicArithmetic: passed           
+│ - edu.rice.rpn.RpnCalcTest.testStackHandling: failed               (-3.0)
+│
+│ Warning / style deductions                                       0.0/1.0 ❌
+│ - CheckStyle (main): 0 of 1 files passed                           (-1.0)
+│ - CheckStyle (test): 1 of 1 files passed                         
+│ - GoogleJavaFormat: 1 of 2 files passed                            (-1.0)
+│   run the gradle <googleJavaFormat> task to fix
+│ - Compiler: No warnings or errors                                
+│
+│ Classes with coverage below 90% (by line) requirement            0.0/3.0 ❌
+│ - Coverage of edu.rice.rpn.RpnCalc: 78.9%                        
+│ - See the coverage report for details:                           
+│   ./build/reports/jacoco/index.html
+│
+├─────────────────────────────────────────────────────────────────────────────
+│ Total points:                                                   3.0/10.0 ❌
+└─────────────────────────────────────────────────────────────────────────────
+```
+
+You wire the RiceChecks autograder into every student's `build.gradle` file, and they'll
+be able to generate these reports locally, any time they want. You can also easily configure
+the autograder to run with a CI service, like Travis-CI, on every commit.
+
+## HOWTO
+
 The essential design of the autograder is:
 - You decorate your unit tests with annotations that specify their associated projects and points values
   - If you've got a single master repository for multiple separate projects, you do these annotations once
@@ -13,7 +75,7 @@ The essential design of the autograder is:
   - This policy is a human-readable YAML file, so you can easily review it, for example, to
     ensure that you have the expected total number of points.
 - You provide your students with a `build.gradle` file, specifying all the actions that need to
-  be run. This includes JUnit4/5 tests, CheckStyle, google-java-style, ErrorProne, and JaCoCo.
+  be run. This includes JUnit5 tests (`@Test` and `@TestFactory`), CheckStyle, google-java-style, ErrorProne, and JaCoCo.
 - You add the autograder code to `build.gradle` that we provide, which runs all these gradle actions,
   each of which already logs their output to the `build` directory, making sure that a 
   failure of one task doesn't preclude the rest of the tasks from running. 
