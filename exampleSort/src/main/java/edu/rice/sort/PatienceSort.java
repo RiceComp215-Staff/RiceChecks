@@ -1,3 +1,9 @@
+/*
+ * RiceChecks
+ * Copyright (c) 2019, Dan S. Wallach, Rice University
+ * Available subject to the Apache 2.0 License
+ */
+
 package edu.rice.sort;
 
 import edu.rice.autograder.annotations.GradeCoverage;

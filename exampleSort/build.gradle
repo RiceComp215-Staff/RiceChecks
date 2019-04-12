@@ -1,8 +1,10 @@
 /*
- * AnnoAutoGrader
+ * RiceChecks
  * Copyright (c) 2019, Dan S. Wallach, Rice University
  * Available subject to the Apache 2.0 License
  */
+
+
 
 buildscript {
     ext.gradeProject = "Sorting"
@@ -52,12 +54,6 @@ allprojects {
         targetCompatibility = '11'
     }
 }
-
-/*
- * AnnoAutoGrader
- * Copyright (c) 2019, Dan S. Wallach, Rice University
- * Available subject to the Apache 2.0 License
- */
 
 ////////////////////////////////////////////////////////////////////////////////
 // This section configures JaCoCo (Java Code Coverage), JUnit (unit tests), GoogleJavaFormat,

@@ -1,5 +1,5 @@
 /*
- * AnnoAutoGrader
+ * RiceChecks
  * Copyright (c) 2019, Dan S. Wallach, Rice University
  * Available subject to the Apache 2.0 License
  */
@@ -172,40 +172,38 @@ repositories {
 dependencies {
     ktlint "com.github.shyiko:ktlint:0.31.0"
 
-    compile "io.arrow-kt:arrow-core-data:$arrow_version"
-    compile "io.arrow-kt:arrow-core-extensions:$arrow_version"
-    compile "io.arrow-kt:arrow-syntax:$arrow_version"
-//    compile "io.arrow-kt:arrow-typeclasses:$arrow_version"
-//    compile "io.arrow-kt:arrow-extras-data:$arrow_version"
-//    compile "io.arrow-kt:arrow-extras-extensions:$arrow_version"
+    // Arrow adds useful functional programming features to Kotlin
+    implementation "io.arrow-kt:arrow-core-data:$arrow_version"
+    implementation "io.arrow-kt:arrow-core-extensions:$arrow_version"
+    implementation "io.arrow-kt:arrow-syntax:$arrow_version"
+//    implementation "io.arrow-kt:arrow-typeclasses:$arrow_version"
+//    implementation "io.arrow-kt:arrow-extras-data:$arrow_version"
+//    implementation "io.arrow-kt:arrow-extras-extensions:$arrow_version"
 //    kapt    "io.arrow-kt:arrow-meta:$arrow_version"
     
     // annotations to help ErrorProne and IntelliJ find bugs
-    compile 'org.jetbrains:annotations:15.0'
-    compile 'com.google.code.findbugs:jsr305:3.0.2'
-    compile 'com.google.code.findbugs:annotations:3.0.1'
-    compile 'com.google.errorprone:error_prone_annotations:2.3.2'
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.google.code.findbugs:annotations:3.0.1'
+    implementation 'com.google.errorprone:error_prone_annotations:2.3.2'
 
-    // testing libraries: these are only visible from our "test" code, not the "main" code
-    testCompile 'org.quicktheories:quicktheories:0.25' // high-tech pattern-based testing library
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}" // Kotlin standard libraries
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}" // Kotlin standard libraries
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}" // Kotlin standard libraries
-    compile "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}" // Kotlin standard libraries
-
-    // Support specifically for AnnoAutoGrader
-    compile 'io.github.classgraph:classgraph:4.8.24' // for reading class annotations
-    compile 'com.beust:jcommander:1.72' // command-line parsing
+    // Useful general-purpose libraries
+    implementation 'io.github.classgraph:classgraph:4.8.24' // for reading class annotations
+    implementation 'com.beust:jcommander:1.72' // command-line parsing
+    implementation 'ch.qos.logback:logback-classic:1.2.3' // logging
+    implementation "com.github.davidmoten:word-wrap:0.1.6" // fancy word-wrapping library
 
     // Jackson (for XML, YAML, and other such things)
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}"
-    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson_version}"
-    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson_version}"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}"
 
-    compile 'ch.qos.logback:logback-classic:1.2.3' // logging
-
-    compile "com.github.davidmoten:word-wrap:0.1.6" // fancy word-wrapping library
 
     // JUnit5 support
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    testImplementation 'org.quicktheories:quicktheories:0.25' // high-tech pattern-based testing library
 }

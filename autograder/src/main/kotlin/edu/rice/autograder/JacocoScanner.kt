@@ -1,5 +1,5 @@
 /*
- * AnnoAutoGrader
+ * RiceChecks
  * Copyright (c) 2019, Dan S. Wallach, Rice University
  * Available subject to the Apache 2.0 License
  */
@@ -92,17 +92,14 @@ data class JacocoPackage(
         counters.associateNotNullBy { it.type }
     }
 
-    // Note: we're standardizing class names in classMap to use dots rather than slashes,
-    // making them consistent with everything else in AnnoAutoGrader.
+    // Note: we're standardizing class names in classMap to use dots rather than slashes
+    // and dollar-signs, making them consistent with everything else in RiceChecks.
     val classMap: Map<String, JacocoClass> by lazy {
         classes.associateNotNullBy {
             it.name.fixClassName()
         }
     }
 }
-
-private fun String?.fixClassName() =
-    this?.replace('/', '.')?.replace('$', '.')
 
 @JsonRootName("class")
 data class JacocoClass(
@@ -325,3 +322,6 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
             fails)
     }
 }
+
+private fun String?.fixClassName() =
+    this?.replace('/', '.')?.replace('$', '.')
