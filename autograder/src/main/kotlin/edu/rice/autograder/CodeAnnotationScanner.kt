@@ -332,6 +332,10 @@ private fun AnnotationTuple.toIGradeTest(
             maxPoints <= 0.0 -> failScanner("Method $methodName has @TestFactory, but needs " +
                 "to have positive maxPoints specified")
 
+            points <= 0.0 || points > maxPoints ->
+                failScanner("Method $methodName has @TestFactory, but needs to have positive " +
+                    "points (less than maxPoints) specified")
+
             else -> IGradeTest(project, topic, points, maxPoints, classOrPackageName,
                 methodName, true)
         }
