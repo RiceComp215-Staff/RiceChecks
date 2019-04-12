@@ -217,3 +217,8 @@ public class HeapSort { ... }
   loop for things that we cannot automatically check (e.g., whether a design
   is "good") and to make sure that students weren't doing something undesirable,
   like editing our provided unit tests.
+
+- **On Windows, when I run the autograder, I see a bunch of ?????'s rather than the nice borders around the autograder output. How do I fix that?** 
+  For IntelliJ, you can go to *Help* -> *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the Unicode should
+  all work properly. For the Windows console, [it's complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
+  Maybe install a [different console program](https://conemu.github.io/en/UnicodeSupport.html)?
