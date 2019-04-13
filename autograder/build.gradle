@@ -38,9 +38,11 @@ plugins {
     id "com.dorongold.task-tree" version "1.3.1" // useful for gradle task-graph debugging
     id "org.jetbrains.kotlin.jvm" version "1.3.21"
 //    id "org.jetbrains.kotlin.kapt" version "1.3.21"
-    id "com.jfrog.artifactory" version "4.9.5"
-    id "com.jfrog.bintray" version "1.8.4"
+//    id "com.jfrog.artifactory" version "4.9.5"
+//    id "com.jfrog.bintray" version "1.8.4"
     id "maven-publish"
+    id "java-library"
+    id "signing"
 }
 
 group 'edu.rice'
@@ -133,35 +135,32 @@ jar {
     manifest {
         attributes "Main-Class": "edu.rice.autograder.AutoGraderKt"
     }
-
     archiveBaseName = 'ricechecks'
 }
 
-task fatJar(type: Jar) {
-    dependsOn 'jar'
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
 
-    manifest {
-        attributes "Main-Class": "edu.rice.autograder.AutoGraderKt"
-    }
-    
+task javadocJar(type: Jar) {
+    from javadoc
     archiveBaseName = 'ricechecks'
-    archiveAppendix = 'fat'
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    archiveClassifier = 'javadoc'
 }
 
 task annotationsJar(type: Jar) {
     dependsOn 'jar'
 
     archiveBaseName = 'ricechecks'
-    archiveAppendix = 'annotations'
+    archiveClassifier = 'annotations'
     from sourceSets.main.output.classesDirs
     include '**/annotations/**/*'
     includeEmptyDirs false
 }
 
 task allJars {
-    dependsOn 'jar', 'fatJar', 'annotationsJar'
+    dependsOn 'jar', 'annotationsJar', 'sourcesJar', 'javadocJar'
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -194,6 +193,8 @@ ext {
 artifacts {
     archives jar
     archives annotationsJar
+    archives sourcesJar
+    archives javadocJar
 }
 
 def pomConfig = {
@@ -219,15 +220,27 @@ def pomConfig = {
 
 publishing {
     publications {
-        MyPublication(MavenPublication) {
+        mavenJava(MavenPublication) {
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+
             from components.java
             groupId 'edu.rice.ricechecks'
             artifactId 'ricechecks'
+            artifact sourcesJar
+            artifact javadocJar
+            artifact annotationsJar
             version project.version
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Gradle-based Java AutoGrader')
-                root.appendNode('name', 'ricechecks')
+                root.appendNode('name', 'RiceChecks')
                 root.appendNode('url', 'https://github.com/RiceComp215-Staff/RiceChecks')
                 root.children().last() + pomConfig
             }
@@ -235,6 +248,11 @@ publishing {
     }
 }
 
+signing {
+    sign publishing.publications.mavenJava
+}
+
+/*
 artifactory {
     contextUrl = 'http://oss.jfrog.org'
     publish {
@@ -282,6 +300,8 @@ bintray {
 
     publish = true
 }
+*/
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // This section specifies all the external libraries being used by your Java

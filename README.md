@@ -1,4 +1,9 @@
 # RiceChecks
+
+**Current status**: early alpha. Please email <dwallach@rice.edu> before trying to use this.
+
+---
+
 This project contains an autograder for Java and Gradle-based student projects.
 We try to simplify the process of specifying how unit tests and such
 are mapped to points, leveraging Java annotations, so your grading policy
@@ -252,6 +257,8 @@ public class HeapSort { ... }
   independently. *Every* class must pass for RiceChecks to award the coverage points.
   
 ## Integrating the autograder into your Gradle projects
+
+**Note: this part is still a work in progress.**
 
 - There are three different Jar files (built by the `gradlew allJars` task):
   - `RiceChecks-0.1.jar` -- a "thin" Jar file, including the annotations and the autograder, but
