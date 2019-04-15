@@ -10,6 +10,7 @@ buildscript {
         jackson_version = '2.9.8'
         arrow_version = '0.9.0'
         ricechecks_version = '0.1'
+        dokka_version = '0.9.18'
 
         repos = {
             maven { url "https://maven-central.storage.googleapis.com" }
@@ -26,6 +27,7 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
     }
 }
 
@@ -34,6 +36,7 @@ plugins {
     id 'idea'
     id 'checkstyle'
     id 'jacoco'
+    id "org.jetbrains.dokka" version '0.9.18'
     id 'com.github.sherter.google-java-format' version '0.8'
     id "com.dorongold.task-tree" version "1.3.1" // useful for gradle task-graph debugging
     id "org.jetbrains.kotlin.jvm" version "1.3.21"
@@ -138,29 +141,48 @@ jar {
     archiveBaseName = 'ricechecks'
 }
 
-task sourcesJar(type: Jar) {
+task annotationSourcesJar(type: Jar) {
     from sourceSets.main.allJava
+    archiveBaseName = 'ricechecks-annotations'
     archiveClassifier = 'sources'
 }
 
-task javadocJar(type: Jar) {
-    from javadoc
+task allSourcesJar(type: Jar) {
+    from sourceSets.main.getAllSource()
     archiveBaseName = 'ricechecks'
+    archiveClassifier = 'sources'
+}
+
+task annotationJavadocJar(type: Jar) {
+    from javadoc
+    archiveBaseName = 'ricechecks-annotations'
     archiveClassifier = 'javadoc'
 }
 
 task annotationsJar(type: Jar) {
     dependsOn 'jar'
 
-    archiveBaseName = 'ricechecks'
-    archiveClassifier = 'annotations'
+    archiveBaseName = 'ricechecks-annotations'
     from sourceSets.main.output.classesDirs
     include '**/annotations/**/*'
     includeEmptyDirs false
 }
 
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'html'
+    outputDirectory = javadoc.destinationDir
+    outputDirectory = "$buildDir/kdoc"
+    inputs.dir 'src/main/kotlin'
+}
+
+task dokkaJar(type: Jar, dependsOn: dokkaJavadoc) {
+    from "$buildDir/kdoc"
+    archiveBaseName = 'ricechecks'
+    archiveClassifier = 'javadoc'
+}
+
 task allJars {
-    dependsOn 'jar', 'annotationsJar', 'sourcesJar', 'javadocJar'
+    dependsOn 'jar', 'annotationsJar', 'annotationSourcesJar', 'annotationJavadocJar', 'allSourcesJar', 'dokkaJar'
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,8 +215,10 @@ ext {
 artifacts {
     archives jar
     archives annotationsJar
-    archives sourcesJar
-    archives javadocJar
+    archives annotationSourcesJar
+    archives annotationJavadocJar
+    archives allSourcesJar
+    archives dokkaJar
 }
 
 def pomConfig = {
@@ -233,9 +257,11 @@ publishing {
             from components.java
             groupId 'edu.rice.ricechecks'
             artifactId 'ricechecks'
-            artifact sourcesJar
-            artifact javadocJar
+            artifact annotationSourcesJar
+            artifact annotationJavadocJar
             artifact annotationsJar
+            artifact allSourcesJar
+            artifact dokkaJar
             version project.version
             pom.withXml {
                 def root = asNode()
@@ -308,6 +334,7 @@ bintray {
 // program and where to find them.
 repositories {
     maven { url "https://maven-central.storage.googleapis.com" }
+    jcenter()
     mavenCentral()
 }
 
