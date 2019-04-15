@@ -244,7 +244,7 @@ def pomConfig = {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        mavenJava1(MavenPublication) {
             versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
@@ -256,10 +256,33 @@ publishing {
 
             from components.java
             groupId 'edu.rice.ricechecks'
-            artifactId 'ricechecks'
+            artifactId 'ricechecks-annotations'
             artifact annotationSourcesJar
             artifact annotationJavadocJar
-            artifact annotationsJar
+            version project.version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Gradle-based Java AutoGrader')
+                root.appendNode('name', 'RiceChecks')
+                root.appendNode('url', 'https://github.com/RiceComp215-Staff/RiceChecks')
+                root.children().last() + pomConfig
+            }
+        }
+        mavenJava2(MavenPublication) {
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+
+            from components.kotlin
+//            from components.java
+            groupId 'edu.rice.ricechecks'
+            artifactId 'ricechecks'
+//            artifact jar
             artifact allSourcesJar
             artifact dokkaJar
             version project.version
@@ -275,7 +298,8 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.mavenJava
+    sign publishing.publications.mavenJava1
+    sign publishing.publications.mavenJava2
 }
 
 /*
