@@ -60,7 +60,6 @@ plugins {
     id "maven"
     id "java-library"
     id "signing"
-    id 'io.codearte.nexus-staging' version '0.20.0'
 }
 
 group 'edu.rice.ricechecks'
@@ -221,11 +220,8 @@ def getBuildNumber = {
 }
 
 ext {
-    bintrayUser = System.getProperty("bintray.user")
-    bintrayKey = System.getProperty("bintray.key")
     buildNumber = getBuildNumber()
 }
-
 
 artifacts {
     archives jar
@@ -235,6 +231,11 @@ artifacts {
     archives allSourcesJar
     archives dokkaJar
 }
+
+// possibly helpful:
+// https://discuss.gradle.org/t/how-to-publish-multiple-artifacts-w-sources-per-project/7361
+// https://gist.github.com/kriegerd/4688748
+// https://stackoverflow.com/questions/7826652/how-to-upload-an-existing-collection-of-3rd-party-jars-to-a-maven-server-in-grad/27416369#27416369
 
 def fixPomXml(pomXml) {
     def root = pomXml.asNode()
