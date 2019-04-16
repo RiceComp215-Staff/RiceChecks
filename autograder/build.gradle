@@ -61,6 +61,7 @@ plugins {
 //    id "com.jfrog.artifactory" version "4.9.5"
 //    id "com.jfrog.bintray" version "1.8.4"
     id "maven-publish"
+    id "maven"
     id "java-library"
     id "signing"
 }
@@ -238,28 +239,37 @@ artifacts {
     archives dokkaJar
 }
 
-def pomConfig = {
-    licenses {
-        license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution "repo"
+def fixPomXml(pomXml) {
+    def root = pomXml.asNode()
+    def moreStuff = {
+        licenses {
+            license {
+                name "The Apache Software License, Version 2.0"
+                url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution "repo"
+            }
         }
-    }
-    developers {
-        developer {
-            id "danwallach"
-            name "Dan Wallach"
-            email "dwallach@rice.edu"
+        developers {
+            developer {
+                id "danwallach"
+                name "Dan Wallach"
+                email "dwallach@rice.edu"
+            }
         }
-    }
 
-    scm {
-        url "https://github.com/RiceComp215-Staff/RiceChecks"
+        scm {
+            url "https://github.com/RiceComp215-Staff/RiceChecks"
+        }
+
+        packaging 'jar'
     }
+    root.appendNode('description', 'Gradle-based Java AutoGrader')
+    root.appendNode('name', 'RiceChecks')
+    root.appendNode('url', 'https://github.com/RiceComp215-Staff/RiceChecks')
+    return root.children().last() + moreStuff
 }
 
-// Machinery to get the key passphrase
+// Machinery to get the key passphrase without needing to leave it in a file
 // https://stackoverflow.com/questions/19487576/gradle-build-null-console-object
 import groovy.swing.SwingBuilder
 gradle.taskGraph.whenReady { taskGraph ->
@@ -295,29 +305,19 @@ gradle.taskGraph.whenReady { taskGraph ->
 publishing {
     publications {
         annotations(MavenPublication) {
-//            versionMapping {
-//                usage('java-api') {
-//                    fromResolutionOf('runtimeClasspath')
-//                }
-//                usage('java-runtime') {
-//                    fromResolutionResult()
-//                }
-//            }
+            // Note: no call to "from components.java"; instead, we're explicitly
+            // specifying only the artifacts we care about. This is to avoid getting
+            // all the recursive dependencies for the annotations, which can safely
+            // stand alone. Conversely, for the tool, specified below, we do want
+            // all the recursive dependencies.
 
-//            from components.java
             groupId 'edu.rice.ricechecks'
             artifactId 'ricechecks-annotations'
             artifact annotationsJar
             artifact annotationSourcesJar
             artifact annotationJavadocJar
             version project.version
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'Gradle-based Java AutoGrader')
-                root.appendNode('name', 'RiceChecks')
-                root.appendNode('url', 'https://github.com/RiceComp215-Staff/RiceChecks')
-                root.children().last() + pomConfig
-            }
+            pom.withXml { fixPomXml(it) }
         }
         tool(MavenPublication) {
             versionMapping {
@@ -330,20 +330,12 @@ publishing {
             }
 
             from components.kotlin
-//            from components.java
             groupId 'edu.rice.ricechecks'
             artifactId 'ricechecks'
-//            artifact jar
             artifact allSourcesJar
             artifact dokkaJar
             version project.version
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'Gradle-based Java AutoGrader')
-                root.appendNode('name', 'RiceChecks')
-                root.appendNode('url', 'https://github.com/RiceComp215-Staff/RiceChecks')
-                root.children().last() + pomConfig
-            }
+            pom.withXml { fixPomXml(it) }
         }
     }
 }
@@ -353,56 +345,23 @@ signing {
     sign publishing.publications.tool
 }
 
-/*
-artifactory {
-    contextUrl = 'http://oss.jfrog.org'
-    publish {
-        repository {
-            repoKey = 'oss-snapshot-local'
-            username = bintrayUser
-            password = bintrayKey
-        }
-        defaults {
-            publications('mavenPublication')
-            publishArtifacts = true
-            publishPom = true
-            properties = [
-                    'build.number': buildNumber,
-                    'build.name': 'ricechecks'
-            ]
-        }
-    }
-    resolve {
-        repoKey = 'jcenter'
-    }
-    clientConfig.info.setBuildNumber(buildNumber)
-    clientConfig.info.setBuildName('ricechecks')
-}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-bintray {
-    user = bintrayUser
-    key = bintrayKey
-    publications = ['mavenPublication']
-
-    pkg {
-        repo = 'maven-releases'
-        name = 'ricechecks'
-        licenses = ['Apache-2.0']
-        vcsUrl = "https://github.com/RiceComp215-Staff/RiceChecks"
-        version {
-            name = project.version
-            desc = "build ${buildNumber}"
-            released  = new Date()
-            gpg {
-                sign = true
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
             }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.withXml { fixPomXml(it) }
         }
     }
-
-    publish = true
 }
-*/
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // This section specifies all the external libraries being used by your Java
