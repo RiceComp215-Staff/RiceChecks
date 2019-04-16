@@ -48,7 +48,7 @@ plugins {
     id "signing"
 }
 
-group 'edu.rice'
+group 'edu.rice.ricechecks'
 version ricechecks_version
 
 checkstyle {
