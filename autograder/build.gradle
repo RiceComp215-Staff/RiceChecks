@@ -244,7 +244,7 @@ def pomConfig = {
 
 publishing {
     publications {
-        mavenJava1(MavenPublication) {
+        mavenAnnotations(MavenPublication) {
             versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
@@ -268,7 +268,7 @@ publishing {
                 root.children().last() + pomConfig
             }
         }
-        mavenJava2(MavenPublication) {
+        mavenTool(MavenPublication) {
             versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
@@ -298,8 +298,8 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.mavenJava1
-    sign publishing.publications.mavenJava2
+    sign publishing.publications.mavenAnnotations
+    sign publishing.publications.mavenTool
 }
 
 /*
