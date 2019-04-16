@@ -4,12 +4,29 @@
  * Available subject to the Apache 2.0 License
  */
 
+
 buildscript {
+    def getVersionName = {
+        try {
+            def stdout = new ByteArrayOutputStream()
+            exec {
+                commandLine 'git', 'describe', '--tags', '--dirty'
+                standardOutput = stdout
+            }
+
+            return stdout.toString().trim()
+        }
+        catch (ignored) {
+        }
+
+        return "noName"
+    }
+
     ext {
         kotlin_version = '1.3.30'
         jackson_version = '2.9.8'
         arrow_version = '0.9.0'
-        ricechecks_version = '0.1'
+        ricechecks_version = getVersionName()
         dokka_version = '0.9.18'
 
         repos = {
@@ -242,21 +259,55 @@ def pomConfig = {
     }
 }
 
-publishing {
-    publications {
-        mavenAnnotations(MavenPublication) {
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
+// Machinery to get the key passphrase
+// https://stackoverflow.com/questions/19487576/gradle-build-null-console-object
+import groovy.swing.SwingBuilder
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.allTasks.any { it instanceof Sign }) {
+        def password = ''
+        if(System.console() == null) {
+            new SwingBuilder().edt {
+                dialog(modal: true, title: 'Enter password', alwaysOnTop: true, resizable: false, locationRelativeTo: null, pack: true, show: true) {
+                    vbox { // Put everything below each other
+                        label(text: "Please enter GPG passphrase:")
+                        def input1 = passwordField()
+                        button(defaultButton: true, text: 'OK', actionPerformed: {
+                            password = input1.password
+                            dispose()
+                        })
+                    }
                 }
             }
+        } else {
+            password = System.console().readPassword("\nPlease enter GPG passphrase: ")
+        }
 
-            from components.java
+        if(password.size() <= 0) {
+            throw new InvalidUserDataException("You must enter the passwords to proceed.")
+        }
+
+        allprojects {
+            ext."signing.password" = new String(password)
+        }
+    }
+}
+
+publishing {
+    publications {
+        annotations(MavenPublication) {
+//            versionMapping {
+//                usage('java-api') {
+//                    fromResolutionOf('runtimeClasspath')
+//                }
+//                usage('java-runtime') {
+//                    fromResolutionResult()
+//                }
+//            }
+
+//            from components.java
             groupId 'edu.rice.ricechecks'
             artifactId 'ricechecks-annotations'
+            artifact annotationsJar
             artifact annotationSourcesJar
             artifact annotationJavadocJar
             version project.version
@@ -268,7 +319,7 @@ publishing {
                 root.children().last() + pomConfig
             }
         }
-        mavenTool(MavenPublication) {
+        tool(MavenPublication) {
             versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
@@ -298,8 +349,8 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.mavenAnnotations
-    sign publishing.publications.mavenTool
+    sign publishing.publications.annotations
+    sign publishing.publications.tool
 }
 
 /*
