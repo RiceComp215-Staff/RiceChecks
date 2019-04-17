@@ -5,11 +5,6 @@ language: java
 jdk:
   - openjdk11
 
-# addons:
-#   apt:
-#     packages:
-#       - oracle-java11-installer
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -22,4 +17,4 @@ install:
   - TERM=dumb ./gradlew assemble
 
 script:
-  - TERM=dumb ./gradlew --console=plain :autograder:check autograder
+  - TERM=dumb ./gradlew :autograder:check autograder
