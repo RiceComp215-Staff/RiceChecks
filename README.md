@@ -1,5 +1,5 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks/badge.png)](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks)
-<!-- [![Build Status](https://travis-ci.org/vavr-io/vavr.png)](https://travis-ci.org/vavr-io/vavr) -->
+[![Build Status](https://travis-ci.org/RiceComp215-Staff/RiceChecks.svg?branch=master)](https://travis-ci.org/RiceComp215-Staff/RiceChecks/)
 # RiceChecks
 
 **Current status**: early alpha. Please email <dwallach@rice.edu> before trying to use this.
