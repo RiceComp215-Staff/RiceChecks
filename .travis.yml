@@ -18,5 +18,8 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+install:
+  - TERM=dumb ./gradlew assemble
+
 script:
-  - ./gradlew --console=plain :autograder:check autograder
+  - TERM=dumb ./gradlew --console=plain :autograder:check autograder
