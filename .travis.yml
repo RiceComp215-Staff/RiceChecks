@@ -19,4 +19,4 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-  - ./gradlew :autograder:check autograder
+  - ./gradlew --console=plain :autograder:check autograder

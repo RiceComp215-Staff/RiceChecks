@@ -340,24 +340,6 @@ signing {
     sign publishing.publications.tool
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.withXml { fixPomXml(it) }
-        }
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // This section specifies all the external libraries being used by your Java
 // program and where to find them.
