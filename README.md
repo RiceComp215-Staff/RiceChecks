@@ -1,3 +1,5 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks/badge.png)](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks)
+<!-- [![Build Status](https://travis-ci.org/vavr-io/vavr.png)](https://travis-ci.org/vavr-io/vavr) -->
 # RiceChecks
 
 **Current status**: early alpha. Please email <dwallach@rice.edu> before trying to use this.
@@ -65,16 +67,21 @@ Whereas, for a project with some bugs, you might see:
 └─────────────────────────────────────────────────────────────────────────────
 ```
 
-You wire the RiceChecks autograder into every student's `build.gradle` file, and they'll
-be able to generate these reports locally, any time they want. You can also easily configure
-the autograder to run with a CI service, like Travis-CI, on every commit.
+## Table of contents
+* [Concepts](#concepts)
+* [Directory structure](#directory-structure)
+* [Annotations](#annotations)
+* [Coverage testing](#coverage-testing)
+* [Sample projects](#sample-projects)
+* [Student project integration](#student-project-integration)
+* [FAQs](#faqs)
 
-## HOWTO
+## Concepts
 
 The essential design of the autograder is:
 - You decorate your unit tests with annotations that specify their associated projects and points values
   - If you've got a single master repository for multiple separate projects, you do these annotations once
-    and they stay put in your master branch.
+    and they stay put in your master branch. They have no impact on student code.
 - You extract a *grading policy* for every given project, which you then include in the `config` directory
   that is handed out to your students
   - This policy is a human-readable YAML file, so you can easily review it, for example, to
@@ -103,15 +110,6 @@ numbers into our university learning management system (Canvas), while also look
 student projects to ensure that they didn't do something sketchy.
 
 **RiceChecks, itself, is only tested against OpenJDK 11. It's unlikely to work on earlier JDK releases.**
-
-## Directory structure
-The `autograder` directory includes our autograder implementation (in Kotlin) and annotations (Java)
-as well as a pile of unit tests. The other top-level directories (starting with `example`) 
-are demonstration projects. 
-
-In any of the example projects, you can run the `autograder` task, which will
-in turn run time compiler, unit tests, and so forth, printing the ultimate
-output to the console.
 
 ## Annotations
 
@@ -219,7 +217,7 @@ from the `build.gradle` file before distributing it to the students to ensure th
 those tasks by accident. If you want, you could even delete all the RiceChecks annotations
 (`@Grade`, etc.), although there's no harm in leaving them in.
 
-## About coverage testing
+## Coverage testing
 
 RiceChecks uses
 [JaCoCo](https://www.eclemma.org/jacoco/), which has a wide variety of ways that you can
@@ -256,39 +254,54 @@ public class HeapSort { ... }
 - Each class (or inner class) is evaluated for its coverage, for the desired metric,
   independently. *Every* class must pass for RiceChecks to award the coverage points.
   
-## Integrating the autograder into your Gradle projects
-
-**Note: this part is still a work in progress.**
-
-- There are three different Jar files (built by the `gradlew allJars` task):
-  - `RiceChecks-0.1.jar` -- a "thin" Jar file, including the annotations and the autograder, but
-    without its external dependencies. Suitable for executing from a Gradle environment, which will
-    recursively fetch any dependencies.
-  - `RiceChecks-fat-0.1.jar` -- a "fat" Jar file, including the annotations, the autograder, and
-    *all of the recursive dependencies of the autograder*. If you want to be able to run the autograder
-    directly from the command-line (e.g., `java -jar RiceChecks-fat-0.1.jar --project p1 grade`),
-    then this Jar file has everything necessary.
-  - `RiceChecks-annotations-0.1.jar` -- a tiny Jar file, including *only* the annotations
-    and nothing else. This is the only dependency you want to be visible to student projects.
-    (You don't want, for example, that students' IDEs will autocomplete into the guts of the
-     autograder implementation.)
-
-- Our example gradle projects directly include the autograder
-  classes from the subproject where they're compiled. See the
-  `exampleStandalone` project for an alternative, which pulls
-  in the autograder like anything else from a Maven server.
+## Sample projects
+There are three sample projects, showing you how the RiceChecks autograder works. They
+are:
+- [exampleRegex](exampleRegex): students are asked to implement several regular expressions;
+  their work is tested using JUnit5's [TestFactory](https://junit.org/junit5/docs/5.4.0/api/org/junit/jupiter/api/TestFactory.html),
+  which has a list of examples for each regex that should be accepted and another list
+  of examples that should be rejected by the regex.
+- [exampleRpn](exampleRpn): students are asked to implement a simple RPN calculator;
+  there are many cases, so we require minimum test coverage.
+- [exampleSort](exampleSort): students are asked to implement three sorting algorithms;
+  their work is tested with [QuickTheories](https://github.com/quicktheories/QuickTheories),
+  generating hundreds of random inputs.
   
-- There are three ways to run the RiceChecks autograder, which you
-  can see embodied in three Gradle tasks: 
+All of the code for these examples is borrowed from [RosettaCode](http://rosettacode.org/wiki/Rosetta_Code),
+to which we added our own unit tests and made other small changes. The code,
+as you view it in this repository, passes all tests and gets a perfect grade.
+You might try modifying one or more of the examples, introducing bugs, to
+see how the autograder responds.
+
+## Student project integration
+
+The "example" projects have their `build.gradle` files configured to
+compile and use RiceChecks from the adjacent sources. When configuring a student
+repository for use with RiceChecks, you should start with
+[standaloneSort/build.gradle](standaloneSort/build.gradle),
+which has the following features:
+
+- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks-annotations:0.1` (just the Java annotations)
+  as a regular dependency for student code.
+  
+- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks:0.1` (the autograder tool) as part of
+  a separate "configuration", ensuring that symbols from the tool don't accidentally
+  autocomplete in students' IDEs.
+  
+Provides three Gradle "tasks":
   - `autograderDebugAnnotations` -- this allows you to see the result of processing your annotations. You might verify, for example, that
-     you had the desired number of total points.
+     you had the desired number of total points. You might use this for yourself
+     but delete it before it goes to the students.
   - `autograderWriteConfig` -- when you're happy with your annotations,
      this writes a YAML file to the config directory which is used by
-     the main grading task later on.
-  - `autograder` -- this runs everything and prints the results to the console
+     the main grading task later on. You might use this for yourself
+     but delete it before it goes to the students.
+  - `autograder` -- this runs everything -- compiling the code, running
+     the unit tests, and collecting all the coverage results --
+     and prints a summary to the console.
   
 - Ultimately, the `gradlew autograde` action replaces what might normally be a call to
-  `gradlew check`. 
+  `gradlew check` in places like a Travis-CI `.travis.yml` file.
   
 ## FAQs
 
@@ -314,7 +327,8 @@ public class HeapSort { ... }
   it will notice that the "secret" tests are missing and treat them as having failed.
   When you later add them back in, everything works.
   
-- **How do you add files into an active student project like this?** We hand out our
+- **How do you add "secret" test files into student projects after an assignment is ongoing?** 
+  We hand out our
   weekly projects on Monday morning with student unit tests due Thursday evening.
   On Friday morning, we pull every student repository, add the "secret" tests,
   commit, and push. Students will then have the benefit of both their tests as
@@ -344,5 +358,5 @@ public class HeapSort { ... }
 
 - **On Windows, when I run the autograder, I see a bunch of ?????'s rather than the nice borders around the autograder output. How do I fix that?** 
   For IntelliJ, you can go to *Help* -> *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the Unicode should
-  all work properly. For the Windows console, [it's complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
+  all work properly. [Unicode support for the Windows console is complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
   Maybe install a [different console program](https://conemu.github.io/en/UnicodeSupport.html)?

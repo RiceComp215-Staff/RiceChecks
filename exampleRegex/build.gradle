@@ -4,8 +4,6 @@
  * Available subject to the Apache 2.0 License
  */
 
-
-
 buildscript {
     ext.gradeProject = "RE"
     ext.gradePackage = "edu.rice.regex"
@@ -35,7 +33,7 @@ checkstyle {
 }
 
 allprojects {
-    // Makes the "javadoc" action run without a ton of errors and warnings.
+    // Makes the "javadoc" action run without a ton of warnings.
     tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet')
     }
@@ -124,18 +122,8 @@ task autograder {
             'autograderVerifyGoogleJavaFormat', 'checkstyleMain', 'checkstyleTest', 'test'
 
     doLast {
-        // We're not running the autograder directly because GoogleJavaFormat has
-        // a bug where it doesn't write its file output until the build finishes.
-        // This hack means that the autograder task schedules the actual autograding
-        // to happen after everything else is done. Once this bug is resolved,
-        // we can convert this into a regular JavaExec task.
-        // https://github.com/sherter/google-java-format-gradle-plugin/issues/35
-
-
+        // See: https://github.com/RiceComp215-Staff/RiceChecks/issues/5
         gradle.buildFinished { ignoredResult ->
-//            def fileName = "$buildDir/google-java-format/0.8/fileStates.txt"
-//            def lines = file(fileName).readLines()
-//            println "$fileName: lines: " + lines.size()
             project.javaexec {
                 classpath = sourceSets.main.runtimeClasspath
                 main = "edu.rice.autograder.AutoGraderKt"
@@ -172,7 +160,8 @@ dependencies {
     // file for how to set up a standalone project
     compile project (':autograder')
 
-    errorprone("com.google.errorprone:error_prone_core:2.3.3")
+    // fancy compiler warnings / lint
+    errorprone "com.google.errorprone:error_prone_core:2.3.3"
 
     // logging
     implementation 'ch.qos.logback:logback-classic:1.2.3'

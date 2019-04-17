@@ -4,8 +4,6 @@
  * Available subject to the Apache 2.0 License
  */
 
-
-
 buildscript {
     ext.gradeProject = "Sorting"
     ext.gradePackage = "edu.rice.sort"
@@ -35,7 +33,7 @@ checkstyle {
 }
 
 allprojects {
-    // Makes the "javadoc" action run without a ton of errors and warnings.
+    // Makes the "javadoc" action run without a ton of warnings.
     tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet')
     }
@@ -119,25 +117,19 @@ task autograderVerifyGoogleJavaFormat(type: VerifyGoogleJavaFormat) {
     ignoreFailures true
 }
 
+configurations {
+    ricechecks
+}
+
 task autograder {
     dependsOn 'classes', 'jacocoTestCoverageVerification', 'jacocoTestReport',
             'autograderVerifyGoogleJavaFormat', 'checkstyleMain', 'checkstyleTest', 'test'
 
     doLast {
-        // We're not running the autograder directly because GoogleJavaFormat has
-        // a bug where it doesn't write its file output until the build finishes.
-        // This hack means that the autograder task schedules the actual autograding
-        // to happen after everything else is done. Once this bug is resolved,
-        // we can convert this into a regular JavaExec task.
-        // https://github.com/sherter/google-java-format-gradle-plugin/issues/35
-
-
+        // See: https://github.com/RiceComp215-Staff/RiceChecks/issues/5
         gradle.buildFinished { ignoredResult ->
-//            def fileName = "$buildDir/google-java-format/0.8/fileStates.txt"
-//            def lines = file(fileName).readLines()
-//            println "$fileName: lines: " + lines.size()
             project.javaexec {
-                classpath = sourceSets.main.runtimeClasspath
+                classpath = configurations.ricechecks
                 main = "edu.rice.autograder.AutoGraderKt"
                 args = [ "--project", gradeProject,
                          "--config", "config/grade.yaml",
@@ -173,9 +165,11 @@ dependencies {
     // autograder annotations
     implementation 'edu.rice.ricechecks:ricechecks-annotations:0.1'
 
-    // this creates a dependency on the autograder subproject: see the README.md
-    // file for how to set up a standalone project
-    errorprone("com.google.errorprone:error_prone_core:2.3.3")
+    // autograder tool
+    ricechecks "edu.rice.ricechecks:ricechecks:0.1"
+
+    // fancy compiler warnings / lint
+    errorprone "com.google.errorprone:error_prone_core:2.3.3"
 
     // logging
     implementation 'ch.qos.logback:logback-classic:1.2.3'
