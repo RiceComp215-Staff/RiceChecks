@@ -1,0 +1,195 @@
+/*
+ * RiceChecks
+ * Copyright (c) 2019, Dan S. Wallach, Rice University
+ * Available subject to the Apache 2.0 License
+ */
+
+
+
+buildscript {
+    ext.gradeProject = "Sorting"
+    ext.gradePackage = "edu.rice.sort"
+    
+    repositories {
+        maven { url "https://maven-central.storage.googleapis.com" }
+        jcenter()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'jacoco'
+    id "net.ltgt.errorprone" version "0.7.1" // JDK9+
+    id 'com.github.sherter.google-java-format' version '0.8'
+}
+
+group 'edu.rice'
+version '1.0'
+
+checkstyle {
+    toolVersion = '8.17'
+    configDir = project.file("config/checkstyle")
+    reportsDir = project.file("build/reports/checkstyle")
+}
+
+allprojects {
+    // Makes the "javadoc" action run without a ton of errors and warnings.
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+    
+    tasks.withType(JavaCompile) {
+        options.fork = true
+        options.incremental = true
+        options.encoding = "UTF-8"
+
+        options.compilerArgs << "-Xlint:all" << "-Xlint:-serial" << "-Xlint:-processing" << "-Xlint:-deprecation"
+
+        // ErrorProne's "unused" warnings seems to trigger far too often, so we're suppressing them.
+        options.errorprone.errorproneArgs << "-Xep:UnusedVariable:OFF" << "-Xep:UnusedMethod:OFF"
+
+        sourceCompatibility = '11'
+        targetCompatibility = '11'
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// This section configures JaCoCo (Java Code Coverage), JUnit (unit tests), GoogleJavaFormat,
+// and the autograder.
+
+jacoco {
+    toolVersion = "0.8.3"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.destination file("${buildDir}/reports/jacoco/")
+    }
+}
+
+// We need to capture the errors and warnings printed by the Java compiler.
+// Everything else is already written into the build directory, but not this.
+
+task initLogFile {
+    doLast {
+        file("$buildDir").mkdir()
+        file("$buildDir/logs").mkdir()
+        def gradleBuildLog = file("$buildDir/logs/compile.log")
+        gradleBuildLog.write("") // empty write forces file to exist with size 0
+        
+        def fileLogger = [
+                onOutput: {
+                    gradleBuildLog.write(it)
+                }
+        ] as StandardOutputListener
+
+        tasks.withType(JavaCompile) {
+            logger.info("compilation logging for $it")
+            logging.addStandardOutputListener(fileLogger)
+            logging.addStandardErrorListener(fileLogger)
+        }
+    }
+}
+
+compileJava.dependsOn initLogFile
+
+test {
+    useJUnitPlatform()
+    outputs.upToDateWhen { false }
+
+    minHeapSize = "512m"
+    maxHeapSize = "2048m"
+    jvmArgs = ["-Xss128m"]
+    ignoreFailures true
+}
+
+googleJavaFormat {
+    toolVersion = '1.7'
+}
+
+import com.github.sherter.googlejavaformatgradleplugin.VerifyGoogleJavaFormat
+task autograderVerifyGoogleJavaFormat(type: VerifyGoogleJavaFormat) {
+    source 'src/main'
+    source 'src/test'
+    include '**/*.java'
+    ignoreFailures true
+}
+
+task autograder {
+    dependsOn 'classes', 'jacocoTestCoverageVerification', 'jacocoTestReport',
+            'autograderVerifyGoogleJavaFormat', 'checkstyleMain', 'checkstyleTest', 'test'
+
+    doLast {
+        // We're not running the autograder directly because GoogleJavaFormat has
+        // a bug where it doesn't write its file output until the build finishes.
+        // This hack means that the autograder task schedules the actual autograding
+        // to happen after everything else is done. Once this bug is resolved,
+        // we can convert this into a regular JavaExec task.
+        // https://github.com/sherter/google-java-format-gradle-plugin/issues/35
+
+
+        gradle.buildFinished { ignoredResult ->
+//            def fileName = "$buildDir/google-java-format/0.8/fileStates.txt"
+//            def lines = file(fileName).readLines()
+//            println "$fileName: lines: " + lines.size()
+            project.javaexec {
+                classpath = sourceSets.main.runtimeClasspath
+                main = "edu.rice.autograder.AutoGraderKt"
+                args = [ "--project", gradeProject,
+                         "--config", "config/grade.yaml",
+                         "grade" ]
+            }
+        }
+    }
+}
+
+task autograderDebugAnnotations (type: JavaExec) {
+    dependsOn 'classes'
+    classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
+    main = "edu.rice.autograder.AutoGraderKt"
+    args = [ "--package", gradePackage, "--project", gradeProject, "--log", "all", "debugAnnotations" ]
+}
+
+task autograderWriteConfig (type: JavaExec) {
+    dependsOn 'classes'
+    classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
+    main = "edu.rice.autograder.AutoGraderKt"
+    args = [ "--package", gradePackage, "--project", gradeProject, "--config", "config/grade.yaml", "writeConfig" ]
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// This section specifies all the external libraries being used by your Java
+// program and where to find them.
+repositories {
+    maven { url "https://maven-central.storage.googleapis.com" }
+    mavenCentral()
+}
+
+dependencies {
+    // autograder annotations
+    implementation 'edu.rice.ricechecks:ricechecks-annotations:0.1'
+
+    // this creates a dependency on the autograder subproject: see the README.md
+    // file for how to set up a standalone project
+    errorprone("com.google.errorprone:error_prone_core:2.3.3")
+
+    // logging
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+
+    // annotations to help ErrorProne and IntelliJ find bugs
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.google.code.findbugs:annotations:3.0.1'
+    implementation 'com.google.errorprone:error_prone_annotations:2.3.3'
+
+    // JUnit5 support
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    
+    // QuickTheories, for property-based testing
+    testImplementation 'org.quicktheories:quicktheories:0.25'
+}
