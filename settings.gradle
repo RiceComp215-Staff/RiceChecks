@@ -6,4 +6,4 @@
 
 rootProject.name = 'RiceChecks'
 
-include 'autograder', 'exampleRegex', 'exampleRpn', 'exampleSort', 'standaloneSort'
+include 'autograder', 'exampleRegex', 'exampleRpn', 'exampleSort', 'brokenExampleSort', 'standaloneSort'

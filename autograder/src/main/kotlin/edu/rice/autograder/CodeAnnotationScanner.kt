@@ -515,7 +515,7 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
     Log.i(TAG, "scanEverything: $codePackage")
 
     return ClassGraph()
-//            .verbose() // Log to stderr
+            .verbose() // Log to stderr
             .enableAllInfo() // Scan classes, methods, fields, annotations
             .whitelistPackages(codePackage) // Scan codePackage and subpackages
             .scan().use { scanResult: ScanResult? ->
