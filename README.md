@@ -18,13 +18,13 @@ The output looks something like this for a successful project:
 │ Implement Many Sorting Algorithms                                           
 ├─────────────────────────────────────────────────────────────────────────────
 │
-│ Topic: HeapSort: 2 of 2 tests passed                             2.0/2.0 ✅
+│ HeapSort: 2 of 2 tests passed                                    2.0/2.0 ✅
 │
-│ Topic: InsertionSort: 2 of 2 tests passed                        2.0/2.0 ✅
+│ InsertionSort: 2 of 2 tests passed                               2.0/2.0 ✅
 │
-│ Topic: PatienceSort: 2 of 2 tests passed                         2.0/2.0 ✅
+│ PatienceSort: 2 of 2 tests passed                                2.0/2.0 ✅
 │
-│ Topic: ShellSort: 2 of 2 tests passed                            2.0/2.0 ✅
+│ ShellSort: 2 of 2 tests passed                                   2.0/2.0 ✅
 │
 │ No warning / style deductions                                    1.0/1.0 ✅
 │
@@ -46,7 +46,7 @@ Whereas, for a project with some bugs, you might see:
 │ Simple RPN Calculator                                                       
 ├─────────────────────────────────────────────────────────────────────────────
 │
-│ Topic: Correctness: 1 of 2 tests passed                          3.0/6.0 ❌
+│ Correctness: 1 of 2 tests passed                                 3.0/6.0 ❌
 │ - edu.rice.rpn.RpnCalcTest.testBasicArithmetic: passed           
 │ - edu.rice.rpn.RpnCalcTest.testStackHandling: failed               (-3.0)
 │
@@ -210,7 +210,7 @@ topics:
 Read it over and verify that what you see is consistent with what you expected. For example,
 make sure that the `maxPoints` attribute at the top is what you intended. Once everything
 is good, run the `autograderWriteConfig` task, which will place this same YAML contents into
-`config/grade.yaml`, which you would then distribute as part of the project to your students.
+`config/grade.yml`, which you would then distribute as part of the project to your students.
 
 You might also delete the `autograderDebugAnnotations` and `autograderWriteConfig` tasks
 from the `build.gradle` file before distributing it to the students to ensure they don't run
