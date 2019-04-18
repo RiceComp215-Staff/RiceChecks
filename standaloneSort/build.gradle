@@ -7,7 +7,8 @@
 buildscript {
     ext.gradeProject = "Sorting"
     ext.gradePackage = "edu.rice.sort"
-    
+    ext.gradeConfig = "config/grade.yml"
+
     repositories {
         maven { url "https://maven-central.storage.googleapis.com" }
         jcenter()
@@ -132,7 +133,7 @@ task autograder {
                 classpath = configurations.ricechecks
                 main = "edu.rice.autograder.AutoGraderKt"
                 args = [ "--project", gradeProject,
-                         "--config", "config/grade.yaml",
+                         "--config", gradeConfig,
                          "grade" ]
             }
         }
@@ -150,7 +151,7 @@ task autograderWriteConfig (type: JavaExec) {
     dependsOn 'classes'
     classpath([configurations.ricechecks, sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
-    args = [ "--package", gradePackage, "--project", gradeProject, "--config", "config/grade.yaml", "writeConfig" ]
+    args = [ "--package", gradePackage, "--project", gradeProject, "--config", gradeConfig, "writeConfig" ]
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -7,6 +7,7 @@
 buildscript {
     ext.gradeProject = "RE"
     ext.gradePackage = "edu.rice.regex"
+    ext.gradeConfig = "config/grade.yml"
 
     repositories {
         maven { url "https://maven-central.storage.googleapis.com" }
@@ -128,7 +129,7 @@ task autograder {
                 classpath = sourceSets.main.runtimeClasspath
                 main = "edu.rice.autograder.AutoGraderKt"
                 args = [ "--project", gradeProject,
-                         "--config", "config/grade.yaml",
+                         "--config", gradeConfig,
                          "grade" ]
             }
         }
@@ -144,7 +145,7 @@ task autograderDebugAnnotations (type: JavaExec) {
 task autograderWriteConfig (type: JavaExec) {
     classpath([sourceSets.main.runtimeClasspath, sourceSets.test.runtimeClasspath])
     main = "edu.rice.autograder.AutoGraderKt"
-    args = [ "--package", gradePackage, "--project", gradeProject, "--config", "config/grade.yaml", "writeConfig" ]
+    args = [ "--package", gradePackage, "--project", gradeProject, "--config", gradeConfig, "writeConfig" ]
 }
 
 ////////////////////////////////////////////////////////////////////////////////
