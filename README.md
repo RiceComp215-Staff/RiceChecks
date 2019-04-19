@@ -69,7 +69,6 @@ Whereas, for a project with some bugs, you might see:
 
 ## Table of contents
 * [Concepts](#concepts)
-* [Directory structure](#directory-structure)
 * [Annotations](#annotations)
 * [Coverage testing](#coverage-testing)
 * [Sample projects](#sample-projects)
