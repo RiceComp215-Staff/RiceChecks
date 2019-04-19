@@ -372,7 +372,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     // Useful general-purpose libraries
-    implementation 'io.github.classgraph:classgraph:4.8.24' // for reading class annotations
+    implementation 'io.github.classgraph:classgraph:4.8.25' // for reading class annotations
     implementation 'com.beust:jcommander:1.72' // command-line parsing
     implementation 'ch.qos.logback:logback-classic:1.2.3' // logging
     implementation "com.github.davidmoten:word-wrap:0.1.6" // fancy word-wrapping library
