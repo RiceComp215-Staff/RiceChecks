@@ -281,10 +281,10 @@ repository for use with RiceChecks, you should start with
 [standaloneSort/build.gradle](standaloneSort/build.gradle),
 which has the following features:
 
-- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks-annotations:0.1` (just the Java annotations)
+- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks-annotations:0.2` (just the Java annotations)
   as a regular dependency for student code.
   
-- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks:0.1` (the autograder tool) as part of
+- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks:0.2` (the autograder tool) as part of
   a separate "configuration", ensuring that symbols from the tool don't accidentally
   autocomplete in students' IDEs.
   
