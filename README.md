@@ -33,6 +33,7 @@ The output looks something like this for a successful project:
 │ - Coverage of edu.rice.sort.InsertionSort: 100.0%                
 │ - Coverage of edu.rice.sort.PatienceSort: 100.0%                 
 │ - Coverage of edu.rice.sort.PatienceSort.Pile: 100.0%            
+│ - Coverage of edu.rice.sort.ShellSort: 100.0%                    
 │
 ├─────────────────────────────────────────────────────────────────────────────
 │ Total points:                                                  10.0/10.0 ✅
@@ -73,6 +74,7 @@ Whereas, for a project with some bugs, you might see:
 * [Coverage testing](#coverage-testing)
 * [Sample projects](#sample-projects)
 * [Student project integration](#student-project-integration)
+* [Try it!](#try-it)
 * [FAQs](#faqs)
 
 ## Concepts
@@ -85,9 +87,9 @@ The essential design of the autograder is:
   that is handed out to your students
   - This policy is a human-readable YAML file, so you can easily review it, for example, to
     ensure that you have the expected total number of points.
-- You provide your students with a `build.gradle` file, specifying all the actions that need to
+- You provide your students with a `build.gradle` file, specifying all the tasks that need to
   be run. This includes JUnit5 tests (`@Test` and `@TestFactory`), CheckStyle, google-java-style, ErrorProne, and JaCoCo.
-- You add the autograder code to `build.gradle` that we provide, which runs all these gradle actions,
+- You add the autograder code to `build.gradle` that we provide, which runs all these gradle tasks,
   each of which already logs their output to the `build` directory, making sure that a 
   failure of one task doesn't preclude the rest of the tasks from running. 
 - The autograder runs
@@ -283,28 +285,43 @@ repository for use with RiceChecks, you should start with
 [standaloneSort/build.gradle](standaloneSort/build.gradle),
 which has the following features:
 
-- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks-annotations:0.2` (just the Java annotations)
+- Loads `edu.rice.ricechecks:ricechecks-annotations:0.2` (just the Java annotations)
   as a regular dependency for student code.
   
-- From [MavenCentral](https://mvnrepository.com/repos/central), loads `edu.rice.ricechecks:ricechecks:0.2` (the autograder tool) as part of
-  a separate "configuration", ensuring that symbols from the tool don't accidentally
+- Loads `edu.rice.ricechecks:ricechecks:0.2` (the autograder tool) as part of
+  a separate Gradle "configuration", ensuring that symbols from the tool don't accidentally
   autocomplete in students' IDEs.
   
-Provides three Gradle "tasks":
+Provides three Gradle tasks that invoke the autograder tool:
   - `autograderDebugAnnotations` -- this allows you to see the result of processing your annotations. You might verify, for example, that
      you had the desired number of total points. You might use this for yourself
-     but delete it before it goes to the students.
+     but delete the task from `build.gradle` before shipping your repo to
+     the students.
   - `autograderWriteConfig` -- when you're happy with your annotations,
      this writes a YAML file to the config directory which is used by
-     the main grading task later on. You might use this for yourself
-     but delete it before it goes to the students.
+     the main grading task later on. As with `autograderDebugAnnotations`,
+     you might choose not to ship this to your students.
   - `autograder` -- this runs everything -- compiling the code, running
      the unit tests, and collecting all the coverage results --
      and prints a summary to the console.
   
-- Ultimately, the `gradlew autograde` action replaces what might normally be a call to
-  `gradlew check` in places like a Travis-CI `.travis.yml` file.
+Ultimately, the `autograder` task replaces what might normally be a call to
+`gradlew check` in places like a Travis-CI `.travis.yml` file.
   
+## Try it!
+We took our three sample projects and created [GitHub Classroom](https://classroom.github.com) 
+clone links for them.
+You can click any of these, and you'll get your very own (public) copy of these
+repos where you can then experiment with RiceChecks, including the integration
+with Travis-CI for builds. You'll need to have a GitHub account for the cloning to work.
+
+- [Clone the "sorting" example](https://classroom.github.com/a/8TZDkbnV)
+   or just [visit the master repo](https://github.com/RiceChecks-Demo/SortExample)
+- [Clone the "RPN" example](https://classroom.github.com/a/RoYPYtJI)
+   or just [visit the master repo](https://github.com/RiceChecks-Demo/RpnExample)
+- [Clone the "regular expressions" example](https://classroom.github.com/a/wOojs4UC)
+   or just [visit the master repo](https://github.com/RiceChecks-Demo/RegexExample)
+
 ## FAQs
 
 - **Are there other Gradle-based Java autograders?**
@@ -338,6 +355,11 @@ Provides three Gradle "tasks":
   into the `build` directory. If you're some other mechanism for
   running tests, then you'll need to extend the logic in
   [JUnitScanner.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/JUnitScanner.kt).
+  
+- **What about [Spotless](https://github.com/diffplug/spotless) or [SpotBugs](https://github.com/spotbugs/spotbugs)?**
+  Spotless is analogous to Checkstyle and GoogleJavaStyle. SpotBugs is analogous
+  to ErrorProne. You could certainly engineer support for additional tooling
+  into RiceChecks, but it's not here right now.
 
 - **Why do you write out the grading policy to a YAML file? Why not just
   re-read the annotations every time?** Let's say you want to have "secret" unit
