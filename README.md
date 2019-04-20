@@ -309,18 +309,12 @@ Ultimately, the `autograder` task replaces what might normally be a call to
 `gradlew check` in places like a Travis-CI `.travis.yml` file.
   
 ## Try it!
-We took our three sample projects and created [GitHub Classroom](https://classroom.github.com) 
-clone links for them.
-You can click any of these, and you'll get your very own (public) copy of these
-repos where you can then experiment with RiceChecks, including the integration
-with Travis-CI for builds. You'll need to have a GitHub account for the cloning to work.
+We took our three sample projects and created standalone repositories, which
+you might then clone and experiment with.
 
-- [Clone the "sorting" example](https://classroom.github.com/a/8TZDkbnV)
-   or just [visit the master repo](https://github.com/RiceChecks-Demo/SortExample)
-- [Clone the "RPN" example](https://classroom.github.com/a/RoYPYtJI)
-   or just [visit the master repo](https://github.com/RiceChecks-Demo/RpnExample)
-- [Clone the "regular expressions" example](https://classroom.github.com/a/wOojs4UC)
-   or just [visit the master repo](https://github.com/RiceChecks-Demo/RegexExample)
+- https://github.com/RiceComp215-Staff/RiceChecks-SortExample
+- https://github.com/RiceComp215-Staff/RiceChecks-RegexExample
+- https://github.com/RiceComp215-Staff/RiceChecks-RpnExample
 
 ## FAQs
 
