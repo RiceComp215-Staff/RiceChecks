@@ -32,24 +32,24 @@ class VerifyTestAnnotations {
     // but it's handy to still test for it.
     @TestFactory
     fun noNaNsAnywhere(): Iterable<DynamicTest> = result.keys
-            .flatMap { key ->
-                result[key]?.topics?.flatMap { topic ->
-                    val prefixStr = "Key ($key), Topic(${topic.name})"
-                    val testMaxPoints =
-                        dynamicTest("$prefixStr, MaxPoints") {
-                            assertTrue(topic.maxPoints.isFinite()); assertTrue(topic.maxPoints >= 0)
-                        }
-                    val methodTests =
-                        topic.tests.flatMap { test ->
-                            listOf(
-                                testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
-                                    test.points),
-                                testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
-                                    test.points))
-                        }
-                    methodTests + testMaxPoints
-                } ?: emptyList()
-            }
+        .flatMap { key ->
+            result[key]?.topics?.flatMap { topic ->
+                val prefixStr = "Key ($key), Topic(${topic.name})"
+                val testMaxPoints =
+                    dynamicTest("$prefixStr, MaxPoints") {
+                        assertTrue(topic.maxPoints.isFinite()); assertTrue(topic.maxPoints >= 0)
+                    }
+                val methodTests =
+                    topic.tests.flatMap { test ->
+                        listOf(
+                            testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
+                                test.points),
+                            testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
+                                test.points))
+                    }
+                methodTests + testMaxPoints
+            } ?: emptyList()
+        }
 
     @Test
     fun printTP1() {
@@ -69,13 +69,8 @@ class VerifyTestAnnotations {
 
     @Test
     fun textExportImportEquality() {
-        // This design is really important: so long as we trust that we can export and import our
-        // GGradeProject objects, without any loss or weirdness, then we can extract them from
-        // the source code and store them in the config directory. This means that students
-        // won't accidentally (or maliciously) change the test policy by tweaking the grade
-        // annotations in the source code they see. We could even strip the annotations
-        // completely out of the reference code prior to distribution to the students.
-
+        // This test makes sure that we don't lose anything between writing YAML out and
+        // reading it back in again.
         result.forEach { (name, project) ->
             assertEquals(project, yamlImporter(project.yamlExporter()).getOrFail(), name)
         }

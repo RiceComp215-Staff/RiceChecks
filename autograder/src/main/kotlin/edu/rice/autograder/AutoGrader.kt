@@ -11,13 +11,6 @@ import com.beust.jcommander.JCommander
 import com.beust.jcommander.Parameter
 import kotlin.system.exitProcess
 
-// TODO: figure out whether need "thin" vs. "fat" Jars and how to distribute
-// https://stackoverflow.com/questions/29643973/run-jar-with-parameters-in-gradle
-// Or, we could just stuff the generated Jar file into the GitHub repository
-// https://stackoverflow.com/questions/7111362/pulling-a-gradle-dependency-jar-from-maven-and-then-running-it-directly
-
-// TODO: test case to exercise JaCoCo
-
 enum class Task {
     debugAnnotations, writeConfig, grade
 }

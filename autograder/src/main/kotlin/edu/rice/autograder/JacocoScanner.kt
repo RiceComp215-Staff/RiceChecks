@@ -153,7 +153,6 @@ data class JacocoSourceFile(
     @set:JsonProperty("counter")
     var counters: List<JacocoCounter>? = null
 ) {
-
     val counterMap by lazy {
         counters.associateNotNullBy { it.type }
     }
@@ -228,7 +227,7 @@ private infix fun String.subClassOf(classOrPackageName: String): Boolean = when 
 fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<String> {
     // In our GGradeProject structure, the names of classes are going to be in normal human
     // form (e.g., edu.rice.autograder.test.Project3) while they'll be in slashy form in
-    // the JacocoReport.
+    // the JacocoReport, which we fixed in classesMap (see calls to String?.fixClassName).
 
     val packageSpecs = coverages
         .filter { it.scope == GCoverageScope.PACKAGE }

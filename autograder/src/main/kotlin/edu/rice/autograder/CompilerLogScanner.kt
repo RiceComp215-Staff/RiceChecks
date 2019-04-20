@@ -17,8 +17,9 @@ val javacLogMissing = "Compiler: Can't find output" to false
 // there were warnings and/or errors.
 
 fun javacZeroWarnings(fileData: String): Pair<String, Boolean> {
-    val result = if (fileData.isEmpty()) "Compiler: No warnings or errors" to true
-    else "Compiler: One or more warnings / errors" to false
+    val result =
+        if (fileData.isEmpty()) "Compiler: No warnings or errors" to true
+        else "Compiler: One or more warnings / errors" to false
 
     Log.i(TAG, "JavaC: $result")
     return result

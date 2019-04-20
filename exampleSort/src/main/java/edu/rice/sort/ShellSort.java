@@ -6,6 +6,9 @@
 
 package edu.rice.sort;
 
+import edu.rice.autograder.annotations.GradeCoverage;
+
+@GradeCoverage(project = "Sorting")
 public class ShellSort<T extends Comparable<? super T>> implements Sorter<T> {
   public ShellSort() {}
 

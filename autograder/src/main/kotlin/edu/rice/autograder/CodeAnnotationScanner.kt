@@ -139,8 +139,8 @@ private fun failScannerX(s: String): Nothing {
 
 /** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
 private fun AnnotationParameterValueList?.failScanner(s: String): Nothing =
-        failScannerX(s +
-            if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
+    failScannerX(s +
+        if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
 
 private val coverageMethodNames = enumValues<GCoverageStyle>().map { it.name }
 
@@ -350,27 +350,27 @@ private fun AnnotationTuple.toIGradeTest(
  * then expands them to the regular annotations within.
  */
 private fun List<AnnotationTuple>.expandValueList(): List<AnnotationTuple> =
-        flatMap {
-            val (ai, isPackage, classOrPackageName, methodName) = it
-            val pv = ai.parameterValues
-            if (pv.containsNonEmpty("value")) {
-                val emptyArray = Array<Any?>(0) { null }
-                val vlist = pv.lookup<Array<*>>("value", emptyArray)
-                    ?: pv.failScanner("    Unexpected empty array when `value' found")
-                vlist.mapNotNull { v ->
-                    Log.i(TAG, "    Found: $v")
-                    when (v) {
-                        null -> null
-                        is AnnotationInfo ->
-                            AnnotationTuple(v, isPackage, classOrPackageName, methodName)
-                        else -> pv.failScanner(
-                            "    Unexpected class type found: $${v::class.java.simpleName}")
-                    }
+    flatMap {
+        val (ai, isPackage, classOrPackageName, methodName) = it
+        val pv = ai.parameterValues
+        if (pv.containsNonEmpty("value")) {
+            val emptyArray = Array<Any?>(0) { null }
+            val vlist = pv.lookup<Array<*>>("value", emptyArray)
+                ?: pv.failScanner("    Unexpected empty array when `value' found")
+            vlist.mapNotNull { v ->
+                Log.i(TAG, "    Found: $v")
+                when (v) {
+                    null -> null
+                    is AnnotationInfo ->
+                        AnnotationTuple(v, isPackage, classOrPackageName, methodName)
+                    else -> pv.failScanner(
+                        "    Unexpected class type found: $${v::class.java.simpleName}")
                 }
-            } else {
-                listOf(it)
             }
+        } else {
+            listOf(it)
         }
+    }
 
 /**
  * After [expandValueList] has been called, there should be no more "value" items. This check
@@ -482,7 +482,7 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>): List<Ann
  * describing every matching annotation found on a Java package or class.
  */
 private fun ScanResult.packageOrClassAnnotations(annotationNames: List<String>) =
-        packageAnnotations(annotationNames) + classAnnotations(annotationNames)
+    packageAnnotations(annotationNames) + classAnnotations(annotationNames)
 
 /**
  * We have lists of things that we don't want to have repeats. No repeated project names.
@@ -502,7 +502,7 @@ List<T>.failRepeating(failMessage: String, stringExtractor: (T) -> String): List
 }
 
 private fun List<IGradeCoverage>.toGCoverages(): List<GGradeCoverage> =
-        map { GGradeCoverage(it.scope, it.exclude, it.name) }
+    map { GGradeCoverage(it.scope, it.exclude, it.name) }
 
 private const val TAG = "CodeAnnotationScanner"
 
@@ -630,7 +630,6 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
             }
 }
 
-// TODO: print YAML file, make sure we can read it back in again
 // TODO: switch over to kotlinx.serialization, because it's portable across platforms, has the stuff that plants need
 //       https://github.com/Kotlin/kotlinx.serialization
 

@@ -53,10 +53,7 @@ object Log {
                 }
 
     private fun logger(tag: String): Logger =
-        // Once we have a Logback logger for a tag, we don't want to make a new one, so we save
-        // the old one. Java's HashMap supports exactly this sort of functionality via it's
-        // computeIfAbsent method. In other words, we're *memoizing*, which we'll talk about more
-        // later in the semester.
+        // Compute once per tag, then memoize.
         loggerMap.getOrElse(tag) { LoggerFactory.getLogger(tag) }
 
     /**
@@ -64,8 +61,7 @@ object Log {
      * logging is turned off, then that computation will never need to happen. That means hiding the
      * computation inside a lambda. So far so good.
      *
-     *
-     * Normally, we'd just call msgFunc.get() to fetch the string behind the lambda, but what if
+     * Normally, we'd just call [msgFunc] to fetch the string behind the lambda, but what if
      * there's an exception generated in the process of returning that string? We don't want the Log
      * library to ever throw an exception. Solution? We quietly eat exceptions here and, when they do
      * occur, the ultimate log string will reflect that failure, but THE SHOW MUST GO ON!
@@ -145,7 +141,7 @@ object Log {
      * @param tag String indicating which code is responsible for the log message
      * @param msg String or object to be logged
      */
-    fun e(tag: String, msg: Any) {
+    fun e(tag: String, msg: Any?) {
         if (logLevel >= ERROR) {
             val l = logger(tag)
             if (l.isErrorEnabled) {
@@ -205,8 +201,8 @@ object Log {
 
     /**
      * Error logging with string formatting. Uses the same [java.util.Formatter] syntax as used
-     * in [String.format] or [java.io.PrintStream.printf] for constructing the message to be logged. The error message is logged **and**
-     * also included in a [RuntimeException] which is thrown.
+     * in [String.format] or [java.io.PrintStream.printf] for constructing the message to be logged.
+     * The error message is logged **and** also included in a [RuntimeException] which is thrown.
      *
      * @param tag String indicating which code is responsible for the log message
      * @param msg Formatting string to be logged

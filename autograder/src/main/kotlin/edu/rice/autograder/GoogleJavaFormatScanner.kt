@@ -8,15 +8,19 @@ package edu.rice.autograder
 
 private const val TAG = "GoogleJavaFormat"
 
-/**
- * the data is formatted something like this:
- * - src/test/java/edu/rice/week12mockito/Week12LabTest.java,1546873388046247000,4759,FORMATTED
- * - src/main/java/edu/rice/prettypictures/Allele.java,1550594030478707000,18487,FORMATTED
- * - src/main/java/edu/rice/cparser/SExpression.java,1551735069772221000,7236,FORMATTED
- * - src/test/java/edu/rice/qt/QtHelpers.java,1553526776339910000,1884,UNFORMATTED
- * So, that's CSV format with fileName,fileModTime,fileNumBytes,formattedStatus
- * - filestate can apparently be FORMATTED, UNFORMATTED, INVALID, or UNKNOWN
- */
+// the data is formatted something like this:
+// - src/test/java/edu/rice/week12mockito/Week12LabTest.java,1546873388046247000,4759,FORMATTED
+// - src/main/java/edu/rice/prettypictures/Allele.java,1550594030478707000,18487,FORMATTED
+// - src/main/java/edu/rice/cparser/SExpression.java,1551735069772221000,7236,FORMATTED
+// - src/test/java/edu/rice/qt/QtHelpers.java,1553526776339910000,1884,UNFORMATTED
+
+// So, that's CSV format with fileName,fileModTime,fileNumBytes,formattedStatus
+// - filestate can apparently be FORMATTED, UNFORMATTED, INVALID, or UNKNOWN
+
+// Note that this may well change in a future version of the GoogleJavaFormat plugin.
+// https://github.com/RiceComp215-Staff/RiceChecks/issues/5
+// https://github.com/sherter/google-java-format-gradle-plugin/issues/35
+
 data class GoogleJavaFormatResult(
     val fileName: String,
     val fileModTime: Long,
