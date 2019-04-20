@@ -25,4 +25,10 @@ class CompilerLogScannerTest {
         assertTrue(javacZeroWarnings(
             readResource("comp215-build/logs/success.log").getOrFail()).second)
     }
+
+    @Test
+    fun goodCompilationWhitespace() {
+        assertTrue(javacZeroWarnings(
+            readResource("comp215-build/logs/whitespace-success.log").getOrFail()).second)
+    }
 }
