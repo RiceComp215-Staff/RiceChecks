@@ -114,7 +114,7 @@ student projects to ensure that they didn't do something sketchy.
 
 RiceChecks supports the following annotations:
 - You specify one `@GradeProject` annotation per project. This
-  annotation can appear on any class, or it can appear on a package (i.e., 
+  annotation can appear on any Java class, or it can appear on a package (i.e., 
   inside a `package-info.java` file). For example, for a project on
   implementing sorting algorithms you might write:
 ```java
@@ -145,7 +145,7 @@ public class HeapSortTest { ... }
 public class InsertionSortTest { ... }
 ```
 
-  - `@GradeTopic` annotations can appear on any class or package.
+  - `@GradeTopic` annotations can appear on any Java class or package.
     They allow you to create groupings of individual unit tests.
     You can specify an optional `maxPoints = N` attribute. If
     the individual unit tests associated with the topic add up
@@ -237,8 +237,8 @@ you specify the number of grade points (awarded all or nothing) for satisfying t
     or you could require *GoogleJavaFormat*, described above, which would
     reject code written with such shenanigans.
 
-- You annotate packages (via `package-info.java`) or classes with an `@GradeCoverage`
-  annotation to note which project(s) care about coverage for those classes or packages.
+- You annotate Java classes or packages (via `package-info.java`) with an `@GradeCoverage`
+  annotation to note which project(s) care about coverage for those Java classes or packages.
 ```java
 @GradeCoverage(project = "Sorting")
 public class HeapSort { ... }
@@ -246,12 +246,15 @@ public class HeapSort { ... }
 - You can set an `exclude = true` flag on the `GradeCoverage` annotation if you want to say that a particular class is
   *not* to be considered for coverage testing. This might make sense if
   you've enabled coverage testing on an entire package but wish to
-  exclude a specific class within the package for coverage testing. A `GradeCoverage` annotation
+  exclude a specific Java class within the package for coverage testing. A `GradeCoverage` annotation
   applies recursively to inner classes as well.
   If there are multiple applicable coverage annotations external to a class, the closest one
   wins.
 - Each class (or inner class) is evaluated for its coverage, for the desired metric,
   independently. *Every* class must pass for RiceChecks to award the coverage points.
+- JaCoCo also measures per-method coverage, treating every lambda as
+  if it's a separate method within the same class. RiceChecks only looks
+  at the per-class summary data. 
   
 ## Sample projects
 There are three sample projects, showing you how the RiceChecks autograder works. They
@@ -307,9 +310,14 @@ Provides three Gradle "tasks":
 - **Are there other Gradle-based Java autograders?**
   - [Illinois CS125 GradleGrader](https://github.com/cs125-illinois/gradlegrader): the direct inspiration for RiceChecks
   - [GatorGrader](https://github.com/GatorEducator/gatorgrader)
-  - [Vanderbilt Grader](https://mvnrepository.com/artifact/edu.vanderbilt.grader/gradle-plugin/1.4.3)
-  - [GradeScope Autograder](https://gradescope-autograders.readthedocs.io/en/latest/java/)
   - [JGrade](https://github.com/tkutche1/jgrade)
+  
+  And see also:
+  - [Autogradr](https://www.autogradr.com/)
+  - [code-check](https://bitbucket.org/danielmai/code-check-homework-grading)
+  - [CodeHS](https://codehs.com/)
+  - [GradeScope Autograder](https://gradescope-autograders.readthedocs.io/en/latest/java/)
+  - [Vanderbilt Grader](https://mvnrepository.com/artifact/edu.vanderbilt.grader/gradle-plugin/1.4.3)
   
 - **Why Gradle?** The short answer: because it's popular and widely supported.
   Among other things, Gradle is now the standard build tool for Android applications. 
@@ -321,10 +329,13 @@ Provides three Gradle "tasks":
 - **Why do you write out the grading policy to a YAML file? Why not just
   re-read the annotations every time?** Let's say you want to have "secret" unit
   tests that you don't initially give to your students. You can construct a policy
-  with them present, save it to the YAML file, and then delete the file prior
+  with them present, save it to the YAML file, and then delete the "secret" Java test file prior
   to distributing the project to your students. When the student runs the autograder,
   it will notice that the "secret" tests are missing and treat them as having failed.
   When you later add them back in, everything works.
+  
+  Of course, we still rely on human graders to notice if a student edited
+  the YAML file, or for that matter, edited the unit tests we provided to them.
   
 - **How do you add "secret" test files into student projects after an assignment is ongoing?** 
   We hand out our
@@ -347,14 +358,24 @@ Provides three Gradle "tasks":
   an experienced Java programmer.
   
 - **Can I hack together machine-readable output from RiceChecks / Can I hack RiceChecks to
-  send grades automatically to my server?** Have a look at [Aggregators.kt](blob/master/autograder/src/main/kotlin/edu/rice/autograder/Aggregators.kt),
+  send grades automatically to my server?** Have a look at [Aggregators.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/Aggregators.kt)
   which collects together a `List<EvaluatorResult>` and prints it. You'd
   instead want to convert that list to your favorite format and then operate on it.
   We decided not to do this because we wanted to have human graders in the
   loop for things that we cannot automatically check (e.g., whether a design
   is "good") and to make sure that students weren't doing something undesirable,
   like editing our provided unit tests.
-
+  
+- **How can I do coverage testing on a per-method basis rather than per-class?** 
+  You could extend the relevant code in
+  [JacocoScanner.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/JacocoScanner.kt),
+  which is already getting a bit complicated, to enforce more
+  complicated coverage policies. You'd also have to reconfigure
+  the annotation system to allow `@GradeCoverage` annotations on
+  methods, and you'd need to figure out what to do about lambdas,
+  which JaCoCo treats as if they're standalone methods, but which
+  aren't easily or prettily annotated in Java source code.
+  
 - **On Windows, when I run the autograder, I see a bunch of ?????'s rather than the nice borders around the autograder output. How do I fix that?** 
   For IntelliJ, you can go to *Help* -> *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the Unicode should
   all work properly. [Unicode support for the Windows console is complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
