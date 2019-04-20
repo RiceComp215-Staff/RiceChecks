@@ -325,6 +325,13 @@ Provides three Gradle "tasks":
   release a Gradle plugin for it. Students don't have to learn or understand
   Gradle to use `RiceChecks`. IntelliJ provides a "Gradle" tab on which students
   can click on the tasks they wish to run.
+  
+- **Can you build a Gradle plugin so I don't need all this custom code in the `build.gradle` file?**
+  You're welcome to have a go at it and submit a PR. I'm concerned about how to write such
+  a thing in a general-purpose way, given all the different ways that different
+  projects will configure Gradle. The autograder, running as a completely
+  separate process, is going to be a bit more robust since it's just reading
+  files out of the `build` directory.
 
 - **Why do you write out the grading policy to a YAML file? Why not just
   re-read the annotations every time?** Let's say you want to have "secret" unit
