@@ -353,9 +353,9 @@ Provides three Gradle "tasks":
   which has support for reading and writing XML, YAML, and a variety of other common formats.
   Since both ClassGraph and Jackson are just Java libraries,
   we could call them from Java, Kotlin, Scala, or any other JVM language. 
-  We're not expecting students to work on this code, so we picked Kotlin, since
-  it tends to be more concise than Java while still being easy to read for
-  an experienced Java programmer.
+  
+  Students will never need to see or understand the code for the autograder,
+  so we can use anything we prefer.
   
 - **Can I hack together machine-readable output from RiceChecks / Can I hack RiceChecks to
   send grades automatically to my server?** Have a look at [Aggregators.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/Aggregators.kt)
@@ -376,7 +376,7 @@ Provides three Gradle "tasks":
   which JaCoCo treats as if they're standalone methods, but which
   aren't easily or prettily annotated in Java source code.
   
-- **On Windows, when I run the autograder, I see a bunch of ?????'s rather than the nice borders around the autograder output. How do I fix that?** 
+- **On Windows, when I run the autograder, I see a bunch of ?????'s rather than the nice Unicode borders around the autograder output. How do I fix that?** 
   For IntelliJ, you can go to *Help* -> *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the Unicode should
   all work properly. [Unicode support for the Windows console is complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
   Maybe install a [different console program](https://conemu.github.io/en/UnicodeSupport.html)?
