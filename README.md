@@ -317,7 +317,7 @@ Provides three Gradle "tasks":
   - [code-check](https://bitbucket.org/danielmai/code-check-homework-grading)
   - [CodeHS](https://codehs.com/)
   - [GradeScope Autograder](https://gradescope-autograders.readthedocs.io/en/latest/java/)
-  - [Vanderbilt Grader](https://mvnrepository.com/artifact/edu.vanderbilt.grader/gradle-plugin/1.4.3)
+  - [Vanderbilt Grader](https://mvnrepository.com/artifact/edu.vanderbilt.grader/gradle-plugin/1.4.64) / [Rubric](https://mvnrepository.com/artifact/edu.vanderbilt.grader/rubric/1.1) (used in their [Android MOOC](https://www.coursera.org/specializations/android-app-development))
   
 - **Why Gradle?** The short answer: because it's popular and widely supported.
   Among other things, Gradle is now the standard build tool for Android applications. 
@@ -329,9 +329,15 @@ Provides three Gradle "tasks":
 - **Can you build a Gradle plugin so I don't need all this custom code in the `build.gradle` file?**
   You're welcome to have a go at it and submit a PR. I'm concerned about how to write such
   a thing in a general-purpose way, given all the different ways that different
-  projects will configure Gradle. The autograder, running as a completely
-  separate process, is going to be a bit more robust since it's just reading
+  projects will configure Gradle. Running the autograder as a completely
+  separate process seems more robust since it's just reading
   files out of the `build` directory.
+  
+- **Does RiceChecks work with {JUnit4, TestNG, ...}?** Maybe? What really
+  matters is how Gradle's test unit runner writes an XML log of its results
+  into the `build` directory. If you're some other mechanism for
+  running tests, then you'll need to extend the logic in
+  [JUnitScanner.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/JUnitScanner.kt).
 
 - **Why do you write out the grading policy to a YAML file? Why not just
   re-read the annotations every time?** Let's say you want to have "secret" unit
@@ -353,8 +359,8 @@ Provides three Gradle "tasks":
   If you prefer your students not to see your "secret" tests prior to the deadline, you
   could always do a similar process *after* the final submission deadline.
   
-- **Why did you write the autograder itself in Kotlin as opposed to ...?** One main
-  motivating factor in the RiceChecks design was being able to easily leverage the efforts
+- **Why did you write the autograder itself in Kotlin as opposed to ...?** An important
+  motivating factor was being able to easily leverage the efforts
   of the [ClassGraph](https://github.com/classgraph/classgraph) project, which makes it
   straightforward to extract annotations from Java code, and [Jackson](https://github.com/FasterXML/jackson),
   which has support for reading and writing XML, YAML, and a variety of other common formats.
@@ -364,10 +370,10 @@ Provides three Gradle "tasks":
   Students will never need to see or understand the code for the autograder,
   so we can use anything we prefer.
   
-- **Can I hack together machine-readable output from RiceChecks / Can I hack RiceChecks to
+- **Can I have machine-readable output from RiceChecks / Can RiceChecks 
   send grades automatically to my server?** Have a look at [Aggregators.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/Aggregators.kt)
   which collects together a `List<EvaluatorResult>` and prints it. You'd
-  instead want to convert that list to your favorite format and then operate on it.
+  instead want to convert that list to your favorite machine-readable format and then operate on it.
   We decided not to do this because we wanted to have human graders in the
   loop for things that we cannot automatically check (e.g., whether a design
   is "good") and to make sure that students weren't doing something undesirable,
@@ -379,11 +385,9 @@ Provides three Gradle "tasks":
   which is already getting a bit complicated, to enforce more
   complicated coverage policies. You'd also have to reconfigure
   the annotation system to allow `@GradeCoverage` annotations on
-  methods, and you'd need to figure out what to do about lambdas,
-  which JaCoCo treats as if they're standalone methods, but which
-  aren't easily or prettily annotated in Java source code.
+  methods, and you'd need to figure out what to do about lambdas.
   
-- **On Windows, when I run the autograder, I see a bunch of ?????'s rather than the nice Unicode borders around the autograder output. How do I fix that?** 
+- **On Windows, when I run the autograder, I see a bunch of `?????`'s rather than the nice Unicode borders around the autograder output. How do I fix that?** 
   For IntelliJ, you can go to *Help* -> *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the Unicode should
   all work properly. [Unicode support for the Windows console is complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
   Maybe install a [different console program](https://conemu.github.io/en/UnicodeSupport.html)?
