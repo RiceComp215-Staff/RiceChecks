@@ -192,6 +192,25 @@ task dokkaJar(type: Jar, dependsOn: dokkaJavadoc) {
     archiveClassifier = 'javadoc'
 }
 
+// we don't build this by default, since it's a 12+MB monster
+task fatJar(type: Jar) {
+    manifest {
+        attributes "Main-Class": "edu.rice.autograder.AutoGraderKt"
+    }
+    archiveBaseName = 'ricechecks'
+    archiveClassifier = "fatjar"
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+
+    with jar
+}
+
 task allJars {
     dependsOn 'jar', 'annotationsJar', 'annotationSourcesJar', 'annotationJavadocJar', 'allSourcesJar', 'dokkaJar'
 }

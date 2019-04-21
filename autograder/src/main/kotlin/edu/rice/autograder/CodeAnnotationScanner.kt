@@ -296,6 +296,8 @@ private fun AnnotationTuple.toIGradeTest(
     val points = pv.lookupNoNull("points", 0.0)
     val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
 
+    val fullMethodName = classOrPackageName + "." + methodName
+
     return with(pv) {
         when {
             this == null -> internalScannerErrorX("Unexpected null parameter values: " +
@@ -314,26 +316,26 @@ private fun AnnotationTuple.toIGradeTest(
             methodName == null -> internalScannerError("No method name associated with " +
                 "annotation?! (${this@toIGradeTest})")
 
-            testAnnotations.contains(methodName) && testFactoryAnnotations.contains(methodName) ->
-                failScanner("Method $methodName has both @Test and @TestFactory! " +
+            testAnnotations.contains(fullMethodName) && testFactoryAnnotations.contains(fullMethodName) ->
+                failScanner("Method $fullMethodName has both @Test and @TestFactory! " +
                     "Pick one or the other.")
 
-            !testAnnotations.contains(methodName) && !testFactoryAnnotations.contains(methodName) ->
-                failScanner("Method $methodName has neither @Test nor @TestFactory! " +
+            !testAnnotations.contains(fullMethodName) && !testFactoryAnnotations.contains(fullMethodName) ->
+                failScanner("Method $fullMethodName has neither @Test nor @TestFactory! " +
                     "One is necessary.")
 
             // Regular @Test, not a @TestFactory
-            testAnnotations.contains(methodName) ->
+            testAnnotations.contains(fullMethodName) ->
                 IGradeTest(project, topic, points, maxPoints, classOrPackageName,
                     methodName, false)
 
             !maxPoints.isFinite() -> internalScannerError("maxPoints isn't finite!")
 
-            maxPoints <= 0.0 -> failScanner("Method $methodName has @TestFactory, but needs " +
+            maxPoints <= 0.0 -> failScanner("Method $fullMethodName has @TestFactory, but needs " +
                 "to have positive maxPoints specified")
 
             points <= 0.0 || points > maxPoints ->
-                failScanner("Method $methodName has @TestFactory, but needs to have positive " +
+                failScanner("Method $fullMethodName has @TestFactory, but needs to have positive " +
                     "points (less than maxPoints) specified")
 
             else -> IGradeTest(project, topic, points, maxPoints, classOrPackageName,
@@ -542,11 +544,11 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
 
                     val testAnnotations =
                         scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST))
-                            .mapNotNull { it.methodName }.toSet()
+                            .map { it.classOrPackageName + "." + it.methodName }.toSet()
 
                     val testFactoryAnnotations =
                         scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY))
-                            .mapNotNull { it.methodName }.toSet()
+                            .map { it.classOrPackageName + "." + it.methodName }.toSet()
 
                     val gradeTestAnnotations =
                             scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES))
