@@ -316,11 +316,13 @@ private fun AnnotationTuple.toIGradeTest(
             methodName == null -> internalScannerError("No method name associated with " +
                 "annotation?! (${this@toIGradeTest})")
 
-            testAnnotations.contains(fullMethodName) && testFactoryAnnotations.contains(fullMethodName) ->
+            testAnnotations.contains(fullMethodName) &&
+                testFactoryAnnotations.contains(fullMethodName) ->
                 failScanner("Method $fullMethodName has both @Test and @TestFactory! " +
                     "Pick one or the other.")
 
-            !testAnnotations.contains(fullMethodName) && !testFactoryAnnotations.contains(fullMethodName) ->
+            !testAnnotations.contains(fullMethodName) &&
+                !testFactoryAnnotations.contains(fullMethodName) ->
                 failScanner("Method $fullMethodName has neither @Test nor @TestFactory! " +
                     "One is necessary.")
 
