@@ -183,7 +183,6 @@ private fun AnnotationParameterValueList.containsNonEmpty(key: String): Boolean 
 }
 
 private fun AnnotationTuple.toIGradeProject(): IGradeProject {
-    // the name parameter is *required* by the annotation, so this *shouldn't* fail, but we're being paranoid
     val pv = ai.parameterValues
 
     val name = pv.lookup("name", "")
@@ -197,7 +196,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val coverageMethod = pv.lookupNoNull("coverageStyle", "LINES")
 
     // it's an integer annotation but we'll treat it afterward as a double
-    val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70).toDouble()
+    val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70).toInt()
 
     return with(pv) {
         when {
@@ -227,9 +226,6 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
                 failScanner("Malformed GradeProject: coveragePoints must be zero or " +
                     "positive {$coveragePoints}")
 
-            !coveragePercentage.isFinite() ->
-                internalScannerError("coveragePercentage $coveragePercentage isn't finite!")
-
             coveragePercentage < 0.0 || coveragePercentage > 100.0 ->
                 failScanner("Malformed GradeProject: coveragePercentage must be between " +
                     "0 and 100 {$coveragePercentage}")
@@ -240,7 +236,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
 
             else -> IGradeProject(name, description, maxPoints, warningPoints, useCheckStyle,
                 useGoogleJavaFormat, useJavacWarnings, coveragePoints, coverageMethod,
-                coveragePercentage)
+                coveragePercentage.toDouble())
         }
     }
 }
@@ -311,7 +307,7 @@ private fun AnnotationTuple.toIGradeTest(
             !points.isFinite() -> internalScannerError("points isn't finite!")
 
             points <= 0.0 -> failScanner("Malformed GradeTest, points must be positive: " +
-                "{this@toIGradeTest}")
+                "${this@toIGradeTest}")
 
             methodName == null -> internalScannerError("No method name associated with " +
                 "annotation?! (${this@toIGradeTest})")
@@ -421,10 +417,10 @@ private fun ScanResult.methodAnnotations(annotationNames: List<String>): List<An
                 .filterNotNull()
                 .flatMap { classInfo ->
                     val className = classInfo.name
-                            ?: internalScannerErrorX("Class with no name?! ($classInfo")
+                            ?: internalScannerErrorX("Class with no name?! ($classInfo)")
 
                     (classInfo.declaredMethodAndConstructorInfo
-                            ?: internalScannerErrorX("Class with no methods?! ($classInfo"))
+                            ?: internalScannerErrorX("Class with no methods?! ($classInfo)"))
                             .filterNotNull()
                             .flatMap { mi ->
                                 val mname = mi.name
