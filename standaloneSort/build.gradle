@@ -164,10 +164,10 @@ repositories {
 
 dependencies {
     // autograder annotations
-    implementation 'edu.rice.ricechecks:ricechecks-annotations:0.2'
+    implementation 'edu.rice.ricechecks:ricechecks-annotations:0.3'
 
     // autograder tool
-    ricechecks "edu.rice.ricechecks:ricechecks:0.2"
+    ricechecks "edu.rice.ricechecks:ricechecks:0.3"
 
     // fancy compiler warnings / lint
     errorprone "com.google.errorprone:error_prone_core:2.3.3"
