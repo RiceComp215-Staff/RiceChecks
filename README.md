@@ -80,26 +80,29 @@ Whereas, for a project with some bugs, you might see:
 ## Concepts
 
 The essential design of the autograder is:
-- You decorate your unit tests with annotations that specify their associated projects and points values
+- You decorate your unit tests with annotations that specify their associated projects and points values.
   - If you've got a single master repository for multiple separate projects, you do these annotations once
     and they stay put in your master branch. They have no impact on student code.
 - You extract a *grading policy* for every given project, which you then include in the `config` directory
-  that is handed out to your students
+  that is handed out to your students.
   - This policy is a human-readable YAML file, so you can easily review it, for example, to
     ensure that you have the expected total number of points.
 - You provide your students with a `build.gradle` file, specifying all the tasks that need to
-  be run. This includes JUnit5 tests (`@Test` and `@TestFactory`), CheckStyle, google-java-style, ErrorProne, and JaCoCo.
-- You add the autograder code to `build.gradle` that we provide, which runs all these gradle tasks,
-  each of which already logs their output to the `build` directory, making sure that a 
-  failure of one task doesn't preclude the rest of the tasks from running. 
+  be run. This includes JUnit5 tests (`@Test` and `@TestFactory`), CheckStyle, google-java-format, ErrorProne, and JaCoCo.
+- You add our provided autograder code to `build.gradle`, which runs all these gradle tasks,
+  writing log files to the `build` directory.
+  We change the default configuration so as many tasks will complete as possible, rather than
+  stopping immediately when a task fails.
 - The autograder runs
-  as a standalone Java program, reading all this output and evaluating it with respect
-  to the grading policy, printing its results to standard output, and then it either
+  as a standalone Java program, reading all the `build` output and evaluating it with respect
+  to the grading policy. Results are printed to standard output, and then the autograder either
   exits with 0 or non-zero, which is then understood by
   CI services to imply success or failure.
 - You configure your CI service to run all of this every time there's a push to your
   Git server. (For example, you might provide a `.travis.yml` file to
   arrange for Travis-CI to run the autograder on GitHub commits.)
+- Exactly the same autograder run on the CI server as run locally on the students' computers.
+  The CI output is still helpful so students know they didn't forget to commit or push a file.
 - We provide you several example projects so you can see how this all fits together.
     
 RiceChecks, itself, is written in Kotlin, and should be able to process student projects written in Java, Kotlin
@@ -131,8 +134,8 @@ package edu.rice.sort;
 ```
   - The `warningPoints` are granted if all of the following
     checks come up clean:
-    - [CheckStyle](http://checkstyle.sourceforge.net/) (enabled by default, disable with `useCheckStyle = false`)
-    - [GoogleJavaFormat](https://github.com/google/google-java-format) (enabled by default, disable with `useGoogleJavaFormat = false`)
+    - [Checkstyle](http://checkstyle.sourceforge.net/) (enabled by default, disable with `useCheckStyle = false`)
+    - [google-java-format](https://github.com/google/google-java-format) (enabled by default, disable with `useGoogleJavaFormat = false`)
     - [ErrorProne](http://errorprone.info/) (writes its output alongside the Java compiler warnings, see below)
     - [Javac's linter & compiler warnings](https://www.javaworld.com/article/2073587/javac-s--xlint-options.html) (enabled by default, disable with `useJavacWarnings = false`)
   - The `coveragePoints` and `coveragePercentage` are part of the *coverage policy*, detailed below.
@@ -285,10 +288,10 @@ repository for use with RiceChecks, you should start with
 [standaloneSort/build.gradle](standaloneSort/build.gradle),
 which has the following features:
 
-- Loads `edu.rice.ricechecks:ricechecks-annotations:0.2` (just the Java annotations)
+- Loads `edu.rice.ricechecks:ricechecks-annotations:0.4` (just the Java annotations)
   as a regular dependency for student code.
   
-- Loads `edu.rice.ricechecks:ricechecks:0.2` (the autograder tool) as part of
+- Loads `edu.rice.ricechecks:ricechecks:0.4` (the autograder tool) as part of
   a separate Gradle "configuration", ensuring that symbols from the tool don't accidentally
   autocomplete in students' IDEs.
   
