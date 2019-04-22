@@ -346,13 +346,33 @@ you might then clone and experiment with.
   
 - **Does RiceChecks work with {JUnit4, TestNG, ...}?** Maybe? What really
   matters is how Gradle's test unit runner writes an XML log of its results
-  into the `build` directory. If you're some other mechanism for
+  into the `build` directory. If you use some other mechanism for
   running tests, then you'll need to extend the logic in
   [JUnitScanner.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/JUnitScanner.kt).
   
+- **RiceChecks only really supports JUnit5's `@Test` and `@TestFactory`. What will
+  it take to more broadly support other JUnit5 test annotations?**
+  Many or most JUnit5 annotations that say "here's a test" should
+  be something we can treat as
+  equivalent to either `@Test` or `@TestFactory`. RiceChecks
+  also hasn't yet been tested with some of the fancier JUnit5 features
+  like multiple `dynamicTest` instances inside of a `dynamicContainer`.
+  To support
+  [meta annotations](https://junit.org/junit5/docs/current/user-guide/#writing-tests-meta-annotations)
+  or custom annotations from a project like [Karate](https://github.com/intuit/karate#junit-5),
+  RiceChecks would probably need its own meta annotation facility to tell it what
+  to do. If there's a custom test runner involved, things will get more complicated.
+  
+- **What if I want to use something other than the `assert` statements
+  built into JUnit5?** RiceChecks only cares about whether
+  a test method succeeds or fails. You can use anything
+  inside of those methods. In our own tests, we're sometimes
+  using [QuickTheories](https://github.com/quicktheories/QuickTheories),
+  which does its own internal assertions. Everything works.
+  
 - **What about [Spotless](https://github.com/diffplug/spotless) or [SpotBugs](https://github.com/spotbugs/spotbugs)?**
-  Spotless is analogous to Checkstyle and GoogleJavaStyle. SpotBugs is analogous
-  to ErrorProne. You could certainly engineer support for additional tooling
+  Spotless is analogous to [Checkstyle](http://checkstyle.sourceforge.net/) and [google-java-format](https://github.com/google/google-java-format). SpotBugs is analogous
+  to [ErrorProne](https://errorprone.info/). You could certainly engineer support for additional tooling
   into RiceChecks, but it's not here right now.
 
 - **Why do you write out the grading policy to a YAML file? Why not just
