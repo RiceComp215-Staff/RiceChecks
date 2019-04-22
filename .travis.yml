@@ -2,17 +2,9 @@ dist: xenial
 sudo: false
 language: java
 
-# apparently not necessary with Travis Xenial
-# jdk:
-#   - openjdk11
-
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+    - $HOME/.m2
 
 install:
   - TERM=dumb ./gradlew assemble
