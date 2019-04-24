@@ -32,7 +32,6 @@ The output looks something like this for a successful project:
 │ - Coverage of edu.rice.sort.HeapSort: 100.0%                     
 │ - Coverage of edu.rice.sort.InsertionSort: 100.0%                
 │ - Coverage of edu.rice.sort.PatienceSort: 100.0%                 
-│ - Coverage of edu.rice.sort.PatienceSort.Pile: 100.0%            
 │ - Coverage of edu.rice.sort.ShellSort: 100.0%                    
 │
 ├─────────────────────────────────────────────────────────────────────────────
