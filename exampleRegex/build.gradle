@@ -162,7 +162,7 @@ dependencies {
     compile project (':autograder')
 
     // fancy compiler warnings / lint
-    errorprone "com.google.errorprone:error_prone_core:2.3.3"
+    errorprone 'com.google.errorprone:error_prone_core:2.3.3'
 
     // logging
     implementation 'ch.qos.logback:logback-classic:1.2.3'
