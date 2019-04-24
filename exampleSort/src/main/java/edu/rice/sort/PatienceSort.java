@@ -44,6 +44,9 @@ public class PatienceSort<T extends Comparable<? super T>> implements Sorter<T> 
     assert (heap.isEmpty());
   }
 
+  // We're excluding this as a test of our coverage logic; in reality, you'd
+  // probably want to have this inner class covered as well.
+  @GradeCoverage(project = "Sorting", exclude = true)
   private static class Pile<T extends Comparable<? super T>> extends ArrayDeque<T>
       implements Comparable<Pile<T>> {
     @Override

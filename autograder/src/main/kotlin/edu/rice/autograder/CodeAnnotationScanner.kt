@@ -277,7 +277,7 @@ private fun AnnotationTuple.toIGradeCoverage(pmap: ProjectMap): IGradeCoverage {
         return IGradeCoverage(project,
                 pvExclude,
                 if (isPackage) GCoverageScope.PACKAGE else GCoverageScope.CLASS,
-                classOrPackageName)
+                classOrPackageName.fixClassName())
     }
 }
 

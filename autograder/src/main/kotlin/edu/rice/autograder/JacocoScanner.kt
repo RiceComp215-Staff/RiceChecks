@@ -229,12 +229,17 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
     // form (e.g., edu.rice.autograder.test.Project3) while they'll be in slashy form in
     // the JacocoReport, which we fixed in classesMap (see calls to String?.fixClassName).
 
+    Log.i(TAG, "looking for classes covered by: $coverages")
+
     val packageSpecs = coverages
         .filter { it.scope == GCoverageScope.PACKAGE }
         .sortedBy { it.name }
     val classSpecs = coverages
         .filter { it.scope == GCoverageScope.CLASS }
         .sortedBy { it.name }
+
+    Log.i(TAG, "possible packages: $packageSpecs")
+    Log.i(TAG, "possible classes: $classSpecs")
 
     return classesMap.keys.filter { className ->
         // We're working our way down from the most general to the most specific package annotation
@@ -244,9 +249,19 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
 
         // Among other things, this requires that we do the sorting in the lines above.
 
-        (packageSpecs.filter { className subClassOf it.name } +
-            classSpecs.filter { className subClassOf it.name })
-            .fold(false) { _, next -> !next.excluded }
+        val matchingPackages = packageSpecs.filter { className subClassOf it.name }
+        val matchingClasses = classSpecs.filter { className subClassOf it.name }
+
+        val allSpecs = matchingPackages + matchingClasses
+
+        if (allSpecs.isNotEmpty()) {
+            Log.i(TAG, "for class ($className), found possible specs: $allSpecs")
+
+            val result = (matchingPackages + matchingClasses)
+                .fold(false) { _, next -> !next.excluded }
+
+            result
+        } else false
     }
 }
 
@@ -322,5 +337,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     }
 }
 
-private fun String?.fixClassName() =
-    this?.replace('/', '.')?.replace('$', '.')
+fun String?.fixClassName() =
+        this?.replace('/', '.')
+            ?.replace('$', '.')
+            ?: ""

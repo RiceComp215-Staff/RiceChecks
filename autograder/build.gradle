@@ -111,6 +111,19 @@ sourceSets {
     test.java.srcDirs += 'src/main/java'
 }
 
+// We might want to run Jacoco at some point, so it's helpful to configure it.
+jacoco {
+    toolVersion = "0.8.3"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.destination file("${buildDir}/reports/jacoco/")
+    }
+}
+
 configurations {
     ktlint
 }
