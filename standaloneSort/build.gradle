@@ -158,19 +158,20 @@ task autograderWriteConfig (type: JavaExec) {
 // This section specifies all the external libraries being used by your Java
 // program and where to find them.
 repositories {
+    mavenLocal()
     maven { url "https://maven-central.storage.googleapis.com" }
     mavenCentral()
 }
 
 dependencies {
     // autograder annotations
-    implementation 'edu.rice.ricechecks:ricechecks-annotations:0.4'
+    implementation 'edu.rice.ricechecks:ricechecks-annotations:0.5'
 
     // autograder tool
-    ricechecks "edu.rice.ricechecks:ricechecks:0.4"
+    ricechecks 'edu.rice.ricechecks:ricechecks:0.5'
 
     // fancy compiler warnings / lint
-    errorprone "com.google.errorprone:error_prone_core:2.3.3"
+    errorprone 'com.google.errorprone:error_prone_core:2.3.3'
 
     // logging
     implementation 'ch.qos.logback:logback-classic:1.2.3'
