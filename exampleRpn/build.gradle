@@ -20,7 +20,8 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'jacoco'
-    id "net.ltgt.errorprone" version "0.7.1" // JDK9+
+//    id "net.ltgt.errorprone" version "0.7.1" // JDK9+
+    id 'net.ltgt.errorprone' version '0.0.14' // JDK8
     id 'com.github.sherter.google-java-format' version '0.8'
 }
 
@@ -44,10 +45,8 @@ allprojects {
         options.incremental = true
         options.encoding = "UTF-8"
 
-        options.compilerArgs << "-Xlint:all" << "-Xlint:-serial" << "-Xlint:-processing" << "-Xlint:-deprecation"
-
-        // ErrorProne's "unused" warnings seems to trigger far too often, so we're suppressing them.
-        options.errorprone.errorproneArgs << "-Xep:UnusedVariable:OFF" << "-Xep:UnusedMethod:OFF"
+        options.compilerArgs << "-Xlint:all" << "-Xlint:-serial" << "-Xlint:-processing" <<
+                "-Xlint:-deprecation" << "-Xep:UnusedVariable:OFF" << "-Xep:UnusedMethod:OFF"
 
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
@@ -164,7 +163,7 @@ dependencies {
     compile project (':autograder')
 
     // fancy compiler warnings / lint
-    errorprone 'com.google.errorprone:error_prone_core:2.3.3'
+//    errorprone 'com.google.errorprone:error_prone_core:2.3.3'
 
     // logging
     implementation 'ch.qos.logback:logback-classic:1.2.3'
