@@ -14,7 +14,7 @@ public interface Sorter<T extends Comparable<? super T>> {
   static <T extends Comparable<? super T>> boolean isSorted(T[] data) {
     T previous = null;
 
-    for (var x : data) {
+    for (T x : data) {
       if (previous != null && previous.compareTo(x) > 0) {
         return false;
       }

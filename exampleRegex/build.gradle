@@ -49,8 +49,8 @@ allprojects {
         // ErrorProne's "unused" warnings seems to trigger far too often, so we're suppressing them.
         options.errorprone.errorproneArgs << "-Xep:UnusedVariable:OFF" << "-Xep:UnusedMethod:OFF"
 
-        sourceCompatibility = '11'
-        targetCompatibility = '11'
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 }
 

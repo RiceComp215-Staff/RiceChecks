@@ -32,7 +32,7 @@ fun readdirPath(filePath: String): Try<List<Path>> =
     }
 
 fun Path.readFile(): Try<String> =
-    Try { java.nio.file.Files.readString(this) }
+    Try { String(java.nio.file.Files.readAllBytes(this)) }
         .onFailure {
             Log.e(TAG, "failed to read file(${this.fileName})", it)
         }
@@ -84,7 +84,7 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
                         // undecoded path
                         val decodedPath: Path = Paths.get(
                             Try {
-                                URLDecoder.decode(urlPath, StandardCharsets.UTF_8)
+                                URLDecoder.decode(urlPath, StandardCharsets.UTF_8.toString())
                             }.getOrElse { urlPath })
 
                         readdirPath(decodedPath.toString())
@@ -103,7 +103,7 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
                         ) // strip out only the JAR file
 
                         Try {
-                            JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))
+                            JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8.toString()))
                                 .use {
                                     // This code is going to work, but could
                                     // be slow for huge JAR files.

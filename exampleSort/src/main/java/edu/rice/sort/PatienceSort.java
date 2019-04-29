@@ -18,9 +18,9 @@ public class PatienceSort<T extends Comparable<? super T>> implements Sorter<T> 
     // Started with RosettaCode, made more generic.
     // https://rosettacode.org/wiki/Sorting_algorithms/Patience_sort#Java
 
-    var piles = new ArrayList<Pile<T>>();
-    for (var x : n) {
-      var newPile = new Pile<T>();
+    ArrayList<Pile<T>> piles = new ArrayList<>();
+    for (T x : n) {
+      Pile<T> newPile = new Pile<>();
       newPile.push(x);
       int i = Collections.binarySearch(piles, newPile);
       if (i < 0) {
@@ -33,9 +33,9 @@ public class PatienceSort<T extends Comparable<? super T>> implements Sorter<T> 
       }
     }
 
-    var heap = new PriorityQueue<>(piles);
+    PriorityQueue<Pile<T>> heap = new PriorityQueue<>(piles);
     for (int c = 0; c < n.length; c++) {
-      var smallPile = heap.poll();
+      Pile<T> smallPile = heap.poll();
       n[c] = smallPile.pop();
       if (!smallPile.isEmpty()) {
         heap.offer(smallPile);

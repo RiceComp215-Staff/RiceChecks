@@ -21,7 +21,7 @@ public class ShellSort<T extends Comparable<? super T>> implements Sorter<T> {
     while (increment > 0) {
       for (int i = increment; i < a.length; i++) {
         int j = i;
-        var temp = a[i];
+        T temp = a[i];
         while (j >= increment && a[j - increment].compareTo(temp) > 0) {
           a[j] = a[j - increment];
           j = j - increment;

@@ -17,7 +17,7 @@ public class InsertionSort<T extends Comparable<? super T>> implements Sorter<T>
     // Borrowed from RosettaCode, with some changes to make it suitably generic.
     // https://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
     for (int i = 1; i < a.length; i++) {
-      var value = a[i];
+      T value = a[i];
       int j = i - 1;
       while (j >= 0 && a[j].compareTo(value) > 0) {
         a[j + 1] = a[j];

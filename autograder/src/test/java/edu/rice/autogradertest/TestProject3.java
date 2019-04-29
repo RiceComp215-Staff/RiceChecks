@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import edu.rice.autograder.annotations.Grade;
 import edu.rice.autograder.annotations.GradeProject;
 import edu.rice.autograder.annotations.GradeTopic;
-import java.util.List;
+import java.util.Arrays;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -24,8 +24,6 @@ import org.junit.jupiter.api.TestFactory;
     description = "Factorial and Choose",
     warningPoints = 1.0,
     coveragePoints = 1.0,
-    //    coverageRatio =   0.64885,
-    //    coverageRatio = 0.6489, // -- or larger -- leads to a NaN when reading this, but why?
     coveragePercentage = 80,
     coverageMethod = "INSTRUCTIONS")
 @GradeTopic(project = "TP3", topic = "Correctness")
@@ -33,7 +31,7 @@ public class TestProject3 {
   @TestFactory
   @Grade(project = "TP3", topic = "Correctness", points = 2.0, maxPoints = 4.0)
   Iterable<DynamicTest> testFactorial() {
-    return List.of(
+    return Arrays.asList(
         dynamicTest("0", () -> assertEquals(1, factorial(0))),
         dynamicTest("1", () -> assertEquals(1, factorial(1))),
         dynamicTest("3", () -> assertEquals(6, factorial(3))));
