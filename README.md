@@ -103,14 +103,13 @@ The essential design of the autograder is:
 - Exactly the same autograder run on the CI server as run locally on the students' computers.
   The CI output is still helpful so students know they didn't forget to commit or push a file.
 - We provide you several example projects so you can see how this all fits together.
+- Human graders can look at the CI output as well, transcribing this into the university's
+  learning management system (e.g., Canvas), while also looking over the student projects
+  for anything sketchy.
     
 RiceChecks, itself, is written in Kotlin, and should be able to process student projects written in Java, Kotlin
 or any other JVM language,
 although our focus is on Java-based student projects, at least for now. 
-Notably, RiceChecks writes its grading conclusions to the console as human-readable
-text. Our human graders read this text from the CI system's logs, and then transcribe these
-numbers into our university learning management system (Canvas), while also looking over the
-student projects to ensure that they didn't do something sketchy.
 
 **RiceChecks, itself, is compiled with OpenJDK 8 and tested with both OpenJDK 8 and OpenJDK 11. It's unlikely to work on earlier JDK releases.**
 
@@ -256,9 +255,10 @@ public class HeapSort { ... }
   wins.
 - Each class (or inner class) is evaluated for its coverage, for the desired metric,
   independently. *Every* class must pass for RiceChecks to award the coverage points.
-- JaCoCo also measures per-method coverage, treating every lambda as
+- What about lambdas or methods? JaCoCo measures per-method coverage, treating every lambda as
   if it's a separate method within the same class. RiceChecks only looks
-  at the per-class summary data. 
+  at the per-class summary data, which wraps up all methods and lambdas within that class.
+  Inner classes are treated separately. *Anonymous* inner classes? TBD.
   
 ## Sample projects
 There are three sample projects, showing you how the RiceChecks autograder works. They
@@ -287,10 +287,10 @@ repository for use with RiceChecks, you should start with
 [standaloneSort/build.gradle](standaloneSort/build.gradle),
 which has the following features:
 
-- Loads `edu.rice.ricechecks:ricechecks-annotations:0.5` (just the Java annotations)
+- Loads `edu.rice.ricechecks:ricechecks-annotations:0.6` (just the Java annotations)
   as a regular dependency for student code.
   
-- Loads `edu.rice.ricechecks:ricechecks:0.5` (the autograder tool) as part of
+- Loads `edu.rice.ricechecks:ricechecks:0.6` (the autograder tool) as part of
   a separate Gradle "configuration", ensuring that symbols from the tool don't accidentally
   autocomplete in students' IDEs.
   
@@ -333,18 +333,19 @@ you might then clone and experiment with.
   - [Vanderbilt Grader](https://mvnrepository.com/artifact/edu.vanderbilt.grader/gradle-plugin/1.4.64) / [Rubric](https://mvnrepository.com/artifact/edu.vanderbilt.grader/rubric/1.1) (used in their [Android MOOC](https://www.coursera.org/specializations/android-app-development))
   
 - **Why Gradle?** The short answer: because it's popular and widely supported.
-  Among other things, Gradle is now the standard build tool for Android applications. 
+  Among other things, Gradle is widely used for Android applications. 
   Whenever somebody comes out with a clever Java-related tool, they generally
   release a Gradle plugin for it. Students don't have to learn or understand
-  Gradle to use `RiceChecks`. IntelliJ provides a "Gradle" tab on which students
-  can click on the tasks they wish to run.
+  Gradle to use RiceChecks. IntelliJ provides a "Gradle" tab on which students
+  can click on the tasks they wish to run, including the `autograder` task
+  provided by RiceChecks.
   
 - **Can you build a Gradle plugin so I don't need all this custom code in the `build.gradle` file?**
   You're welcome to have a go at it and submit a PR. I'm concerned about how to write such
   a thing in a general-purpose way, given all the different ways that different
   projects will configure Gradle. Running the autograder as a completely
-  separate process seems more robust since it's just reading
-  files out of the `build` directory.
+  separate process seems more robust since it minimizes dependencies on the
+  internals of Gradle.
   
 - **Does RiceChecks work with {JUnit4, TestNG, ...}?** Maybe? What really
   matters is how Gradle's test unit runner writes an XML log of its results
@@ -373,9 +374,16 @@ you might then clone and experiment with.
   which does its own internal assertions. Everything works.
   
 - **What about [Spotless](https://github.com/diffplug/spotless) or [SpotBugs](https://github.com/spotbugs/spotbugs)?**
-  Spotless is analogous to [Checkstyle](http://checkstyle.sourceforge.net/) and [google-java-format](https://github.com/google/google-java-format). SpotBugs is analogous
-  to [ErrorProne](https://errorprone.info/). You could certainly engineer support for additional tooling
+  Spotless is analogous to [Checkstyle](http://checkstyle.sourceforge.net/) and [google-java-format](https://github.com/google/google-java-format). 
+  SpotBugs is analogous to [ErrorProne](https://errorprone.info/). You could certainly engineer support for additional tooling
   into RiceChecks, but it's not here right now.
+  
+- **Why are you using both Checkstyle and google-java-format?** The nice thing
+  about google-java-format is that it provides an auto-indenter (`googleJavaFormat`) that students
+  can run as a Gradle task. We still need Checkstyle to enforce other useful Java practices,
+  like capital names for classes with matching filenames. Otherwise, you can have weird
+  scenarios where a Java program compiles on a case-insensitive filesystem (Windows or Mac) but not on
+  a case-sensitive filesystem (Linux). 
 
 - **Why do you write out the grading policy to a YAML file? Why not just
   re-read the annotations every time?** Let's say you want to have "secret" unit
@@ -405,16 +413,26 @@ you might then clone and experiment with.
   Since both ClassGraph and Jackson are just Java libraries,
   we could call them from Java, Kotlin, Scala, or any other JVM language. 
   
-  Students will never need to see or understand the code for the autograder,
-  so we can use anything we prefer.
+  Since students will never need to see or understand the code for the autograder,
+  we can use any JVM language, so we chose Kotlin. Kotlin gives an entirely pleasant
+  experience for building a tool like RiceChecks. We also take advantage of the
+  [Arrow](https://arrow-kt.io/) functional programming library.
   
+- **Java8 versus Java11 versus...** We want to support student projects written in Java8 or Java11,
+  and hopefully newer versions of Java as well. To that end, we compile RiceChecks using
+  OpenJDK 8 and test it with both OpenJDK 8 (the examples within this repository) and OpenJDK 11
+  (the standalone demonstrations linked from the [Try it!](#try-it) section). 
+  
+  To support Java11, you'll notice several minor differences
+  in the `build.gradle` files, but it's all the same so far as RiceChecks is concerned.
+
 - **Can I have machine-readable output from RiceChecks / Can RiceChecks 
   send grades automatically to my server?** Have a look at [Aggregators.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/Aggregators.kt)
   which collects together a `List<EvaluatorResult>` and prints it. You'd
   instead want to convert that list to your favorite machine-readable format and then operate on it.
   We decided not to do this because we wanted to have human graders in the
   loop for things that we cannot automatically check (e.g., whether a design
-  is "good") and to make sure that students weren't doing something undesirable,
+  is "good") and to make sure that students aren't doing something undesirable,
   like editing our provided unit tests.
   
 - **How can I do coverage testing on a per-method basis rather than per-class?** 
