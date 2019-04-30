@@ -6,7 +6,12 @@
 
 package edu.rice.autograder.annotations;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * This annotation is the top-level annotation for a programming "project". It specifies the name of
@@ -15,11 +20,12 @@ import java.lang.annotation.*;
  * for the project. Otherwise, it's entirely possible to have more deductions available from Grade
  * annotations than points present. The ultimate grade will never go below zero.
  *
- * <p>Also possible to specify here is a requirement that there be <b>zeroWarnings</b>. The
+ * <p>It's also possible to specify here a requirement that there be <b>zeroWarnings</b>. The
  * autograder will look at whether the Java compiler (and ErrorProne, if it's configured to run
- * alongside it) produced any warnings. It will also look at CheckStyle to see if it produced any
- * warnings. If zeroWarnings is true, then the number of points to be deducted is specified by
- * <b>warningPoints</b>.
+ * alongside it) produced any warnings. By default, it also considers CheckStyle and
+ * google-java-format. If zeroWarnings is true, then the number of points to be deducted is
+ * specified by <b>warningPoints</b>. Each of these individual checks can be disabled with optional
+ * parameters like <b>useCheckStyle</b> or <b>useGoogleJavaFormat</b>.
  *
  * <p>To specify a coverage requirement, specify a non-zero <b>coveragePoints</b>, and optionally
  * specify the <b>coverageStyle</b> and <b>coveragePercentage</b>. Then, annotate source classes on

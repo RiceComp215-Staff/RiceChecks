@@ -6,7 +6,11 @@
 
 package edu.rice.autograder.annotations;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * This annotation, which may appear either on a class or on a package (i.e., in
@@ -14,7 +18,7 @@ import java.lang.annotation.*;
  * representing groups of items being graded. Every {@link Grade} annotation names a topic.
  *
  * <p>Topics might be broad things like "Correctness", "Performance", etc., or they might be
- * anything else that fits the assignment, e.g., "Easy", "Medium", "Hard".
+ * anything else that fits the assignment, e.g., "HeapSort", "InsertionSort", "QuickSort".
  *
  * <p>The general idea, then, is that all of the unit tests for a given project and topic, as
  * specified by Grade annotations, will deduct their points, if they fail, from the pool of points

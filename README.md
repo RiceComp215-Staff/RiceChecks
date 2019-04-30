@@ -258,7 +258,20 @@ public class HeapSort { ... }
 - What about lambdas or methods? JaCoCo measures per-method coverage, treating every lambda as
   if it's a separate method within the same class. RiceChecks only looks
   at the per-class summary data, which wraps up all methods and lambdas within that class.
-  Inner classes are treated separately. *Anonymous* inner classes? TBD.
+  
+- For any inner class, once we've determined that it's subject to coverage testing, it will
+  be measured for hitting the desired coverage level on its own, without any dependencies
+  on its outer or further-inner classes.
+
+- *Anonymous* inner classes are currently treated the same as are regular inner classes:
+  coverage requirements apply to them individually.
+  RiceChecks 0.7 will support `@GradeCoverage` annotations on anonymous inner classes,
+  allowing you to add localized annotations, if needed.
+  
+  JaCoCo gives relatively unhelpful names to anonymous inner classes (e.g., `Foo$1` and `Foo$2` for
+  anonymous classes declared inside `class Foo`), so coverage policy failure reports with anonymous inner
+  classes might be confusing to students. (This is an argument in favor of using lambdas rather
+  anonymous inner classes, since JaCoCo treats lambdas as if they're regular class methods.)
   
 ## Sample projects
 There are three sample projects, showing you how the RiceChecks autograder works. They
