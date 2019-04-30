@@ -12,9 +12,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.module.kotlin.readValue
 
 // This is easily the most complicated XML we'll have to deal with. The original XML
-// is one giant line, so check out the more human-readable jacocoTestReport-Reformatted.xml.
+// is one giant line, so check out the more human-readable version in:
+// src/test/resources/comp215-build/reports/jacoco/test/jacocoTestReport-Reformatted.xml
 
-// The structure:
+// The XML structure:
 // - the top-level report has a list of packages
 //   - each package has a list of classes
 //     - each class has a list of methods
@@ -26,13 +27,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 //     - each sourcefile also has a list of counters
 //   - each package also has a list of counters
 //  - the report also has a list of counters
-
-// We also have to deal with the most complicated policies. We have GradeCoverage annotations
-// on packages and classes, and they've got an "exclude" flag as well. This means that we'll
-// have some fairly complex logic to resolve for a given {package, class} whether we're supposed
-// to pay attention to its coverage numbers. We're going to need to do this recursively, so
-// we may have a "positive" annotation on edu.rice.foo and a "negative" annotation.edu.rice.foo.bar
-// which means that edu.rice.foo.baz should be included.
 
 @JsonRootName("report")
 data class JacocoReport(
@@ -243,11 +237,9 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
 
     return classesMap.keys.filter { className ->
         // We're working our way down from the most general to the most specific package annotation
-        // then the most general to teh most specific class annotation (the sorting above is essential
+        // then the most general to the most specific class annotation (the sorting above is essential
         // to make this happen). The logic here is that the last relevant annotation wins, so an inner
         // "including" annotation overrides an external "excluding" annotation.
-
-        // Among other things, this requires that we do the sorting in the lines above.
 
         val matchingPackages = packageSpecs.filter { className subClassOf it.name }
         val matchingClasses = classSpecs.filter { className subClassOf it.name }
@@ -256,11 +248,7 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
 
         if (allSpecs.isNotEmpty()) {
             Log.i(TAG, "for class ($className), found possible specs: $allSpecs")
-
-            val result = (matchingPackages + matchingClasses)
-                .fold(false) { _, next -> !next.excluded }
-
-            result
+            allSpecs.fold(false) { _, next -> !next.excluded }
         } else false
     }
 }

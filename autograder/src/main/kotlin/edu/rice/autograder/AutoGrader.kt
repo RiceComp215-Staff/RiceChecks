@@ -19,6 +19,8 @@ private const val TAG = "GradleResultScanner"
 const val AutoGraderName = "RiceChecks"
 
 object AutoGrader {
+    // All these annotations are really configuration parameters for JCommander,
+    // which parses the command-line arguments and fills out the variables.
     @JvmField
     @Parameter(names = ["--package"],
         description = "Java package name for student code (ignored if --config is specified)")
@@ -56,7 +58,7 @@ object AutoGrader {
 
     private lateinit var commandParser: JCommander
 
-    private fun helpDump() {
+    private fun helpDumpAndExit() {
         commandParser.usage()
         System.out.print("\n$AutoGraderName supports these tasks:\n" +
                 ". debugAnnotations: Reads all the grading annotations and prints their\n" +
@@ -83,16 +85,17 @@ object AutoGrader {
 
         Try { commandParser.parse(*args) }.onFailure {
             System.out.println(it.message)
-            helpDump()
+            helpDumpAndExit()
         }
 
-        if (help) helpDump()
+        if (help) helpDumpAndExit()
+
         task = Try { enumValueOf<Task>(taskString) }
-                .onFailure { helpDump() }
+                .onFailure { helpDumpAndExit() }
                 .getOrFail()
 
         Try { Log.setLogLevel(logString) }
-                .onFailure { helpDump() }
+                .onFailure { helpDumpAndExit() }
 
         Log.i(TAG, "Starting GradleResultScanner for $task")
         Log.logProperties()
@@ -119,7 +122,7 @@ object AutoGrader {
                         exit(true)
                     }
                 } else {
-                    helpDump()
+                    helpDumpAndExit()
                 }
             }
 
@@ -146,13 +149,13 @@ object AutoGrader {
                                 }
                     }
                 } else {
-                    helpDump()
+                    helpDumpAndExit()
                 }
 
             Task.grade -> when {
                 lConfigFileName != null && lPackageName != null -> {
                     System.out.println("Please specify either --config or --package, but not both")
-                    helpDump()
+                    helpDumpAndExit()
                 }
                 lConfigFileName != null && lProject != null -> {
                     Log.i(TAG, "Running autograder with " +
@@ -174,7 +177,7 @@ object AutoGrader {
                         exit(passed)
                     }
                 }
-                else -> helpDump()
+                else -> helpDumpAndExit()
             }
         }
     }

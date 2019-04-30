@@ -23,14 +23,17 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
                 readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
                     .map { googleJavaFormatParser(it).eval() }
                     .getOrDefault { googleJavaFormatMissing }
+
             val checkStyleMainContents =
                 readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
                     .map { checkStyleParser(it).eval("main") }
                     .getOrDefault { checkStyleMissing("main") }
+
             val checkStyleTestContents =
                 readFile("${AutoGrader.buildDir}/reports/checkstyle/test.xml")
                     .map { checkStyleParser(it).eval("test") }
                     .getOrDefault { checkStyleMissing("test") }
+
             val compilerLogContents =
                 readFile("${AutoGrader.buildDir}/logs/compile.log")
                     .map { javacZeroWarnings(it) }
@@ -41,8 +44,10 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
                         listOf(checkStyleMainContents, checkStyleTestContents)
                     else
                         emptyList()
+
             val googleJavaStyleMaybe =
                     if (useGoogleJavaFormat) listOf(googleJavaFormatContents) else emptyList()
+
             val compilerMaybe =
                     if (useJavacWarnings) listOf(compilerLogContents) else emptyList()
 
@@ -94,10 +99,17 @@ fun GGradeProject.allResults(): List<EvaluatorResult> =
         unitTestAggregator() + warningAggregator() +
                 if (coveragePoints == 0.0) emptyList() else jacocoAggregator()
 
+// Unicode note: Even though we're normally expecting our results to appear using
+// a fixed-width font, the drawing symbols and the other Unicode stuff below is
+// going to come elsewhere, meaning that we will have no assurance that we can
+// vertically align text when one line has a funky symbol and the next line doesn't.
+// This is why we're not trying to print a right-side border on the text box, while
+// we're fine printing a top, left, and bottom border.
+
 private const val lineLength = 78
 private const val rightColumn = 8
 private const val leftColumn = lineLength - rightColumn - 6
-private const val checkMark = "✅" // fixed-width font note: we have no guarantees about Emoji widths
+private const val goodMark = "✅"
 private const val failMark = "❌"
 private const val blankLine = "│" // unicode: "BOX DRAWINGS LIGHT VERTICAL"
 private val dividerLine = "├" + "─".repeat(lineLength - 1)
@@ -105,14 +117,11 @@ private val startDividerLine = "┌" + "─".repeat(lineLength - 1)
 private val endDividerLine = "└" + "─".repeat(lineLength - 1)
 
 private fun Double.rightColumnNonZero() =
-    if (this == 0.0)
-        ""
-    else
-        "%${rightColumn}s".format("(%.1f)".format(this))
+    if (this == 0.0) ""
+    else "%${rightColumn}s".format("(%.1f)".format(this))
 
-private fun Double.rightColumn() = "%${rightColumn - 1}.1f ".format(this)
 private fun fractionLine(detail: String, top: Double, bottom: Double, passing: Boolean): String {
-    val emoji = if (passing) checkMark else failMark
+    val emoji = if (passing) goodMark else failMark
     val fraction = "%.1f/%.1f".format(top, bottom)
     return "$blankLine %-${leftColumn - rightColumn - 2}s %${rightColumn * 2 + 1}s $emoji"
         .format(detail, fraction)
@@ -137,7 +146,7 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     results.forEach { (passes, points, maxPoints, title, deductions) ->
         stream.println(fractionLine(title, points, maxPoints, passes))
         deductions.forEach { (text, value) ->
-            // newlines are optional
+            // we treat newlines as forced linebreaks then wrap each line
             val wrapped = text.split("\n").flatMap {
                 wordWrap(it, leftColumn - 2)
             }

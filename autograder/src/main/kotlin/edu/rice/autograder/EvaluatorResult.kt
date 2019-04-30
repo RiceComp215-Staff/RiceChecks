@@ -7,9 +7,9 @@
 package edu.rice.autograder
 
 /**
- * The expectation is that every grade evaluator will return one of these, or
- * maybe a list of them, , indicating whether full marks were given and how
- * many points were awarded.
+ * The expectation is that every grade "evaluator" will return one of these, or
+ * maybe a list of them, indicating whether full marks were given and how many
+ * points were awarded.
  *
  * The pairs of string/double for the deductions field are for printing
  * to the user to explain what went right or wrong. For something that

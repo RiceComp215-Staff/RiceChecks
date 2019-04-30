@@ -31,12 +31,8 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 // ...
 // </checkstyle>
 
-// So, what we're looking for are any files that have <error> entities inside. If we see
+// So, what we're looking for are any <file> entities that have <error> entities inside. If we see
 // any of them, then we indicate a failure.
-
-// Almost useful tutorial web sites:
-// https://dzone.com/articles/parse-xml-to-java-objects-using-jackson
-// https://medium.com/@foxjstephen/how-to-actually-parse-xml-in-java-kotlin-221a9309e6e8
 
 /** General-purpose Jackson XML mapper, used everywhere. */
 val kotlinXmlMapper: ObjectMapper = XmlMapper(JacksonXmlModule().apply {

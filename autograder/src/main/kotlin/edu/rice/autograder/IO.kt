@@ -21,12 +21,21 @@ import java.util.zip.ZipEntry
 
 private const val TAG = "IO"
 
+// The code here provides a cleaner interface for dealing with the java.nio
+// package. Among other benefits, we're not worried about exceptions getting
+// thrown when we're just trying to read a file or whatever. Instead, we
+// take advantage of Arrow's Try class.
+
+// Sadly, the kotlin.io package doesn't have much in it right now (only print
+// statements), and Arrow's IO monad is super fancy, but also doesn't do what
+// we want.
+
 fun readdirPath(filePath: String): Try<List<Path>> =
     Try {
         java.nio.file.Files.newDirectoryStream(Paths.get(filePath)).use {
             // We need to iterate the full list before closing the directory stream
-            // so thus toList() then back to a sequence. Also, note that "use" here
-            // is the Kotlin equivalent of Java's try-with-resources.
+            // so thus toList(). Also, note that "use" here is the Kotlin equivalent
+            // of Java's try-with-resources.
             it?.toList() ?: Log.ethrow(TAG, "failed to get anything from $filePath")
         }
     }
@@ -128,8 +137,8 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
         }
 
 private fun resourceToStream(resourceName: String): Try<InputStream> =
-// If ClassLoader.getSystemResourceAsStream finds nothing, it
-    // returns null, which we have to deal with.
+    // If ClassLoader.getSystemResourceAsStream finds nothing, it
+    // returns null, which we morph here into a Try.failure().
     Try {
         ClassLoader.getSystemResourceAsStream(resourceName)
             ?: throw NullPointerException("null result from ClassLoader?")
@@ -140,17 +149,16 @@ private fun resourceToStream(resourceName: String): Try<InputStream> =
 /**
  * Given a resource name, which typically maps to a file in the "resources" directory, read it in
  * and return a String. This method assumes that the resource file is encoded as a UTF-8 string.
- * If you want to get raw bytes rather than a string, use [readResourceBytes]
- * instead.
+ * If you want to get raw bytes rather than a string, use [readResourceBytes] instead.
  *
- * @return a [Try.Success] of the file contents as a String, or a [Try.Failure] indicating what went
- * wrong
+ * @return [Try.Success] of the file contents as a String, or [Try.Failure] indicating what went
+ * wrong.
  */
 fun readResource(resourceName: String): Try<String> =
-    readResourceBytes(resourceName).map { String(it, StandardCharsets.UTF_8) }
+    readResourceBytes(resourceName).map { String(it) }
 
 /**
- * Get the contents of an `InputStream` as an array of bytes. The stream is closed
+ * Get the contents of an [InputStream] as an array of bytes. The stream is closed
  * after being read.
  */
 private fun InputStream.toByteArray(): Try<ByteArray> =
@@ -172,8 +180,8 @@ private fun InputStream.toByteArray(): Try<ByteArray> =
  * and return an array of bytes. If you want the result as a String rather than an array of raw
  * bytes, use [readResource] instead.
  *
- * @return a [Try.Success] of the file contents as a byte array, or a [Try.Failure] indicating what
- * went wrong
+ * @return [Try.Success] of the file contents as a byte array, or [Try.Failure] indicating what
+ * went wrong.
  */
 fun readResourceBytes(resourceName: String): Try<ByteArray> =
     resourceToStream(resourceName).flatMap { it.toByteArray() }

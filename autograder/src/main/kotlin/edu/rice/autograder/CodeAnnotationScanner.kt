@@ -117,7 +117,12 @@ private const val A_JUNIT4_TEST = "org.junit.Test"
 private const val A_JUNIT5_TEST = "org.junit.jupiter.api.Test"
 private const val A_JUNIT5_TESTFACTORY = "org.junit.jupiter.api.TestFactory"
 
-/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
+private const val TAG = "CodeAnnotationScanner"
+
+/**
+ * Call whenever the scanner discovers an "internal" error (i.e., a bug in RiceChecks).
+ * Prints the string, crashes the program.
+ */
 private fun internalScannerErrorX(s: String): Nothing {
     Log.e(TAG, "Internal scanner failure: $s")
     System.err.println("$AutoGraderName: internal scanner failure:\n" +
@@ -125,30 +130,39 @@ private fun internalScannerErrorX(s: String): Nothing {
     throw RuntimeException(s)
 }
 
-/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
+/**
+ * Call whenever the scanner discovers an "internal" error (i.e., a bug in RiceChecks).
+ * Prints the [AnnotationParameterValueList] and the given string, crashes the program.
+*/
 private fun AnnotationParameterValueList?.internalScannerError(s: String): Nothing =
     internalScannerErrorX(s +
         if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
 
-/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
+/**
+ * Call whenever the scanner discovers an error in the input (i.e., RiceChecks is fine,
+ * but there's something wrong with what it's reading). Prints the string, crashes the
+ * program.
+ */
 private fun failScannerX(s: String): Nothing {
     Log.e(TAG, "Terminating: $s")
     System.err.println("$AutoGraderName: $s")
     exitProcess(1)
 }
 
-/** Call whenever the scanner discovers an error. Prints the string, crashes the program. */
+/**
+ * Call whenever the scanner discovers an error in the input (i.e., RiceChecks is fine,
+ * but there's something wrong with what it's reading). Prints the [AnnotationParameterValueList],
+ * and the given string, crashes the program.
+ */
 private fun AnnotationParameterValueList?.failScanner(s: String): Nothing =
     failScannerX(s +
         if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
 
-private val coverageMethodNames = enumValues<GCoverageStyle>().map { it.name }
-
 /**
  * Fetching a value from an [AnnotationParameterValueList] with a default value for
  * its absence is awful enough that it's worth having a helper method. This version
- * returns _null_ if there's no parameter of the requested _key_. However, if the
- * parameter is there but has no value, then _default_ is returned.
+ * returns _null_ if there's no parameter of the requested [key]. However, if the
+ * parameter is there but has no value, then [default] is returned.
  */
 private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, default: T): T? {
     // Kotlin FTW: the reified type parameter allows us to have the "is T" query below, which
@@ -170,8 +184,8 @@ private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, 
 }
 
 /**
- * Similar to [AnnotationParameterValueList.lookup], except if the requested key
- * is absent altogether, then the _default_ value is returned. Nulls are never returned.
+ * Similar to [AnnotationParameterValueList.lookup], except if the requested [key]
+ * is absent altogether, then the [default] value is returned. Nulls are never returned.
  */
 private inline fun <reified T>
 AnnotationParameterValueList.lookupNoNull(key: String, default: T): T =
@@ -181,6 +195,8 @@ private fun AnnotationParameterValueList.containsNonEmpty(key: String): Boolean 
     val o = this[key]
     return o != null && o.value != null
 }
+
+private val coverageMethodNames = enumValues<GCoverageStyle>().map { it.name }
 
 private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val pv = ai.parameterValues
@@ -194,9 +210,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
     val warningPoints = pv.lookupNoNull("warningPoints", 0.0)
     val coveragePoints = pv.lookupNoNull("coveragePoints", 0.0)
     val coverageMethod = pv.lookupNoNull("coverageStyle", "LINES")
-
-    // it's an integer annotation but we'll treat it afterward as a double
-    val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70).toInt()
+    val coveragePercentage = pv.lookupNoNull("coveragePercentage", 70)
 
     return with(pv) {
         when {
@@ -226,7 +240,7 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
                 failScanner("Malformed GradeProject: coveragePoints must be zero or " +
                     "positive {$coveragePoints}")
 
-            coveragePercentage < 0.0 || coveragePercentage > 100.0 ->
+            coveragePercentage < 0 || coveragePercentage > 100 ->
                 failScanner("Malformed GradeProject: coveragePercentage must be between " +
                     "0 and 100 {$coveragePercentage}")
 
@@ -380,14 +394,14 @@ private fun List<AnnotationTuple>.checkNoValueGroups() {
     forEach {
         val valueEntry = it.ai.parameterValues.lookupNoNull<Any?>("value", "")
         if (valueEntry != "") {
-            System.err.println("=== Warning: found `value' in result tuple <$it>")
+            Log.e(TAG, "=== Warning: found `value' in result tuple <$it>")
         }
     }
 }
 
 /**
  * Given a list of desired annotation names (without the @-symbols), returns a list of [AnnotationTuple]
- * describing every matching annotation found on a Java package (i.e., inside a package-info.java file).
+ * describing every matching annotation found on a Java package (i.e., inside a `package-info.java` file).
  */
 private fun ScanResult.packageAnnotations(annotationNames: List<String>): List<AnnotationTuple> {
     Log.i(TAG, "Looking for packages with annotations: $annotationNames")
@@ -503,8 +517,6 @@ List<T>.failRepeating(failMessage: String, stringExtractor: (T) -> String): List
 
 private fun List<IGradeCoverage>.toGCoverages(): List<GGradeCoverage> =
     map { GGradeCoverage(it.scope, it.exclude, it.name) }
-
-private const val TAG = "CodeAnnotationScanner"
 
 /**
  * Given the name of a code package like "edu.rice", returns a mapping from project names to

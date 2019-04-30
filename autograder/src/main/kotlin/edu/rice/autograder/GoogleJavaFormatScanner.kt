@@ -36,12 +36,10 @@ fun List<GoogleJavaFormatResult>.eval(): Pair<String, Boolean> {
     }
 
     val numResults = size
-    val numFormatted = filter { it.formattedStatus == "FORMATTED" }.size
+    val numFormatted = count { it.formattedStatus == "FORMATTED" }
     val feedback = "$TAG: %d of %d files passed".format(numFormatted, numResults) +
-            if (numFormatted == numResults)
-                ""
-            else
-                "\nrun the gradle <googleJavaFormat> task to fix"
+            if (numFormatted == numResults) ""
+            else "\nrun the gradle <googleJavaFormat> task to fix"
     Log.i(TAG, "eval: $feedback")
 
     return feedback to (numFormatted == numResults)
