@@ -93,13 +93,14 @@ public class TestPatterns {
   private static List<DynamicTest> goodAndBad(
       List<String> goodExamples, List<String> badExamples, String regex) {
 
-    Predicate<String> p = Pattern.compile("^" + regex + "$").asPredicate();
-    // Pattern.compile(regex).asMatchPredicate(); // only works in newer JDKs
+    Predicate<String> regexPredicate = s -> Pattern.compile(regex).matcher(s).matches();
 
     Stream<DynamicTest> positiveTests =
-        goodExamples.stream().map(s -> dynamicTest("Good: " + s, () -> assertTrue(p.test(s))));
+        goodExamples.stream()
+            .map(s -> dynamicTest("Good: " + s, () -> assertTrue(regexPredicate.test(s))));
     Stream<DynamicTest> negativeTests =
-        badExamples.stream().map(s -> dynamicTest("Bad: " + s, () -> assertFalse(p.test(s))));
+        badExamples.stream()
+            .map(s -> dynamicTest("Bad: " + s, () -> assertFalse(regexPredicate.test(s))));
 
     return Stream.concat(positiveTests, negativeTests).collect(Collectors.toList());
   }
