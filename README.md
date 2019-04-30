@@ -112,7 +112,7 @@ text. Our human graders read this text from the CI system's logs, and then trans
 numbers into our university learning management system (Canvas), while also looking over the
 student projects to ensure that they didn't do something sketchy.
 
-**RiceChecks, itself, is only tested against OpenJDK 11. It's unlikely to work on earlier JDK releases.**
+**RiceChecks, itself, is compiled with OpenJDK 8 and tested with both OpenJDK 8 and OpenJDK 11. It's unlikely to work on earlier JDK releases.**
 
 ## Annotations
 
