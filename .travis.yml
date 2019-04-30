@@ -1,7 +1,10 @@
 dist: xenial
 sudo: false
 language: java
+
+jdk:
   - openjdk8
+  - openjdk11
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -13,7 +16,7 @@ cache:
     - $HOME/.gradle/wrapper/
 
 install:
-  - TERM=dumb ./gradlew assemble
+  - echo "Skipping install phase"
 
 script:
   - TERM=dumb ./gradlew :autograder:check autograder
