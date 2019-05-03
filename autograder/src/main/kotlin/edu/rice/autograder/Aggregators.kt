@@ -60,7 +60,7 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
                     0.0,
                     warningPoints,
                     "Warning / style deductions",
-                    allResults.map { it.first to if (it.second) 0.0 else warningPoints })
+                    allResults.map { Deduction(it.first, if (it.second) 0.0 else warningPoints) })
         })
 
 fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
@@ -190,5 +190,15 @@ fun ResultsReport.print(stream: PrintStream) {
 }
 
 fun ResultsReport.writeReports() {
+    val jsonData = jacksonJsonMapper.writeValueAsString(this) ?: ""
+    val yamlData = jacksonYamlMapper.writeValueAsString(this) ?: ""
 
+    val jsonReport = "build/autograder/report.json"
+    val yamlReport = "build/autograder/report.yml"
+
+    writeFile(jsonReport, jsonData)
+    writeFile(yamlReport, yamlData)
+
+    // also, generates a report to stdout
+    print(System.out)
 }

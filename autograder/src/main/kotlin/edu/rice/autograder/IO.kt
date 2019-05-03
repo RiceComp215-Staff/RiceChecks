@@ -59,7 +59,7 @@ fun Path.mkdirAndWriteFile(data: String) = Try {
     writeFile(data)
 }
 
-fun writeFile(fileName: String, data: String) = Paths.get(fileName).writeFile(data)
+fun writeFile(fileName: String, data: String) = Paths.get(fileName).mkdirAndWriteFile(data)
 
 /**
  * Given a directory path into the resources, returns a list of resource names suitable for then

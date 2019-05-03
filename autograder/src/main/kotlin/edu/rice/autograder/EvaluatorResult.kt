@@ -11,13 +11,6 @@ package edu.rice.autograder
  * maybe a list of them, indicating whether full marks were given and how many
  * points were awarded.
  *
- * The pairs of string/double for the deductions field are for printing
- * to the user to explain what went right or wrong. For something that
- * went correctly, the string might be "googleJavaStyle: 35/35 files formatted correctly"
- * with a deduction of 0.0. For something that went wrong, the string will
- * give correspondingly useful information and the **deduction should have
- * a positive number**. They'll be printed appropriately later.
- *
  * Note that this class doesn't do any arithmetic on the deductions or
  * points. The expectation is that the [deductions] listed here will be printed,
  * but not accumulated, and the [points] will be printed *and* accumulated.
@@ -29,7 +22,20 @@ data class EvaluatorResult(
     val points: Double,
     val maxPoints: Double,
     val title: String,
-    val deductions: List<Pair<String, Double>>
+    val deductions: List<Deduction>
+)
+
+/**
+ * The pairs of string/double for the deductions field are for printing
+ * to the user to explain what went right or wrong. For something that
+ * went correctly, the [description] might be `googleJavaStyle: 35/35 files formatted correctly`
+ * with a [cost] of 0.0. For something that went wrong, the description will
+ * give correspondingly useful information and the **cost should have
+ * a positive number**. They'll be printed appropriately later.
+ */
+data class Deduction(
+    val description: String,
+    val cost: Double
 )
 
 fun passingEvaluatorResult(happyPoints: Double = 0.0, happyString: String = "") =

@@ -162,7 +162,7 @@ object AutoGrader {
                     Log.i(TAG, "Running autograder with " +
                         "configFileName($lConfigFileName), project($lProject)")
                     val report = loadConfig(lConfigFileName).toResultsReport()
-                    report.print(System.out)
+                    report.writeReports()
                     exit(report.allPassing)
                 }
 
@@ -177,7 +177,7 @@ object AutoGrader {
                         exit(false)
                     } else {
                         val report = gproject.toResultsReport()
-                        report.print(System.out)
+                        report.writeReports()
                         exit(report.allPassing)
                     }
                 }

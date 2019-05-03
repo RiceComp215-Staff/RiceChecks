@@ -162,26 +162,31 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
             val testResults = find(className, methodName)
 
             when {
-                testFactory && testResults.isEmpty() -> "$name: missing" to maxPoints
-                testResults.isEmpty() -> "$name: missing" to points
+                testFactory && testResults.isEmpty() -> Deduction("$name: missing", maxPoints)
+
+                testResults.isEmpty() -> Deduction("$name: missing", points)
+
                 testFactory -> {
                     val numPassing = testResults.count { it.failure == null }
                     val numFailing = testResults.count { it.failure != null }
                     val totalTests = testResults.size
                     val deduction = min(numFailing * points, maxPoints)
 
-                    "$name:\n$numPassing of $totalTests passing (-%.1f / fail)"
-                        .format(points) to deduction
+                    Deduction("$name:\n$numPassing of $totalTests passing (-%.1f / fail)"
+                        .format(points), deduction)
                 }
-                testResults.find { it.failure != null } != null -> "$name: failed" to points
-                else -> "$name: passed" to 0.0
+
+                testResults.find { it.failure != null } != null ->
+                    Deduction("$name: failed", points)
+
+                else -> Deduction("$name: passed", 0.0)
             }
         }
 
         val numTests = topicResults.size
-        val numPassingTests = topicResults.filter { it.second == 0.0 }.size
+        val numPassingTests = topicResults.filter { it.cost == 0.0 }.size
 
-        val topicDeductions = min(topicResults.map { it.second }.sum(), topicMaxPoints)
+        val topicDeductions = min(topicResults.sumByDouble { it.cost }, topicMaxPoints)
         val topicString = "$topicName: $numPassingTests of $numTests tests passed"
 
         if (topicDeductions == 0.0) {

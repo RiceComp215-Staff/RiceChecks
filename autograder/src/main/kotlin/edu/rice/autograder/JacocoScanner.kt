@@ -301,11 +301,11 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
 
     val fails = coverageReport
         .filter { it.second < project.coveragePercentage }
-        .map { (name, _) -> name to 0.0 }
+        .map { (name, _) -> Deduction(name, 0.0) }
 
     val wins = coverageReport
         .filter { it.second >= project.coveragePercentage }
-        .map { (name, _) -> name to 0.0 }
+        .map { (name, _) -> Deduction(name, 0.0) }
 
     val passing = fails.isEmpty()
     val counterTypeStr = "(by ${counterType.toString().toLowerCase()})"
@@ -320,8 +320,8 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
             "Classes with coverage below %.0f%% %s requirement"
                 .format(project.coveragePercentage, counterTypeStr),
             fails +
-                listOf("See the coverage report for details:\n" +
-                    "${AutoGrader.buildDir}/reports/jacoco/index.html" to 0.0))
+                listOf(Deduction("See the coverage report for details:\n" +
+                    "${AutoGrader.buildDir}/reports/jacoco/index.html", 0.0)))
     }
 }
 
