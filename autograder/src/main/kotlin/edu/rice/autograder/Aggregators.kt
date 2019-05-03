@@ -127,17 +127,38 @@ private fun fractionLine(detail: String, top: Double, bottom: Double, passing: B
         .format(detail, fraction)
 }
 
+data class ResultsReport(
+    val projectName: String,
+    val description: String,
+    val allPassing: Boolean,
+    val allPoints: Double,
+    val maxPoints: Double,
+    val results: List<EvaluatorResult>
+)
+
+/**
+ * Given a [GGradeProject], extracts a [ResultsReport], suitable for printing with
+ * [ResultsReport.print] or otherwise writing out.
+ */
+fun GGradeProject.toResultsReport(): ResultsReport {
+    val results = allResults()
+    val allPassing = results.fold(true) { a, b -> a && b.passes }
+    val allPoints = results.sumByDouble { it.points }
+
+    return ResultsReport(name, description, allPassing, allPoints, maxPoints, results)
+}
+
 /**
  * Prints everything to the given output [PrintStream], then returns
  * whether the tests succeeded (true) or failed (false).
  */
-fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResult>): Boolean {
+fun ResultsReport.print(stream: PrintStream) {
     // Engineering note: inside each topic, we start from the maximum score and then subtract
     // deductions, with a floor at zero. When producing the final grade, we then add together
     // all the individual topic scores.
 
     stream.println(startDividerLine)
-    stream.println("$blankLine %-${lineLength - 2}s".format("$AutoGraderName for $name"))
+    stream.println("$blankLine %-${lineLength - 2}s".format("$AutoGraderName for $projectName"))
     wordWrap(description, lineLength - 2).forEach {
         stream.println("$blankLine %-${lineLength - 2}s".format(it))
     }
@@ -166,6 +187,8 @@ fun GGradeProject.printResults(stream: PrintStream, results: List<EvaluatorResul
     stream.println(dividerLine)
     stream.println(fractionLine("Total points:", allPoints, maxPoints, allPassing))
     stream.println(endDividerLine)
+}
 
-    return allPassing
+fun ResultsReport.writeReports() {
+
 }

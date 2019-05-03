@@ -198,7 +198,7 @@ fun jacocoParser(fileData: String): JacocoReport? {
     Log.i(TAG, "jacocoParser: ${fileData.length} bytes")
 
     return if (fileData.isEmpty()) null
-    else kotlinXmlMapper.readValue(fileData)
+    else jacksonXmlMapper.readValue(fileData)
 }
 
 fun GCoverageStyle.toJacocoCounterType() = when (this) {

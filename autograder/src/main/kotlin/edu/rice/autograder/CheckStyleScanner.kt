@@ -8,15 +8,9 @@ package edu.rice.autograder
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonRootName
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.MapperFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 
 // CheckStyle's XML looks like this:
 // <?xml version="1.0" encoding="UTF-8"?>
@@ -33,13 +27,6 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 
 // So, what we're looking for are any <file> entities that have <error> entities inside. If we see
 // any of them, then we indicate a failure.
-
-/** General-purpose Jackson XML mapper, used everywhere. */
-val kotlinXmlMapper: ObjectMapper = XmlMapper(JacksonXmlModule().apply {
-    setDefaultUseWrapper(false)
-}).registerKotlinModule()
-    .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
-    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 @JsonRootName("checkstyle")
 data class CheckStyleResults(
@@ -78,7 +65,7 @@ fun checkStyleParser(fileData: String): CheckStyleResults? {
     Log.i(TAG, "checkStyleParser: ${fileData.length} bytes")
 
     return if (fileData.isEmpty()) null
-    else kotlinXmlMapper.readValue(fileData)
+    else jacksonXmlMapper.readValue(fileData)
 }
 
 /** You'll typically run this twice: once for "test" and once for "main". */

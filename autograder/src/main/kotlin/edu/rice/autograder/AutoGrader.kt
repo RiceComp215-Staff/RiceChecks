@@ -157,26 +157,31 @@ object AutoGrader {
                     System.out.println("Please specify either --config or --package, but not both")
                     helpDumpAndExit()
                 }
+
                 lConfigFileName != null && lProject != null -> {
                     Log.i(TAG, "Running autograder with " +
                         "configFileName($lConfigFileName), project($lProject)")
-                    val gproject = loadConfig(lConfigFileName)
-                    val passed = gproject.printResults(System.out, gproject.allResults())
-                    exit(passed)
+                    val report = loadConfig(lConfigFileName).toResultsReport()
+                    report.print(System.out)
+                    exit(report.allPassing)
                 }
+
                 lConfigFileName == null && lProject != null && lPackageName != null -> {
                     Log.i(TAG, "Running autograder from annotations for " +
                         "package($lPackageName), project($lProject)")
+
                     val gproject = scanEverything(lPackageName)[lProject]
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
                         System.out.println("No annotations found for project($lProject)")
                         exit(false)
                     } else {
-                        val passed = gproject.printResults(System.out, gproject.allResults())
-                        exit(passed)
+                        val report = gproject.toResultsReport()
+                        report.print(System.out)
+                        exit(report.allPassing)
                     }
                 }
+
                 else -> helpDumpAndExit()
             }
         }

@@ -14,6 +14,7 @@ import java.lang.NullPointerException
 import java.net.URL
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.jar.JarFile
@@ -49,7 +50,13 @@ fun Path.readFile(): Try<String> =
 fun readFile(fileName: String) = Paths.get(fileName).readFile()
 
 fun Path.writeFile(data: String) = Try {
-    java.nio.file.Files.write(this, data.toByteArray())
+    Files.write(this, data.toByteArray())
+}
+
+fun Path.mkdirAndWriteFile(data: String) = Try {
+    Files.createDirectories(parent)
+}.map {
+    writeFile(data)
 }
 
 fun writeFile(fileName: String, data: String) = Paths.get(fileName).writeFile(data)

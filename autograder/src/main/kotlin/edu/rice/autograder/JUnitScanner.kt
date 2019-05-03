@@ -137,7 +137,7 @@ data class JFailure(
  * Given a string -- the result of reading a JUnit XML results file --
  * returns a [JUnitSuite] data class, suitable for subsequent queries.
  */
-fun junitSuiteParser(fileData: String): JUnitSuite = kotlinXmlMapper.readValue(fileData)
+fun junitSuiteParser(fileData: String): JUnitSuite = jacksonXmlMapper.readValue(fileData)
 
 fun JTestCase.matches(className: String, methodName: String): Boolean {
     val fixedMethodName = this.methodName?.replace(Regex("\\(\\).*$"), "") ?: ""
