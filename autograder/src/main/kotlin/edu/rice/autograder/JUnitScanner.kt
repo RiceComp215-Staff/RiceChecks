@@ -184,7 +184,7 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
         }
 
         val numTests = topicResults.size
-        val numPassingTests = topicResults.filter { it.cost == 0.0 }.size
+        val numPassingTests = topicResults.count { it.cost == 0.0 }
 
         val topicDeductions = min(topicResults.sumByDouble { it.cost }, topicMaxPoints)
         val topicString = "$topicName: $numPassingTests of $numTests tests passed"

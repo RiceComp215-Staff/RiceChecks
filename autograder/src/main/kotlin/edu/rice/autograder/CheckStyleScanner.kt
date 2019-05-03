@@ -75,7 +75,7 @@ fun CheckStyleResults?.eval(moduleName: String): Pair<String, Boolean> {
     }
 
     val numFiles = files.count()
-    val numCleanFiles = files.filter { it.errors.isEmpty() }.count()
+    val numCleanFiles = files.count { it.errors.isEmpty() }
 
     val errorMsg = "CheckStyle ($moduleName): $numCleanFiles of $numFiles files passed"
     Log.i(TAG, "checkStyleEvaluator: $moduleName --> $errorMsg")

@@ -77,7 +77,6 @@ fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
         Log.i("unitTestAggregator", "Yielded zero evaluation results!")
         listOf(EvaluatorResult(false, 0.0, this.maxPoints, "No unit tests found!", emptyList()))
     } else {
-        // TODO: inline this into one expr after we're sure we won't want to step through here with a debugger
         val parsedResults = testResultFiles
                 .map { junitSuiteParser(it) }
                 .sortedBy { it.className }
@@ -127,11 +126,16 @@ private fun fractionLine(detail: String, top: Double, bottom: Double, passing: B
         .format(detail, fraction)
 }
 
+/**
+ * This data structure represents the final report that we're reporting to the user.
+ * It's also the structure that we're going to serialize into YAML and/or JSON format
+ * for downstream tools that might want to use our output.
+ */
 data class ResultsReport(
     val projectName: String,
     val description: String,
     val allPassing: Boolean,
-    val allPoints: Double,
+    val points: Double,
     val maxPoints: Double,
     val results: List<EvaluatorResult>
 )
@@ -141,6 +145,10 @@ data class ResultsReport(
  * [ResultsReport.print] or otherwise writing out.
  */
 fun GGradeProject.toResultsReport(): ResultsReport {
+    // Engineering note: inside each topic, the internal grades were already computed before
+    // we got here, so all the "deduction" fields have already been accumulated for those.
+    // All we're doing here is just adding up the points on the individual topic scores.
+
     val results = allResults()
     val allPassing = results.fold(true) { a, b -> a && b.passes }
     val allPoints = results.sumByDouble { it.points }
@@ -153,10 +161,6 @@ fun GGradeProject.toResultsReport(): ResultsReport {
  * whether the tests succeeded (true) or failed (false).
  */
 fun ResultsReport.print(stream: PrintStream) {
-    // Engineering note: inside each topic, we start from the maximum score and then subtract
-    // deductions, with a floor at zero. When producing the final grade, we then add together
-    // all the individual topic scores.
-
     stream.println(startDividerLine)
     stream.println("$blankLine %-${lineLength - 2}s".format("$AutoGraderName for $projectName"))
     wordWrap(description, lineLength - 2).forEach {
@@ -191,7 +195,7 @@ fun ResultsReport.print(stream: PrintStream) {
 
 fun ResultsReport.writeReports() {
     val jsonData = jacksonJsonMapper.writeValueAsString(this) ?: ""
-    val yamlData = jacksonYamlMapper.writeValueAsString(this) ?: ""
+    val yamlData = yamlHeader + (jacksonYamlMapper.writeValueAsString(this) ?: "")
 
     val jsonReport = "build/autograder/report.json"
     val yamlReport = "build/autograder/report.yml"
