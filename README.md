@@ -93,7 +93,7 @@ The essential design of the autograder is:
   We change the default configuration so as many tasks will complete as possible, rather than
   stopping immediately when a task fails.
 - The autograder runs
-  as a standalone Java program, reading all the `build` output and evaluating it with respect
+  as a standalone Java program, reading all the `build` output logs and evaluating them with respect
   to the grading policy. Results are printed to standard output, and then the autograder either
   exits with 0 or non-zero, which is then understood by
   CI services to imply success or failure.
@@ -225,20 +225,20 @@ RiceChecks uses
 [JaCoCo](https://www.eclemma.org/jacoco/), which has a wide variety of ways that you can
 configure its Gradle plugin to either
 fail or pass the build based on different coverage policies. When we tried to just use
-this as-is, students were wildly unhappy with the feedback. The way we specify and report coverage
+this as-is, students were unhappy with the feedback. The way we specify and report coverage
 in RiceChecks is:
 
 - The top-level coverage policy appears in the `GradeProject` annotation.
-  - With `coveragePoints = N`
-you specify the number of grade points (awarded all or nothing) for satisfying the coverage policy.
+  - With `coveragePoints = N` you specify the number of grade points (awarded all or nothing)
+    for satisfying the coverage policy.
   - You specify a `coveragePercentage` you wish to require of every covered class.
-  - You may optionally specify a `coverageStyle`, and your choices are `LINES` or `INSTRUCTIONS`,
+  - You may optionally specify a `coverageStyle`; your choices are `LINES` or `INSTRUCTIONS`,
     corresponding to the same terms as JaCoCo understands them. If you're
     concerned that students might try to mash too much code onto a
-    single line in order to thwart line-counting coverage, you might
+    single line in order to game line-counting coverage, you might
     prefer the `INSTRUCTIONS` mode, which is based on Java bytecode operations,
-    or you could require *GoogleJavaFormat*, described above, which would
-    reject code written with such shenanigans.
+    or you could require *GoogleJavaFormat*, described above, which forces
+    code to be formatted in a more reasonable fashion.
 
 - You annotate Java classes or packages (via `package-info.java`) with an `@GradeCoverage`
   annotation to note which project(s) care about coverage for those Java classes or packages.
@@ -263,15 +263,7 @@ public class HeapSort { ... }
   be measured for hitting the desired coverage level on its own, without any dependencies
   on its outer or further-inner classes.
 
-- *Anonymous* inner classes are currently treated the same as are regular inner classes:
-  coverage requirements apply to them individually.
-  RiceChecks 0.7 will support `@GradeCoverage` annotations on anonymous inner classes,
-  allowing you to add localized annotations, if needed.
-  
-  JaCoCo gives relatively unhelpful names to anonymous inner classes (e.g., `Foo$1` and `Foo$2` for
-  anonymous classes declared inside `class Foo`), so coverage policy failure reports with anonymous inner
-  classes might be confusing to students. (This is an argument in favor of using lambdas rather
-  anonymous inner classes, since JaCoCo treats lambdas as if they're regular class methods.)
+- *Anonymous* inner classes are TBD (*will be accumulated as part of parent class?*).
   
 ## Sample projects
 There are three sample projects, showing you how the RiceChecks autograder works. They
@@ -356,9 +348,9 @@ you might then clone and experiment with.
 - **Can you build a Gradle plugin so I don't need all this custom code in the `build.gradle` file?**
   You're welcome to have a go at it and submit a PR. I'm concerned about how to write such
   a thing in a general-purpose way, given all the different ways that different
-  projects will configure Gradle. Running the autograder as a completely
-  separate process seems more robust since it minimizes dependencies on the
-  internals of Gradle.
+  projects will configure Gradle. RiceChecks, by running as a completely separate
+  Java process, avoids getting too entangled with Gradle, beyond knowing how all
+  its log files are written.
   
 - **Does RiceChecks work with {JUnit4, TestNG, ...}?** Maybe? What really
   matters is how Gradle's test unit runner writes an XML log of its results
@@ -368,10 +360,10 @@ you might then clone and experiment with.
   
 - **RiceChecks only really supports JUnit5's `@Test` and `@TestFactory`. What will
   it take to more broadly support other JUnit5 test annotations?**
-  Many or most JUnit5 annotations that say "here's a test" should
-  be something we can treat as
+  Most custom JUnit5 annotations that say "here's a test" could
+  potentially be something we can treat as
   equivalent to either `@Test` or `@TestFactory`. RiceChecks
-  also hasn't yet been tested with some of the fancier JUnit5 features
+  hasn't yet been tested with some of the fancier JUnit5 features
   like multiple `dynamicTest` instances inside of a `dynamicContainer`.
   To support
   [meta annotations](https://junit.org/junit5/docs/current/user-guide/#writing-tests-meta-annotations)
@@ -384,7 +376,8 @@ you might then clone and experiment with.
   a test method succeeds or fails. You can use anything
   inside of those methods. In our own tests, we're sometimes
   using [QuickTheories](https://github.com/quicktheories/QuickTheories),
-  which does its own internal assertions. Everything works.
+  which does its own internal assertions. Gradle knows how to run the
+  tests and it all looks the same when RiceChecks reads the logs.
   
 - **What about [Spotless](https://github.com/diffplug/spotless) or [SpotBugs](https://github.com/spotbugs/spotbugs)?**
   Spotless is analogous to [Checkstyle](http://checkstyle.sourceforge.net/) and [google-java-format](https://github.com/google/google-java-format). 
@@ -394,7 +387,7 @@ you might then clone and experiment with.
 - **Why are you using both Checkstyle and google-java-format?** The nice thing
   about google-java-format is that it provides an auto-indenter (`googleJavaFormat`) that students
   can run as a Gradle task. We still need Checkstyle to enforce other useful Java practices,
-  like capital names for classes with matching filenames. Otherwise, you can have weird
+  like capital names for classes with matching filenames. Checkstyle saves us from weird
   scenarios where a Java program compiles on a case-insensitive filesystem (Windows or Mac) but not on
   a case-sensitive filesystem (Linux). 
 
@@ -409,7 +402,7 @@ you might then clone and experiment with.
   Of course, we still rely on human graders to notice if a student edited
   the YAML file, or for that matter, edited the unit tests we provided to them.
   
-- **How do you add "secret" test files into student projects after an assignment is ongoing?** 
+- **How do you add "secret" test files into student projects after an assignment is live?** 
   We hand out our
   weekly projects on Monday morning with student unit tests due Thursday evening.
   On Friday morning, we pull every student repository, add the "secret" tests,
@@ -440,13 +433,15 @@ you might then clone and experiment with.
   in the `build.gradle` files, but it's all the same so far as RiceChecks is concerned.
 
 - **Can I have machine-readable output from RiceChecks / Can RiceChecks 
-  send grades automatically to my server?** Have a look at [Aggregators.kt](https://github.com/RiceComp215-Staff/RiceChecks/blob/master/autograder/src/main/kotlin/edu/rice/autograder/Aggregators.kt)
-  which collects together a `List<EvaluatorResult>` and prints it. You'd
-  instead want to convert that list to your favorite machine-readable format and then operate on it.
-  We decided not to do this because we wanted to have human graders in the
-  loop for things that we cannot automatically check (e.g., whether a design
-  is "good") and to make sure that students aren't doing something undesirable,
-  like editing our provided unit tests.
+  send grades automatically to my server?** 
+  After the autograder runs, it creates two files: 
+  `build/autograder/report.json` and `build/autograder/report.yml`
+  (same data, your choice of serialization format). The information is the same as
+  the pretty-printed output, just easier for a machine to parse. You might configure your CI service
+  to run some action after the autograder finishes which pushes this data to a web
+  server you control. Since students control their repositories, and can at least theoretically
+  make the CI server run anything they want, you should not place too much trust in the veracity
+  of the data your server is receiving. 
   
 - **How can I do coverage testing on a per-method basis rather than per-class?** 
   You could extend the relevant code in

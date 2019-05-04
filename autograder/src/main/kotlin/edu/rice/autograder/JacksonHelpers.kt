@@ -17,6 +17,11 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
+//
+// Jackson has these ObjectMapper things that are used both to serialize and
+// deserialize. We create and configure them here.
+//
+
 private fun ObjectMapper.setup() =
     this.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

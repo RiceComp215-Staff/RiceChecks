@@ -9,7 +9,9 @@ package edu.rice.autograder
 import arrow.core.Option
 import arrow.core.Try
 
+//
 // Missing features from Arrow that we want/need
+//
 
 /** Runs the given lambda on the exception contained inside a [Try]'s failure. Returns the original Try. */
 fun <T> Try<T>.onFailure(consumer: (Throwable) -> Unit): Try<T> =
@@ -29,9 +31,14 @@ fun <T> Try<T>.getOrFail(): T = fold({ throw it }, { it })
 fun <T> Option<T>.getOrFail(): T =
     fold({ throw IllegalStateException("getOrFail() on an Option.none") }, { it })
 
-// Other random functional functions that we'd like
+//
+// Also useful, in our quest to avoid nulls at all costs.
+//
 
-/** Like [Iterable.associateBy], but if the keySelector returns null, that's ignored and we move onward. */
+/**
+ * Like [Iterable.associateBy], but if the [keySelector] returns null, that key is ignored
+ * and we move onward.
+ */
 fun <T, K : Any> Iterable<T>?.associateNotNullBy(keySelector: (T) -> K?): Map<K, T> =
     if (this == null)
         emptyMap()

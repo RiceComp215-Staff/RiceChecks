@@ -22,43 +22,58 @@ import java.util.zip.ZipEntry
 
 private const val TAG = "IO"
 
-// The code here provides a cleaner interface for dealing with the java.nio
-// package. Among other benefits, we're not worried about exceptions getting
+//
+// The code here provides a better interface for dealing with files and
+// java.nio. Among other benefits, we're not worried about exceptions getting
 // thrown when we're just trying to read a file or whatever. Instead, we
 // take advantage of Arrow's Try class.
+//
 
-// Sadly, the kotlin.io package doesn't have much in it right now (only print
-// statements), and Arrow's IO monad is super fancy, but also doesn't do what
-// we want.
-
-fun readdirPath(filePath: String): Try<List<Path>> =
-    Try {
-        java.nio.file.Files.newDirectoryStream(Paths.get(filePath)).use {
-            // We need to iterate the full list before closing the directory stream
-            // so thus toList(). Also, note that "use" here is the Kotlin equivalent
-            // of Java's try-with-resources.
-            it?.toList() ?: Log.ethrow(TAG, "failed to get anything from $filePath")
-        }
+/**
+ * Returns a [Try]-wrapped list of [Path] objects corresponding to files in the requested directory.
+ */
+fun readdirPath(filePath: String) = Try {
+    Files.newDirectoryStream(Paths.get(filePath)).use {
+        // We need to iterate the full list before closing the directory stream
+        // so thus toList(). Also, note that "use" here is the Kotlin equivalent
+        // of Java's try-with-resources.
+        it?.toList() ?: Log.ethrow(TAG, "failed to get anything from $filePath")
     }
+}
 
-fun Path.readFile(): Try<String> =
-    Try { String(java.nio.file.Files.readAllBytes(this)) }
-        .onFailure {
-            Log.e(TAG, "failed to read file(${this.fileName})", it)
-        }
+/** Given a [Path], returns a [Try]-wrapped String of the file's contents. */
+fun Path.readFile() = Try {
+    String(Files.readAllBytes(this))
+}.onFailure {
+    Log.e(TAG, "failed to read file(${this.fileName})", it)
+}
 
+/** Given a file name, returns a [Try]-wrapped String of the file's contents. */
 fun readFile(fileName: String) = Paths.get(fileName).readFile()
 
+/**
+ * Given a [Path] and a string to write there, tries to do so, returning an empty [Try.Success]
+ * if it works or a [Try.Failure] if something goes wrong.
+ */
 fun Path.writeFile(data: String) = Try {
     Files.write(this, data.toByteArray())
 }
 
+/**
+ * Similar to [Path.writeFile] but if the requested path doesn't exist yet, this
+ * variant will also create any necessary directories.
+ */
 fun Path.mkdirAndWriteFile(data: String) = Try {
     Files.createDirectories(parent)
 }.map {
     writeFile(data)
 }
 
+/**
+ * Given a file name and string data, will attempt to write the data to the file,
+ * and create any directories, if necessary. As with [Path.writeFile], the result
+ * is wrapped in a [Try], for error-handling.
+ */
 fun writeFile(fileName: String, data: String) = Paths.get(fileName).mkdirAndWriteFile(data)
 
 /**
