@@ -292,20 +292,19 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         if (covered + missed == 0) emptyList()
         else {
             val percentage = 100.0 * covered / (covered + missed).toDouble()
+            val className = name.fixClassName()
             val coverageStr = "Coverage of %s: %.1f%%"
-                .format(name.fixClassName(), percentage)
+                .format(className, percentage)
             Log.i(TAG, coverageStr)
-            listOf(coverageStr to percentage)
+            listOf(CoverageDeduction(coverageStr, 0.0, className, percentage))
         }
     }
 
     val fails = coverageReport
-        .filter { it.second < project.coveragePercentage }
-        .map { (name, _) -> BasicDeduction(name, 0.0) }
+        .filter { it.coveragePercentage < project.coveragePercentage }
 
     val wins = coverageReport
-        .filter { it.second >= project.coveragePercentage }
-        .map { (name, _) -> BasicDeduction(name, 0.0) }
+        .filter { it.coveragePercentage >= project.coveragePercentage }
 
     val passing = fails.isEmpty()
     val counterTypeStr = "(by ${counterType.toString().toLowerCase()})"
