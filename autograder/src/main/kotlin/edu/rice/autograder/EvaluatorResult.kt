@@ -32,11 +32,51 @@ data class EvaluatorResult(
  * with a [cost] of 0.0. For something that went wrong, the description will
  * give correspondingly useful information and the **cost should have
  * a positive number**. They'll be printed appropriately later.
+ *
+ * All of the implementations of the Deduction interface allow additional
+ * metadata that we'll (likely) ignore in our human-readable output, but
+ * which will appear in the machine-readable output.
  */
-data class Deduction(
-    val description: String,
+interface Deduction {
+    val description: String
     val cost: Double
-)
+
+    operator fun component1() = description
+    operator fun component2() = cost
+}
+
+data class BasicDeduction(
+    override val description: String,
+    override val cost: Double
+) : Deduction
+
+data class UnitTestDeduction(
+    override val description: String,
+    override val cost: Double,
+    val testName: String
+) : Deduction
+
+data class UnitTestFactoryDeduction(
+    override val description: String,
+    override val cost: Double,
+    val testName: String,
+    val numPassed: Int,
+    val numTests: Int
+) : Deduction
+
+data class CodeStyleDeduction(
+    override val description: String,
+    override val cost: Double,
+    val toolName: String,
+    val section: String
+) : Deduction
+
+data class CoverageDeduction(
+    override val description: String,
+    override val cost: Double,
+    val className: String,
+    val coveragePercentage: Double
+) : Deduction
 
 fun passingEvaluatorResult(happyPoints: Double = 0.0, happyString: String = "") =
     EvaluatorResult(true, happyPoints, happyPoints, happyString, emptyList())

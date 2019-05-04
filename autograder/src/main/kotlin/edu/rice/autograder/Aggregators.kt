@@ -60,7 +60,7 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
                     0.0,
                     warningPoints,
                     "Warning / style deductions",
-                    allResults.map { Deduction(it.first, if (it.second) 0.0 else warningPoints) })
+                    allResults.map { BasicDeduction(it.first, if (it.second) 0.0 else warningPoints) })
         })
 
 fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {

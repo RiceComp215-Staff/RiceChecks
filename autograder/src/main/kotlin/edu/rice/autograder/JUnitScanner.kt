@@ -162,9 +162,9 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
             val testResults = find(className, methodName)
 
             when {
-                testFactory && testResults.isEmpty() -> Deduction("$name: missing", maxPoints)
+                testFactory && testResults.isEmpty() -> BasicDeduction("$name: missing", maxPoints)
 
-                testResults.isEmpty() -> Deduction("$name: missing", points)
+                testResults.isEmpty() -> BasicDeduction("$name: missing", points)
 
                 testFactory -> {
                     val numPassing = testResults.count { it.failure == null }
@@ -172,14 +172,14 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
                     val totalTests = testResults.size
                     val deduction = min(numFailing * points, maxPoints)
 
-                    Deduction("$name:\n$numPassing of $totalTests passing (-%.1f / fail)"
+                    BasicDeduction("$name:\n$numPassing of $totalTests passing (-%.1f / fail)"
                         .format(points), deduction)
                 }
 
                 testResults.find { it.failure != null } != null ->
-                    Deduction("$name: failed", points)
+                    BasicDeduction("$name: failed", points)
 
-                else -> Deduction("$name: passed", 0.0)
+                else -> BasicDeduction("$name: passed", 0.0)
             }
         }
 
