@@ -23,6 +23,6 @@ class GoogleJavaFormatScannerTest {
     fun testFileStatesExample() {
         val input = readResource("comp215-build/google-java-format/0.8/fileStates.txt").getOrFail()
         val testResult = googleJavaFormatParser(input).eval()
-        assertFalse(testResult.second)
+        assertFalse(testResult.passing)
     }
 }

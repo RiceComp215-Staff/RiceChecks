@@ -61,14 +61,17 @@ data class UnitTestFactoryDeduction(
     override val cost: Double,
     val testName: String,
     val numPassed: Int,
-    val numTests: Int
+    val numChecked: Int
 ) : Deduction
 
 data class CodeStyleDeduction(
     override val description: String,
     override val cost: Double,
     val toolName: String,
-    val section: String
+    val section: String,
+    val passing: Boolean,
+    val numPassed: Int,
+    val numChecked: Int
 ) : Deduction
 
 data class CoverageDeduction(

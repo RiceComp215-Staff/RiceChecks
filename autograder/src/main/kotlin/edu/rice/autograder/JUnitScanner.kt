@@ -173,8 +173,9 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
                     val totalTests = testResults.size
                     val deduction = min(numFailing * points, maxPoints)
 
-                    UnitTestFactoryDeduction("$name:\n$numPassing of $totalTests passing (-%.1f / fail)"
-                        .format(points), deduction, name, numPassing, totalTests)
+                    UnitTestFactoryDeduction(
+                        "$name:\n$numPassing of $totalTests passing (-%.1f / fail)".format(points),
+                        deduction, name, numPassing, totalTests)
                 }
 
                 testResults.find { it.failure != null } != null ->
@@ -190,10 +191,6 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
         val topicDeductions = min(topicResults.sumByDouble { it.cost }, topicMaxPoints)
         val topicString = "$topicName: $numPassingTests of $numTests tests passed"
 
-        if (topicDeductions == 0.0) {
-            passingEvaluatorResult(topicMaxPoints, topicString)
-        } else {
-            EvaluatorResult(false, max(topicMaxPoints - topicDeductions, 0.0),
-                    topicMaxPoints, topicString, topicResults)
-        }
+        EvaluatorResult(topicDeductions == 0.0, max(topicMaxPoints - topicDeductions, 0.0),
+            topicMaxPoints, topicString, topicResults)
     }

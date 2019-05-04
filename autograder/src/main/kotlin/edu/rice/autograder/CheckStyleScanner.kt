@@ -56,10 +56,10 @@ data class CheckStyleError(
     var source: String? = null
 )
 
-private const val TAG = "CheckStyleScanner"
+private const val TAG = "CheckStyle"
 
 fun checkStyleMissing(moduleName: String) =
-    "CheckStyle ($moduleName): report not found" to false
+    CodeStyleDeduction("$TAG ($moduleName): report not found", 0.0, TAG, moduleName, false, 0, 0)
 
 fun checkStyleParser(fileData: String): CheckStyleResults? {
     Log.i(TAG, "checkStyleParser: ${fileData.length} bytes")
@@ -69,7 +69,7 @@ fun checkStyleParser(fileData: String): CheckStyleResults? {
 }
 
 /** You'll typically run this twice: once for "test" and once for "main". */
-fun CheckStyleResults?.eval(moduleName: String): Pair<String, Boolean> {
+fun CheckStyleResults?.eval(moduleName: String): CodeStyleDeduction {
     if (this == null) {
         return checkStyleMissing(moduleName)
     }
@@ -81,5 +81,5 @@ fun CheckStyleResults?.eval(moduleName: String): Pair<String, Boolean> {
     Log.i(TAG, "checkStyleEvaluator: $moduleName --> $errorMsg")
 
     val passing = numFiles == numCleanFiles
-    return errorMsg to passing
+    return CodeStyleDeduction(errorMsg, 0.0, TAG, moduleName, passing, numCleanFiles, numFiles)
 }

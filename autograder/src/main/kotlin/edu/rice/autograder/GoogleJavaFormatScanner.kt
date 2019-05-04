@@ -28,9 +28,9 @@ data class GoogleJavaFormatResult(
     val formattedStatus: String
 )
 
-val googleJavaFormatMissing = "$TAG: no input found" to false
+val googleJavaFormatMissing = CodeStyleDeduction("$TAG: no input found", 0.0, TAG, "", false, 0, 0)
 
-fun List<GoogleJavaFormatResult>.eval(): Pair<String, Boolean> {
+fun List<GoogleJavaFormatResult>.eval(): CodeStyleDeduction {
     if (isEmpty()) {
         return googleJavaFormatMissing
     }
@@ -42,7 +42,8 @@ fun List<GoogleJavaFormatResult>.eval(): Pair<String, Boolean> {
             else "\nrun the gradle <googleJavaFormat> task to fix"
     Log.i(TAG, "eval: $feedback")
 
-    return feedback to (numFormatted == numResults)
+    return CodeStyleDeduction(feedback, 0.0, TAG, "",
+        (numFormatted == numResults), numFormatted, numResults)
 }
 
 fun googleJavaFormatParser(fileData: String): List<GoogleJavaFormatResult> {

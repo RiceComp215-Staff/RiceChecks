@@ -17,18 +17,18 @@ class CompilerLogScannerTest {
             readResource("comp215-build/logs/$it").getOrFail()
         }
 
-        badFiles.forEach { assertFalse(javacZeroWarnings(it).second) }
+        badFiles.forEach { assertFalse(javacZeroWarnings(it).passing) }
     }
 
     @Test
     fun goodCompilation() {
         assertTrue(javacZeroWarnings(
-            readResource("comp215-build/logs/success.log").getOrFail()).second)
+            readResource("comp215-build/logs/success.log").getOrFail()).passing)
     }
 
     @Test
     fun goodCompilationWhitespace() {
         assertTrue(javacZeroWarnings(
-            readResource("comp215-build/logs/whitespace-success.log").getOrFail()).second)
+            readResource("comp215-build/logs/whitespace-success.log").getOrFail()).passing)
     }
 }

@@ -53,14 +53,14 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
 
             val allResults = checkStyleMaybe + googleJavaStyleMaybe + compilerMaybe
 
-            val passing = allResults.fold(true) { a, b -> a && b.second }
+            val passing = allResults.fold(true) { a, b -> a && b.passing }
 
             if (passing) passingEvaluatorResult(warningPoints, "No warning / style deductions")
             else EvaluatorResult(false,
                     0.0,
                     warningPoints,
                     "Warning / style deductions",
-                    allResults.map { BasicDeduction(it.first, if (it.second) 0.0 else warningPoints) })
+                    allResults)
         })
 
 fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {

@@ -18,7 +18,7 @@ class CheckStyleResultsScannerTest {
         val testData = readResource("comp215-build/reports/checkstyle/test.xml").getOrFail()
         val testResults = checkStyleParser(testData).eval("test")
 
-        assertTrue(mainResults.second) // passing
-        assertFalse(testResults.second) // failing!
+        assertTrue(mainResults.passing) // passing
+        assertFalse(testResults.passing) // failing!
     }
 }
