@@ -22,6 +22,7 @@ data class EvaluatorResult(
     val points: Double,
     val maxPoints: Double,
     val title: String,
+    val category: String,
     val deductions: List<Deduction>
 )
 
@@ -81,5 +82,5 @@ data class CoverageDeduction(
     val coveragePercentage: Double
 ) : Deduction
 
-fun passingEvaluatorResult(happyPoints: Double = 0.0, happyString: String = "") =
-    EvaluatorResult(true, happyPoints, happyPoints, happyString, emptyList())
+fun passingEvaluatorResult(happyPoints: Double = 0.0, happyTitle: String, happyCategory: String) =
+    EvaluatorResult(true, happyPoints, happyPoints, happyTitle, happyCategory, emptyList())

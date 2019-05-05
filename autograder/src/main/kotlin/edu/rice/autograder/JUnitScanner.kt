@@ -192,5 +192,5 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
         val topicString = "$topicName: $numPassingTests of $numTests tests passed"
 
         EvaluatorResult(topicDeductions == 0.0, max(topicMaxPoints - topicDeductions, 0.0),
-            topicMaxPoints, topicString, topicResults)
+            topicMaxPoints, topicString, TESTS_CATEGORY, topicResults)
     }

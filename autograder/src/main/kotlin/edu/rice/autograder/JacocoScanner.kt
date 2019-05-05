@@ -208,7 +208,7 @@ fun GCoverageStyle.toJacocoCounterType() = when (this) {
 
 fun GGradeProject.jacocoResultsMissing() =
     EvaluatorResult(false, 0.0, coveragePoints,
-        "No test coverage results found", emptyList())
+        "No test coverage results found", COVERAGE_CATEGORY, emptyList())
 
 private const val TAG = "JacocoScanner"
 
@@ -259,7 +259,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     }
 
     if (project.coveragePoints == 0.0)
-        return passingEvaluatorResult(0.0, "No test coverage requirement")
+        return passingEvaluatorResult(0.0, "No test coverage requirement", COVERAGE_CATEGORY)
 
     val counterType = project.coverageStyle.toJacocoCounterType()
 
@@ -277,7 +277,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
             Log.e(TAG, " -- classesMap[$it] = ${classesMap[it]}")
         }
         return EvaluatorResult(false, 0.0, project.coveragePoints,
-            "Test coverage: no classes specified for coverage!", emptyList())
+            "Test coverage: no classes specified for coverage!", COVERAGE_CATEGORY, emptyList())
     }
 
     val coverageReport = matchingClasses.flatMap {
@@ -313,11 +313,13 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         EvaluatorResult(true, project.coveragePoints, project.coveragePoints,
             "Test coverage meets %.0f%% %s requirement"
                 .format(project.coveragePercentage, counterTypeStr),
+            COVERAGE_CATEGORY,
             wins)
     } else {
         EvaluatorResult(false, 0.0, project.coveragePoints,
             "Classes with coverage below %.0f%% %s requirement"
                 .format(project.coveragePercentage, counterTypeStr),
+            COVERAGE_CATEGORY,
             fails +
                 listOf(BasicDeduction("See the coverage report for details:\n" +
                     "${AutoGrader.buildDir}/reports/jacoco/index.html", 0.0)))

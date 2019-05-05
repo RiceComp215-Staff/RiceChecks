@@ -415,7 +415,7 @@ you might then clone and experiment with.
   motivating factor was being able to easily leverage the efforts
   of the [ClassGraph](https://github.com/classgraph/classgraph) project, which makes it
   straightforward to extract annotations from Java code, and [Jackson](https://github.com/FasterXML/jackson),
-  which has support for reading and writing XML, YAML, and a variety of other common formats.
+  which has simple support for reading and writing XML, YAML, and a variety of other common formats.
   Since both ClassGraph and Jackson are just Java libraries,
   we could call them from Java, Kotlin, Scala, or any other JVM language. 
   
@@ -436,12 +436,13 @@ you might then clone and experiment with.
   send grades automatically to my server?** 
   After the autograder runs, it creates two files: 
   `build/autograder/report.json` and `build/autograder/report.yml`
-  (same data, your choice of serialization format). The information is the same as
-  the pretty-printed output, just easier for a machine to parse. You might configure your CI service
-  to run some action after the autograder finishes which pushes this data to a web
-  server you control. Since students control their repositories, and can at least theoretically
-  make the CI server run anything they want, you should not place too much trust in the veracity
-  of the data your server is receiving. 
+  (same data, your choice of serialization format). The information is a superset of 
+  the pretty-printed output, which tries to only print what the user really needs (e.g., only
+  printing the names of failed unit tests, rather than the names of every unit test). 
+  
+  After the autograder has finished running, your own code can pick up the autograder report
+  and take further actions, like uploading it to a server. Keep in mind that students control
+  their repositories, which includes the possibility of generating deliberately incorrect reports.
   
 - **How can I do coverage testing on a per-method basis rather than per-class?** 
   You could extend the relevant code in

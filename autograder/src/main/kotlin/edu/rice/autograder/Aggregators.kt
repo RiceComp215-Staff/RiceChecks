@@ -10,58 +10,62 @@ import arrow.core.getOrDefault
 import arrow.syntax.collections.tail
 import java.io.PrintStream
 
+const val STYLE_CATEGORY = "Style"
+const val COVERAGE_CATEGORY = "Coverage"
+const val TESTS_CATEGORY = "Tests"
+
 fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
-        listOf(if (warningPoints == 0.0) {
-            passingEvaluatorResult(0.0, "No warning / style deductions")
-        } else {
-            Log.i("warningAggregator",
-                "useCheckStyle($useCheckStyle), " +
-                    "useGoogleJavaFormat($useGoogleJavaFormat), " +
-                    "useJavacWarnings($useJavacWarnings)")
+    listOf(if (warningPoints == 0.0) {
+        passingEvaluatorResult(0.0, "No warning / style deductions", STYLE_CATEGORY)
+    } else {
+        Log.i("warningAggregator",
+            "useCheckStyle($useCheckStyle), " +
+                "useGoogleJavaFormat($useGoogleJavaFormat), " +
+                "useJavacWarnings($useJavacWarnings)")
 
-            val googleJavaFormatContents =
-                readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
-                    .map { googleJavaFormatParser(it).eval() }
-                    .getOrDefault { googleJavaFormatMissing }
+        val googleJavaFormatContents =
+            readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
+                .map { googleJavaFormatParser(it).eval() }
+                .getOrDefault { googleJavaFormatMissing }
 
-            val checkStyleMainContents =
-                readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
-                    .map { checkStyleParser(it).eval("main") }
-                    .getOrDefault { checkStyleMissing("main") }
+        val checkStyleMainContents =
+            readFile("${AutoGrader.buildDir}/reports/checkstyle/main.xml")
+                .map { checkStyleParser(it).eval("main") }
+                .getOrDefault { checkStyleMissing("main") }
 
-            val checkStyleTestContents =
-                readFile("${AutoGrader.buildDir}/reports/checkstyle/test.xml")
-                    .map { checkStyleParser(it).eval("test") }
-                    .getOrDefault { checkStyleMissing("test") }
+        val checkStyleTestContents =
+            readFile("${AutoGrader.buildDir}/reports/checkstyle/test.xml")
+                .map { checkStyleParser(it).eval("test") }
+                .getOrDefault { checkStyleMissing("test") }
 
-            val compilerLogContents =
-                readFile("${AutoGrader.buildDir}/logs/compile.log")
-                    .map { javacZeroWarnings(it) }
-                    .getOrDefault { javacLogMissing }
+        val compilerLogContents =
+            readFile("${AutoGrader.buildDir}/logs/compile.log")
+                .map { javacZeroWarnings(it) }
+                .getOrDefault { javacLogMissing }
 
-            val checkStyleMaybe =
-                    if (useCheckStyle)
-                        listOf(checkStyleMainContents, checkStyleTestContents)
-                    else
-                        emptyList()
+        val checkStyleMaybe =
+            if (useCheckStyle)
+                listOf(checkStyleMainContents, checkStyleTestContents)
+            else
+                emptyList()
 
-            val googleJavaStyleMaybe =
-                    if (useGoogleJavaFormat) listOf(googleJavaFormatContents) else emptyList()
+        val googleJavaStyleMaybe =
+            if (useGoogleJavaFormat) listOf(googleJavaFormatContents) else emptyList()
 
-            val compilerMaybe =
-                    if (useJavacWarnings) listOf(compilerLogContents) else emptyList()
+        val compilerMaybe =
+            if (useJavacWarnings) listOf(compilerLogContents) else emptyList()
 
-            val allResults = checkStyleMaybe + googleJavaStyleMaybe + compilerMaybe
+        val allResults = checkStyleMaybe + googleJavaStyleMaybe + compilerMaybe
 
-            val passing = allResults.fold(true) { a, b -> a && b.passing }
+        val passing = allResults.fold(true) { a, b -> a && b.passing }
 
-            if (passing) passingEvaluatorResult(warningPoints, "No warning / style deductions")
-            else EvaluatorResult(false,
-                    0.0,
-                    warningPoints,
-                    "Warning / style deductions",
-                    allResults)
-        })
+        EvaluatorResult(passing,
+            if (passing) warningPoints else 0.0,
+            warningPoints,
+            if (passing) "No warning / style deductions" else "Warning / style deductions",
+            STYLE_CATEGORY,
+            allResults)
+    })
 
 fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
     val testResultFiles = readdirPath("${AutoGrader.buildDir}/test-results/test")
@@ -75,7 +79,8 @@ fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
 
     return if (testResultFiles.isEmpty()) {
         Log.i("unitTestAggregator", "Yielded zero evaluation results!")
-        listOf(EvaluatorResult(false, 0.0, this.maxPoints, "No unit tests found!", emptyList()))
+        listOf(EvaluatorResult(false, 0.0, this.maxPoints,
+            "No unit tests found!", TESTS_CATEGORY, emptyList()))
     } else {
         val parsedResults = testResultFiles
                 .map { junitSuiteParser(it) }
@@ -88,7 +93,7 @@ fun GGradeProject.unitTestAggregator(): List<EvaluatorResult> {
 
 fun GGradeProject.jacocoAggregator(): List<EvaluatorResult> =
         listOf(if (coveragePoints == 0.0)
-            passingEvaluatorResult(0.0, "No code coverage requirements")
+            passingEvaluatorResult(0.0, "No code coverage requirements", COVERAGE_CATEGORY)
         else
             readFile("${AutoGrader.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
                     .map { jacocoParser(it).eval(this) }
@@ -168,20 +173,22 @@ fun ResultsReport.print(stream: PrintStream) {
     }
     stream.println(dividerLine)
     stream.println(blankLine)
-    results.forEach { (passes, points, maxPoints, title, deductions) ->
+    results.forEach { (passes, points, maxPoints, title, _, deductions) ->
         stream.println(fractionLine(title, points, maxPoints, passes))
-        deductions.forEach { (text, value) ->
-            // we treat newlines as forced linebreaks then wrap each line
-            val wrapped = text.split("\n").flatMap {
-                wordWrap(it, leftColumn - 2)
-            }
+        deductions
+            .filter { it.worthPrinting() }
+            .forEach { (text, value) ->
+                // we treat newlines as forced linebreaks then wrap each line
+                val wrapped = text.split("\n").flatMap {
+                    wordWrap(it, leftColumn - 2)
+                }
 
-            stream.println("$blankLine - %-${leftColumn - 2}s %s"
-                .format(wrapped[0], (-value).rightColumnNonZero()))
-            wrapped.tail().forEach {
-                stream.println("$blankLine   $it")
+                stream.println("$blankLine - %-${leftColumn - 2}s %s"
+                    .format(wrapped[0], (-value).rightColumnNonZero()))
+                wrapped.tail().forEach {
+                    stream.println("$blankLine   $it")
+                }
             }
-        }
         stream.println(blankLine)
     }
 
@@ -191,6 +198,17 @@ fun ResultsReport.print(stream: PrintStream) {
     stream.println(dividerLine)
     stream.println(fractionLine("Total points:", allPoints, maxPoints, allPassing))
     stream.println(endDividerLine)
+}
+
+/**
+ * While we want "everything" in the machine-readable results, we'll shorten the results
+ * we print to the humans based on this.
+ */
+fun Deduction.worthPrinting(): Boolean = when {
+    this is UnitTestDeduction && cost == 0.0 -> false
+    this is UnitTestFactoryDeduction && numChecked > 0 && numPassed == numChecked -> false
+    this is CodeStyleDeduction && passing -> false
+    else -> true
 }
 
 fun ResultsReport.writeReports() {
