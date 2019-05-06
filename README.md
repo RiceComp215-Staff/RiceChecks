@@ -469,10 +469,14 @@ you might then clone and experiment with.
   and anonymous inner classes.
   
 - **On Windows, when I run the autograder, I see a bunch of `?????`'s rather than the nice Unicode
-  borders around the autograder output. How do I fix that?** For IntelliJ, you can go to *Help* ➔
-  *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the
-  Unicode should all work properly. 
-  [Unicode support for the Windows console is complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
-  Maybe install a [different console program](https://conemu.github.io/en/UnicodeSupport.html)?
-  Apple's *Terminal* program, at least, seems to properly support Unicode, and IntelliJ also
-  does the right thing, at least after you change that VM option.
+  borders around the autograder output. How do I fix that?** 
+  
+  - For IntelliJ, you can go to *Help* ➔ *Edit Custom VM Options...* and add the line
+   `-Dfile.encoding=UTF-8`. Restart IntelliJ and the Unicode should all work properly. 
+   
+  - For Windows console users, check out Microsoft's new 
+    [Windows Terminal](https://devblogs.microsoft.com/commandline/introducing-windows-terminal/).
+    It's free and it seems to have lots of promising features.
+    
+  - For Mac users, the regular Terminal program, installed on every Mac, seems
+    to do the right thing out of the box.
