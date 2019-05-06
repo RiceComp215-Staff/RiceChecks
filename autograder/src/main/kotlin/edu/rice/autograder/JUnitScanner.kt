@@ -157,6 +157,9 @@ private fun List<JUnitSuite>.find(className: String, methodName: String): List<J
  */
 fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
     project.topics.map { (topicName, topicMaxPoints, tests) ->
+        // - Each "topic" in a given project maps to one EvaluatorResult.
+        // - Each EvaluatorResult has all the points worked out and then
+        //   a list of UnitTestDeductions.
         val topicResults = tests.map { (points, maxPoints, className, methodName, testFactory) ->
             val name = "$className.$methodName"
             val testResults = find(className, methodName)

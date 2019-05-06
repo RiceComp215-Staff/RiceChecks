@@ -99,10 +99,6 @@ fun GGradeProject.jacocoAggregator(): List<EvaluatorResult> =
                     .map { jacocoParser(it).eval(this) }
                     .getOrDefault { jacocoResultsMissing() })
 
-fun GGradeProject.allResults(): List<EvaluatorResult> =
-        unitTestAggregator() + warningAggregator() +
-                if (coveragePoints == 0.0) emptyList() else jacocoAggregator()
-
 // Unicode note: Even though we're normally expecting our results to appear using
 // a fixed-width font, the drawing symbols and the other Unicode stuff below is
 // going to come elsewhere, meaning that we will have no assurance that we can
@@ -132,9 +128,9 @@ private fun fractionLine(detail: String, top: Double, bottom: Double, passing: B
 }
 
 /**
- * This data structure represents the final report that we're reporting to the user.
- * It's also the structure that we're going to serialize into YAML and/or JSON format
- * for downstream tools that might want to use our output.
+ * This data structure represents the "final report" from the autograder. It's got
+ * all the measurements and conclusions of the autograder in one place. The expected
+ * methods for processing this are [ResultsReport.writeReports] and [ResultsReport.print].
  */
 data class ResultsReport(
     val projectName: String,
@@ -145,26 +141,19 @@ data class ResultsReport(
     val results: List<EvaluatorResult>
 )
 
-/**
- * Given a [GGradeProject], extracts a [ResultsReport], suitable for printing with
- * [ResultsReport.print] or otherwise writing out.
- */
+/** Given a [GGradeProject], extracts a [ResultsReport]. */
 fun GGradeProject.toResultsReport(): ResultsReport {
-    // Engineering note: inside each topic, the internal grades were already computed before
-    // we got here, so all the "deduction" fields have already been accumulated for those.
-    // All we're doing here is just adding up the points on the individual topic scores.
+    val results = unitTestAggregator() +
+        (if (warningPoints == 0.0) emptyList() else warningAggregator()) +
+        (if (coveragePoints == 0.0) emptyList() else jacocoAggregator())
 
-    val results = allResults()
     val allPassing = results.fold(true) { a, b -> a && b.passes }
     val allPoints = results.sumByDouble { it.points }
 
     return ResultsReport(name, description, allPassing, allPoints, maxPoints, results)
 }
 
-/**
- * Prints everything to the given output [PrintStream], then returns
- * whether the tests succeeded (true) or failed (false).
- */
+/** Prints a human-readable report to the given output [PrintStream]. */
 fun ResultsReport.print(stream: PrintStream) {
     stream.println(startDividerLine)
     stream.println("$blankLine %-${lineLength - 2}s".format("$AutoGraderName for $projectName"))
@@ -201,8 +190,9 @@ fun ResultsReport.print(stream: PrintStream) {
 }
 
 /**
- * While we want "everything" in the machine-readable results, we'll shorten the results
- * we print to the humans based on this.
+ * While we want "everything" in the machine-readable results, we'll filter the results
+ * we print to the humans based on this predicate, so the report (mostly) just says
+ * what went wrong rather than listing every single test that passes.
  */
 fun Deduction.worthPrinting(): Boolean = when {
     this is UnitTestDeduction && cost == 0.0 -> false
@@ -211,6 +201,11 @@ fun Deduction.worthPrinting(): Boolean = when {
     else -> true
 }
 
+/**
+ * Writes out two files in `build/autograder`, one in JSON format and one in YAML, representing
+ * the contents of the [ResultsReport], suitable for subsequent processing, uploading, etc.
+ * Also prints the human-readable report, via [ResultsReport.print], to [System.out].
+ */
 fun ResultsReport.writeReports() {
     val jsonData = jacksonJsonMapper.writeValueAsString(this) ?: ""
     val yamlData = yamlHeader + (jacksonYamlMapper.writeValueAsString(this) ?: "")

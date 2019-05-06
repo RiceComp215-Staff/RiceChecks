@@ -101,17 +101,19 @@ The essential design of the autograder is:
   Git server. (For example, you might provide a `.travis.yml` file to
   arrange for Travis-CI to run the autograder on GitHub commits.)
 - Exactly the same autograder run on the CI server as run locally on the students' computers.
-  The CI output is still helpful so students know they didn't forget to commit or push a file.
-- We provide you several example projects so you can see how this all fits together.
+  This means that students can rapidly see the autograder results, locally, and further
+  benefit from the CI service's version to ensure they didn't forget to commit or push a file.
 - Human graders can look at the CI output as well, transcribing this into the university's
   learning management system (e.g., Canvas), while also looking over the student projects
   for anything sketchy.
+- We provide you several example projects so you can see how this all fits together.
     
-RiceChecks, itself, is written in Kotlin, and should be able to process student projects written in Java, Kotlin
-or any other JVM language,
-although our focus is on Java-based student projects, at least for now. 
+RiceChecks, itself, is written in Kotlin, and should be able to process student projects written 
+in Java, Kotlin or any other JVM language, although our focus is on Java-based student projects, 
+at least for now. 
 
-**RiceChecks, itself, is compiled with OpenJDK 8 and tested with both OpenJDK 8 and OpenJDK 11. It's unlikely to work on earlier JDK releases.**
+**RiceChecks, itself, is compiled with OpenJDK 8 and tested with both OpenJDK 8 and OpenJDK 11.
+It's unlikely to work on earlier JDK releases.**
 
 ## Annotations
 
@@ -132,7 +134,7 @@ package edu.rice.sort;
 ```
   - The `warningPoints` are granted if all of the following
     checks come up clean:
-    - [Checkstyle](http://checkstyle.sourceforge.net/) (enabled by default, disable with `useCheckStyle = false`)
+    - [CheckStyle](http://checkstyle.sourceforge.net/) (enabled by default, disable with `useCheckStyle = false`)
     - [google-java-format](https://github.com/google/google-java-format) (enabled by default, disable with `useGoogleJavaFormat = false`)
     - [ErrorProne](http://errorprone.info/) (writes its output alongside the Java compiler warnings, see below)
     - [Javac's linter & compiler warnings](https://www.javaworld.com/article/2073587/javac-s--xlint-options.html) (enabled by default, disable with `useJavacWarnings = false`)
@@ -170,9 +172,9 @@ public void insertionSortStrings() { ... }
   number of points for the whole list of tests:
   
 ```java
-  @Grade(project = "RE", topic = "Numbers", points = 1, maxPoints = 5)
-  @TestFactory
-  List<DynamicTest> testIntegers() { ... }
+@Grade(project = "RE", topic = "Numbers", points = 1, maxPoints = 5)
+@TestFactory
+List<DynamicTest> testIntegers() { ... }
 ```
 ## Annotation debugging and extraction
 The process of writing down all these annotations can be tedious, and it's
@@ -233,11 +235,12 @@ in RiceChecks is:
     for satisfying the coverage policy.
   - You specify a `coveragePercentage` you wish to require of every covered class.
   - You may optionally specify a `coverageStyle`; your choices are `LINES` or `INSTRUCTIONS`,
-    corresponding to the same terms as JaCoCo understands them. If you're
-    concerned that students might try to mash too much code onto a
+    corresponding to the same terms as 
+    [JaCoCo understands them](https://www.eclemma.org/jacoco/trunk/doc/counters.html). 
+    If you're concerned that students might try to mash too much code onto a
     single line in order to game line-counting coverage, you might
     prefer the `INSTRUCTIONS` mode, which is based on Java bytecode operations,
-    or you could require *GoogleJavaFormat*, described above, which forces
+    or you could require *google-java-format*, described above, which forces
     code to be formatted in a more reasonable fashion.
 
 - You annotate Java classes or packages (via `package-info.java`) with an `@GradeCoverage`
@@ -380,21 +383,22 @@ you might then clone and experiment with.
   tests and it all looks the same when RiceChecks reads the logs.
   
 - **What about [Spotless](https://github.com/diffplug/spotless) or [SpotBugs](https://github.com/spotbugs/spotbugs)?**
-  Spotless is analogous to [Checkstyle](http://checkstyle.sourceforge.net/) and [google-java-format](https://github.com/google/google-java-format). 
+  Spotless is analogous to [CheckStyle](http://checkstyle.sourceforge.net/) and [google-java-format](https://github.com/google/google-java-format). 
   SpotBugs is analogous to [ErrorProne](https://errorprone.info/). You could certainly engineer support for additional tooling
   into RiceChecks, but it's not here right now.
   
-- **Why are you using both Checkstyle and google-java-format?** The nice thing
-  about google-java-format is that it provides an auto-indenter (`googleJavaFormat`) that students
-  can run as a Gradle task. We still need Checkstyle to enforce other useful Java practices,
-  like capital names for classes with matching filenames. Checkstyle saves us from weird
+- **Why are you using both CheckStyle and google-java-format?** The nice thing
+  about google-java-format is that it provides an auto-indenter that students
+  can run as a Gradle task (`googleJavaFormat`). We still need CheckStyle to enforce other useful Java practices,
+  like capital names for classes with matching filenames. CheckStyle saves us from weird
   scenarios where a Java program compiles on a case-insensitive filesystem (Windows or Mac) but not on
   a case-sensitive filesystem (Linux). 
 
 - **Why do you write out the grading policy to a YAML file? Why not just
   re-read the annotations every time?** Let's say you want to have "secret" unit
-  tests that you don't initially give to your students. You can construct a policy
-  with them present, save it to the YAML file, and then delete the "secret" Java test file prior
+  tests that you don't initially give to your students, perhaps because you want
+  to make them write their own tests before seeing yours. You can construct a policy
+  with your tests present, save it to the YAML file, and then delete your "secret" Java test file prior
   to distributing the project to your students. When the student runs the autograder,
   it will notice that the "secret" tests are missing and treat them as having failed.
   When you later add them back in, everything works.
@@ -411,11 +415,11 @@ you might then clone and experiment with.
   If you prefer your students not to see your "secret" tests prior to the deadline, you
   could always do a similar process *after* the final submission deadline.
   
-- **Why did you write the autograder itself in Kotlin as opposed to ...?** An important
+- **Why did you write the autograder itself in Kotlin?** An important
   motivating factor was being able to easily leverage the efforts
   of the [ClassGraph](https://github.com/classgraph/classgraph) project, which makes it
   straightforward to extract annotations from Java code, and [Jackson](https://github.com/FasterXML/jackson),
-  which has simple support for reading and writing XML, YAML, and a variety of other common formats.
+  which has simple support for reading and writing XML, YAML, JSON, and a variety of other common formats.
   Since both ClassGraph and Jackson are just Java libraries,
   we could call them from Java, Kotlin, Scala, or any other JVM language. 
   
@@ -425,12 +429,23 @@ you might then clone and experiment with.
   [Arrow](https://arrow-kt.io/) functional programming library.
   
 - **Java8 versus Java11 versus...** We want to support student projects written in Java8 or Java11,
-  and hopefully newer versions of Java as well. To that end, we compile RiceChecks using
+  and eventually newer versions of Java as well. To that end, we compile RiceChecks using
   OpenJDK 8 and test it with both OpenJDK 8 (the examples within this repository) and OpenJDK 11
   (the standalone demonstrations linked from the [Try it!](#try-it) section). 
   
   To support Java11, you'll notice several minor differences
-  in the `build.gradle` files, but it's all the same so far as RiceChecks is concerned.
+  in those examples' `build.gradle` files, but RiceChecks runs the same.
+  
+  RiceChecks is dependent on how the various Gradle plugins write out their log files.
+  That means that upgrading to a newer version of Gradle or of any of the plugins has the
+  potential to break RiceChecks.
+  
+- **Which Java distribution are you using?** [Amazon Corretto](https://aws.amazon.com/corretto/)
+  supports OpenJDK 8 and 11, providing up-to-the-minute bug fixes, and is used by Amazon 
+  for their own production services. Amazon also provides
+  `pkg` files for Apple and `msi` files for Windows, allowing students to double-click
+  and install. For Travis-CI, we just specify `openjdk8` or `openjdk11` and whatever
+  they use seems to work just fine.
 
 - **Can I have machine-readable output from RiceChecks / Can RiceChecks 
   send grades automatically to my server?** 
@@ -450,9 +465,14 @@ you might then clone and experiment with.
   which is already getting a bit complicated, to enforce more
   complicated coverage policies. You'd also have to reconfigure
   the annotation system to allow `@GradeCoverage` annotations on
-  methods, and you'd need to figure out what to do about lambdas.
+  methods, and you'd need to figure out what to do about lambdas
+  and anonymous inner classes.
   
-- **On Windows, when I run the autograder, I see a bunch of `?????`'s rather than the nice Unicode borders around the autograder output. How do I fix that?** 
-  For IntelliJ, you can go to *Help* -> *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the Unicode should
-  all work properly. [Unicode support for the Windows console is complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
+- **On Windows, when I run the autograder, I see a bunch of `?????`'s rather than the nice Unicode
+  borders around the autograder output. How do I fix that?** For IntelliJ, you can go to *Help* ➔
+  *Edit Custom VM Options...* and add the line `-Dfile.encoding=UTF-8`. Restart IntelliJ and the
+  Unicode should all work properly. 
+  [Unicode support for the Windows console is complicated](https://devblogs.microsoft.com/commandline/windows-command-line-unicode-and-utf-8-output-text-buffer/).
   Maybe install a [different console program](https://conemu.github.io/en/UnicodeSupport.html)?
+  Apple's *Terminal* program, at least, seems to properly support Unicode, and IntelliJ also
+  does the right thing, at least after you change that VM option.

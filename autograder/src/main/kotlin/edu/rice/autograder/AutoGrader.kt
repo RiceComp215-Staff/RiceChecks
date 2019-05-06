@@ -73,10 +73,10 @@ object AutoGrader {
                 "      project. --config can be used to specify a YAML file for the project\n" +
                 "      autograde spec, or, by default, the autograde spec is loaded from the\n" +
                 "      code annotations, which requires a --package argument.\n")
-        exit(false)
+        exitGrader(false)
     }
 
-    private fun exit(passing: Boolean): Nothing = exitProcess(if (passing) 0 else 1)
+    private fun exitGrader(passing: Boolean): Nothing = exitProcess(if (passing) 0 else 1)
 
     fun autoGrade(args: Array<String>) {
         commandParser = JCommander.newBuilder()
@@ -116,10 +116,10 @@ object AutoGrader {
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
                         System.out.println("No annotations found for project($lProject)")
-                        exit(false)
+                        exitGrader(false)
                     } else {
                         System.out.println(gproject.yamlExporter(true))
-                        exit(true)
+                        exitGrader(true)
                     }
                 } else {
                     helpDumpAndExit()
@@ -134,18 +134,18 @@ object AutoGrader {
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
                         System.out.println("No annotations found for project($lProject)")
-                        exit(false)
+                        exitGrader(false)
                     } else {
                         writeFile(lConfigFileName, gproject.yamlExporter())
                                 .onSuccess {
                                     System.out.println("Config for $lProject written to " +
                                         "$lConfigFileName")
-                                    exit(true)
+                                    exitGrader(true)
                                 }
                                 .onFailure {
                                     System.out.println("Error writing to $lConfigFileName: " +
                                         "${it.message}")
-                                    exit(false)
+                                    exitGrader(false)
                                 }
                     }
                 } else {
@@ -163,7 +163,7 @@ object AutoGrader {
                         "configFileName($lConfigFileName), project($lProject)")
                     val report = loadConfig(lConfigFileName).toResultsReport()
                     report.writeReports()
-                    exit(report.allPassing)
+                    exitGrader(report.allPassing)
                 }
 
                 lConfigFileName == null && lProject != null && lPackageName != null -> {
@@ -174,11 +174,11 @@ object AutoGrader {
                     if (gproject == null) {
                         Log.e(TAG, "No annotations found for project($lProject)")
                         System.out.println("No annotations found for project($lProject)")
-                        exit(false)
+                        exitGrader(false)
                     } else {
                         val report = gproject.toResultsReport()
                         report.writeReports()
-                        exit(report.allPassing)
+                        exitGrader(report.allPassing)
                     }
                 }
 
@@ -193,7 +193,7 @@ object AutoGrader {
                     .onFailure {
                         Log.e(TAG, "Failed to load $yamlFileName", it)
                         System.out.println("Failed to load $yamlFileName: ${it.message}")
-                        exit(false)
+                        exitGrader(false)
                     }
                     .getOrFail()
 }

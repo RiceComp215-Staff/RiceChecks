@@ -7,7 +7,10 @@
 package edu.rice.sort;
 
 import edu.rice.autograder.annotations.GradeCoverage;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.PriorityQueue;
 
 @GradeCoverage(project = "Sorting")
 public class PatienceSort<T extends Comparable<? super T>> implements Sorter<T> {

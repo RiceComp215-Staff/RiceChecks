@@ -306,7 +306,7 @@ private fun AnnotationTuple.toIGradeTest(
     val points = pv.lookupNoNull("points", 0.0)
     val maxPoints = pv.lookupNoNull("maxPoints", 0.0)
 
-    val fullMethodName = classOrPackageName + "." + methodName
+    val fullMethodName = "$classOrPackageName.$methodName"
 
     return with(pv) {
         when {
