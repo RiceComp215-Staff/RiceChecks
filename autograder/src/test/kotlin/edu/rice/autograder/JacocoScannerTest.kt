@@ -82,4 +82,12 @@ class JacocoScannerTest {
             assertTrue(matchingClasses.contains("edu.rice.week2lists.MList"))
         }
     }
+
+    @Test
+    fun regexMadness() {
+        assertFalse("edu/rice/rpn/RpnCalc".contains(anonymousInnerClassRegex))
+        assertFalse("edu/rice/rpn/RpnCalc\$1x".contains(anonymousInnerClassRegex))
+        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor".contains(anonymousInnerClassRegex))
+        assertTrue("edu/rice/rpn/RpnCalc\$1".contains(anonymousInnerClassRegex))
+    }
 }

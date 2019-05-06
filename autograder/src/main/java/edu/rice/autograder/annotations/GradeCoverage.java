@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * included or excluded from coverage test requirements.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE_USE, ElementType.TYPE, ElementType.PACKAGE})
+@Target({ElementType.TYPE, ElementType.PACKAGE})
 @Repeatable(GradeCoverages.class)
 @Documented
 public @interface GradeCoverage {

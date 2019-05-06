@@ -48,4 +48,14 @@ class RpnCalcTest {
     assertEquals("1.0", rpnCalc.eval("3 4 swap -"));
     assertEquals("3.0", rpnCalc.eval("2 6 swap /"));
   }
+
+  @Test
+  void testToString() {
+    RpnCalc rpnCalc = new RpnCalc();
+    rpnCalc.eval("1.0");
+    rpnCalc.eval("2.0");
+    rpnCalc.eval("3.0");
+
+    assertEquals("3.0, 2.0, 1.0", rpnCalc.toString());
+  }
 }

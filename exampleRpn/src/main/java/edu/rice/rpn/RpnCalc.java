@@ -8,6 +8,7 @@ package edu.rice.rpn;
 
 import edu.rice.autograder.annotations.GradeCoverage;
 import java.util.ArrayDeque;
+import java.util.stream.Collectors;
 
 @GradeCoverage(project = "RPN")
 class RpnCalc {
@@ -33,7 +34,7 @@ class RpnCalc {
         tokenNum = null;
       }
       if (tokenNum != null) {
-        stack.push(Double.parseDouble(token + ""));
+        stack.push(Double.parseDouble(token));
       } else {
         double firstOperand;
         double secondOperand;
@@ -83,5 +84,28 @@ class RpnCalc {
       }
     }
     return stack.isEmpty() ? "Empty" : stack.getFirst().toString();
+  }
+
+  // Everything below here is completely contrived code for the sole
+  // purpose of exercising and testing our handling of code coverage
+  // of anonymous inner classes.
+
+  interface StackVisitor<T> {
+    T visit(double value);
+  }
+
+  public String mapThenJoin(StackVisitor<String> sv) {
+    return stack.stream().map(sv::visit).collect(Collectors.joining(", "));
+  }
+
+  @Override
+  public String toString() {
+    return mapThenJoin(
+        new StackVisitor<String>() {
+          @Override
+          public String visit(double value) {
+            return Double.toString(value);
+          }
+        });
   }
 }

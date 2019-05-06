@@ -266,7 +266,10 @@ public class HeapSort { ... }
   be measured for hitting the desired coverage level on its own, without any dependencies
   on its outer or further-inner classes.
 
-- *Anonymous* inner classes are TBD (*will be accumulated as part of parent class?*).
+- For *anonymous* inner classes, contained inside a class that's subject to coverage,
+  we *accumulate* the statistics from the anonymous inner class with its containing class,
+  enforcing coverage requirements on their statistics' sums. (Since anonymous inner classes
+  don't have names, this helps us avoid giving unhelpful feedback to a student.)
   
 ## Sample projects
 There are three sample projects, showing you how the RiceChecks autograder works. They

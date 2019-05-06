@@ -253,6 +253,9 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
     }
 }
 
+// literal dollar, one or more digits, end of string
+val anonymousInnerClassRegex = Regex("\\\$[0-9]+\$")
+
 fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     if (this == null) {
         return project.jacocoResultsMissing()
@@ -264,8 +267,16 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     val counterType = project.coverageStyle.toJacocoCounterType()
 
     val matchingClassNames = matchingClassSpecs(project.coverageAnnotations).sorted()
+
     val matchingClasses = matchingClassNames.map {
-        classesMap[it] ?: Log.ethrow(TAG, "internal failure: can't find $it")
+        val jacocoRecord = classesMap[it]
+            ?: Log.ethrow(TAG, "internal failure: can't find $it")
+        val name = classesMap[it]?.name
+            ?: Log.ethrow(TAG, "internal failure: class $it is missing a name from JaCoCo")
+
+        val anon = name.contains(anonymousInnerClassRegex)
+
+        jacocoRecord to anon
     }
 
     if (matchingClasses.isEmpty()) {
@@ -280,23 +291,67 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
             "Test coverage: no classes specified for coverage!", COVERAGE_CATEGORY, emptyList())
     }
 
-    val coverageReport = matchingClasses.flatMap {
-        val covered = it.counterMap[counterType]?.covered
-            ?: Log.ethrow(TAG, "no coverage number found for $it")
+    // Turns out, an interface with no default methods still appears in our data as a regular
+    // class, but JaCoCo doesn't assign any counters to it. Since they have no code, there's
+    // nothing to evaluate for coverage, and thus we filter them out here.
 
-        val missed = it.counterMap[counterType]?.missed
-            ?: Log.ethrow(TAG, "no missed number found for $it")
+    val regularClasses = matchingClasses
+        .filter { !it.second }
+        .map { it.first }
+        .filter { it.counters != null && it.counterMap[JacocoCounterType.LINE] != null }
 
-        val name = it.name ?: Log.ethrow(TAG, "no name found for $it")
+//    regularClasses.forEach { Log.i(TAG, "Regular class: ${it.name} (with counters)") }
 
-        if (covered + missed == 0) emptyList()
+    val anonymousClasses = matchingClasses
+        .filter { it.second }
+        .map { it.first }
+        .filter { it.counters != null && it.counterMap[JacocoCounterType.LINE] != null }
+
+//    anonymousClasses.forEach { Log.i(TAG, "Anonymous class: ${it.name} (with counters)") }
+
+    Log.i(TAG, "Matching classes: ${matchingClasses.size}")
+    Log.i(TAG, "Regular classes with coverage counters: ${regularClasses.size}")
+    Log.i(TAG, "Anonymous inner classes with coverage counters: ${anonymousClasses.size}")
+
+    val coverageReport = regularClasses.flatMap { classRecord ->
+        val name = classRecord.name ?: Log.ethrow(TAG, "no name found for $classRecord")
+
+        val matchingAnonymousRecords = anonymousClasses.filter {
+            val anonName = it.name ?: ""
+            anonName.startsWith("$name$")
+        }
+
+        val numAnonInner = matchingAnonymousRecords.size
+
+        if (numAnonInner > 0) {
+            Log.i(TAG, "Found $numAnonInner anonymous inner classes for $name")
+        }
+
+        val allClassRecords = matchingAnonymousRecords + classRecord
+
+        val covered = allClassRecords.sumBy {
+            it.counterMap[counterType]?.covered
+                ?: Log.ethrow(TAG, "no coverage numbers found for $it")
+        }
+
+        val missed = allClassRecords.sumBy {
+            it.counterMap[counterType]?.missed
+                ?: Log.ethrow(TAG, "no missed numbers found for $it")
+        }
+
+        if (covered + missed == 0)
+            emptyList()
         else {
             val percentage = 100.0 * covered / (covered + missed).toDouble()
-            val className = name.fixClassName()
-            val coverageStr = "Coverage of %s: %.1f%%"
-                .format(className, percentage)
+            val classNameFixed = name.fixClassName()
+            val coverageStr = "Coverage of $classNameFixed: %.1f%% ($covered/${covered + missed})%s"
+                .format(percentage, when {
+                    numAnonInner == 0 -> ""
+                    numAnonInner == 1 -> "\n(including one anonymous inner class)"
+                    else -> "\n(including $numAnonInner anonymous inner classes)"
+                })
             Log.i(TAG, coverageStr)
-            listOf(CoverageDeduction(coverageStr, 0.0, className, percentage))
+            listOf(CoverageDeduction(coverageStr, 0.0, classNameFixed, percentage))
         }
     }
 

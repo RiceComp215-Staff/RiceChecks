@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE_USE, ElementType.TYPE, ElementType.PACKAGE})
+@Target({ElementType.TYPE, ElementType.PACKAGE})
 @Documented
 public @interface GradeCoverages {
   /** When multiple GradeCoverage annotations specified, this is what you get back. */
