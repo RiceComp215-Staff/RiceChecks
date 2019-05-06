@@ -164,10 +164,10 @@ repositories {
 
 dependencies {
     // autograder annotations
-    implementation 'edu.rice.ricechecks:ricechecks-annotations:0.6'
+    implementation 'edu.rice.ricechecks:ricechecks-annotations:0.7'
 
     // autograder tool
-    ricechecks 'edu.rice.ricechecks:ricechecks:0.6'
+    ricechecks 'edu.rice.ricechecks:ricechecks:0.7'
 
     // logging
     implementation 'ch.qos.logback:logback-classic:1.2.3'

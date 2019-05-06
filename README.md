@@ -298,10 +298,10 @@ repository for use with RiceChecks, you should start with
 [standaloneSort/build.gradle](standaloneSort/build.gradle),
 which has the following features:
 
-- Loads `edu.rice.ricechecks:ricechecks-annotations:0.6` (just the Java annotations)
+- Loads `edu.rice.ricechecks:ricechecks-annotations:0.7` (just the Java annotations)
   as a regular dependency for student code.
   
-- Loads `edu.rice.ricechecks:ricechecks:0.6` (the autograder tool) as part of
+- Loads `edu.rice.ricechecks:ricechecks:0.7` (the autograder tool) as part of
   a separate Gradle "configuration", ensuring that symbols from the tool don't accidentally
   autocomplete in students' IDEs.
   
