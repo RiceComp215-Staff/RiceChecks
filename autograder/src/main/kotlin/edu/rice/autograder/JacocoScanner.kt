@@ -254,7 +254,26 @@ fun JacocoReport.matchingClassSpecs(coverages: List<GGradeCoverage>): List<Strin
 }
 
 // literal dollar, one or more digits, end of string
-val anonymousInnerClassRegex = Regex("\\\$[0-9]+\$")
+private val anonymousInnerClassRegex = Regex("\\\$[0-9]+\$")
+private val dollarsAndDigitsRegex = Regex("\\\$[$\\d]+")
+
+/**
+ * Determines if a class name in JaCoCo's syntax (with /'s and $'s) is
+ * an anonymous inner class, based on ending with a dollar sign followed
+ * by a number.
+ */
+fun String.isAnonymousInnerClass() = contains(anonymousInnerClassRegex)
+
+/**
+ * Determines if a class name in JaCoCo's syntax (with /'s and $'s) is
+ * an anonymous inner class of another (also in JaCoCo's syntax). This
+ * will also match *nested* anonymous inner classes.
+ */
+fun String?.isAnonymousInnerClassOf(name: String?) =
+    this != null && name != null &&
+        isAnonymousInnerClass() &&
+        startsWith(name) &&
+        drop(name.length).matches(dollarsAndDigitsRegex)
 
 fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     if (this == null) {
@@ -274,9 +293,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         val name = classesMap[it]?.name
             ?: Log.ethrow(TAG, "internal failure: class $it is missing a name from JaCoCo")
 
-        val anon = name.contains(anonymousInnerClassRegex)
-
-        jacocoRecord to anon
+        jacocoRecord to name.isAnonymousInnerClass()
     }
 
     if (matchingClasses.isEmpty()) {
@@ -317,8 +334,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         val name = classRecord.name ?: Log.ethrow(TAG, "no name found for $classRecord")
 
         val matchingAnonymousRecords = anonymousClasses.filter {
-            val anonName = it.name ?: ""
-            anonName.startsWith("$name$")
+            it.name.isAnonymousInnerClassOf(name)
         }
 
         val numAnonInner = matchingAnonymousRecords.size
@@ -355,11 +371,13 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         }
     }
 
-    val fails = coverageReport
-        .filter { it.coveragePercentage < project.coveragePercentage }
+    val fails = coverageReport.filter {
+        it.coveragePercentage < project.coveragePercentage
+    }
 
-    val wins = coverageReport
-        .filter { it.coveragePercentage >= project.coveragePercentage }
+    val wins = coverageReport.filter {
+        it.coveragePercentage >= project.coveragePercentage
+    }
 
     val passing = fails.isEmpty()
     val counterTypeStr = "(by ${counterType.toString().toLowerCase()})"

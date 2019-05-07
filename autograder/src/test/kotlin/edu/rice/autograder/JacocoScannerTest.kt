@@ -84,10 +84,41 @@ class JacocoScannerTest {
     }
 
     @Test
-    fun regexMadness() {
-        assertFalse("edu/rice/rpn/RpnCalc".contains(anonymousInnerClassRegex))
-        assertFalse("edu/rice/rpn/RpnCalc\$1x".contains(anonymousInnerClassRegex))
-        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor".contains(anonymousInnerClassRegex))
-        assertTrue("edu/rice/rpn/RpnCalc\$1".contains(anonymousInnerClassRegex))
+    fun anonInnerClassRegexWorks() {
+        assertFalse("edu/rice/rpn/RpnCalc".isAnonymousInnerClass())
+        assertFalse("edu/rice/rpn/RpnCalc\$1x".isAnonymousInnerClass())
+        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor".isAnonymousInnerClass())
+        assertTrue("edu/rice/rpn/RpnCalc\$1".isAnonymousInnerClass())
+
+        // nested anonymous inner classes should look like this
+        assertTrue("edu/rice/rpn/RpnCalc\$1\$1".isAnonymousInnerClass())
+        assertTrue("edu/rice/rpn/RpnCalc\$1\$23\$1".isAnonymousInnerClass())
+        assertTrue("edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1".isAnonymousInnerClass())
+        assertFalse("edu/rice/rpn/RpnCalc\$1\$StackVisitor".isAnonymousInnerClass())
+    }
+
+    @Test
+    fun anonInnerClassOfWorks() {
+        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1"))
+        assertFalse("edu/rice/rpn/RpnCalc"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1"))
+        assertFalse("edu/rice/rpn/RpnCalc\$1"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1"))
+        assertFalse("edu/rice/rpn/RpnCalc\$1"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$StackVisitor"))
+        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor\$1"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+        assertFalse("edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+
+        assertTrue("edu/rice/rpn/RpnCalc\$1"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+        assertTrue("edu/rice/rpn/RpnCalc\$1\$2\$1"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+        assertTrue("edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
+            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1\$StackVisitor"))
     }
 }
