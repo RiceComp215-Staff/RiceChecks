@@ -100,25 +100,25 @@ class JacocoScannerTest {
     @Test
     fun anonInnerClassOfWorks() {
         assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
         assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1")
         assertFalse("edu/rice/rpn/RpnCalc"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1")
         assertFalse("edu/rice/rpn/RpnCalc\$1"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1")
         assertFalse("edu/rice/rpn/RpnCalc\$1"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$StackVisitor"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$StackVisitor")
         assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor\$1"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
         assertFalse("edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
 
         assertTrue("edu/rice/rpn/RpnCalc\$1"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
         assertTrue("edu/rice/rpn/RpnCalc\$1\$2\$1"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
         assertTrue("edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
-            .isAnonymousInnerClassOf("edu/rice/rpn/RpnCalc\$1\$StackVisitor"))
+            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1\$StackVisitor")
     }
 }

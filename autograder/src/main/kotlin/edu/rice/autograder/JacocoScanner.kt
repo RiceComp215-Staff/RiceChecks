@@ -269,7 +269,7 @@ fun String.isAnonymousInnerClass() = contains(anonymousInnerClassRegex)
  * an anonymous inner class of another (also in JaCoCo's syntax). This
  * will also match *nested* anonymous inner classes.
  */
-fun String?.isAnonymousInnerClassOf(name: String?) =
+infix fun String?.isAnonymousInnerClassOf(name: String?) =
     this != null && name != null &&
         isAnonymousInnerClass() &&
         startsWith(name) &&
@@ -334,7 +334,7 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         val name = classRecord.name ?: Log.ethrow(TAG, "no name found for $classRecord")
 
         val matchingAnonymousRecords = anonymousClasses.filter {
-            it.name.isAnonymousInnerClassOf(name)
+            it.name isAnonymousInnerClassOf name
         }
 
         val numAnonInner = matchingAnonymousRecords.size
