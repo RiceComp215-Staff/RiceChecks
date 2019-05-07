@@ -50,11 +50,7 @@ class RpnCalc {
             firstOperand = stack.pop();
             stack.push(firstOperand / secondOperand);
             break;
-          case "-":
-            secondOperand = stack.pop();
-            firstOperand = stack.pop();
-            stack.push(firstOperand - secondOperand);
-            break;
+          case "-": secondOperand = stack.pop(); firstOperand = stack.pop(); stack.push(secondOperand - firstOperand); break;
           case "+":
             secondOperand = stack.pop();
             firstOperand = stack.pop();

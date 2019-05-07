@@ -29,10 +29,11 @@ The output looks something like this for a successful project:
 │ No warning / style deductions                                    1.0/1.0 ✅
 │
 │ Test coverage meets 90% (by line) requirement                    1.0/1.0 ✅
-│ - Coverage of edu.rice.sort.HeapSort: 100.0%                     
-│ - Coverage of edu.rice.sort.InsertionSort: 100.0%                
-│ - Coverage of edu.rice.sort.PatienceSort: 100.0%                 
-│ - Coverage of edu.rice.sort.ShellSort: 100.0%                    
+│ - Coverage of edu.rice.sort.HeapSort: 100.0% (31/31)             
+│ - Coverage of edu.rice.sort.InsertionSort: 100.0% (9/9)          
+│ - Coverage of edu.rice.sort.PatienceSort: 100.0% (20/20)         
+│ - Coverage of edu.rice.sort.PatienceSort.Pile: 100.0% (1/1)      
+│ - Coverage of edu.rice.sort.ShellSort: 100.0% (14/14)            
 │
 ├─────────────────────────────────────────────────────────────────────────────
 │ Total points:                                                  10.0/10.0 ✅
@@ -46,24 +47,23 @@ Whereas, for a project with some bugs, you might see:
 │ Simple RPN Calculator                                                       
 ├─────────────────────────────────────────────────────────────────────────────
 │
-│ Correctness: 1 of 2 tests passed                                 3.0/6.0 ❌
-│ - edu.rice.rpn.RpnCalcTest.testBasicArithmetic: passed           
+│ Correctness: 0 of 2 tests passed                                 0.0/6.0 ❌
+│ - edu.rice.rpn.RpnCalcTest.testBasicArithmetic: failed             (-3.0)
 │ - edu.rice.rpn.RpnCalcTest.testStackHandling: failed               (-3.0)
 │
 │ Warning / style deductions                                       0.0/1.0 ❌
-│ - CheckStyle (main): 0 of 1 files passed                           (-1.0)
-│ - CheckStyle (test): 1 of 1 files passed                         
-│ - GoogleJavaFormat: 1 of 2 files passed                            (-1.0)
+│ - CheckStyle (main): 0 of 1 files passed                         
+│ - GoogleJavaFormat: 1 of 2 files passed                          
 │   run the gradle <googleJavaFormat> task to fix
-│ - Compiler: No warnings or errors                                
 │
 │ Classes with coverage below 90% (by line) requirement            0.0/3.0 ❌
-│ - Coverage of edu.rice.rpn.RpnCalc: 78.9%                        
+│ - Coverage of edu.rice.rpn.RpnCalc: 73.8% (31/42)                
+│   (including one anonymous inner class)
 │ - See the coverage report for details:                           
 │   ./build/reports/jacoco/index.html
 │
 ├─────────────────────────────────────────────────────────────────────────────
-│ Total points:                                                   3.0/10.0 ❌
+│ Total points:                                                   0.0/10.0 ❌
 └─────────────────────────────────────────────────────────────────────────────
 ```
 
