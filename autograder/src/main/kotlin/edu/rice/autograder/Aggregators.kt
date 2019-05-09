@@ -156,7 +156,7 @@ fun GGradeProject.toResultsReport(): ResultsReport {
 /** Prints a human-readable report to the given output [PrintStream]. */
 fun ResultsReport.print(stream: PrintStream) {
     stream.println(startDividerLine)
-    stream.println("$blankLine %-${lineLength - 2}s".format("$AutoGraderName for $projectName"))
+    stream.println("$blankLine %-${lineLength - 2}s".format("Autograder for $projectName"))
     wordWrap(description, lineLength - 2).forEach {
         stream.println("$blankLine %-${lineLength - 2}s".format(it))
     }

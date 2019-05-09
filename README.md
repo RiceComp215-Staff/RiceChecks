@@ -14,7 +14,7 @@ is embedded in your code. It's like JavaDoc, but for grading policies.
 The output looks something like this for a successful project:
 ```
 ┌─────────────────────────────────────────────────────────────────────────────
-│ RiceChecks for Sorting                                                      
+│ Autograder for Sorting                                                      
 │ Implement Many Sorting Algorithms                                           
 ├─────────────────────────────────────────────────────────────────────────────
 │
@@ -43,7 +43,7 @@ The output looks something like this for a successful project:
 Whereas, for a project with some bugs, you might see:
 ```
 ┌─────────────────────────────────────────────────────────────────────────────
-│ RiceChecks for RPN                                                          
+│ Autograder for RPN                                                          
 │ Simple RPN Calculator                                                       
 ├─────────────────────────────────────────────────────────────────────────────
 │
