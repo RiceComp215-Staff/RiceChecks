@@ -167,8 +167,7 @@ private fun AnnotationParameterValueList?.failScanner(s: String): Nothing =
 private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, default: T): T? {
     // Kotlin FTW: the reified type parameter allows us to have the "is T" query below, which
     // we could never do as easily in Java. Also winning, the type parameter can almost always
-    // get inferred from the default parameter, so you hardly ever have to have an explicit
-    // type parameter to this method.
+    // get inferred from "default", so we never need to explicitly state the type parameter.
 
     val o = this[key] ?: return null
     return when (val v = o.value) {
@@ -642,13 +641,10 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
             }
 }
 
-// TODO: switch over to kotlinx.serialization, because it's portable across platforms, has the stuff that plants need
-//       https://github.com/Kotlin/kotlinx.serialization
-
 // Engineering note: You'll see lots of filterNotNull() in here. Even though we're pretty sure no nulls are
 // coming back from the ClassGraph library, we're doing this anyway because it ensures the resulting lists
 // are guaranteed to be null-free. ClassGraph has no annotations for nullity, and this defensive coding practice
 // is unlikely to change the outcome of our code, but it does ensure that, if ClassGraph does randomly include
-// a null in one of the lists it hands us, we'll just quietly ignore it and move in rather than exploding
+// a null in one of the lists it hands us, we'll just quietly ignore it and move on rather than exploding
 // with a NullPointerException. Alternate viewpoint: we're using filterNonNull() as a way of converting
 // from types like List<T?> or List<T!> to List<T>.
