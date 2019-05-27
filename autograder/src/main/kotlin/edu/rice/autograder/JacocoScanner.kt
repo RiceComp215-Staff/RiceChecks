@@ -361,9 +361,9 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
             val percentage = 100.0 * covered / (covered + missed).toDouble()
             val classNameFixed = name.fixClassName()
             val coverageStr = "Coverage of $classNameFixed: %.1f%% ($covered/${covered + missed})%s"
-                .format(percentage, when {
-                    numAnonInner == 0 -> ""
-                    numAnonInner == 1 -> "\n(including one anonymous inner class)"
+                .format(percentage, when (numAnonInner) {
+                    0 -> ""
+                    1 -> "\n(including one anonymous inner class)"
                     else -> "\n(including $numAnonInner anonymous inner classes)"
                 })
             Log.i(TAG, coverageStr)
