@@ -284,7 +284,7 @@ are:
   of examples that should be rejected by the regex.
 - [exampleRpn](exampleRpn): students are asked to implement a simple RPN calculator;
   there are many cases, so we require minimum test coverage.
-- [exampleSort](exampleSort): students are asked to implement three sorting algorithms;
+- [exampleSort](exampleSort): students are asked to implement four sorting algorithms;
   their work is tested with [QuickTheories](https://github.com/quicktheories/QuickTheories),
   generating hundreds of random inputs.
   
