@@ -143,11 +143,11 @@ package edu.rice.sort;
 - You then need one or more `GradeTopic` annotations:
 ```java
 @GradeTopic(project = "Sorting", topic = "HeapSort")
-public class HeapSortTest { ... }
+public class HeapSortTest { /* ... */ }
 ```
 ```java
 @GradeTopic(project = "Sorting", topic = "InsertionSort")
-public class InsertionSortTest { ... }
+public class InsertionSortTest { /* ... */ }
 ```
 
   - `@GradeTopic` annotations can appear on any Java class or package.
@@ -161,9 +161,11 @@ public class InsertionSortTest { ... }
     
 - You then annotate each unit test with a `Grade` annotation:
 ```java
-@Test
-@Grade(project = "Sorting", topic = "InsertionSort", points = 1.0)
-public void insertionSortStrings() { ... }
+public class InsersionSortTest {
+    @Test
+    @Grade(project = "Sorting", topic = "InsertionSort", points = 1.0)
+    public void insertionSortStrings() { /* ... */ }
+}
 ```
 
 - For JUnit5 test factories, which return a list of tests, whose
@@ -172,9 +174,11 @@ public void insertionSortStrings() { ... }
   number of points for the whole list of tests:
   
 ```java
-@Grade(project = "RE", topic = "Numbers", points = 1, maxPoints = 5)
-@TestFactory
-List<DynamicTest> testIntegers() { ... }
+public class InsersionSortTest {
+    @TestFactory
+    @Grade(project = "RE", topic = "Numbers", points = 1, maxPoints = 5)
+    List<DynamicTest> testIntegers() { /* ... */ }
+}
 ```
 ## Annotation debugging and extraction
 The process of writing down all these annotations can be tedious, and it's
@@ -247,7 +251,7 @@ in RiceChecks is:
   annotation to note which project(s) care about coverage for those Java classes or packages.
 ```java
 @GradeCoverage(project = "Sorting")
-public class HeapSort { ... }
+public class HeapSort { /* ... */ }
 ```
 - You can set an `exclude = true` flag on the `GradeCoverage` annotation if you want to say that a particular class is
   *not* to be considered for coverage testing. This might make sense if
@@ -280,7 +284,7 @@ are:
   of examples that should be rejected by the regex.
 - [exampleRpn](exampleRpn): students are asked to implement a simple RPN calculator;
   there are many cases, so we require minimum test coverage.
-- [exampleSort](exampleSort): students are asked to implement three sorting algorithms;
+- [exampleSort](exampleSort): students are asked to implement four sorting algorithms;
   their work is tested with [QuickTheories](https://github.com/quicktheories/QuickTheories),
   generating hundreds of random inputs.
   
@@ -298,10 +302,10 @@ repository for use with RiceChecks, you should start with
 [standaloneSort/build.gradle](standaloneSort/build.gradle),
 which has the following features:
 
-- Loads `edu.rice.ricechecks:ricechecks-annotations:0.7` (just the Java annotations)
+- Loads `edu.rice.ricechecks:ricechecks-annotations:0.7.1` (just the Java annotations)
   as a regular dependency for student code.
   
-- Loads `edu.rice.ricechecks:ricechecks:0.7` (the autograder tool) as part of
+- Loads `edu.rice.ricechecks:ricechecks:0.7.1` (the autograder tool) as part of
   a separate Gradle "configuration", ensuring that symbols from the tool don't accidentally
   autocomplete in students' IDEs.
   
