@@ -83,6 +83,15 @@ object AutoGrader {
 
     private fun exitGrader(passing: Boolean): Nothing = exitProcess(if (passing) 0 else 1)
 
+    fun loadEnvironmentVariables() {
+        val env = System.getenv()
+
+        // TODO: we need this one now; add others, make sure that command-line args take precedence
+        if (env["RICECHECKS_QUIET"] != null) {
+            quiet = true
+        }
+    }
+
     fun autoGrade(args: Array<String>) {
         commandParser = JCommander.newBuilder()
                 .addObject(this)
@@ -94,6 +103,8 @@ object AutoGrader {
         }
 
         if (help) helpDumpAndExit()
+
+        loadEnvironmentVariables()
 
         task = Try { enumValueOf<Task>(taskString) }
                 .onFailure { helpDumpAndExit() }
