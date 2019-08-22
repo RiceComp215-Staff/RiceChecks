@@ -37,6 +37,11 @@ object AutoGrader {
     var configFileName: String? = null
 
     @JvmField
+    @Parameter(names = ["--quiet"],
+        description = "Suppresses printing of autograder output; still written to disk")
+    var quiet: Boolean = false
+
+    @JvmField
     @Parameter(names = ["--help"],
         description = "Prints usage information", help = true)
     var help: Boolean = false
@@ -101,6 +106,7 @@ object AutoGrader {
         Log.logProperties()
         Log.i(TAG, "project: $project")
         Log.i(TAG, "configFileName: $configFileName")
+        Log.i(TAG, "quiet: $quiet")
         Log.i(TAG, "task: $task")
 
         // We're making "local" copies of the properties so that Kotlin's nullity inferences work
@@ -162,7 +168,7 @@ object AutoGrader {
                     Log.i(TAG, "Running autograder with " +
                         "configFileName($lConfigFileName), project($lProject)")
                     val report = loadConfig(lConfigFileName).toResultsReport()
-                    report.writeReports()
+                    report.writeReports(quiet)
                     exitGrader(report.allPassing)
                 }
 
@@ -177,7 +183,7 @@ object AutoGrader {
                         exitGrader(false)
                     } else {
                         val report = gproject.toResultsReport()
-                        report.writeReports()
+                        report.writeReports(quiet)
                         exitGrader(report.allPassing)
                     }
                 }

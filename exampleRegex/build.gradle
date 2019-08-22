@@ -129,6 +129,7 @@ task autograder {
                 main = "edu.rice.autograder.AutoGraderKt"
                 args = [ "--project", gradeProject,
                          "--config", gradeConfig,
+                        "--quiet",
                          "grade" ]
             }
         }

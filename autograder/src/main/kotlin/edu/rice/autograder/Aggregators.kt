@@ -8,6 +8,7 @@ package edu.rice.autograder
 
 import arrow.core.getOrDefault
 import arrow.syntax.collections.tail
+import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 const val STYLE_CATEGORY = "Style"
@@ -153,8 +154,11 @@ fun GGradeProject.toResultsReport(): ResultsReport {
     return ResultsReport(name, description, allPassing, allPoints, maxPoints, results)
 }
 
-/** Prints a human-readable report to the given output [PrintStream]. */
-fun ResultsReport.print(stream: PrintStream) {
+/** Generates a human-readable report. */
+fun ResultsReport.humanReport(): String {
+    val bos = ByteArrayOutputStream()
+    val stream = PrintStream(bos, true, "UTF-8")
+
     stream.println(startDividerLine)
     stream.println("$blankLine %-${lineLength - 2}s".format("Autograder for $projectName"))
     wordWrap(description, lineLength - 2).forEach {
@@ -187,6 +191,8 @@ fun ResultsReport.print(stream: PrintStream) {
     stream.println(dividerLine)
     stream.println(fractionLine("Total points:", allPoints, maxPoints, allPassing))
     stream.println(endDividerLine)
+
+    return bos.toString("UTF-8")
 }
 
 /**
@@ -206,16 +212,22 @@ fun Deduction.worthPrinting(): Boolean = when {
  * the contents of the [ResultsReport], suitable for subsequent processing, uploading, etc.
  * Also prints the human-readable report, via [ResultsReport.print], to [System.out].
  */
-fun ResultsReport.writeReports() {
-    val jsonData = jacksonJsonMapper.writeValueAsString(this) ?: ""
+fun ResultsReport.writeReports(quiet: Boolean = false) {
+    val jsonData = jacksonJsonMapper
+        .writer()
+        .withDefaultPrettyPrinter()
+        .writeValueAsString(this) ?: ""
     val yamlData = yamlHeader + (jacksonYamlMapper.writeValueAsString(this) ?: "")
+    val txtData = humanReport()
 
     val jsonReport = "build/autograder/report.json"
     val yamlReport = "build/autograder/report.yml"
+    val txtReport = "build/autograder/report.txt"
 
     writeFile(jsonReport, jsonData)
     writeFile(yamlReport, yamlData)
+    writeFile(txtReport, txtData)
 
     // also, generates a report to stdout
-    print(System.out)
+    if (!quiet) print(txtData)
 }
