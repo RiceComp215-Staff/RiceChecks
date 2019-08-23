@@ -40,6 +40,6 @@ fun GGradeProject.yamlExporter(suppressDoNotEditLine: Boolean = false) =
  * Given a string in YAML format, tries to produce a [GGradeProject]
  * corresponding to the YAML file.
  */
-fun yamlImporter(input: String): Try<GGradeProject> = Try {
+fun yamlImporter(input: String) = Try {
     jacksonYamlMapper.readValue<GGradeProject>(input)
 }

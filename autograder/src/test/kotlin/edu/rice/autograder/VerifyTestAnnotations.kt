@@ -54,17 +54,17 @@ class VerifyTestAnnotations {
     @Test
     fun printTP1() {
         // Doesn't do much, but if there's an exception anywhere here, the test will fail
-        System.out.print(scanEverything("edu.rice.autogradertest").yamlExporter("TP1"))
+        print(scanEverything("edu.rice.autogradertest").yamlExporter("TP1"))
     }
 
     @Test
     fun printTP2() {
-        System.out.print(scanEverything("edu.rice.autogradertest").yamlExporter("TP2"))
+        print(scanEverything("edu.rice.autogradertest").yamlExporter("TP2"))
     }
 
     @Test
     fun printTP3() {
-        System.out.print(scanEverything("edu.rice.autogradertest").yamlExporter("TP3"))
+        print(scanEverything("edu.rice.autogradertest").yamlExporter("TP3"))
     }
 
     @Test

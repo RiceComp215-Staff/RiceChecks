@@ -131,7 +131,8 @@ private fun fractionLine(detail: String, top: Double, bottom: Double, passing: B
 /**
  * This data structure represents the "final report" from the autograder. It's got
  * all the measurements and conclusions of the autograder in one place. The expected
- * methods for processing this are [ResultsReport.writeReports] and [ResultsReport.print].
+ * methods for processing this are [ResultsReport.writeReports] and
+ * [ResultsReport.humanReport].
  */
 data class ResultsReport(
     val projectName: String,
@@ -210,7 +211,7 @@ fun Deduction.worthPrinting(): Boolean = when {
 /**
  * Writes out two files in `build/autograder`, one in JSON format and one in YAML, representing
  * the contents of the [ResultsReport], suitable for subsequent processing, uploading, etc.
- * Also prints the human-readable report, via [ResultsReport.print], to [System.out].
+ * Also prints the human-readable report, via [ResultsReport.humanReport], to [System.out].
  */
 fun ResultsReport.writeReports(quiet: Boolean = false) {
     val jsonData = jacksonJsonMapper
