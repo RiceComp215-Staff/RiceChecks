@@ -1,5 +1,6 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks/badge.png)](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks)
-[![Build Status](https://travis-ci.org/RiceComp215-Staff/RiceChecks.svg?branch=master)](https://travis-ci.org/RiceComp215-Staff/RiceChecks/)
+[![Build Status](https://github.com/RiceComp215-Staff/RiceChecks/workflows/RiceChecks%20Autograder/badge.svg)](https://github.com/RiceComp215-Staff/RiceChecks/actions)
+
 # RiceChecks
 
 **Current status**: early alpha. Please email <dwallach@rice.edu> before trying to use this.
