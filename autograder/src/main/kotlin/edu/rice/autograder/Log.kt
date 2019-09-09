@@ -41,16 +41,18 @@ object Log {
     }
 
     fun logProperties() =
-        listOf("java.version",
-                "java.vm.version",
-                "java.runtime.name",
-                "java.home",
-                "java.vendor",
-                "java.vm.name",
-                "user.dir")
-                .forEach {
-                    iformat(TAG, "System property: %-17s -> %s", it, System.getProperty(it))
-                }
+        listOf(
+            "java.version",
+            "java.vm.version",
+            "java.runtime.name",
+            "java.home",
+            "java.vendor",
+            "java.vm.name",
+            "user.dir"
+        )
+            .forEach {
+                iformat(TAG, "System property: %-17s -> %s", it, System.getProperty(it))
+            }
 
     private fun logger(tag: String): Logger =
         // Compute once per tag, then memoize.

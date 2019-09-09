@@ -33,8 +33,10 @@ fun Map<String, GGradeProject>.yamlExporter(
  */
 fun GGradeProject.yamlExporter(suppressDoNotEditLine: Boolean = false) =
     (if (suppressDoNotEditLine) "" else yamlHeader) +
-        (jacksonYamlMapper.writeValueAsString(this)
-            ?: Log.ethrow(TAG, "Jackson YAML failure?!"))
+        (
+            jacksonYamlMapper.writeValueAsString(this)
+                ?: Log.ethrow(TAG, "Jackson YAML failure?!")
+            )
 
 /**
  * Given a string in YAML format, tries to produce a [GGradeProject]

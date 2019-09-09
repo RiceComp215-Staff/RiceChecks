@@ -40,11 +40,12 @@ fun <T> Option<T>.getOrFail(): T =
  * and we move onward.
  */
 fun <T, K : Any> Iterable<T>?.associateNotNullBy(keySelector: (T) -> K?): Map<K, T> =
-    if (this == null)
+    if (this == null) {
         emptyMap()
-    else
+    } else {
         flatMap {
             val tmp = keySelector(it)
             if (tmp == null) emptyList()
             else listOf(tmp to it)
         }.toMap()
+    }

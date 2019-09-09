@@ -10,10 +10,12 @@ import org.davidmoten.text.utils.WordWrap
 
 /** Thin wrapper around the WordWrap library by David Moten. */
 fun wordWrap(text: String, lineWidth: Int): List<String> =
-    (WordWrap
-        .from(text)
-        .maxWidth(lineWidth)
-        .extraWordChars("0123456789")
-        .insertHyphens(true)
-        .wrap() ?: "")
+    (
+        WordWrap
+            .from(text)
+            .maxWidth(lineWidth)
+            .extraWordChars("0123456789")
+            .insertHyphens(true)
+            .wrap() ?: ""
+        )
         .split("\n")

@@ -38,12 +38,14 @@ fun List<GoogleJavaFormatResult>.eval(): CodeStyleDeduction {
     val numResults = size
     val numFormatted = count { it.formattedStatus == "FORMATTED" }
     val feedback = "$TAG: %d of %d files passed".format(numFormatted, numResults) +
-            if (numFormatted == numResults) ""
-            else "\nrun the gradle <googleJavaFormat> task to fix"
+        if (numFormatted == numResults) ""
+        else "\nrun the gradle <googleJavaFormat> task to fix"
     Log.i(TAG, "eval: $feedback")
 
-    return CodeStyleDeduction(feedback, 0.0, TAG, "",
-        (numFormatted == numResults), numFormatted, numResults)
+    return CodeStyleDeduction(
+        feedback, 0.0, TAG, "",
+        (numFormatted == numResults), numFormatted, numResults
+    )
 }
 
 fun googleJavaFormatParser(fileData: String): List<GoogleJavaFormatResult> {
@@ -55,11 +57,12 @@ fun googleJavaFormatParser(fileData: String): List<GoogleJavaFormatResult> {
         // Using hand-build lame parser because Jackson CSV wasn't working and this is easy.
         // Unlikely we'll have escaped commas or other such landmines that would break this.
         fileData
-                .split(Regex("[\n\r]+"))
-                .filter { it != "" }
-                .map { it.split(",") }
-                .map { (a, b, c, d) ->
-                    GoogleJavaFormatResult(a, b.toLong(), c.toLong(), d) }
-                .sortedBy { it.fileName }
+            .split(Regex("[\n\r]+"))
+            .filter { it != "" }
+            .map { it.split(",") }
+            .map { (a, b, c, d) ->
+                GoogleJavaFormatResult(a, b.toLong(), c.toLong(), d)
+            }
+            .sortedBy { it.fileName }
     }
 }

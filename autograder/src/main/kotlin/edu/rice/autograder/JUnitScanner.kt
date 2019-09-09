@@ -145,11 +145,11 @@ fun JTestCase.matches(className: String, methodName: String): Boolean {
 }
 
 private fun List<JUnitSuite>.find(className: String, methodName: String): List<JTestCase> =
-        flatMap { suite ->
-            suite.tests
-                    ?.filter { it.matches(className, methodName) }
-                    ?: emptyList()
-        }
+    flatMap { suite ->
+        suite.tests
+            ?.filter { it.matches(className, methodName) }
+            ?: emptyList()
+    }
 
 /**
  * Returns a list of [EvaluatorResult] -- one per [GGradeTopic] associated with
@@ -178,7 +178,8 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
 
                     UnitTestFactoryDeduction(
                         "$name:\n$numPassing of $totalTests passing (-%.1f / fail)".format(points),
-                        deduction, name, numPassing, totalTests)
+                        deduction, name, numPassing, totalTests
+                    )
                 }
 
                 testResults.find { it.failure != null } != null ->
@@ -194,6 +195,8 @@ fun List<JUnitSuite>.eval(project: GGradeProject): List<EvaluatorResult> =
         val topicDeductions = min(topicResults.sumByDouble { it.cost }, topicMaxPoints)
         val topicString = "$topicName: $numPassingTests of $numTests tests passed"
 
-        EvaluatorResult(topicDeductions == 0.0, max(topicMaxPoints - topicDeductions, 0.0),
-            topicMaxPoints, topicString, TESTS_CATEGORY, topicResults)
+        EvaluatorResult(
+            topicDeductions == 0.0, max(topicMaxPoints - topicDeductions, 0.0),
+            topicMaxPoints, topicString, TESTS_CATEGORY, topicResults
+        )
     }

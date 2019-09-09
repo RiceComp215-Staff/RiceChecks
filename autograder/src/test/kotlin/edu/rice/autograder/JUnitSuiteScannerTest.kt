@@ -36,7 +36,8 @@ class JUnitSuiteScannerTest {
         assertEquals(
             "at edu.rice.qt.ListTheories." +
                 "stringConcatenationIsNotCommutative(ListTheories.java:132)",
-            stackTrace[3])
+            stackTrace[3]
+        )
     }
 
     @Test

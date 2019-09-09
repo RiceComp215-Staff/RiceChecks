@@ -207,8 +207,10 @@ fun GCoverageStyle.toJacocoCounterType() = when (this) {
 }
 
 fun GGradeProject.jacocoResultsMissing() =
-    EvaluatorResult(false, 0.0, coveragePoints,
-        "No test coverage results found", COVERAGE_CATEGORY, emptyList())
+    EvaluatorResult(
+        false, 0.0, coveragePoints,
+        "No test coverage results found", COVERAGE_CATEGORY, emptyList()
+    )
 
 private const val TAG = "JacocoScanner"
 
@@ -280,8 +282,9 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         return project.jacocoResultsMissing()
     }
 
-    if (project.coveragePoints == 0.0)
+    if (project.coveragePoints == 0.0) {
         return passingEvaluatorResult(0.0, "No test coverage requirement", COVERAGE_CATEGORY)
+    }
 
     val counterType = project.coverageStyle.toJacocoCounterType()
 
@@ -304,8 +307,10 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
         classesMap.keys.forEach {
             Log.e(TAG, " -- classesMap[$it] = ${classesMap[it]}")
         }
-        return EvaluatorResult(false, 0.0, project.coveragePoints,
-            "Test coverage: no classes specified for coverage!", COVERAGE_CATEGORY, emptyList())
+        return EvaluatorResult(
+            false, 0.0, project.coveragePoints,
+            "Test coverage: no classes specified for coverage!", COVERAGE_CATEGORY, emptyList()
+        )
     }
 
     // Turns out, an interface with no default methods still appears in our data as a regular
@@ -355,17 +360,20 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
                 ?: Log.ethrow(TAG, "no missed numbers found for $it")
         }
 
-        if (covered + missed == 0)
+        if (covered + missed == 0) {
             emptyList()
-        else {
+        } else {
             val percentage = 100.0 * covered / (covered + missed).toDouble()
             val classNameFixed = name.fixClassName()
             val coverageStr = "Coverage of $classNameFixed: %.1f%% ($covered/${covered + missed})%s"
-                .format(percentage, when (numAnonInner) {
-                    0 -> ""
-                    1 -> "\n(including one anonymous inner class)"
-                    else -> "\n(including $numAnonInner anonymous inner classes)"
-                })
+                .format(
+                    percentage,
+                    when (numAnonInner) {
+                        0 -> ""
+                        1 -> "\n(including one anonymous inner class)"
+                        else -> "\n(including $numAnonInner anonymous inner classes)"
+                    }
+                )
             Log.i(TAG, coverageStr)
             listOf(CoverageDeduction(coverageStr, 0.0, classNameFixed, percentage))
         }
@@ -383,23 +391,32 @@ fun JacocoReport?.eval(project: GGradeProject): EvaluatorResult {
     val counterTypeStr = "(by ${counterType.toString().toLowerCase()})"
 
     return if (passing) {
-        EvaluatorResult(true, project.coveragePoints, project.coveragePoints,
+        EvaluatorResult(
+            true, project.coveragePoints, project.coveragePoints,
             "Test coverage meets %.0f%% %s requirement"
                 .format(project.coveragePercentage, counterTypeStr),
             COVERAGE_CATEGORY,
-            wins)
+            wins
+        )
     } else {
-        EvaluatorResult(false, 0.0, project.coveragePoints,
+        EvaluatorResult(
+            false, 0.0, project.coveragePoints,
             "Classes with coverage below %.0f%% %s requirement"
                 .format(project.coveragePercentage, counterTypeStr),
             COVERAGE_CATEGORY,
             fails +
-                listOf(BasicDeduction("See the coverage report for details:\n" +
-                    "${AutoGrader.buildDir}/reports/jacoco/index.html", 0.0)))
+                listOf(
+                    BasicDeduction(
+                        "See the coverage report for details:\n" +
+                            "${AutoGrader.buildDir}/reports/jacoco/index.html",
+                        0.0
+                    )
+                )
+        )
     }
 }
 
 fun String?.fixClassName() =
-        this?.replace('/', '.')
-            ?.replace('$', '.')
-            ?: ""
+    this?.replace('/', '.')
+        ?.replace('$', '.')
+        ?: ""

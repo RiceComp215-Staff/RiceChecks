@@ -6,13 +6,13 @@
 
 package edu.rice.autograder
 
-import org.junit.jupiter.api.Test
 import edu.rice.autograder.JacocoCounterType.INSTRUCTION
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
 class JacocoScannerTest {
     @Test
@@ -66,12 +66,19 @@ class JacocoScannerTest {
             // we're setting up a non-trivial set of nested inclusion/exclusion directives to
             // see whether our matching logic works correctly
             val coverages = listOf(
-                    GGradeCoverage(GCoverageScope.PACKAGE, false,
-                        "edu.rice.week2lists"),
-                    GGradeCoverage(GCoverageScope.CLASS, true,
-                        "edu.rice.week2lists.ObjectList"),
-                    GGradeCoverage(GCoverageScope.CLASS, false,
-                        "edu.rice.week2lists.ObjectList.Empty"))
+                GGradeCoverage(
+                    GCoverageScope.PACKAGE, false,
+                    "edu.rice.week2lists"
+                ),
+                GGradeCoverage(
+                    GCoverageScope.CLASS, true,
+                    "edu.rice.week2lists.ObjectList"
+                ),
+                GGradeCoverage(
+                    GCoverageScope.CLASS, false,
+                    "edu.rice.week2lists.ObjectList.Empty"
+                )
+            )
 
             val matchingClasses = xmlResults.matchingClassSpecs(coverages)
 
@@ -99,26 +106,46 @@ class JacocoScannerTest {
 
     @Test
     fun anonInnerClassOfWorks() {
-        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
-        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1")
-        assertFalse("edu/rice/rpn/RpnCalc"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1")
-        assertFalse("edu/rice/rpn/RpnCalc\$1"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1")
-        assertFalse("edu/rice/rpn/RpnCalc\$1"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$StackVisitor")
-        assertFalse("edu/rice/rpn/RpnCalc\$StackVisitor\$1"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
-        assertFalse("edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
+        assertFalse(
+            "edu/rice/rpn/RpnCalc\$StackVisitor"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc"
+        )
+        assertFalse(
+            "edu/rice/rpn/RpnCalc\$StackVisitor"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1"
+        )
+        assertFalse(
+            "edu/rice/rpn/RpnCalc"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1"
+        )
+        assertFalse(
+            "edu/rice/rpn/RpnCalc\$1"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1"
+        )
+        assertFalse(
+            "edu/rice/rpn/RpnCalc\$1"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$StackVisitor"
+        )
+        assertFalse(
+            "edu/rice/rpn/RpnCalc\$StackVisitor\$1"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc"
+        )
+        assertFalse(
+            "edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc"
+        )
 
-        assertTrue("edu/rice/rpn/RpnCalc\$1"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
-        assertTrue("edu/rice/rpn/RpnCalc\$1\$2\$1"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc")
-        assertTrue("edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
-            isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1\$StackVisitor")
+        assertTrue(
+            "edu/rice/rpn/RpnCalc\$1"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc"
+        )
+        assertTrue(
+            "edu/rice/rpn/RpnCalc\$1\$2\$1"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc"
+        )
+        assertTrue(
+            "edu/rice/rpn/RpnCalc\$1\$StackVisitor\$1"
+                isAnonymousInnerClassOf "edu/rice/rpn/RpnCalc\$1\$StackVisitor"
+        )
     }
 }

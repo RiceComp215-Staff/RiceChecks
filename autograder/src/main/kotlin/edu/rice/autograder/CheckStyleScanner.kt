@@ -31,7 +31,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 @JsonRootName("checkstyle")
 data class CheckStyleResults(
     @set:JsonProperty("file")
-    var files: List<CheckStyleFile> = emptyList())
+    var files: List<CheckStyleFile> = emptyList()
+)
 
 @JsonRootName("file")
 data class CheckStyleFile(
@@ -39,7 +40,8 @@ data class CheckStyleFile(
     var name: String? = null,
 
     @set:JsonProperty("error")
-    var errors: List<CheckStyleError> = emptyList())
+    var errors: List<CheckStyleError> = emptyList()
+)
 
 @JacksonXmlRootElement(localName = "error")
 data class CheckStyleError(

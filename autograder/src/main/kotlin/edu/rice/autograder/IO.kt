@@ -94,7 +94,6 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
 
                 when (dirUrl.protocol) {
                     "file" -> {
-
                         // On Windows, we get URL paths like file:/C:/Users/dwallach/....
                         // On Macs, we get URL paths like file:/Users/dwallach/...
 
@@ -105,10 +104,11 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
                         // expression and then remove the leading
                         // slash.
 
-                        val urlPath = if (rawUrlPath.matches(Regex("^/\\p{Upper}:/.*$")))
+                        val urlPath = if (rawUrlPath.matches(Regex("^/\\p{Upper}:/.*$"))) {
                             rawUrlPath.substring(1)
-                        else
+                        } else {
                             rawUrlPath
+                        }
 
                         // if the URLDecoder fails, for whatever
                         // reason, we'll just go with the original
@@ -116,7 +116,8 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
                         val decodedPath: Path = Paths.get(
                             Try {
                                 URLDecoder.decode(urlPath, StandardCharsets.UTF_8.toString())
-                            }.getOrElse { urlPath })
+                            }.getOrElse { urlPath }
+                        )
 
                         readdirPath(decodedPath.toString())
                             .getOrElse { emptyList() }
@@ -145,8 +146,12 @@ fun readResourceDir(dirPath: String): Try<List<String>> =
                                         .filter { it.startsWith(dirPath) }
                                 }
                         }.onFailure {
-                            Log.e(TAG, "trouble reading $dirUrl, " +
-                                "ignoring and marching onward", it)
+                            Log.e(
+                                TAG,
+                                "trouble reading $dirUrl, " +
+                                    "ignoring and marching onward",
+                                it
+                            )
                         }.fold({ emptyList<String>() }, { it })
                     }
 

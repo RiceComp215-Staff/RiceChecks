@@ -125,8 +125,10 @@ private const val TAG = "CodeAnnotationScanner"
  */
 private fun internalScannerErrorX(s: String): Nothing {
     Log.e(TAG, "Internal scanner failure: $s")
-    System.err.println("$AutoGraderName: internal scanner failure:\n" +
-        "  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks.")
+    System.err.println(
+        "$AutoGraderName: internal scanner failure:\n" +
+            "  $s\nPlease report this to <dwallach@rice.edu> so we can track down the bug! Thanks."
+    )
     throw RuntimeException(s)
 }
 
@@ -135,8 +137,10 @@ private fun internalScannerErrorX(s: String): Nothing {
  * Prints the [AnnotationParameterValueList] and the given string, crashes the program.
 */
 private fun AnnotationParameterValueList?.internalScannerError(s: String): Nothing =
-    internalScannerErrorX(s +
-        if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
+    internalScannerErrorX(
+        s +
+            if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this"
+    )
 
 /**
  * Call whenever the scanner discovers an error in the input (i.e., RiceChecks is fine,
@@ -155,8 +159,10 @@ private fun failScannerX(s: String): Nothing {
  * and the given string, crashes the program.
  */
 private fun AnnotationParameterValueList?.failScanner(s: String): Nothing =
-    failScannerX(s +
-        if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this")
+    failScannerX(
+        s +
+            if (this == null) "\nNull parameter context!!!" else "\nParameter context: $this"
+    )
 
 /**
  * Fetching a value from an [AnnotationParameterValueList] with a default value for
@@ -176,8 +182,10 @@ private inline fun <reified T> AnnotationParameterValueList.lookup(key: String, 
         else -> {
             val desiredClassName = T::class.java.simpleName
             val actualClassName = v::class.java.simpleName
-            failScanner("Expected parameter $key to be of type $desiredClassName, " +
-                "actually $actualClassName")
+            failScanner(
+                "Expected parameter $key to be of type $desiredClassName, " +
+                    "actually $actualClassName"
+            )
         }
     }
 }
@@ -222,34 +230,46 @@ private fun AnnotationTuple.toIGradeProject(): IGradeProject {
                 internalScannerError("maxPoints $maxPoints isn't finite!")
 
             maxPoints < 0.0 ->
-                failScanner("Malformed GradeProject: maxPoints must be zero or " +
-                    "positive {$maxPoints}")
+                failScanner(
+                    "Malformed GradeProject: maxPoints must be zero or " +
+                        "positive {$maxPoints}"
+                )
 
             !warningPoints.isFinite() ->
                 internalScannerError("warningPoints $warningPoints isn't finite!")
 
             warningPoints < 0.0 ->
-                failScanner("Malformed GradeProject: warningPoints must be zero or " +
-                    "positive {$warningPoints}")
+                failScanner(
+                    "Malformed GradeProject: warningPoints must be zero or " +
+                        "positive {$warningPoints}"
+                )
 
             !coveragePoints.isFinite() ->
                 internalScannerError("coveragePoints $coveragePoints isn't finite!")
 
             coveragePoints < 0.0 ->
-                failScanner("Malformed GradeProject: coveragePoints must be zero or " +
-                    "positive {$coveragePoints}")
+                failScanner(
+                    "Malformed GradeProject: coveragePoints must be zero or " +
+                        "positive {$coveragePoints}"
+                )
 
             coveragePercentage < 0 || coveragePercentage > 100 ->
-                failScanner("Malformed GradeProject: coveragePercentage must be between " +
-                    "0 and 100 {$coveragePercentage}")
+                failScanner(
+                    "Malformed GradeProject: coveragePercentage must be between " +
+                        "0 and 100 {$coveragePercentage}"
+                )
 
             coverageMethod !in coverageMethodNames ->
-                failScanner("Malformed GradeProject: coverageStyle {$coverageMethod} must be in " +
-                    coverageMethodNames.joinToString(", "))
+                failScanner(
+                    "Malformed GradeProject: coverageStyle {$coverageMethod} must be in " +
+                        coverageMethodNames.joinToString(", ")
+                )
 
-            else -> IGradeProject(name, description, maxPoints, warningPoints, useCheckStyle,
+            else -> IGradeProject(
+                name, description, maxPoints, warningPoints, useCheckStyle,
                 useGoogleJavaFormat, useJavacWarnings, coveragePoints, coverageMethod,
-                coveragePercentage.toDouble())
+                coveragePercentage.toDouble()
+            )
         }
     }
 }
@@ -266,8 +286,10 @@ private fun AnnotationTuple.toIGradeTopic(pmap: ProjectMap): IGradeTopic {
             this == null -> internalScannerErrorX("Unexpected null parameter values: $this")
 
             project == null ->
-                failScanner("Malformed GradeTopic: unknown project " +
-                    "($projectStr not in ${pmap.keys})")
+                failScanner(
+                    "Malformed GradeTopic: unknown project " +
+                        "($projectStr not in ${pmap.keys})"
+                )
 
             topic == "" ->
                 failScanner("Malformed GradeTopic: no topic specified: $this")
@@ -287,10 +309,12 @@ private fun AnnotationTuple.toIGradeCoverage(pmap: ProjectMap): IGradeCoverage {
     if (project == null) {
         pv.failScanner("Malformed GradeCoverage: unknown project name ($projectName)")
     } else {
-        return IGradeCoverage(project,
-                pvExclude,
-                if (isPackage) GCoverageScope.PACKAGE else GCoverageScope.CLASS,
-                classOrPackageName.fixClassName())
+        return IGradeCoverage(
+            project,
+            pvExclude,
+            if (isPackage) GCoverageScope.PACKAGE else GCoverageScope.CLASS,
+            classOrPackageName.fixClassName()
+        )
     }
 }
 
@@ -309,48 +333,68 @@ private fun AnnotationTuple.toIGradeTest(
 
     return with(pv) {
         when {
-            this == null -> internalScannerErrorX("Unexpected null parameter values: " +
-                "${this@toIGradeTest}")
+            this == null -> internalScannerErrorX(
+                "Unexpected null parameter values: " +
+                    "${this@toIGradeTest}"
+            )
 
-            project == null -> failScanner("Malformed GradeTest: unknown project name " +
-                "(${pv["project"]})")
+            project == null -> failScanner(
+                "Malformed GradeTest: unknown project name " +
+                    "(${pv["project"]})"
+            )
 
             topic == "" -> failScanner("Malformed GradeTest, no topic: ${this@toIGradeTest}")
 
             !points.isFinite() -> internalScannerError("points isn't finite!")
 
-            points <= 0.0 -> failScanner("Malformed GradeTest, points must be positive: " +
-                "${this@toIGradeTest}")
+            points <= 0.0 -> failScanner(
+                "Malformed GradeTest, points must be positive: " +
+                    "${this@toIGradeTest}"
+            )
 
-            methodName == null -> internalScannerError("No method name associated with " +
-                "annotation?! (${this@toIGradeTest})")
+            methodName == null -> internalScannerError(
+                "No method name associated with " +
+                    "annotation?! (${this@toIGradeTest})"
+            )
 
             testAnnotations.contains(fullMethodName) &&
                 testFactoryAnnotations.contains(fullMethodName) ->
-                failScanner("Method $fullMethodName has both @Test and @TestFactory! " +
-                    "Pick one or the other.")
+                failScanner(
+                    "Method $fullMethodName has both @Test and @TestFactory! " +
+                        "Pick one or the other."
+                )
 
             !testAnnotations.contains(fullMethodName) &&
                 !testFactoryAnnotations.contains(fullMethodName) ->
-                failScanner("Method $fullMethodName has neither @Test nor @TestFactory! " +
-                    "One is necessary.")
+                failScanner(
+                    "Method $fullMethodName has neither @Test nor @TestFactory! " +
+                        "One is necessary."
+                )
 
             // Regular @Test, not a @TestFactory
             testAnnotations.contains(fullMethodName) ->
-                IGradeTest(project, topic, points, maxPoints, classOrPackageName,
-                    methodName, false)
+                IGradeTest(
+                    project, topic, points, maxPoints, classOrPackageName,
+                    methodName, false
+                )
 
             !maxPoints.isFinite() -> internalScannerError("maxPoints isn't finite!")
 
-            maxPoints <= 0.0 -> failScanner("Method $fullMethodName has @TestFactory, but needs " +
-                "to have positive maxPoints specified")
+            maxPoints <= 0.0 -> failScanner(
+                "Method $fullMethodName has @TestFactory, but needs " +
+                    "to have positive maxPoints specified"
+            )
 
             points <= 0.0 || points > maxPoints ->
-                failScanner("Method $fullMethodName has @TestFactory, but needs to have positive " +
-                    "points (less than maxPoints) specified")
+                failScanner(
+                    "Method $fullMethodName has @TestFactory, but needs to have positive " +
+                        "points (less than maxPoints) specified"
+                )
 
-            else -> IGradeTest(project, topic, points, maxPoints, classOrPackageName,
-                methodName, true)
+            else -> IGradeTest(
+                project, topic, points, maxPoints, classOrPackageName,
+                methodName, true
+            )
         }
     }
 }
@@ -377,7 +421,8 @@ private fun List<AnnotationTuple>.expandValueList(): List<AnnotationTuple> =
                     is AnnotationInfo ->
                         AnnotationTuple(v, isPackage, classOrPackageName, methodName)
                     else -> pv.failScanner(
-                        "    Unexpected class type found: $${v::class.java.simpleName}")
+                        "    Unexpected class type found: $${v::class.java.simpleName}"
+                    )
                 }
             }
         } else {
@@ -405,16 +450,16 @@ private fun List<AnnotationTuple>.checkNoValueGroups() {
 private fun ScanResult.packageAnnotations(annotationNames: List<String>): List<AnnotationTuple> {
     Log.i(TAG, "Looking for packages with annotations: $annotationNames")
     return packageInfo
-            .filterNotNull()
-            .flatMap { it.annotationInfo.map { ai -> AnnotationTuple(ai, true, it.name) } }
-            .filter {
-                it.ai.name in annotationNames
-            }
-            .expandValueList()
-            .also {
-                Log.i(TAG, "Total: ${it.size} package annotations found")
-                it.checkNoValueGroups()
-            }
+        .filterNotNull()
+        .flatMap { it.annotationInfo.map { ai -> AnnotationTuple(ai, true, it.name) } }
+        .filter {
+            it.ai.name in annotationNames
+        }
+        .expandValueList()
+        .also {
+            Log.i(TAG, "Total: ${it.size} package annotations found")
+            it.checkNoValueGroups()
+        }
 }
 
 /**
@@ -422,44 +467,46 @@ private fun ScanResult.packageAnnotations(annotationNames: List<String>): List<A
  * describing every matching annotation found on a Java method.
  */
 private fun ScanResult.methodAnnotations(annotationNames: List<String>): List<AnnotationTuple> {
-    Log.i(TAG,
-        "============== Looking for methods with annotations: $annotationNames ==============")
+    Log.i(
+        TAG,
+        "============== Looking for methods with annotations: $annotationNames =============="
+    )
     return annotationNames.flatMap { aname ->
         Log.i(TAG, "Looking for: $aname")
         getClassesWithMethodAnnotation(aname)
-                .filterNotNull()
-                .flatMap { classInfo ->
-                    val className = classInfo.name
-                            ?: internalScannerErrorX("Class with no name?! ($classInfo)")
+            .filterNotNull()
+            .flatMap { classInfo ->
+                val className = classInfo.name
+                    ?: internalScannerErrorX("Class with no name?! ($classInfo)")
 
-                    (classInfo.declaredMethodAndConstructorInfo
-                            ?: internalScannerErrorX("Class with no methods?! ($classInfo)"))
-                            .filterNotNull()
-                            .flatMap { mi ->
-                                val mname = mi.name
-                                    ?: internalScannerErrorX("Method with no name?! ($mi)")
-                                mi.annotationInfo.mapNotNull {
-                                    AnnotationTuple(it, false, className, mname)
-                                }
-                            }
-                            .filter {
-                                it.ai.name == aname
-                            }
-                            .also { mi ->
-                                Log.i(TAG, "Pre-expansion annotations: ")
-                                mi.forEach { Log.i(TAG, "===> $it") }
-                            }
-                            .expandValueList()
-                            .also { mi ->
-                                Log.i(TAG, "Post-expansion annotations: ")
-                                mi.forEach { Log.i(TAG, "===> $it") }
-                            }
-                }
+                (
+                    classInfo.declaredMethodAndConstructorInfo
+                        ?: internalScannerErrorX("Class with no methods?! ($classInfo)")
+                    )
+                    .filterNotNull()
+                    .flatMap { mi ->
+                        val mname = mi.name
+                            ?: internalScannerErrorX("Method with no name?! ($mi)")
+                        mi.annotationInfo.mapNotNull {
+                            AnnotationTuple(it, false, className, mname)
+                        }
+                    }
+                    .filter { it.ai.name == aname }
+                    .also { mi ->
+                        Log.i(TAG, "Pre-expansion annotations: ")
+                        mi.forEach { Log.i(TAG, "===> $it") }
+                    }
+                    .expandValueList()
+                    .also { mi ->
+                        Log.i(TAG, "Post-expansion annotations: ")
+                        mi.forEach { Log.i(TAG, "===> $it") }
+                    }
+            }
     }
-    .also {
-        Log.i(TAG, "Total: ${it.size} method annotations found")
-        it.checkNoValueGroups()
-    }
+        .also {
+            Log.i(TAG, "Total: ${it.size} method annotations found")
+            it.checkNoValueGroups()
+        }
 }
 
 /**
@@ -470,24 +517,25 @@ private fun ScanResult.classAnnotations(annotationNames: List<String>): List<Ann
     Log.i(TAG, "Looking for classes with annotations: $annotationNames")
     return annotationNames.flatMap { aname ->
         getClassesWithAnnotation(aname)
-                .filterNotNull()
-                .flatMap { cinfo ->
-                    cinfo.annotationInfo.filterNotNull().map { ai ->
-                        if (cinfo.name != null)
-                            AnnotationTuple(ai, false, cinfo.name)
-                        else
-                            internalScannerErrorX("class without a name?! ($cinfo)")
+            .filterNotNull()
+            .flatMap { cinfo ->
+                cinfo.annotationInfo.filterNotNull().map { ai ->
+                    if (cinfo.name != null) {
+                        AnnotationTuple(ai, false, cinfo.name)
+                    } else {
+                        internalScannerErrorX("class without a name?! ($cinfo)")
                     }
                 }
-                .filter {
-                    it.ai.name == aname
-                }
-                .expandValueList()
+            }
+            .filter {
+                it.ai.name == aname
+            }
+            .expandValueList()
     }
-    .also {
-        Log.i(TAG, "Total: ${it.size} class annotations found")
-        it.checkNoValueGroups()
-    }
+        .also {
+            Log.i(TAG, "Total: ${it.size} class annotations found")
+            it.checkNoValueGroups()
+        }
 }
 
 /**
@@ -504,7 +552,7 @@ private fun ScanResult.packageOrClassAnnotations(annotationNames: List<String>) 
 private fun <T>
 List<T>.failRepeating(failMessage: String, stringExtractor: (T) -> String): List<T> {
     val repeatGroups =
-            groupBy { stringExtractor(it) }
+        groupBy { stringExtractor(it) }
             .filter { it.value.size > 1 }
 
     return if (repeatGroups.isNotEmpty()) {
@@ -527,118 +575,142 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
 
     return ClassGraph()
 //            .verbose() // Log to stderr
-            .enableAllInfo() // Scan classes, methods, fields, annotations
-            .whitelistPackages(codePackage) // Scan codePackage and subpackages
-            .scan().use { scanResult: ScanResult? ->
-                if (scanResult == null) {
-                    emptyMap()
-                } else {
-                    val gradeProjectAnnotations =
-                            scanResult.packageOrClassAnnotations(
-                                listOf(A_GRADEPROJECT, A_GRADEPROJECTS))
-                                    .map { it.toIGradeProject() }
-                                    .failRepeating("More than one project definition for") {
-                                        it.name
-                                    }
+        .enableAllInfo() // Scan classes, methods, fields, annotations
+        .whitelistPackages(codePackage) // Scan codePackage and subpackages
+        .scan().use { scanResult: ScanResult? ->
+        if (scanResult == null) {
+            emptyMap()
+        } else {
+            val gradeProjectAnnotations =
+                scanResult.packageOrClassAnnotations(
+                    listOf(A_GRADEPROJECT, A_GRADEPROJECTS)
+                )
+                    .map { it.toIGradeProject() }
+                    .failRepeating("More than one project definition for") {
+                        it.name
+                    }
 
 //                    Log.i(TAG, "Found ${gradeProjectAnnotations.size} GradeProject annotations:")
 //                    gradeProjectAnnotations.forEach { Log.i(TAG, it) }
 
-                    val projectMap = gradeProjectAnnotations.associateBy { it.name }
+            val projectMap = gradeProjectAnnotations.associateBy { it.name }
 
-                    val gradeCoverageAnnotations =
-                            scanResult.packageOrClassAnnotations(
-                                listOf(A_GRADECOVERAGE, A_GRADECOVERAGES))
-                                    .map { it.toIGradeCoverage(projectMap) }
+            val gradeCoverageAnnotations =
+                scanResult.packageOrClassAnnotations(
+                    listOf(A_GRADECOVERAGE, A_GRADECOVERAGES)
+                )
+                    .map { it.toIGradeCoverage(projectMap) }
 
-                    val testAnnotations =
-                        scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST))
-                            .map { it.classOrPackageName + "." + it.methodName }.toSet()
+            val testAnnotations =
+                scanResult.methodAnnotations(listOf(A_JUNIT4_TEST, A_JUNIT5_TEST))
+                    .map { it.classOrPackageName + "." + it.methodName }.toSet()
 
-                    val testFactoryAnnotations =
-                        scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY))
-                            .map { it.classOrPackageName + "." + it.methodName }.toSet()
+            val testFactoryAnnotations =
+                scanResult.methodAnnotations(listOf(A_JUNIT5_TESTFACTORY))
+                    .map { it.classOrPackageName + "." + it.methodName }.toSet()
 
-                    val gradeTestAnnotations =
-                            scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES))
-                                    .map {
-                                        it.toIGradeTest(projectMap,
-                                            testAnnotations, testFactoryAnnotations)
-                                    }
-                                    // sort only to make it easier to read when printed for debugging
-                                    .sortedWith(compareBy({ it.project.name }, { it.topic },
-                                        { it.className }, { it.methodName }))
+            val gradeTestAnnotations =
+                scanResult.methodAnnotations(listOf(A_GRADE, A_GRADES))
+                    .map {
+                        it.toIGradeTest(
+                            projectMap,
+                            testAnnotations, testFactoryAnnotations
+                        )
+                    }
+                    // sort only to make it easier to read when printed for debugging
+                    .sortedWith(
+                        compareBy(
+                            { it.project.name }, { it.topic },
+                            { it.className }, { it.methodName }
+                        )
+                    )
 
-                    val gradeTopicAnnotations =
-                            scanResult.packageOrClassAnnotations(
-                                listOf(A_GRADETOPIC, A_GRADETOPICS))
-                                    .map { it.toIGradeTopic(projectMap) }
-                                    // sort only to make it easier to read when printed for debugging
-                                    .sortedWith(compareBy({ it.project.name }, { it.topic }))
+            val gradeTopicAnnotations =
+                scanResult.packageOrClassAnnotations(
+                    listOf(A_GRADETOPIC, A_GRADETOPICS)
+                )
+                    .map { it.toIGradeTopic(projectMap) }
+                    // sort only to make it easier to read when printed for debugging
+                    .sortedWith(compareBy({ it.project.name }, { it.topic }))
 
-                    gradeProjectAnnotations.associateBy({ it.name }) { project ->
-                        val topics = gradeTopicAnnotations
-                                .filter { it.project === project }
-                                .failRepeating("More than one topic definition in project " +
-                                    "${project.name} for") { it.topic }
+            gradeProjectAnnotations.associateBy({ it.name }) { project ->
+                val topics = gradeTopicAnnotations
+                    .filter { it.project === project }
+                    .failRepeating(
+                        "More than one topic definition in project " +
+                            "${project.name} for"
+                    ) { it.topic }
 
-                        val coverages =
-                            gradeCoverageAnnotations.filter { it.project === project }
+                val coverages =
+                    gradeCoverageAnnotations.filter { it.project === project }
 
-                        val gtopics = topics.map { topic ->
-                            val gtests = gradeTestAnnotations
-                                    .filter {
-                                        it.topic == topic.topic && it.project == topic.project
-                                    }
-                                    .failRepeating("More than one GradeTest definition on " +
-                                        "the same method for project ${project.name} ") {
-                                        it.className + "." + it.methodName
-                                    }
-                            val maxPointsFromTests = gtests
-                                    .sumByDouble { if (it.testFactory) it.maxPoints else it.points }
+                val gtopics = topics.map { topic ->
+                    val gtests = gradeTestAnnotations
+                        .filter {
+                            it.topic == topic.topic && it.project == topic.project
+                        }
+                        .failRepeating(
+                            "More than one GradeTest definition on " +
+                                "the same method for project ${project.name} "
+                        ) {
+                            it.className + "." + it.methodName
+                        }
+                    val maxPointsFromTests = gtests
+                        .sumByDouble { if (it.testFactory) it.maxPoints else it.points }
 
 //                            Log.i(TAG, "Project ${project.name}, Topic ${topic.topic}: internal maxPoints ${topic.maxPoints}, external maxPoints ${maxPointsFromTests}")
-                            val actualMaxPoints =
-                                if (topic.maxPoints == 0.0) maxPointsFromTests else topic.maxPoints
+                    val actualMaxPoints =
+                        if (topic.maxPoints == 0.0) maxPointsFromTests else topic.maxPoints
 
-                            if (actualMaxPoints == 0.0) {
-                                failScannerX("Project ${project.name}, Topic ${topic.topic}: " +
-                                    "no maxPoints specified and none on the tests either")
-                            }
-
-                            GGradeTopic(topic.topic, actualMaxPoints, gtests.map {
-                                GGradeTest(it.points, it.maxPoints, it.className, it.methodName,
-                                    it.testFactory)
-                            })
-                        }
-
-                        val maxPointsFromTopics = gtopics.sumByDouble { it.maxPoints }
-                        val coverageAndWarningPoints =
-                            project.warningPoints + project.coveragePoints
-
-                        val actualMaxPoints = when {
-                            project.maxPoints == 0.0 ->
-                                maxPointsFromTopics + coverageAndWarningPoints
-                            else -> project.maxPoints
-                        }
-
-                        val coverageMethod =
-                            enumValueOf<GCoverageStyle>(project.coverageStyle)
-                        val gcoverage = coverages.toGCoverages()
-
-                        if (project.coveragePoints != 0.0 && gcoverage.isEmpty()) {
-                            failScannerX("Coverage points specified (${project.coveragePoints})" +
-                                " but no @GradeCoverage annotations found")
-                        }
-
-                        GGradeProject(project.name, project.description, actualMaxPoints,
-                                project.warningPoints, project.useCheckStyle,
-                                project.useGoogleJavaFormat, project.useJavacWarnings,
-                                project.coveragePoints, coverageMethod, project.coveragePercentage,
-                                coverages.toGCoverages(), gtopics)
+                    if (actualMaxPoints == 0.0) {
+                        failScannerX(
+                            "Project ${project.name}, Topic ${topic.topic}: " +
+                                "no maxPoints specified and none on the tests either"
+                        )
                     }
+
+                    GGradeTopic(
+                        topic.topic, actualMaxPoints,
+                        gtests.map {
+                            GGradeTest(
+                                it.points, it.maxPoints, it.className, it.methodName,
+                                it.testFactory
+                            )
+                        }
+                    )
                 }
+
+                val maxPointsFromTopics = gtopics.sumByDouble { it.maxPoints }
+                val coverageAndWarningPoints =
+                    project.warningPoints + project.coveragePoints
+
+                val actualMaxPoints = when {
+                    project.maxPoints == 0.0 ->
+                        maxPointsFromTopics + coverageAndWarningPoints
+                    else -> project.maxPoints
+                }
+
+                val coverageMethod =
+                    enumValueOf<GCoverageStyle>(project.coverageStyle)
+                val gcoverage = coverages.toGCoverages()
+
+                if (project.coveragePoints != 0.0 && gcoverage.isEmpty()) {
+                    failScannerX(
+                        "Coverage points specified (${project.coveragePoints})" +
+                            " but no @GradeCoverage annotations found"
+                    )
+                }
+
+                GGradeProject(
+                    project.name, project.description, actualMaxPoints,
+                    project.warningPoints, project.useCheckStyle,
+                    project.useGoogleJavaFormat, project.useJavacWarnings,
+                    project.coveragePoints, coverageMethod, project.coveragePercentage,
+                    coverages.toGCoverages(), gtopics
+                )
             }
+        }
+    }
 }
 
 // Engineering note: You'll see lots of filterNotNull() in here. Even though we're pretty sure no nulls are

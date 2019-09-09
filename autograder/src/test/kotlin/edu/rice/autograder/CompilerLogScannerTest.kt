@@ -22,13 +22,19 @@ class CompilerLogScannerTest {
 
     @Test
     fun goodCompilation() {
-        assertTrue(javacZeroWarnings(
-            readResource("comp215-build/logs/success.log").getOrFail()).passing)
+        assertTrue(
+            javacZeroWarnings(
+                readResource("comp215-build/logs/success.log").getOrFail()
+            ).passing
+        )
     }
 
     @Test
     fun goodCompilationWhitespace() {
-        assertTrue(javacZeroWarnings(
-            readResource("comp215-build/logs/whitespace-success.log").getOrFail()).passing)
+        assertTrue(
+            javacZeroWarnings(
+                readResource("comp215-build/logs/whitespace-success.log").getOrFail()
+            ).passing
+        )
     }
 }

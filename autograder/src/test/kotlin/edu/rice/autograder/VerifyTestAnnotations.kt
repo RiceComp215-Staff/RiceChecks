@@ -42,10 +42,15 @@ class VerifyTestAnnotations {
                 val methodTests =
                     topic.tests.flatMap { test ->
                         listOf(
-                            testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
-                                test.points),
-                            testSaneDouble("$prefixStr, ${test.className} / ${test.methodName}",
-                                test.points))
+                            testSaneDouble(
+                                "$prefixStr, ${test.className} / ${test.methodName}",
+                                test.points
+                            ),
+                            testSaneDouble(
+                                "$prefixStr, ${test.className} / ${test.methodName}",
+                                test.points
+                            )
+                        )
                     }
                 methodTests + testMaxPoints
             } ?: emptyList()
