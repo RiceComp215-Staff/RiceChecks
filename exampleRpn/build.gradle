@@ -78,12 +78,12 @@ task initLogFile {
         file("$buildDir/logs").mkdir()
         def gradleBuildLog = file("$buildDir/logs/compile.log")
         gradleBuildLog.write("") // empty write forces file to exist with size 0
-        
-        def fileLogger = [
-                onOutput: {
-                    gradleBuildLog.write(it)
-                }
-        ] as StandardOutputListener
+
+        def fileLogger = new StandardOutputListener() {
+            void onOutput(CharSequence output) {
+                gradleBuildLog << output
+            }
+        }
 
         tasks.withType(JavaCompile) {
             logger.info("compilation logging for $it")
