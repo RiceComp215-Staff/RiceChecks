@@ -324,7 +324,7 @@ Provides three Gradle tasks that invoke the autograder tool:
      and prints a summary to the console.
   
 Ultimately, the `autograder` task replaces what might normally be a call to
-`gradlew check` in places like a Travis-CI `.travis.yml` file.
+`gradlew check` in places like a Travis-CI `.travis.yml` file or a GitHub Actions workflow file.
   
 ## Try it!
 We took our three sample projects and created standalone repositories, which
@@ -453,7 +453,8 @@ you might then clone and experiment with.
   for their own production services. Amazon also provides
   `pkg` files for Apple and `msi` files for Windows, allowing students to double-click
   and install. For Travis-CI, we just specify `openjdk8` or `openjdk11` and whatever
-  they use seems to work just fine.
+  they use seems to work just fine. For GitHub Actions, we just specify Java `1.8` or `11`
+  and that seems to work as well.
 
 - **Can I have machine-readable output from RiceChecks / Can RiceChecks 
   send grades automatically to my server?** 
