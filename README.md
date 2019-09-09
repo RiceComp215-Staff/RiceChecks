@@ -1,5 +1,6 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks/badge.png)](https://maven-badges.herokuapp.com/maven-central/edu.rice.ricechecks/ricechecks)
 [![Build Status](https://github.com/RiceComp215-Staff/RiceChecks/workflows/RiceChecks%20Autograder/badge.svg)](https://github.com/RiceComp215-Staff/RiceChecks/actions)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
 # RiceChecks
 
