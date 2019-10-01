@@ -178,7 +178,7 @@ public class InsersionSortTest {
 ```java
 public class InsersionSortTest {
     @TestFactory
-    @Grade(project = "RE", topic = "Numbers", points = 1, maxPoints = 5)
+    @Grade(project = "Sorting", topic = "InsertionSort", points = 1, maxPoints = 5)
     List<DynamicTest> testIntegers() { /* ... */ }
 }
 ```
@@ -362,7 +362,9 @@ you might then clone and experiment with.
   a thing in a general-purpose way, given all the different ways that different
   projects will configure Gradle. RiceChecks, by running as a completely separate
   Java process, avoids getting too entangled with Gradle, beyond knowing how all
-  its log files are written.
+  its log files are written. Curiously, as we've been using RiceChecks in our
+  class, we've found and fixed a bunch of minor issues in the `build.gradle` file,
+  while not needing to change the autograder itself.
   
 - **Does RiceChecks work with {JUnit4, TestNG, ...}?** Maybe? What really
   matters is how Gradle's test unit runner writes an XML log of its results
@@ -385,10 +387,11 @@ you might then clone and experiment with.
   
 - **What if I want to use something other than the `assert` statements
   built into JUnit5?** RiceChecks only cares about whether
-  a test method succeeds or fails. You can use anything
-  inside of those methods. In our own tests, we're sometimes
-  using [QuickTheories](https://github.com/quicktheories/QuickTheories),
-  which does its own internal assertions. Gradle knows how to run the
+  a test method succeeds or fails. [Hamcrest matchers](http://hamcrest.org/JavaHamcrest/)
+  or other such systems should work just fine.
+  In our class, we sometimes
+  use [QuickTheories](https://github.com/quicktheories/QuickTheories),
+  which also has its own internal assertions. Gradle knows how to run the
   tests and it all looks the same when RiceChecks reads the logs.
   
 - **What about [Spotless](https://github.com/diffplug/spotless) or [SpotBugs](https://github.com/spotbugs/spotbugs)?**
@@ -401,7 +404,9 @@ you might then clone and experiment with.
   can run as a Gradle task (`googleJavaFormat`). We still need CheckStyle to enforce other useful Java practices,
   like capital names for classes with matching filenames. CheckStyle saves us from weird
   scenarios where a Java program compiles on a case-insensitive filesystem (Windows or Mac) but not on
-  a case-sensitive filesystem (Linux). 
+  a case-sensitive filesystem (Linux). Where CheckStyle and google-java-format had
+  overlapping rules, we disabled the CheckStyle rule, since google-java-format generally
+  knows how to automatically fix many of the rules that it wants to enforce.
 
 - **Why do you write out the grading policy to a YAML file? Why not just
   re-read the annotations every time?** Let's say you want to have "secret" unit
@@ -422,13 +427,15 @@ you might then clone and experiment with.
   commit, and push. Students will then have the benefit of both their tests as
   well as ours to make sure they get their submission solid before the Sunday evening deadline.
   If you prefer your students not to see your "secret" tests prior to the deadline, you
-  could always do a similar process *after* the final submission deadline.
+  could always do a similar process *after* the final submission deadline. The student
+  would be able to see the tests, but it would be too late for them to change their code.
   
 - **Why did you write the autograder itself in Kotlin?** An important
   motivating factor was being able to easily leverage the efforts
-  of the [ClassGraph](https://github.com/classgraph/classgraph) project, which makes it
+  of other projects that do useful work for us. In particular,
+  the [ClassGraph](https://github.com/classgraph/classgraph) project makes
   straightforward to extract annotations from Java code, and [Jackson](https://github.com/FasterXML/jackson),
-  which has simple support for reading and writing XML, YAML, JSON, and a variety of other common formats.
+  has simple support for reading and writing XML, YAML, JSON, and a variety of other common formats.
   Since both ClassGraph and Jackson are just Java libraries,
   we could call them from Java, Kotlin, Scala, or any other JVM language. 
   
@@ -442,12 +449,14 @@ you might then clone and experiment with.
   OpenJDK 8 and test it with both OpenJDK 8 (the examples within this repository) and OpenJDK 11
   (the standalone demonstrations linked from the [Try it!](#try-it) section). 
   
-  To support Java11, you'll notice several minor differences
-  in those examples' `build.gradle` files, but RiceChecks runs the same.
+  To support Java 11, you'll notice several minor differences
+  in those examples' `build.gradle` files, but RiceChecks runs exactly the same.
   
-  RiceChecks is dependent on how the various Gradle plugins write out their log files.
-  That means that upgrading to a newer version of Gradle or of any of the plugins has the
-  potential to break RiceChecks.
+  Migrating RiceChecks to newer versions of Java is unlikely to cause any problems.
+  Migrating RiceChecks to newer versions of Gradle, on the other hand, is likely to
+  be tricky. Certainly, the `build.gradle` file will need to evolve, and RiceChecks
+  knows a lot about the XML files written out by Gradle as it runs a build. If those
+  changed, RiceChecks would need additional updates.
   
 - **Which Java distribution are you using?** [Amazon Corretto](https://aws.amazon.com/corretto/)
   supports OpenJDK 8 and 11, providing up-to-the-minute bug fixes, and is used by Amazon 
