@@ -59,7 +59,7 @@ plugins {
     id "maven"
     id "java-library"
     id "signing"
-    id "org.jlleitschuh.gradle.ktlint" version "8.2.0"
+    id "org.jlleitschuh.gradle.ktlint" version "9.1.0"
 }
 
 group 'edu.rice.ricechecks'
@@ -128,15 +128,15 @@ jacocoTestReport {
 ////////////////////////////////////////////////////////////////////////////////
 // Linting and code formatting / indentation for Kotlin via ktlint.
 
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+// import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 ktlint {
-    version = "0.34.2"
+    version = "0.35.0"
     debug = true
     verbose = true
     android = false
     outputToConsole = true
-    reporters = [ReporterType.PLAIN, ReporterType.CHECKSTYLE]
+//    reporters = [ReporterType.PLAIN, ReporterType.CHECKSTYLE]
     ignoreFailures = true
     enableExperimentalRules = true
     filter {
