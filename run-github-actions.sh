@@ -22,7 +22,7 @@ cat standaloneSort/build/autograder/report.txt
 
 # debugging for GitHub Actions
 echo 'Where are the google-java-format directories?'
-find . -name google-java-format -print | xargs ls > tmp
+find . -name google-java-format -print | xargs ls -lR > tmp
 cat tmp
 
 exit $retVal
