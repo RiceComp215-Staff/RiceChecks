@@ -52,6 +52,27 @@ fun Path.readFile() = Try {
 fun readFile(fileName: String) = Paths.get(fileName).readFile()
 
 /**
+ * Deals with reading files that look like "foo/ * /bar", where we don't know
+ * the proper value of the wildcard in the middle. For GoogleJavaFormat, it's
+ * sometimes "0.8" and other times a weird two-line monstrosity caused by
+ * Docker. Yuck, but this lets us work around that problem. If there is exactly
+ * one matching directory, this works just like [readFile], above. Otherwise,
+ * it fails with some sort of [RuntimeException] embedded in a [Try.Failure].
+ */
+fun readFileWildcardDir(pathPrefix: String, fileName: String): Try<String> =
+    readdirPath(pathPrefix).flatMap {
+        when (it.size) {
+            1 -> it[0].resolve(fileName).readFile()
+            0 -> Try.raiseError(
+                RuntimeException("nothing inside $pathPrefix")
+            )
+            else -> Try.raiseError(
+                RuntimeException("more than one matching directory inside $pathPrefix")
+            )
+        }
+    }
+
+/**
  * Given a [Path] and a string to write there, tries to do so, returning an empty [Try.Success]
  * if it works or a [Try.Failure] if something goes wrong.
  */

@@ -28,7 +28,7 @@ fun GGradeProject.warningAggregator(): List<EvaluatorResult> =
             )
 
             val googleJavaFormatContents =
-                readFile("${AutoGrader.buildDir}/google-java-format/0.8/fileStates.txt")
+                readFileWildcardDir("${AutoGrader.buildDir}/google-java-format/", "fileStates.txt")
                     .map { googleJavaFormatParser(it).eval() }
                     .getOrDefault { googleJavaFormatMissing }
 
