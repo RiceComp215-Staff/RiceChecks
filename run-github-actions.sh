@@ -3,16 +3,26 @@
 export RICECHECKS_QUIET=true
 ./gradlew --console=plain :autograder:check autograder
 retVal=$?
+echo
 echo ============= exampleRegex/
+echo
 cat exampleRegex/build/autograder/report.txt
+echo
 echo ============= exampleRpn/
+echo
 cat exampleRpn/build/autograder/report.txt
+echo
 echo ============= exampleSort/
+echo
 cat exampleSort/build/autograder/report.txt
+echo
 echo ============= standaloneSort/
+echo
 cat standaloneSort/build/autograder/report.txt
-exit $retVal
 
 # debugging for GitHub Actions
-echo "Where are the google-java-format directories?"
-find . -name google-java-format -print | xargs ls
+echo 'Where are the google-java-format directories?'
+find . -name google-java-format -print | xargs ls > tmp
+cat tmp
+
+exit $retVal
