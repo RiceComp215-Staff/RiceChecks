@@ -4,7 +4,7 @@
 
 # RiceChecks
 
-**Current status**: early alpha. Please email <dwallach@rice.edu> before trying to use this.
+**Current status**: reasonably solid beta. You should still probably email <dwallach@rice.edu> before trying to use this.
 
 ---
 
