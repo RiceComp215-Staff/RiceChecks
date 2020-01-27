@@ -71,7 +71,7 @@ object AutoGrader {
     @Parameter(description = "task")
     var taskString: String = "grade"
 
-    var task = Task.grade // will change below with arg parsing
+    private var task = Task.grade // will change below with arg parsing
 
     private lateinit var commandParser: JCommander
 

@@ -684,9 +684,8 @@ fun scanEverything(codePackage: String = "edu.rice"): Map<String, GGradeProject>
                 val coverageAndWarningPoints =
                     project.warningPoints + project.coveragePoints
 
-                val actualMaxPoints = when {
-                    project.maxPoints == 0.0 ->
-                        maxPointsFromTopics + coverageAndWarningPoints
+                val actualMaxPoints = when (project.maxPoints) {
+                    0.0 -> maxPointsFromTopics + coverageAndWarningPoints
                     else -> project.maxPoints
                 }
 
